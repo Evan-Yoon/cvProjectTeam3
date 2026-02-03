@@ -6,8 +6,8 @@ from ultralytics import YOLO
 model = YOLO("yolo11n-seg.pt")
 
 
-# aaa test
-# bbb test
+# 2. 웹캠 연결 (0번 장치)
+cap = cv2.VideoCapture(0)
 
 if not cap.isOpened():
     print("웹캠을 열 수 없습니다.")
