@@ -5,6 +5,10 @@ from ultralytics import YOLO
 # 처음 실행 시 자동으로 weights 파일을 다운로드합니다.
 model = YOLO("yolo11n-seg.pt")
 
+
+# aaa test
+# bbb test
+
 if not cap.isOpened():
     print("웹캠을 열 수 없습니다.")
     exit()
