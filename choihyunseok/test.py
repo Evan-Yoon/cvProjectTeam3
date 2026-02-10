@@ -3,7 +3,7 @@ from ultralytics import YOLO
 
 # 1. 모델 로드 (yolo11n-obb, yolo11n-seg)
 # 처음 실행 시 자동으로 weights 파일을 다운로드합니다.
-model = YOLO("best.pt")
+model = YOLO("choihyunseok/best.pt")
 
 # 2. 웹캠 연결 (0번 장치)
 cap = cv2.VideoCapture(0)
@@ -22,7 +22,7 @@ while True:
 
     # 3. 추론 (Inference)
     # conf: 탐지 신뢰도 임계값, imgsz: 입력 이미지 크기
-    results = model.predict(frame, conf=0.5, verbose=False)
+    results = model.predict(frame, conf=0.3, verbose=False)
 
     # 4. 결과 시각화
     # plot() 메서드는 바운딩 박스와 마스크가 그려진 이미지를 반환합니다.

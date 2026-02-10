@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 4
+names: ['Stop block broken', 'Stop block normal', 'Straight block broken', 'Straight block normal']
+
+roboflow:
+  workspace: test-w9qag
+  project: braile-block-copy-lml6r
+  version: 1
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/test-w9qag/braile-block-copy-lml6r/dataset/1
