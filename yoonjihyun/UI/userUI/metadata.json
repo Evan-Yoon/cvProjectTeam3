@@ -1,0 +1,8 @@
+{
+  "name": "WalkMate",
+  "description": "A voice-activated navigation assistant for visually impaired users.",
+  "requestFramePermissions": [
+    "microphone",
+    "geolocation"
+  ]
+}
