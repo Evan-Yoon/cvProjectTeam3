@@ -1,10 +1,9 @@
 import cv2
 from ultralytics import YOLO
 
-# 1. 모델 로드 (YOLO11 Nano Segmentation)
+# 1. 모델 로드 (yolo11n-obb, yolo11n-seg)
 # 처음 실행 시 자동으로 weights 파일을 다운로드합니다.
-model = YOLO("yolo11n-seg.pt")
-
+model = YOLO("best.pt")
 
 # 2. 웹캠 연결 (0번 장치)
 cap = cv2.VideoCapture(0)
@@ -30,7 +29,7 @@ while True:
     annotated_frame = results[0].plot()
 
     # 화면 출력
-    cv2.imshow("YOLO11 Nano Segmentation", annotated_frame)
+    cv2.imshow("YOLO11 Nano", annotated_frame)
 
     # 'q' 키를 누르면 루프 종료
     if cv2.waitKey(1) & 0xFF == ord('q'):
