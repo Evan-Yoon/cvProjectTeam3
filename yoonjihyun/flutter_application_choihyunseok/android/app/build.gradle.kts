@@ -1,7 +1,7 @@
 plugins {
     id("com.android.application")
     id("kotlin-android")
-    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
+    // Flutter Gradle 플러그인은 Android 및 Kotlin Gradle 플러그인 뒤에 적용해야 합니다.
     id("dev.flutter.flutter-gradle-plugin")
 }
 
@@ -20,10 +20,10 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
+        // TODO: 고유한 Application ID를 지정하세요 (https://developer.android.com/studio/build/application-id.html).
         applicationId = "com.example.flutter_application_choihyunseok"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
+        // 애플리케이션 요구 사항에 맞게 다음 값을 업데이트할 수 있습니다.
+        // 자세한 내용은 다음을 참조하세요: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
@@ -32,8 +32,8 @@ android {
 
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
+            // TODO: 릴리스 빌드에 대한 자체 서명 구성을 추가하세요.
+            // 현재는 `flutter run --release`가 작동하도록 디버그 키로 서명하고 있습니다.
             signingConfig = signingConfigs.getByName("debug")
         }
     }

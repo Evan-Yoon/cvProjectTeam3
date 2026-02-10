@@ -1,78 +1,76 @@
 name: flutter_application_choihyunseok
 description: "A new Flutter project."
-# The following line prevents the package from being accidentally published to
-# pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+# 다음 줄은 패키지가 실수로 pub.dev에 게시되는 것을 방지합니다.
+# `flutter pub publish`를 사용하여 게시할 수 없습니다. 비공개 패키지에 권장됩니다.
+publish_to: 'none' # pub.dev에 게시하려면 이 줄을 제거하세요.
 
-# The following defines the version and build number for your application.
-# A version number is three numbers separated by dots, like 1.2.43
-# followed by an optional build number separated by a +.
-# Both the version and the builder number may be overridden in flutter
-# build by specifying --build-name and --build-number, respectively.
-# In Android, build-name is used as versionName while build-number used as versionCode.
-# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
-# In iOS, build-name is used as CFBundleShortVersionString while build-number is used as CFBundleVersion.
-# Read more about iOS versioning at
-# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-# In Windows, build-name is used as the major, minor, and patch parts
-# of the product and file versions while build-number is used as the build suffix.
+# 다음은 애플리케이션의 버전 및 빌드 번호를 정의합니다.
+# 버전 번호는 1.2.43과 같이 점으로 구분된 세 개의 숫자이며,
+# 그 뒤에 +로 구분된 선택적 빌드 번호가 옵니다.
+# 버전과 빌드 번호 모두 flutter build 명령에서 각각 --build-name 및 --build-number를 지정하여 재정의할 수 있습니다.
+# Android에서는 build-name이 versionName으로, build-number는 versionCode로 사용됩니다.
+# Android 버전에 대한 자세한 내용은 https://developer.android.com/studio/publish/versioning을 참조하세요.
+# iOS에서는 build-name이 CFBundleShortVersionString으로, build-number는 CFBundleVersion으로 사용됩니다.
+# iOS 버전에 대한 자세한 내용은
+# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html을 참조하세요.
+# Windows에서는 build-name이 제품 및 파일 버전의 major, minor, patch 부분으로 사용되며, build-number는 빌드 접미사로 사용됩니다.
 version: 1.0.0+1
 
 environment:
   sdk: ^3.10.7
 
-# Dependencies specify other packages that your package needs in order to work.
-# To automatically upgrade your package dependencies to the latest versions
-# consider running `flutter pub upgrade --major-versions`. Alternatively,
-# dependencies can be manually updated by changing the version numbers below to
-# the latest version available on pub.dev. To see which dependencies have newer
-# versions available, run `flutter pub outdated`.
+# Dependencies는 패키지가 작동하는 데 필요한 다른 패키지를 지정합니다.
+# 패키지 종속성을 최신 버전으로 자동 업그레이드하려면 `flutter pub upgrade --major-versions`를 실행하는 것을 고려해 보세요.
+# 또는 아래 버전 번호를 pub.dev에서 사용 가능한 최신 버전으로 변경하여 수동으로 업데이트할 수도 있습니다.
+# 더 최신 버전이 있는 종속성을 확인하려면 `flutter pub outdated`를 실행하세요.
 dependencies:
   flutter:
     sdk: flutter
+  flutter_vision: ^1.1.4  # YOLO 모델 로드 및 추론용
+  path_provider: ^2.1.2   # 결과 파일 저장을 위한 경로 확보용
+  image: ^4.1.7           # 이미지에 박스를 그리고 저장하기 위한 도구
 
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
+  # 다음은 애플리케이션에 Cupertino Icons 글꼴을 추가합니다.
+  # iOS 스타일 아이콘을 위해 CupertinoIcons 클래스와 함께 사용하세요.
   cupertino_icons: ^1.0.8
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  # The "flutter_lints" package below contains a set of recommended lints to
-  # encourage good coding practices. The lint set provided by the package is
-  # activated in the `analysis_options.yaml` file located at the root of your
-  # package. See that file for information about deactivating specific lint
-  # rules and activating additional ones.
+  # 아래의 "flutter_lints" 패키지는 좋은 코딩 습관을 장려하기 위한 권장 린트 세트를 포함합니다.
+  # 패키지에서 제공하는 린트 세트는 패키지 루트에 있는 `analysis_options.yaml` 파일에서 활성화됩니다.
+  # 특정 린트 규칙을 비활성화하거나 추가 규칙을 활성화하는 방법에 대한 정보는 해당 파일을 참조하세요.
   flutter_lints: ^6.0.0
 
-# For information on the generic Dart part of this file, see the
-# following page: https://dart.dev/tools/pub/pubspec
+# 이 파일의 일반적인 Dart 부분에 대한 정보는 다음 페이지를 참조하세요:
+# https://dart.dev/tools/pub/pubspec
 
-# The following section is specific to Flutter packages.
+# 다음 섹션은 Flutter 패키지에만 해당됩니다.
 flutter:
 
-  # The following line ensures that the Material Icons font is
-  # included with your application, so that you can use the icons in
-  # the material Icons class.
+  # 다음 줄은 애플리케이션에 Material Icons 글꼴이 포함되도록 하여
+  # Material Icons 클래스의 아이콘을 사용할 수 있게 합니다.
   uses-material-design: true
 
-  # To add assets to your application, add an assets section, like this:
-  # assets:
+  # 애플리케이션에 assets(폴더명)을 추가하려면 다음 섹션을 추가하세요:
+  assets:
+    - assets/best_float16.tflite
+    - assets/labels.txt
+    - assets/outside01.jpg
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
 
-  # An image asset can refer to one or more resolution-specific "variants", see
-  # https://flutter.dev/to/resolution-aware-images
+  # 이미지 자산은 하나 이상의 해상도별 "변형(variants)"을 참조할 수 있습니다.
+  # https://flutter.dev/to/resolution-aware-images를 참조하세요.
 
-  # For details regarding adding assets from package dependencies, see
+  # 패키지 종속성에서 자산을 추가하는 방법에 대한 자세한 내용은 다음을 참조하세요:
   # https://flutter.dev/to/asset-from-package
 
-  # To add custom fonts to your application, add a fonts section here,
-  # in this "flutter" section. Each entry in this list should have a
-  # "family" key with the font family name, and a "fonts" key with a
-  # list giving the asset and other descriptors for the font. For
-  # example:
+  # 애플리케이션에 사용자 지정 글꼴을 추가하려면 여기 "flutter" 섹션에 fonts 섹션을 추가하세요.
+  # 이 목록의 각 항목에는 글꼴 패밀리 이름이 있는 "family" 키와
+  # 글꼴에 대한 자산 및 기타 설명자가 있는 목록인 "fonts" 키가 있어야 합니다.
+  # 예:
   # fonts:
   #   - family: Schyler
   #     fonts:
@@ -85,5 +83,5 @@ flutter:
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
   #
-  # For details regarding fonts from package dependencies,
-  # see https://flutter.dev/to/font-from-package
+  # 패키지 종속성의 글꼴에 대한 자세한 내용은 다음을 참조하세요:
+  # https://flutter.dev/to/font-from-package
