@@ -4,17 +4,10 @@ import os
 from ultralytics import YOLO
 
 # 1. 모델 로드 (YOLO11 Nano Segmentation)
-model = YOLO("yolo11n-seg.pt")
+model = YOLO("choihyunseok/yolo11n.pt")
 
 # 2. 대상 이미지 파일 찾기
-# 현재 경로에서 'outside'로 시작하고 확장자가 '.jpg'인 모든 파일을 찾습니다.
-image_files = glob.glob("outside*.jpg")
-
-if not image_files:
-    print("처리할 'outside*.jpg' 파일을 찾을 수 없습니다.")
-    exit()
-
-print(f"총 {len(image_files)}개의 파일을 발견했습니다. 분석을 시작합니다.")
+image_files = glob.glob("choihyunseok/outside*.jpg")
 
 for file_path in image_files:
     # 3. 이미지 읽기
@@ -37,5 +30,3 @@ for file_path in image_files:
     
     cv2.imwrite(save_filename, annotated_frame)
     print(f"저장 완료: {save_filename}")
-
-print("모든 작업이 완료되었습니다.")

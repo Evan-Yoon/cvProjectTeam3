@@ -1,0 +1,9 @@
+train: train/images
+val: valid/images
+test: test/images
+
+names: 
+  0: Stop block broken
+  1: Stop block normal
+  2: Straight block broken
+  3: Straight block normal
