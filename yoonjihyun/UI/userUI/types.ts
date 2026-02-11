@@ -1,17 +1,12 @@
-export enum AppState {
-    IDLE = 'IDLE',
-    LISTENING = 'LISTENING',
-    CONFIRMING = 'CONFIRMING',
-    NAVIGATING = 'NAVIGATING',
-    RETRY = 'RETRY',
-    ERROR = 'ERROR'
+export enum AppScreen {
+  IDLE = 'IDLE',
+  LISTENING = 'LISTENING',
+  RETRY = 'RETRY',
+  CONFIRMATION = 'CONFIRMATION',
+  GUIDING = 'GUIDING'
 }
 
-export interface DestinationInfo {
-    name: string;
-}
-
-export interface WaveformProps {
-    isListening: boolean;
-    volume: number; // 0 to 1
+export interface NavigationState {
+  currentScreen: AppScreen;
+  destination: string | null;
 }

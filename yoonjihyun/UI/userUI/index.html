@@ -1,29 +1,29 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="ko" class="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>WalkMate</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet" />
     <script>
       tailwind.config = {
+        darkMode: 'class',
         theme: {
           extend: {
-            fontFamily: {
-              sans: ['"Noto Sans KR"', 'sans-serif'],
-            },
             colors: {
-              mate: {
-                yellow: '#FFC105',
-                black: '#000000',
-                dark: '#121212',
-              }
+              primary: '#FDBD10',
+              'primary-dim': '#CFA00D',
+              'surface-dark': '#1a1a1a',
+              background: '#000000',
+            },
+            fontFamily: {
+              display: ['Inter', 'sans-serif'],
             },
             animation: {
               'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-              'wave': 'wave 1s ease-in-out infinite',
+              'wave': 'wave 1.2s ease-in-out infinite',
             },
             keyframes: {
               wave: {
@@ -38,20 +38,18 @@
     <style>
       body {
         background-color: #000000;
-        color: white;
-        overflow: hidden; /* Prevent scrolling */
-        touch-action: none; /* Prevent standard touch actions like zoom */
+        overscroll-behavior: none;
+        -webkit-tap-highlight-color: transparent;
       }
-      /* Custom pattern for background */
-      .bg-pattern {
-        background-image: radial-gradient(#333 1px, transparent 1px);
-        background-size: 40px 40px;
-      }
+      .wave-bar:nth-child(1) { animation-delay: 0.1s; }
+      .wave-bar:nth-child(2) { animation-delay: 0.2s; }
+      .wave-bar:nth-child(3) { animation-delay: 0.3s; }
+      .wave-bar:nth-child(4) { animation-delay: 0.15s; }
+      .wave-bar:nth-child(5) { animation-delay: 0.4s; }
     </style>
   <script type="importmap">
 {
   "imports": {
-    "@google/genai": "https://esm.sh/@google/genai@^1.40.0",
     "react/": "https://esm.sh/react@^19.2.4/",
     "react": "https://esm.sh/react@^19.2.4",
     "react-dom/": "https://esm.sh/react-dom@^19.2.4/"
