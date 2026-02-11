@@ -10,7 +10,7 @@ interface DetectedObject {
     score: number;
 }
 
-const MODEL_INPUT_SIZE = 1280;
+const MODEL_INPUT_SIZE = 736;
 const THRESHOLD = 0.3;
 const CLASS_NAMES = ["Stop block broken", "Stop block normal", "Straight block broken", "Straight block normal"];
 
@@ -18,6 +18,9 @@ const VisionScreen: React.FC = () => {
     const webcamRef = useRef<Webcam>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const debugCanvasRef = useRef<HTMLCanvasElement>(null);
+
+    // Concurrency Lock
+    const isInferring = useRef<boolean>(false);
 
     const [model, setModel] = useState<any>(null);
     const [status, setStatus] = useState<string>("초기화 중...");
@@ -44,6 +47,12 @@ const VisionScreen: React.FC = () => {
             }
 
             try {
+                // Optimize TFJS backend (Preprocessing)
+                addLog(`Backend: ${tf.getBackend()}`);
+                await tf.setBackend('webgl');
+                addLog(`New Backend: ${tf.getBackend()}`);
+                await tf.ready();
+
                 setStatus("모델 확인 중...");
                 const modelUrl = `${window.location.origin}/best_int8.tflite`;
                 addLog(`Checking: ${modelUrl}`);
@@ -54,7 +63,12 @@ const VisionScreen: React.FC = () => {
                 setStatus("모델 로딩...");
                 tflite.setWasmPath(`${window.location.origin}/wasm/`);
 
-                const loadedModel = await tflite.loadTFLiteModel(modelUrl);
+                // Load with threads
+                const loadedModel = await tflite.loadTFLiteModel(modelUrl, {
+                    numThreads: navigator.hardwareConcurrency ? Math.min(navigator.hardwareConcurrency, 4) : 2,
+                    enableWebgl: true // Try enabling WebGL delegate if supported
+                });
+
                 if (loadedModel) {
                     setModel(loadedModel);
                     setStatus("준비 완료!");
@@ -167,73 +181,74 @@ const VisionScreen: React.FC = () => {
     // ---------------------------
     const runInference = useCallback(async () => {
         const tf = (window as any).tf;
-        if (!webcamRef.current || !model || !canvasRef.current || !tf) return;
+        if (!webcamRef.current || !model || !debugCanvasRef.current || !tf) return;
 
-        const video = webcamRef.current.video;
-
-        // --- 1. Capture Source Strategy ---
-        let imageSrc = webcamRef.current.getScreenshot();
-        let inputSource: HTMLImageElement | HTMLVideoElement | null = null;
-        let sourceName = "";
-
-        if (imageSrc) {
-            // Log success occasionally
-            if (Math.random() < 0.05) addLog(`Shot OK: ${imageSrc.length} bytes`);
-
-            const imgElement = new Image();
-            imgElement.src = imageSrc;
-            await new Promise((resolve) => { imgElement.onload = resolve; });
-            inputSource = imgElement;
-            sourceName = "Screenshot";
-        } else {
-            addLog("Screenshot null, trying video...");
-            if (video && video.readyState === 4) {
-                inputSource = video;
-                sourceName = "Video";
-            } else {
-                addLog("Video not ready");
-                return;
-            }
+        // Prevent overlapping inferences
+        if (isInferring.current) {
+            // addLog("Skip: Busy");
+            return;
         }
 
-        // --- 2. Direct Debug Draw (Bypass TFJS) ---
-        // This verifies if we actually have a valid image object
-        if (debugCanvasRef.current && inputSource) {
-            const dbgCtx = debugCanvasRef.current.getContext('2d');
-            if (dbgCtx) {
-                // Draw whatever we captured directly to the debug canvas
-                dbgCtx.drawImage(inputSource, 0, 0, MODEL_INPUT_SIZE, MODEL_INPUT_SIZE);
-            }
-        }
-
+        isInferring.current = true;
         const startTime = performance.now();
 
         try {
-            // --- 3. TFJS Processing ---
-            const img = tf.browser.fromPixels(inputSource);
+            const video = webcamRef.current.video;
+            if (!video || video.readyState !== 4) {
+                isInferring.current = false;
+                return;
+            }
+
+            // 1. Draw Video to Debug Canvas (Confirm Source)
+            const dbgCtx = debugCanvasRef.current.getContext('2d', { willReadFrequently: true });
+            if (dbgCtx) {
+                dbgCtx.drawImage(video, 0, 0, MODEL_INPUT_SIZE, MODEL_INPUT_SIZE);
+            }
+
+            // 2. Unblock UI (Allow canvas paint)
+            await new Promise(resolve => setTimeout(resolve, 20));
+
+            // 3. TFJS Scope
+            tf.engine().startScope();
+
+            addLog("Predicting...");
+
+            // Read from Canvas
+            const img = tf.browser.fromPixels(debugCanvasRef.current);
             const resized = tf.image.resizeBilinear(img, [MODEL_INPUT_SIZE, MODEL_INPUT_SIZE]);
             const input = tf.cast(tf.expandDims(resized), 'float32').div(tf.scalar(255));
 
-            const outputTensor = (model as any).predict(input) as any;
+            // Predict
+            const result = (model as any).predict(input);
+            addLog("Predict done");
 
-            const detections = processOutput(outputTensor, video?.clientWidth || 640, video?.clientHeight || 640);
-            drawResults(detections, video?.clientWidth || 640, video?.clientHeight || 640);
+            let outputTensor = result;
+            if (Array.isArray(result)) {
+                outputTensor = result[0];
+            } else if (result && typeof result === 'object' && !result.dataSync && !Array.isArray(result)) {
+                const keys = Object.keys(result);
+                if (keys.length > 0) outputTensor = result[keys[0]];
+            }
 
-            setLastInferenceInfo(`${(performance.now() - startTime).toFixed(0)}ms / Detect: ${detections.length}`);
+            if (outputTensor) {
+                const detections = processOutput(outputTensor, video.clientWidth, video.clientHeight);
+                drawResults(detections, video.clientWidth, video.clientHeight);
+                setLastInferenceInfo(`${(performance.now() - startTime).toFixed(0)}ms / Detect: ${detections.length}`);
+            }
 
-            img.dispose();
-            resized.dispose();
-            input.dispose();
-            outputTensor.dispose();
+            tf.engine().endScope();
 
         } catch (error: any) {
             addLog(`InferErr: ${error.message}`);
+            try { tf.engine().endScope(); } catch (e) { }
+        } finally {
+            isInferring.current = false;
         }
     }, [model]);
 
     useEffect(() => {
         if (!model) return;
-        const interval = setInterval(runInference, 2000);
+        const interval = setInterval(runInference, 2000); // 2s
         return () => clearInterval(interval);
     }, [model, runInference]);
 
