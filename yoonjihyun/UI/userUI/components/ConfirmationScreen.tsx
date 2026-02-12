@@ -62,17 +62,6 @@ const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({ destination, on
             <div aria-hidden="true" className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full bg-primary/5 blur-3xl animate-pulse"></div>
             <div aria-hidden="true" className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-60 h-60 rounded-full border border-primary/20 animate-[spin_12s_linear_infinite]"></div>
 
-            {/* --- 상단 상태 표시줄 (가짜 UI) --- */}
-            {/* 실제 기능은 없지만 앱처럼 보이게 하는 시각적 요소 (시간, 배터리 등) */}
-            <div className="w-full flex justify-between px-6 py-4 absolute top-0 z-50 text-white/30 text-xs font-bold uppercase tracking-widest pointer-events-none">
-                {/* 텍스트는 보이지만 클릭은 안 되게 pointer-events-none 설정 */}
-                <span>WalkMate</span>
-                <div className="flex gap-2">
-                    <span className="material-icons-round text-base">wifi</span>
-                    <span className="material-icons-round text-base">battery_full</span>
-                </div>
-            </div>
-
             {/* --- 메인 콘텐츠 영역 --- */}
             <main className="flex-1 w-full flex flex-col items-center justify-center relative z-20 px-6">
 
