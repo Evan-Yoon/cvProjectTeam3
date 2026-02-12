@@ -1,15 +1,20 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.walkmate.app', // 본인의 패키지명 확인
+  appId: 'com.walkmate.app',
   appName: 'walkmate',
   webDir: 'dist',
   server: {
-    // ★ 이 부분을 'http'로 설정하여 로컬 파일 접근을 유연하게 만듭니다.
-    androidScheme: 'http',
+    androidScheme: 'https',
     allowNavigation: ['*'],
     cleartext: true
-  }
+  },
+  // ★ [추가됨] TMAP API 통신을 위한 HTTP 플러그인 설정
+  plugins: {
+    CapacitorHttp: {
+      enabled: true,
+    },
+  },
 };
 
 export default config;
