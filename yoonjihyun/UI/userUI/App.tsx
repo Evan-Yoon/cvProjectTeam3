@@ -74,8 +74,8 @@ const App: React.FC = () => {
         return (
           <RetryScreen
             onCancel={handleCancel}
-            // 재시도 화면에서는 데모를 위해 다른 목적지("홍대입구")를 넣어봄
-            onSpeechDetected={() => handleSpeechDetected("홍대입구")}
+            // RetryScreen now passes the actual transcript
+            onSpeechDetected={(text) => handleSpeechDetected(text)}
           />
         );
 
@@ -89,7 +89,7 @@ const App: React.FC = () => {
         );
 
       case AppScreen.GUIDING:
-        return <GuidingScreen onEndNavigation={handleEndNavigation} />;
+        return <GuidingScreen onEndNavigation={handleEndNavigation} destination={destination} />;
 
       default:
         return <IdleScreen onStart={handleStart} />;
@@ -112,3 +112,5 @@ const App: React.FC = () => {
     </div>
   );
 };
+
+export default App;

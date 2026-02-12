@@ -1,14 +1,50 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import { speak, startListening, stopListening } from './utils/audio';
 
 // Props 인터페이스 정의
 // onCancel: 취소하고 대기 화면으로 돌아가는 함수
 // onSpeechDetected: 다시 말하기를 시작하는 함수 (음성 인식 재시도)
 interface RetryScreenProps {
   onCancel: () => void;
-  onSpeechDetected: () => void;
+  onSpeechDetected: (text: string) => void;
 }
 
 const RetryScreen: React.FC<RetryScreenProps> = ({ onCancel, onSpeechDetected }) => {
+  const isMounted = useRef(true);
+
+  useEffect(() => {
+    isMounted.current = true;
+    speak("잘 못 들었습니다. 다시 말씀해주세요.");
+
+    const timer = setTimeout(async () => {
+      if (!isMounted.current) return;
+      await startListening(
+        (transcript) => {
+          if (isMounted.current) onSpeechDetected(transcript);
+        },
+        () => {
+          console.log("Retry STT failed");
+        }
+      );
+    }, 2000); // Wait for TTS
+
+    return () => {
+      isMounted.current = false;
+      clearTimeout(timer);
+      stopListening();
+    };
+  }, [onSpeechDetected]);
+
+  const handleManualRetry = async () => {
+    stopListening();
+    await startListening(
+      (transcript) => {
+        if (isMounted.current) onSpeechDetected(transcript);
+      },
+      () => { }
+    );
+  };
+
   return (
     // 전체 화면 컨테이너
     <div className="h-full w-full flex flex-col items-center justify-between p-6 relative z-10">
@@ -18,7 +54,10 @@ const RetryScreen: React.FC<RetryScreenProps> = ({ onCancel, onSpeechDetected })
       {/* 화면의 빈 공간(배경)을 누르면 '취소(onCancel)'가 실행됨 */}
       <div
         className="absolute inset-0 z-0"
-        onClick={onCancel}
+        onClick={() => {
+          stopListening();
+          onCancel();
+        }}
         aria-label="Cancel retry"
       ></div>
 
@@ -38,10 +77,8 @@ const RetryScreen: React.FC<RetryScreenProps> = ({ onCancel, onSpeechDetected })
         className="flex-1 flex flex-col items-center justify-center w-full space-y-12 z-20 cursor-pointer"
         onClick={(e) => {
           // ★ 중요: 이벤트 전파 방지 (stopPropagation)
-          // 이 영역을 클릭했을 때는 부모나 뒤쪽 요소(배경)로 클릭 이벤트가 전달되면 안 됩니다.
-          // 만약 이게 없으면, 재시도(onSpeechDetected)와 취소(onCancel)가 동시에 실행될 수 있습니다.
           e.stopPropagation();
-          onSpeechDetected(); // 재인식 시작
+          handleManualRetry(); // 재인식 시작
         }}
       >
         {/* 안내 텍스트 */}

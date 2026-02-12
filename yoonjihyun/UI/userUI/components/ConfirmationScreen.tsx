@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+import { speak, startListening, stopListening } from './utils/audio';
 
 // 1. Props 인터페이스 정의
 // 이 컴포넌트가 부모로부터 받아야 할 데이터와 함수의 타입을 지정합니다.
@@ -10,6 +11,45 @@ interface ConfirmationScreenProps {
 
 // 2. 컴포넌트 선언
 const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({ destination, onConfirm, onDeny }) => {
+    const isMounted = useRef(true);
+
+    const handleSTT = async () => {
+        await startListening(
+            (text) => {
+                const command = text.toLowerCase().trim();
+                console.log("Confirmation STT:", command);
+
+                if (["응", "네", "맞아", "yes", "ok", "어"].some(k => command.includes(k))) {
+                    if (isMounted.current) onConfirm();
+                } else if (["아니", "틀려", "no", "nope"].some(k => command.includes(k))) {
+                    if (isMounted.current) onDeny();
+                } else {
+                    // Not understood, maybe prompt again? For now, just listen again.
+                    // Or users can allow retrying manually by tapping.
+                    // Let's just log it.
+                }
+            },
+            () => {
+                console.log("Confirmation STT failed");
+            }
+        );
+    };
+
+    useEffect(() => {
+        isMounted.current = true;
+        speak(`${destination}이 맞으신가요?`);
+
+        const timer = setTimeout(() => {
+            if (isMounted.current) handleSTT();
+        }, 3000); // Wait for TTS
+
+        return () => {
+            isMounted.current = false;
+            clearTimeout(timer);
+            stopListening();
+        };
+    }, [destination]);
+
     return (
         // 전체 화면 컨테이너
         // h-full w-full: 전체 화면 채움
@@ -67,13 +107,13 @@ const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({ destination, on
                 {/* 화면 상단 절반: 클릭 시 '확인(onConfirm)' 실행 */}
                 <button
                     className="flex-1 w-full outline-none focus:bg-primary/5 active:bg-primary/10 transition-colors"
-                    onClick={onConfirm}
+                    onClick={() => { stopListening(); onConfirm(); }}
                     aria-label="Confirm Destination" // 스크린 리더용 라벨
                 ></button>
                 {/* 화면 하단 절반: 클릭 시 '취소(onDeny)' 실행 */}
                 <button
                     className="flex-1 w-full outline-none focus:bg-red-500/5 active:bg-red-500/10 transition-colors"
-                    onClick={onDeny}
+                    onClick={() => { stopListening(); onDeny(); }}
                     aria-label="Deny Destination"
                 ></button>
             </div>
