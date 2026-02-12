@@ -1,11 +1,11 @@
 from fastapi import APIRouter, HTTPException, Query
 from typing import List
 
-# 주방장(CRUD)과 메뉴판(Schemas)을 가져옵니다.
+# CRUD & Schemas
 from app.crud import report as crud_report
 from app.models import schemas
 
-# ✅ 여기가 핵심입니다! main.py가 찾고 있던 'router' 변수입니다.
+# main.py가 바라보는'router' 변수
 router = APIRouter()
 
 # 1. 지도용 경량 데이터 조회

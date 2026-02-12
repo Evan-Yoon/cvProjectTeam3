@@ -5,9 +5,7 @@ from app.services.s3_uploader import s3_uploader
 
 router = APIRouter()
 
-# =================================================================
 # 1. [앱] 위험물 신고 접수 (통합 파이프라인: S3 -> DB)
-# =================================================================
 @router.post("/")
 async def create_report_pipeline(
     item_id: str = Form(...),
@@ -52,9 +50,7 @@ async def create_report_pipeline(
         raise HTTPException(status_code=500, detail=str(e))
 
 
-# =================================================================
-# 2. [관리자] 지도 마커 데이터 조회 (가벼운 정보만)
-# =================================================================
+# 2. [관리자] 지도 마커 데이터 조회
 @router.get("/map")
 def read_reports_for_map():
     """
@@ -67,32 +63,28 @@ def read_reports_for_map():
         raise HTTPException(status_code=500, detail=str(e))
 
 
-# =================================================================
 # 3. [관리자] 전체 신고 목록 조회 (페이지네이션)
-# =================================================================
 # app/api/v1/endpoints/reports.py
 @router.get("/")
 def read_all_reports(
     skip: int = Query(0, description="..."),
     limit: int = Query(20, description="...")
-): # <--- 여기에 response_model=List[...] 가 있다면 삭제하세요!
+): 
     try:
         results = crud_report.get_all_reports(skip=skip, limit=limit)
-        return results # 이제 딕셔너리 {total:..., data:...} 가 나갑니다.
+        return results 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 
-# =================================================================
 # 4. [관리자] 신고 상태 변경 (예: new -> done)
-# =================================================================
 @router.patch("/{item_id}")
 def update_report_status(item_id: str, status: str):
     """
     특정 신고 건의 처리 상태를 변경합니다.
     """
     try:
-        # status 값 유효성 검사 (DB Check 제약조건과 별개로 API단에서도 방어)
+        # status 값 유효성 검사 
         if status not in ["new", "processing", "done"]:
             raise HTTPException(status_code=400, detail="Invalid status value")
 
