@@ -6,6 +6,12 @@ import RetryScreen from './components/RetryScreen';
 import ConfirmationScreen from './components/ConfirmationScreen';
 import GuidingScreen from './components/GuidingScreen';
 
+interface Destination {
+  name: string;
+  lat: number;
+  lng: number;
+}
+
 const App: React.FC = () => {
   // --- 상태 관리 (State Management) ---
 
@@ -15,7 +21,7 @@ const App: React.FC = () => {
 
   // 2. 목적지 데이터
   // 사용자가 말한 목적지(예: "강남역")를 저장해서 다른 화면으로 넘겨줍니다.
-  const [destination, setDestination] = useState<string>('');
+  const [destination, setDestination] = useState<Destination | null>(null);
 
   // --- 화면 전환 핸들러 (Navigation Logic) ---
 
@@ -27,7 +33,12 @@ const App: React.FC = () => {
   // 듣기/재시도 화면 -> 확인 화면 (음성 인식 성공 시)
   // transcript: 인식된 텍스트 (데모용 기본값: "강남역")
   const handleSpeechDetected = (transcript: string = "강남역") => {
-    setDestination(transcript); // 목적지 저장
+    // TODO: 실시간 좌표 변환 (Geocoding) 필요. 현재는 테스트 값(강남역) 고정
+    setDestination({
+      name: transcript,
+      lat: 37.4979,
+      lng: 127.0276
+    });
     setCurrentScreen(AppScreen.CONFIRMATION); // 확인 화면으로 이동
   };
 
@@ -45,13 +56,13 @@ const App: React.FC = () => {
   // 모든 화면 -> 대기 화면 (취소 시)
   const handleCancel = () => {
     setCurrentScreen(AppScreen.IDLE);
-    setDestination(''); // 목적지 초기화
+    setDestination(null); // 목적지 초기화
   };
 
   // 안내 화면 -> 대기 화면 (안내 종료 시)
   const handleEndNavigation = () => {
     setCurrentScreen(AppScreen.IDLE);
-    setDestination(''); // 목적지 초기화
+    setDestination(null); // 목적지 초기화
   };
 
   // --- 렌더링 로직 (Conditional Rendering) ---
@@ -82,14 +93,14 @@ const App: React.FC = () => {
       case AppScreen.CONFIRMATION:
         return (
           <ConfirmationScreen
-            destination={destination} // 저장된 목적지를 전달
+            destination={destination ? destination.name : ''} // 저장된 목적지를 전달
             onConfirm={handleConfirmDestination}
             onDeny={handleDenyDestination}
           />
         );
 
       case AppScreen.GUIDING:
-        return <GuidingScreen onEndNavigation={handleEndNavigation} destination={destination} />;
+        return <GuidingScreen onEndNavigation={handleEndNavigation} destination={destination!} />;
 
       default:
         return <IdleScreen onStart={handleStart} />;
