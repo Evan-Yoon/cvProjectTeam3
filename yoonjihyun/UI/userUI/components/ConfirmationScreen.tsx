@@ -19,7 +19,7 @@ const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({ destination, on
                 const command = text.toLowerCase().trim();
                 console.log("Confirmation STT:", command);
 
-                if (["응", "네", "맞아", "yes", "ok", "어"].some(k => command.includes(k))) {
+                if (["응", "네", "맞아", "그래", "yes", "ok", "어"].some(k => command.includes(k))) {
                     if (isMounted.current) onConfirm();
                 } else if (["아니", "틀려", "no", "nope"].some(k => command.includes(k))) {
                     if (isMounted.current) onDeny();
