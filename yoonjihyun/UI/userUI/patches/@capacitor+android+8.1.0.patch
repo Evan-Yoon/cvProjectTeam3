@@ -1,0 +1,20 @@
+diff --git a/node_modules/@capacitor/android/capacitor/build.gradle b/node_modules/@capacitor/android/capacitor/build.gradle
+index 6ece3ed..ee3575b 100644
+--- a/node_modules/@capacitor/android/capacitor/build.gradle
++++ b/node_modules/@capacitor/android/capacitor/build.gradle
+@@ -63,8 +63,8 @@ android {
+         lintConfig = file('lint.xml')
+     }
+     compileOptions {
+-        sourceCompatibility JavaVersion.VERSION_21
+-        targetCompatibility JavaVersion.VERSION_21
++        sourceCompatibility JavaVersion.VERSION_17
++        targetCompatibility JavaVersion.VERSION_17
+     }
+     publishing {
+         singleVariant("release")
+@@ -92,3 +92,4 @@ dependencies {
+     testImplementation 'org.mockito:mockito-core:5.20.0'
+ }
+ 
++
