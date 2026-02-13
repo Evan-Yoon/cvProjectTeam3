@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Geolocation } from '@capacitor/geolocation';
+import { Capacitor } from '@capacitor/core';
 import VisionCamera from './VisionCamera';
 import { speak, startListening, stopListening } from '../src/utils/audio';
 import { requestTmapWalkingPath } from '../src/api/tmap';
@@ -81,6 +82,23 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
     return clock === 0 ? 12 : clock;
   };
 
+  const getLocationErrorMessage = (error: unknown) => {
+    if (!error || typeof error !== 'object') return '알 수 없는 오류';
+    const maybeError = error as { code?: string; message?: string };
+    if (maybeError.code && maybeError.message) return `${maybeError.code}: ${maybeError.message}`;
+    return maybeError.message || '알 수 없는 오류';
+  };
+
+  const ensureLocationPermission = async () => {
+    const permission = await Geolocation.checkPermissions();
+    const isGranted = permission.location === 'granted' || permission.coarseLocation === 'granted';
+    if (isGranted) return true;
+
+    const requested = await Geolocation.requestPermissions();
+    const granted = requested.location === 'granted' || requested.coarseLocation === 'granted';
+    return granted;
+  };
+
   // 3. 종료 로직
   useEffect(() => {
     if (taps >= 3) {
@@ -100,11 +118,45 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
         // ★ [수정 2] 안내 멘트 변경
         await safeSpeak("GPS 신호를 찾고 있습니다. 잠시만 기다려주세요.");
 
+        if (!Capacitor.isNativePlatform()) {
+          const isSecureContextForWeb =
+            typeof window !== 'undefined' &&
+            (window.isSecureContext || window.location.hostname === 'localhost');
+
+          if (!isSecureContextForWeb) {
+            setIsLoading(false);
+            setDebugMsg("웹에서는 HTTPS(또는 localhost)에서만 GPS가 동작합니다.");
+            await safeSpeak("웹에서는 HTTPS 환경에서만 위치를 가져올 수 있습니다.");
+            return;
+          }
+        }
+
+        const hasLocationPermission = await ensureLocationPermission();
+        if (!hasLocationPermission) {
+          setIsLoading(false);
+          setDebugMsg("위치 권한이 거부되었습니다. 앱 설정에서 위치 권한을 허용해주세요.");
+          await safeSpeak("위치 권한이 필요합니다. 설정에서 권한을 허용해주세요.");
+          return;
+        }
+
+        setDebugMsg("GPS 초기 위치 확인 중...");
+
         // (1) 초기 위치 잡기 (여기서 멈춰서 기다림)
-        const position = await Geolocation.getCurrentPosition({
-          enableHighAccuracy: true, // 정밀 위치 요청
-          timeout: 10000            // 최대 10초 대기
-        });
+        let position;
+        try {
+          position = await Geolocation.getCurrentPosition({
+            enableHighAccuracy: true, // 정밀 위치 요청
+            timeout: 15000,
+            maximumAge: 0
+          });
+        } catch (highAccuracyError) {
+          console.warn("High accuracy GPS failed. Retry with lower accuracy.", highAccuracyError);
+          position = await Geolocation.getCurrentPosition({
+            enableHighAccuracy: false,
+            timeout: 20000,
+            maximumAge: 10000
+          });
+        }
 
         const startLat = position.coords.latitude;
         const startLng = position.coords.longitude;
@@ -136,8 +188,12 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
 
         // (3) 실시간 위치 추적 시작
         watchId.current = await Geolocation.watchPosition(
-          { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 },
-          (pos) => {
+          { enableHighAccuracy: true, timeout: 10000, maximumAge: 0, minimumUpdateInterval: 1000 },
+          (pos, err) => {
+            if (err) {
+              setDebugMsg(`GPS 추적 오류: ${getLocationErrorMessage(err)}`);
+              return;
+            }
             if (!pos || !isMounted.current || routeFeatures.current.length === 0) return;
 
             const curLat = pos.coords.latitude;
@@ -204,8 +260,15 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
         );
 
       } catch (error) {
+        const errorText = getLocationErrorMessage(error);
         console.error("Navigation Error:", error);
-        safeSpeak("위치 정보를 불러올 수 없습니다. 실외로 이동해주세요.");
+        setDebugMsg(`GPS 오류: ${errorText}`);
+
+        if (errorText.toLowerCase().includes("permission")) {
+          safeSpeak("위치 권한이 필요합니다. 설정에서 권한을 허용해주세요.");
+        } else {
+          safeSpeak("위치 정보를 불러올 수 없습니다. 실외로 이동하거나 GPS를 켜주세요.");
+        }
         setIsLoading(false); // 에러나도 로딩은 꺼야 함 (디버깅용)
       }
     };
