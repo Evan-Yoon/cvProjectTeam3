@@ -1,0 +1,117 @@
+import { HazardData } from './types';
+
+// Mock data generation
+export const MOCK_HAZARDS: HazardData[] = [
+  {
+    id: 'WM-2024-00123',
+    thumbnail: 'https://picsum.photos/id/1015/300/300',
+    riskLevel: 'High',
+    type: '포트홀 (Pothole)',
+    location: '서울시 강남구 테헤란로 123',
+    coordinates: '37.5665, 126.9780',
+    timestamp: '2024-10-26 14:30:45',
+    status: 'Pending',
+    reportType: 'B2B',
+    description: '도로 중앙에 깊이 15cm 가량의 대형 포트홀 발생. 차량 파손 위험 높음.',
+    reporter: 'Sensor_Unit_A1',
+    sensorData: { gyro: '-0.12', accel: '1.5g' }
+  },
+  {
+    id: 'WM-2024-00124',
+    thumbnail: 'https://picsum.photos/id/1016/300/300',
+    riskLevel: 'Medium',
+    type: '보도블럭 파손',
+    location: '서울시 서초구 서초대로 45',
+    coordinates: '37.4979, 127.0276',
+    timestamp: '2024-10-26 15:10:12',
+    status: 'In Progress',
+    reportType: 'B2G',
+    description: '보행자 도로 보도블럭 3개 이탈. 보행 중 걸려 넘어질 위험 있음.',
+    reporter: 'Citizen_App_User_02',
+    sensorData: { gyro: '0.05', accel: '0.2g' }
+  },
+  {
+    id: 'WM-2024-00125',
+    thumbnail: 'https://picsum.photos/id/1018/300/300',
+    riskLevel: 'Low',
+    type: '균열',
+    location: '서울시 송파구 올림픽로 300',
+    coordinates: '37.5133, 127.1001',
+    timestamp: '2024-10-26 16:45:00',
+    status: 'Resolved',
+    reportType: 'B2B',
+    description: '건물 진입로 미세 균열 확인. 즉각적인 위험은 없으나 추적 관찰 필요.',
+    reporter: 'Patrol_Drone_04',
+    sensorData: { gyro: '0.00', accel: '0.0g' }
+  },
+  {
+    id: 'WM-2024-00126',
+    thumbnail: 'https://picsum.photos/id/1019/300/300',
+    riskLevel: 'High',
+    type: '공사 자재 방치',
+    location: '부산시 해운대구 해운대해변로 200',
+    coordinates: '35.1587, 129.1604',
+    timestamp: '2024-10-27 09:20:15',
+    status: 'Pending',
+    reportType: 'B2G',
+    description: '인도 위 불법 공사 자재 적재로 통행 불가. 휠체어 이동 제한.',
+    reporter: 'Sensor_Unit_B2',
+    sensorData: { gyro: '-0.02', accel: '0.1g' }
+  },
+  {
+    id: 'WM-2024-00127',
+    thumbnail: 'https://picsum.photos/id/1020/300/300',
+    riskLevel: 'Medium',
+    type: '맨홀 뚜껑 파손',
+    location: '인천시 연수구 컨벤시아대로 50',
+    coordinates: '37.3827, 126.6341',
+    timestamp: '2024-10-27 10:05:33',
+    status: 'In Progress',
+    reportType: 'B2B',
+    description: '맨홀 뚜껑 주변부 파손 및 약간의 침하 발생.',
+    reporter: 'Safety_Officer_Kim',
+    sensorData: { gyro: '0.15', accel: '0.8g' }
+  },
+  {
+    id: 'WM-2024-00128',
+    thumbnail: 'https://picsum.photos/id/1021/300/300',
+    riskLevel: 'Low',
+    type: '쓰레기 무단 투기',
+    location: '대구시 중구 동성로 22',
+    coordinates: '35.8714, 128.6014',
+    timestamp: '2024-10-27 11:30:00',
+    status: 'Pending',
+    reportType: 'B2G',
+    description: '골목길 쓰레기 적치로 인한 악취 및 통행 불편.',
+    reporter: 'Citizen_App_User_99',
+    sensorData: { gyro: '0.00', accel: '0.0g' }
+  },
+  {
+    id: 'WM-2024-00129',
+    thumbnail: 'https://picsum.photos/id/1022/300/300',
+    riskLevel: 'High',
+    type: '싱크홀 의심',
+    location: '광주시 서구 상무대로 11',
+    coordinates: '35.1557, 126.8517',
+    timestamp: '2024-10-28 08:15:20',
+    status: 'Pending',
+    reportType: 'B2B',
+    description: '지반 침하 징후 발견. 긴급 점검 요망.',
+    reporter: 'Sensor_Unit_C3',
+    sensorData: { gyro: '-1.50', accel: '2.5g' }
+  },
+  {
+    id: 'WM-2024-00130',
+    thumbnail: 'https://picsum.photos/id/1024/300/300',
+    riskLevel: 'Medium',
+    type: '가로수 전도 위험',
+    location: '대전시 유성구 대학로 99',
+    coordinates: '36.3622, 127.3563',
+    timestamp: '2024-10-28 13:40:10',
+    status: 'Resolved',
+    reportType: 'B2G',
+    description: '태풍 후 가로수가 기울어져 있음. 지지대 보강 필요.',
+    reporter: 'Park_Manager',
+    sensorData: { gyro: '0.30', accel: '0.1g' }
+  }
+];

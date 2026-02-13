@@ -18,7 +18,10 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
   const [isOriented, setIsOriented] = useState(false);
   const [debugMsg, setDebugMsg] = useState("");
 
-  // ★ [추가] 지도를 그리기 위한 State (Ref는 화면 갱신이 안됨)
+  // ★ [수정 1] 로딩 상태 추가 (GPS 잡기 전까지 true)
+  const [isLoading, setIsLoading] = useState(true);
+
+  // 지도를 그리기 위한 State
   const [mapFeatures, setMapFeatures] = useState<any[]>([]);
   const [visualPos, setVisualPos] = useState<{ lat: number, lng: number } | null>(null);
 
@@ -41,7 +44,7 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
     setTimeout(() => { isSpeaking.current = false; }, waitTime);
   };
 
-  // 2. 유틸리티 함수들 (변환 및 계산)
+  // 2. 유틸리티 함수들
   const toRad = (deg: number) => deg * Math.PI / 180;
   const toDeg = (rad: number) => rad * 180 / Math.PI;
 
@@ -94,16 +97,25 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
 
     const startNavigation = async () => {
       try {
-        await safeSpeak("경로를 탐색합니다. 잠시만 기다려주세요.");
+        // ★ [수정 2] 안내 멘트 변경
+        await safeSpeak("GPS 신호를 찾고 있습니다. 잠시만 기다려주세요.");
 
-        // (1) 초기 위치 및 경로 데이터 수신
-        const position = await Geolocation.getCurrentPosition();
+        // (1) 초기 위치 잡기 (여기서 멈춰서 기다림)
+        const position = await Geolocation.getCurrentPosition({
+          enableHighAccuracy: true, // 정밀 위치 요청
+          timeout: 10000            // 최대 10초 대기
+        });
+
         const startLat = position.coords.latitude;
         const startLng = position.coords.longitude;
 
+        // ★ [수정 3] 위치를 잡았으므로 로딩 해제 및 지도 위치 설정
         prevPosition.current = { lat: startLat, lng: startLng };
-        // ★ 지도용 위치 State 업데이트
         setVisualPos({ lat: startLat, lng: startLng });
+        setIsLoading(false); // 이제 지도를 보여줌!
+
+        // (2) TMAP 경로 요청
+        await safeSpeak("위치가 확인되었습니다. 경로를 탐색합니다.");
 
         const data = await requestTmapWalkingPath(
           { latitude: startLat, longitude: startLng },
@@ -112,8 +124,6 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
 
         if (data && data.features) {
           routeFeatures.current = data.features.filter((f: any) => f.geometry.type === "Point");
-
-          // ★ 지도용 경로 State 업데이트 (이게 있어야 지도가 그려짐)
           setMapFeatures(data.features);
 
           if (routeFeatures.current.length > 0) {
@@ -124,7 +134,7 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
           }
         }
 
-        // (2) 실시간 위치 추적
+        // (3) 실시간 위치 추적 시작
         watchId.current = await Geolocation.watchPosition(
           { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 },
           (pos) => {
@@ -133,10 +143,9 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
             const curLat = pos.coords.latitude;
             const curLng = pos.coords.longitude;
 
-            // ★ 지도용 위치 State 실시간 업데이트 (빨간 점 이동)
             setVisualPos({ lat: curLat, lng: curLng });
 
-            // 1. 이동 거리 계산
+            // 이동 거리 계산
             let movedDist = 0;
             if (prevPosition.current) {
               movedDist = getDistance(prevPosition.current.lat, prevPosition.current.lng, curLat, curLng);
@@ -160,7 +169,7 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
 
             setDebugMsg(`이동: ${movedDist.toFixed(1)}m / 방향: ${currentHeading.current?.toFixed(0) || '미확인'}°`);
 
-            // 2. 경로 안내 로직
+            // 경로 안내 로직
             if (isOriented && currentHeading.current !== null && !isSpeaking.current) {
               const points = routeFeatures.current;
 
@@ -196,7 +205,8 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
 
       } catch (error) {
         console.error("Navigation Error:", error);
-        safeSpeak("위치 정보를 불러올 수 없습니다.");
+        safeSpeak("위치 정보를 불러올 수 없습니다. 실외로 이동해주세요.");
+        setIsLoading(false); // 에러나도 로딩은 꺼야 함 (디버깅용)
       }
     };
 
@@ -230,16 +240,24 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
     };
   }, [destination]);
 
-  // ★ 통합된 UI 렌더링 (Return은 여기 딱 하나만!)
   return (
     <div className="h-full w-full bg-black flex flex-col relative" onClick={() => setTaps(t => t + 1)}>
 
       {/* 1. 상단: 디버깅용 지도 (40%) */}
-      <div className="h-[40%] w-full relative z-20 border-b-2 border-white">
-        <DebugMap
-          routeFeatures={mapFeatures} // Ref 대신 State 사용
-          currentPos={visualPos}      // Ref 대신 State 사용
-        />
+      <div className="h-[40%] w-full relative z-20 border-b-2 border-white bg-gray-900">
+        {/* ★ [수정 4] 로딩 중이면 스피너 표시, 로딩 끝나면 지도 표시 */}
+        {isLoading ? (
+          <div className="w-full h-full flex flex-col items-center justify-center text-white">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-b-4 border-yellow-400 mb-4"></div>
+            <p className="text-lg font-bold">GPS 신호 찾는 중...</p>
+            <p className="text-sm text-gray-400 mt-2">잠시만 기다려주세요</p>
+          </div>
+        ) : (
+          <DebugMap
+            routeFeatures={mapFeatures}
+            currentPos={visualPos}
+          />
+        )}
       </div>
 
       {/* 2. 하단: 카메라 및 안내 UI (60%) */}

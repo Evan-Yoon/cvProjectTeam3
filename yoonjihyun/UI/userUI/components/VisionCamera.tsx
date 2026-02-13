@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 import Webcam from 'react-webcam';
-import { speak } from '../src/utils/audio'; // 경로 확인 필요
-import NpuTflite from '../NpuTfliteBridge'; // 경로 확인 필요
+import { speak } from '../src/utils/audio';
+import NpuTflite from '../NpuTfliteBridge';
 
 // ---------------------------
 // 1. Constants & Config

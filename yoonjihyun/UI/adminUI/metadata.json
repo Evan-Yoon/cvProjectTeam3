@@ -1,0 +1,5 @@
+{
+  "name": "WalkMate Admin",
+  "description": "WalkMate 안전 모니터링 시스템 관리자 대시보드",
+  "requestFramePermissions": []
+}
