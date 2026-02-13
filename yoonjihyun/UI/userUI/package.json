@@ -17,11 +17,14 @@
     "@capacitor/geolocation": "^8.1.0",
     "@tensorflow/tfjs": "^4.22.0",
     "@tensorflow/tfjs-tflite": "^0.0.1-alpha.10",
+    "leaflet": "^1.9.4",
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
+    "react-leaflet": "^5.0.0",
     "react-webcam": "^7.2.0"
   },
   "devDependencies": {
+    "@types/leaflet": "^1.9.21",
     "@types/node": "^22.14.0",
     "@types/react": "^19.2.13",
     "@types/react-dom": "^19.2.3",
