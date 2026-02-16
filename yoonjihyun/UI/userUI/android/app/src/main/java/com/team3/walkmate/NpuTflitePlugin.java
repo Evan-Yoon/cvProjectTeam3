@@ -31,7 +31,10 @@ public class NpuTflitePlugin extends Plugin {
 
     private Interpreter tflite;
     private GpuDelegate gpuDelegate;
-    private static final int MODEL_INPUT_SIZE = 320;
+
+    // ★ [수정됨] 모델 입력 크기를 640으로 변경 (YOLO 기본값)
+    private static final int MODEL_INPUT_SIZE = 640;
+
     private static final String TAG = "NpuTflite";
 
     @PluginMethod
@@ -48,10 +51,9 @@ public class NpuTflitePlugin extends Plugin {
             // 1. Setup GPU Delegate Options
             GpuDelegate.Options options = new GpuDelegate.Options();
             options.setInferencePreference(GpuDelegate.Options.INFERENCE_PREFERENCE_SUSTAINED_SPEED);
-            
+
             // Allow quantized models (e.g. best_int8.tflite) on GPU
-            // This allows the GPU delegate to run mixed-precision or quantized models
-            options.setQuantizedModelsAllowed(true); 
+            options.setQuantizedModelsAllowed(true);
 
             gpuDelegate = new GpuDelegate(options);
 
@@ -62,14 +64,13 @@ public class NpuTflitePlugin extends Plugin {
             // 3. Load Model
             MappedByteBuffer tfliteModel = loadModelFile(modelPath);
             tflite = new Interpreter(tfliteModel, interpreterOptions);
-            
-            // 4. Force Input Shape to [1, 320, 320, 3] to avoid Batch Size Mismatch
-            // Some models export with dynamic batch or batch=100 (validation default)
+
+            // 4. Force Input Shape to [1, 640, 640, 3]
             tflite.resizeInput(0, new int[]{1, MODEL_INPUT_SIZE, MODEL_INPUT_SIZE, 3});
             tflite.allocateTensors(); // Important after resize
 
             Log.i(TAG, "Model loaded successfully with GPU Delegate (Quantized Allowed)");
-            
+
             // Log Input Tensor Details for Debugging
             Tensor inputTensor = tflite.getInputTensor(0);
             Log.i(TAG, "Input Tensor: Type=" + inputTensor.dataType() + ", Shape=" + java.util.Arrays.toString(inputTensor.shape()));
@@ -101,6 +102,8 @@ public class NpuTflitePlugin extends Plugin {
         try {
             byte[] decodedString = Base64.decode(imageBase64, Base64.DEFAULT);
             Bitmap bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+
+            // ★ 이미지를 640x640으로 리사이징 (모델 입력 크기에 맞춤)
             Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, MODEL_INPUT_SIZE, MODEL_INPUT_SIZE, true);
 
             // Determine Input Type from Model
@@ -113,7 +116,6 @@ public class NpuTflitePlugin extends Plugin {
             } else if (inputType == DataType.UINT8) {
                 inputBuffer = convertBitmapToByteBufferUint8(resizedBitmap);
             } else {
-                 // Fallback to Float (might fail if INT8 strict)
                  Log.w(TAG, "Unknown input type: " + inputType + ". Defaulting to Float32.");
                  inputBuffer = convertBitmapToByteBufferFloat(resizedBitmap);
             }
@@ -121,36 +123,30 @@ public class NpuTflitePlugin extends Plugin {
             // Output Config
             int outputTensorIndex = 0;
             int[] outputShape = tflite.getOutputTensor(outputTensorIndex).shape();
-            
-             // Handle Output Buffer (Always Float32 for Post-Processing convenience in this app)
-             // If model output is quantized, TFLite handles dequantization if we ask for it, 
-             // but usually raw output tensor type matches.
-             // For simplicity, let's assume detection output is Float32 or we read it as is.
-             // Best practice: Read into expected type buffer.
-             
+
             int totalElements = 1;
             for (int dim : outputShape) {
                 totalElements *= dim;
             }
-            
+
             // Allocate Output Buffer
-            // We assume output is Float32 for detection boxes/scores.
-            // If it's Int8, we might need to dequantize manually, but usually Object Detection heads are Float.
-            ByteBuffer outputBuffer = ByteBuffer.allocateDirect(totalElements * 4); 
+            ByteBuffer outputBuffer = ByteBuffer.allocateDirect(totalElements * 4);
             outputBuffer.order(ByteOrder.nativeOrder());
-            
+
             tflite.run(inputBuffer, outputBuffer);
 
             outputBuffer.rewind();
             com.getcapacitor.JSArray jsArray = new com.getcapacitor.JSArray();
+
+            // 결과 값을 Flat Array로 변환하여 JS로 전달
             for (int i = 0; i < totalElements; i++) {
                 jsArray.put(outputBuffer.getFloat());
             }
-            
+
             JSObject ret = new JSObject();
             ret.put("data", jsArray);
             ret.put("shape", new com.getcapacitor.JSArray(getJsonArrayFromIntArray(outputShape)));
-            
+
             call.resolve(ret);
 
         } catch (Exception e) {
@@ -169,15 +165,17 @@ public class NpuTflitePlugin extends Plugin {
 
     private MappedByteBuffer loadModelFile(String modelPath) throws IOException {
         String assetPath = modelPath;
+        // public 폴더 경로 처리
         if (!assetPath.startsWith("public/")) assetPath = "public/" + modelPath;
         if (assetPath.startsWith("assets/")) assetPath = assetPath.substring(7);
+
         AssetFileDescriptor fileDescriptor = getContext().getAssets().openFd(assetPath);
         FileInputStream inputStream = new FileInputStream(fileDescriptor.getFileDescriptor());
         FileChannel fileChannel = inputStream.getChannel();
         return fileChannel.map(FileChannel.MapMode.READ_ONLY, fileDescriptor.getStartOffset(), fileDescriptor.getDeclaredLength());
     }
 
-    // Float32 Conversion (Original)
+    // Float32 Conversion
     private ByteBuffer convertBitmapToByteBufferFloat(Bitmap bitmap) {
         ByteBuffer byteBuffer = ByteBuffer.allocateDirect(4 * MODEL_INPUT_SIZE * MODEL_INPUT_SIZE * 3);
         byteBuffer.order(ByteOrder.nativeOrder());
@@ -187,6 +185,7 @@ public class NpuTflitePlugin extends Plugin {
         for (int i = 0; i < MODEL_INPUT_SIZE; ++i) {
             for (int j = 0; j < MODEL_INPUT_SIZE; ++j) {
                 final int val = intValues[pixel++];
+                // 정규화 (0~255 -> 0.0~1.0)
                 byteBuffer.putFloat(((val >> 16) & 0xFF) / 255.0f);
                 byteBuffer.putFloat(((val >> 8) & 0xFF) / 255.0f);
                 byteBuffer.putFloat((val & 0xFF) / 255.0f);
@@ -195,7 +194,7 @@ public class NpuTflitePlugin extends Plugin {
         return byteBuffer;
     }
 
-    // Uint8 Conversion (For Quantized Models)
+    // Uint8 Conversion
     private ByteBuffer convertBitmapToByteBufferUint8(Bitmap bitmap) {
         ByteBuffer byteBuffer = ByteBuffer.allocateDirect(MODEL_INPUT_SIZE * MODEL_INPUT_SIZE * 3);
         byteBuffer.order(ByteOrder.nativeOrder());

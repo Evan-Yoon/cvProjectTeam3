@@ -1,62 +1,77 @@
-from fastapi import APIRouter, UploadFile, File, Form, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form
 from sqlalchemy.orm import Session
-from uuid import UUID
+from uuid import uuid4, UUID
+import shutil
+import os
+from datetime import datetime
 
 from app.core.database import get_db
-from app.services.s3_uploader import upload_image_to_s3
-from app.crud.report import create_report, get_map_markers
+from app.crud import report as crud_report
 
-router = APIRouter(prefix="/reports", tags=["reports"])
+router = APIRouter()
 
-@router.post("/", summary="📸 위험물 신고 접수 (App)")
-async def post_report(
-    item_id: UUID = Form(...),
-    user_id: UUID = Form(...),
+# 이미지 저장할 디렉토리 설정 (main.py 설정과 맞춰야 함)
+UPLOAD_DIR = "uploads"
+os.makedirs(UPLOAD_DIR, exist_ok=True)
+
+@router.post("/")
+async def create_report(
+    item_id: str = Form(...),
+    user_id: str = Form(...),
     latitude: float = Form(...),
     longitude: float = Form(...),
     hazard_type: str = Form(...),
     risk_level: int = Form(...),
-    description: str | None = Form(None),
-    file: UploadFile = File(...),
-    db: Session = Depends(get_db),
+    description: str = Form(None),
+    file: UploadFile = File(...),  # 앱에서 보낸 이미지 파일
+    db: Session = Depends(get_db)
 ):
-    if not file.content_type or not file.content_type.startswith("image/"):
-        raise HTTPException(status_code=400, detail="file must be an image")
+    try:
+        # 1. 고유한 파일명 생성 (중복 방지)
+        # 예: 20240216_123456_uuid.jpg
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 
-    if not (1 <= risk_level <= 5):
-        raise HTTPException(status_code=400, detail="risk_level must be 1~5")
+        # 파일 확장자 추출 (없으면 기본 jpg)
+        file_extension = "jpg"
+        if file.filename and "." in file.filename:
+            file_extension = file.filename.split(".")[-1]
 
-    file_bytes = await file.read()
-    if len(file_bytes) == 0:
-        raise HTTPException(status_code=400, detail="empty file")
-    if len(file_bytes) > 8 * 1024 * 1024:
-        raise HTTPException(status_code=400, detail="image too large (max 8MB)")
+        saved_filename = f"{timestamp}_{uuid4().hex[:8]}.{file_extension}"
 
-    key = f"reports/{item_id}.jpg"
-    image_url = upload_image_to_s3(file_bytes, key=key, content_type=file.content_type)
+        file_path = os.path.join(UPLOAD_DIR, saved_filename)
 
-    create_report(
-        db,
-        item_id=item_id,
-        user_id=user_id,
-        latitude=latitude,
-        longitude=longitude,
-        hazard_type=hazard_type,
-        risk_level=risk_level,
-        image_url=image_url,
-        description=description,
-    )
+        # 2. 서버 로컬 폴더(uploads)에 이미지 저장
+        with open(file_path, "wb") as buffer:
+            shutil.copyfileobj(file.file, buffer)
 
-    return {
-        "success": True,
-        "item_id": str(item_id),
-        "image_url": image_url,
-        "message": "Report created successfully."
-    }
+        # 3. DB에 저장할 URL 생성
+        # main.py에서 '/static'을 'uploads' 폴더로 연결했으므로,
+        # 브라우저 접근 URL은 http://서버IP:8000/static/파일명 이 됩니다.
+        image_url = f"static/{saved_filename}"
 
+        # 4. DB에 정보 저장 (CRUD 호출)
+        # item_id와 user_id는 앱에서 문자로 오므로 UUID로 변환
+        report = crud_report.create_report(
+            db=db,
+            item_id=UUID(item_id),
+            user_id=UUID(user_id),
+            latitude=latitude,
+            longitude=longitude,
+            hazard_type=hazard_type,
+            risk_level=risk_level,
+            image_url=image_url,  # 생성한 URL 전달
+            description=description
+        )
 
-@router.get("/map", summary="🗺️ 지도 마커 조회 (App/Web)")
-def get_map(db: Session = Depends(get_db)):
-    rows = get_map_markers(db)
-    # 명세대로 배열 그대로 반환
-    return list(rows)
+        return {
+            "status": "success",
+            "message": "Report created successfully",
+            "data": report
+        }
+
+    except Exception as e:
+        print(f"❌ Upload Failed: {str(e)}")
+        # 에러 내용을 더 자세히 보기 위해 출력
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=str(e))

@@ -1,5 +1,6 @@
 import React from 'react';
-import { LayoutDashboard, FileText, Database, LogOut, ShieldCheck } from 'lucide-react';
+// ★ [수정 1] Camera 아이콘 추가
+import { LayoutDashboard, FileText, Database, LogOut, ShieldCheck, Camera } from 'lucide-react';
 
 interface SidebarProps {
   activePage: string;
@@ -12,6 +13,10 @@ const Sidebar: React.FC<SidebarProps> = ({ activePage, setPage }) => {
     { id: 'reports-b2b', label: 'B2B 리포트', icon: <FileText size={20} /> },
     { id: 'reports-b2g', label: 'B2G 리포트', icon: <FileText size={20} /> },
     { id: 'database', label: '마스터 DB', icon: <Database size={20} /> },
+
+    // ★ [수정 2] 실시간 모니터링 메뉴 추가
+    // id는 App.tsx의 case 'test-monitor'와 똑같아야 합니다!
+    { id: 'test-monitor', label: '실시간 모니터링', icon: <Camera size={20} /> },
   ];
 
   return (

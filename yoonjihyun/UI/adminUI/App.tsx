@@ -4,6 +4,8 @@ import Dashboard from './views/Dashboard';
 import Reports from './views/Reports';
 import Database from './views/Database';
 import HazardModal from './components/HazardModal';
+// ★ [추가] 방금 만든 TestMonitor 페이지 import
+import TestMonitor from './src/pages/TestMonitor';
 import { HazardData } from './types';
 import { Bell, Search, UserCircle } from 'lucide-react';
 
@@ -25,6 +27,11 @@ const App: React.FC = () => {
         return <Reports type="B2G" onRowClick={handleRowClick} />;
       case 'database':
         return <Database onRowClick={handleRowClick} />;
+
+      // ★ [추가] test-monitor 상태일 때 보여줄 컴포넌트 설정
+      case 'test-monitor':
+        return <TestMonitor />;
+
       default:
         return <Dashboard onRowClick={handleRowClick} />;
     }
@@ -36,6 +43,10 @@ const App: React.FC = () => {
       case 'reports-b2b': return 'B2B Hazard Reports';
       case 'reports-b2g': return 'B2G Hazard Reports';
       case 'database': return 'Master Database';
+
+      // ★ [추가] 상단 헤더 제목 설정
+      case 'test-monitor': return 'Real-time Test Monitor';
+
       default: return 'WalkMate System';
     }
   };
@@ -47,7 +58,7 @@ const App: React.FC = () => {
 
       {/* Main Content Area */}
       <div className="flex-1 ml-64 flex flex-col min-h-screen">
-        
+
         {/* Top Header */}
         <header className="h-16 bg-white shadow-sm border-b border-slate-200 sticky top-0 z-10 flex items-center justify-between px-8">
             <div className="flex items-center text-slate-500 text-sm">
@@ -58,14 +69,14 @@ const App: React.FC = () => {
 
             <div className="flex items-center gap-6">
                 <div className="relative hidden md:block">
-                    <input 
-                        type="text" 
-                        placeholder="Search..." 
+                    <input
+                        type="text"
+                        placeholder="Search..."
                         className="pl-4 pr-10 py-1.5 rounded-full bg-slate-100 border-none focus:ring-2 focus:ring-yellow-400 focus:bg-white transition-all text-sm w-64"
                     />
                     <Search className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
                 </div>
-                
+
                 <div className="flex items-center gap-3">
                     <button className="relative p-2 text-slate-500 hover:bg-slate-100 rounded-full transition-colors">
                         <Bell size={20} />
@@ -89,9 +100,9 @@ const App: React.FC = () => {
       </div>
 
       {/* Detail Modal Popup */}
-      <HazardModal 
-        data={selectedHazard} 
-        onClose={() => setSelectedHazard(null)} 
+      <HazardModal
+        data={selectedHazard}
+        onClose={() => setSelectedHazard(null)}
       />
     </div>
   );
