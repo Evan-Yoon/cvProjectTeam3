@@ -1,56 +1,105 @@
 // components/DebugMap.tsx
-import React from 'react';
-import { MapContainer, TileLayer, Polyline, CircleMarker } from 'react-leaflet';
-import 'leaflet/dist/leaflet.css'; // 스타일 필수
+import React, { useEffect } from 'react';
+import { MapContainer, TileLayer, Polyline, Marker, useMap } from 'react-leaflet';
+import L from 'leaflet'; // Leaflet 기본 객체
+import 'leaflet/dist/leaflet.css';
 
+// -----------------------------------------------------------
+// 1. Props 인터페이스 정의
+// GuidingScreen에서 넘겨주는 데이터 타입과 일치해야 합니다.
+// -----------------------------------------------------------
 interface DebugMapProps {
     routeFeatures: any[]; // TMAP 경로 데이터
     currentPos: { lat: number; lng: number } | null; // 내 현재 위치
+    currentHeading?: number | null; // ★ [추가] 내가 바라보는 방향 (0~360도)
 }
 
-const DebugMap: React.FC<DebugMapProps> = ({ routeFeatures, currentPos }) => {
-    // 1. TMAP 데이터를 Leaflet 경로(Polyline) 형식으로 변환 [[lat, lng], [lat, lng]...]
+// -----------------------------------------------------------
+// 2. 지도 중심 이동용 헬퍼 컴포넌트
+// 내 위치가 바뀌면 지도의 중심도 같이 따라가게 만듭니다.
+// -----------------------------------------------------------
+const ChangeView = ({ center }: { center: [number, number] }) => {
+    const map = useMap();
+    useEffect(() => {
+        // 부드럽게 이동 (animate: true)
+        map.setView(center, map.getZoom(), { animate: true });
+    }, [center, map]);
+    return null;
+};
+
+const DebugMap: React.FC<DebugMapProps> = ({ routeFeatures, currentPos, currentHeading }) => {
+
+    // 3. TMAP 경로 데이터 변환 (Leaflet은 [lat, lng] 순서)
     const pathPositions = routeFeatures
-        .filter(f => f.geometry.type === 'LineString') // 선 데이터만 추출
+        .filter(f => f.geometry.type === 'LineString')
         .flatMap(f => {
-            // TMAP은 [lng, lat] 순서라 [lat, lng]로 뒤집어야 함
             return f.geometry.coordinates.map((coord: number[]) => [coord[1], coord[0]]);
         });
 
-    // 지도의 중심점 (내 위치가 없으면 기본값 서울)
-    const center = currentPos ? [currentPos.lat, currentPos.lng] : [37.5665, 126.9780];
+    // 지도 초기 중심값 (내 위치 없으면 서울 시청)
+    const center: [number, number] = currentPos
+        ? [currentPos.lat, currentPos.lng]
+        : [37.5665, 126.9780];
+
+    // 4. 내 위치 마커 아이콘 생성 (빨간색 화살표)
+    // 바라보는 방향(heading)에 따라 회전시킵니다.
+    const createUserIcon = (heading: number | null) => {
+        const rotation = heading ?? 0; // 방향 없으면 0도
+
+        // SVG로 빨간색 화살표(네비게이션 스타일) 생성
+        const svgArrow = `
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="transform: rotate(${rotation}deg); transition: transform 0.3s ease;">
+                <path d="M12 2L2 22L12 18L22 22L12 2Z" fill="#ff0000" stroke="white" stroke-width="2"/>
+            </svg>
+        `;
+
+        return L.divIcon({
+            className: 'custom-user-icon', // CSS 클래스 이름 (필요 시 스타일 추가)
+            html: svgArrow,
+            iconSize: [32, 32], // 아이콘 크기
+            iconAnchor: [16, 16], // 아이콘의 중심점 (회전축)
+        });
+    };
 
     return (
-        <div className="w-full h-1/2 bg-gray-100 border-b-4 border-blue-500 relative z-50">
-            {/* 맵 컨테이너 (높이 지정 필수) */}
+        // ★ 높이를 h-full로 변경하여 부모(50%)에 꽉 차게 설정
+        <div className="w-full h-full bg-gray-100 border-b-4 border-blue-500 relative z-0">
+
             <MapContainer
-                center={center as [number, number]}
-                zoom={18}
+                center={center}
+                zoom={19} // 줌 레벨 확대 (보행자용이라 크게)
                 style={{ height: '100%', width: '100%' }}
-                scrollWheelZoom={false} // 모바일 스크롤 방해 금지
+                scrollWheelZoom={false} // 모바일에서 실수로 줌 되는 것 방지
+                zoomControl={false} // 줌 버튼 숨김 (깔끔하게)
             >
-                {/* 무료 오픈스트리트맵 타일 사용 */}
+                {/* 지도 타일 (오픈스트리트맵) */}
                 <TileLayer
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
 
+                {/* 내 위치 자동 추적 기능 */}
+                {currentPos && <ChangeView center={[currentPos.lat, currentPos.lng]} />}
+
                 {/* 경로 그리기 (파란선) */}
                 {pathPositions.length > 0 && (
-                    <Polyline positions={pathPositions as [number, number][]} color="blue" weight={5} />
+                    <Polyline positions={pathPositions as [number, number][]} color="blue" weight={6} opacity={0.7} />
                 )}
 
-                {/* 내 위치 표시 (빨간 점) */}
+                {/* 내 위치 표시 (빨간 화살표 마커) */}
                 {currentPos && (
-                    <CircleMarker
-                        center={[currentPos.lat, currentPos.lng]}
-                        radius={8}
-                        pathOptions={{ color: 'red', fillColor: '#f03', fillOpacity: 1 }}
+                    <Marker
+                        position={[currentPos.lat, currentPos.lng]}
+                        icon={createUserIcon(currentHeading ?? 0)}
                     />
                 )}
             </MapContainer>
 
-            <div className="absolute top-2 right-2 bg-white p-2 rounded shadow z-[1000] text-black text-xs font-bold">
-                디버깅 모드
+            {/* 디버깅 모드 배지 */}
+            <div className="absolute top-4 right-4 bg-white/90 px-3 py-1 rounded-full shadow-lg z-[1000] border border-gray-200">
+                <p className="text-xs font-bold text-gray-700">
+                    🧭 {currentHeading ? `${currentHeading.toFixed(0)}°` : '방향 찾는 중...'}
+                </p>
             </div>
         </div>
     );
