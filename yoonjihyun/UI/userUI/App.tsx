@@ -55,7 +55,7 @@ const App: React.FC = () => {
     setCurrentScreen(AppScreen.LISTENING);
   };
 
-  // 2. 음성 인식 후 처리 (검색 -> 백엔드 요청)
+  // 2. 음성 인식 후 처리 (검색 안 함 -> 확인 화면으로 이동)
   const handleSpeechDetected = async (transcript: string) => {
     if (!transcript) return;
 
@@ -73,49 +73,58 @@ const App: React.FC = () => {
     }
 
     const keyword = transcript.replace(/으로 안내해줘|로 안내해줘| 안내해줘| 안내/g, "").trim();
-    console.log(`🔍 검색어: ${keyword}`);
+    console.log(`🎤 인식된 목적지: ${keyword}`);
+
+    // (수정) 검색하지 않고 바로 확인 화면으로 이동
+    // 좌표는 아직 모르므로 0,0 또는 null 처리
+    setDestination({
+      name: keyword,
+      lat: 0,
+      lng: 0
+    });
+    setCurrentScreen(AppScreen.CONFIRMATION);
+  };
+
+  // 3. 목적지 확인 후 -> 실제 검색 및 경로 탐색
+  const handleConfirmDestination = async () => {
+    if (!destination || !myLocation) return;
 
     try {
-      // (1) TMAP으로 장소 검색 (이름 -> 좌표)
-      const location = await searchLocation(keyword);
+      await speak(`${destination.name} 경로를 탐색합니다.`);
+
+      // (1) TMAP으로 장소 검색 (내 위치 기준 가장 가까운 곳)
+      const location = await searchLocation(destination.name, myLocation.lat, myLocation.lng);
 
       if (location) {
-        // 목적지 설정
+        // 정확한 좌표로 업데이트
         const destInfo = {
-          name: location.name,
+          name: location.name, // 검색된 정식 명칭으로 변경 (선택사항)
           lat: location.lat,
           lng: location.lng
         };
         setDestination(destInfo);
 
-        // (2) ★ 백엔드에 길찾기 경로 요청
-        await speak(`${location.name} 경로를 탐색합니다.`);
-
+        // (2) 백엔드 경로 요청
         const routes = await requestNavigation({
           start_lat: myLocation.lat,
-          start_lon: myLocation.lng, // ★ 내 위치 (lng -> lon 변환되어 전달됨)
+          start_lon: myLocation.lng,
           end_lat: destInfo.lat,
-          end_lon: destInfo.lng    // ★ 목적지 위치
+          end_lon: destInfo.lng
         });
 
-        // (3) 경로 데이터 저장 후 확인 화면으로 이동
         setRouteData(routes);
-        setCurrentScreen(AppScreen.CONFIRMATION);
-
+        setCurrentScreen(AppScreen.GUIDING);
       } else {
-        await speak("장소를 찾지 못했습니다. 다시 말씀해주세요.");
+        await speak("장소를 찾을 수 없습니다. 다시 말씀해주세요.");
         setCurrentScreen(AppScreen.RETRY);
       }
     } catch (error) {
-      console.error("처리 중 에러:", error);
+      console.error("탐색 에러:", error);
       await speak("오류가 발생했습니다. 다시 시도해주세요.");
       setCurrentScreen(AppScreen.RETRY);
     }
   };
 
-  const handleConfirmDestination = () => {
-    setCurrentScreen(AppScreen.GUIDING);
-  };
 
   const handleDenyDestination = () => {
     setCurrentScreen(AppScreen.RETRY);

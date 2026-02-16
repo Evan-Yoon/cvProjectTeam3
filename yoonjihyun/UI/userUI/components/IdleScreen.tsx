@@ -1,4 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Geolocation } from '@capacitor/geolocation';
+import { reverseGeoCoding, searchNearbyPoi } from '../src/api/tmap';
+import { speak } from '../src/utils/audio';
 
 // Props 인터페이스 정의
 // onStart: 화면을 터치했을 때 실행할 함수 (앱 시작 기능)
@@ -7,6 +10,34 @@ interface IdleScreenProps {
 }
 
 const IdleScreen: React.FC<IdleScreenProps> = ({ onStart }) => {
+  const [currentAddress, setCurrentAddress] = useState<string>("위치 확인 중...");
+
+  useEffect(() => {
+    const initLocation = async () => {
+      try {
+        // 1. 현재 위치 가져오기
+        const pos = await Geolocation.getCurrentPosition();
+        const { latitude, longitude } = pos.coords;
+
+        // 2. 위치 확인 완료 멘트 (상세 주소 추천 제거)
+        setCurrentAddress("위치 확인 완료");
+
+        // 3. 안내 시작
+        await speak("현재 위치를 확인했습니다. 어디로 안내할까요?");
+
+        // 4. 리스닝 화면으로 자동 진입
+        onStart();
+
+      } catch (error) {
+        console.error("Location Init Failed:", error);
+        setCurrentAddress("위치 확인 실패");
+        await speak("위치 정보를 가져올 수 없습니다. GPS를 확인해주세요.");
+      }
+    };
+
+    initLocation();
+  }, []);
+
   return (
     <div
       // 전체 화면 컨테이너
@@ -50,10 +81,12 @@ const IdleScreen: React.FC<IdleScreenProps> = ({ onStart }) => {
 
           {/* 상태 표시 알약 (Status Pill) */}
           {/* 하단에 '대기 중'이라고 떠있는 작은 뱃지 */}
-          <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 bg-zinc-900 border border-zinc-700 px-6 py-2 rounded-full flex items-center gap-2 shadow-xl">
+          <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 bg-zinc-900 border border-zinc-700 px-6 py-2 rounded-full flex items-center gap-2 shadow-xl whitespace-nowrap">
             {/* 초록색 점 깜빡임 (작동 중임을 표시) */}
-            <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-            <span className="text-sm font-bold tracking-wider text-zinc-300 uppercase">대기 중</span>
+            <div className={`w-3 h-3 rounded-full animate-pulse ${currentAddress.includes("실패") ? 'bg-red-500' : 'bg-green-500'}`}></div>
+            <span className="text-sm font-bold tracking-wider text-zinc-300 uppercase max-w-[200px] truncate">
+              {currentAddress}
+            </span>
           </div>
         </div>
 

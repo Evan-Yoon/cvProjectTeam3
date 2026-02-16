@@ -19,14 +19,13 @@ const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({ destination, on
                 const command = text.toLowerCase().trim();
                 console.log("Confirmation STT:", command);
 
-                if (["응", "네", "맞아", "그래", "yes", "ok", "어"].some(k => command.includes(k))) {
+                if (["응", "네", "맞아", "그래", "yes", "ok", "어", "맞음"].some(k => command.includes(k))) {
                     if (isMounted.current) onConfirm();
-                } else if (["아니", "틀려", "no", "nope"].some(k => command.includes(k))) {
+                } else if (["아니", "틀려", "no", "nope", "아니야", "아님"].some(k => command.includes(k))) {
+                    // "아니, 강남역이야" 처럼 말해도 "아니"가 포함되므로 Deny로 처리됨 -> RetryScreen으로 이동
                     if (isMounted.current) onDeny();
                 } else {
-                    // Not understood, maybe prompt again? For now, just listen again.
-                    // Or users can allow retrying manually by tapping.
-                    // Let's just log it.
+                    // Not understood
                 }
             },
             () => {

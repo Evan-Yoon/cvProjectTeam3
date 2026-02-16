@@ -100,6 +100,33 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
                   setIsOriented(true);
                   safeSpeak("방향이 확인되었습니다. 안내를 시작합니다.");
                 }
+
+                // ★ [추가됨] Heading Correction (방향 보정)
+                // 다음 안내 지점이 있다면 그 곳을 향한 각도와 내 진행 각도 비교
+                if (routeData && routeData.length > 0 && lastGuideIndex.current < routeData.length - 1) {
+                  const nextStep = routeData[lastGuideIndex.current + 1];
+                  const targetBearing = getBearing(curLat, curLng, nextStep.latitude, nextStep.longitude);
+
+                  let diff = targetBearing - heading;
+                  // 각도 차이를 -180 ~ 180 범위로 정규화
+                  if (diff > 180) diff -= 360;
+                  if (diff < -180) diff += 360;
+
+                  // 45도 이상 틀어지면 시계 방향 안내
+                  if (Math.abs(diff) > 45) {
+                    // 시계 방향 계산 (12시 = 0도, 3시 = 90도, ...)
+                    // diff가 양수면 오른쪽(3시 방향), 음수면 왼쪽(9시 방향) 등...
+                    // 단순히 "오른쪽/왼쪽으로 도세요" 보다는 "N시 방향" 요청
+                    // 목표 각도를 시계 방향(1~12)으로 매핑하기엔 내 헤딩 기준 상대 각도가 중요
+
+                    const clockDir = Math.round(((diff + 360) % 360) / 30);
+                    // 예: 90도(우회전) -> 3시, -90도(좌회전=270도) -> 9시
+                    // 0시는 12시로 표기
+                    const clockStr = clockDir === 0 ? 12 : clockDir;
+
+                    safeSpeak(`${clockStr}시 방향으로 돌아주세요.`);
+                  }
+                }
               }
             } else {
               prevPosition.current = { lat: curLat, lng: curLng };
@@ -113,6 +140,7 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
                 const distToStep = getDistance(curLat, curLng, step.latitude, step.longitude);
 
                 // 안내 지점 15m~20m 이내 접근 시 TTS 출력
+                // (방향 보정 TTS와 겹치지 않게 주의하지만 safeSpeak가 처리함)
                 if (distToStep < 20) {
                   safeSpeak(step.instruction);
                   lastGuideIndex.current = i;
