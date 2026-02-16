@@ -2,7 +2,8 @@
 import { CapacitorHttp } from '@capacitor/core';
 
 // ★ 백엔드 서버 주소 (명세서에 적힌 IP)
-const BACKEND_URL = 'http://172.30.1.87:8000/api/v1/navigation/path';
+const BACKEND_URL = `${process.env.BACKEND_URL}/api/v1/navigation/path`;
+process.env.BACKEND_URL
 
 export interface NavigationRequest {
   start_lat: number;

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
+
 // 1. 데이터 타입 정의 (백엔드 DB 스키마와 일치)
 interface Report {
   item_id: string;
@@ -19,7 +20,8 @@ const TestMonitor: React.FC = () => {
 
   // ★ 백엔드 서버 주소 (본인의 IPv4 주소 확인 필수)
   // 안드로이드 앱에서 보낸 서버 주소와 똑같아야 합니다.
-  const API_BASE_URL = "http://172.30.1.94:8000";
+  // const API_BASE_URL = "http://172.30.1.94:8000";
+  const API_BASE_URL = import.meta.env.VITE_BACKEND_URL || "http://172.30.1.94:8000";
 
   // 2. 데이터 가져오기 함수
   const fetchReports = async () => {
@@ -42,10 +44,47 @@ const TestMonitor: React.FC = () => {
     }
   };
 
+  // 4. 더미 데이터 전송 함수 (테스트용)
+  const sendDummyData = async () => {
+    try {
+      // 1x1 픽셀 투명 GIF (Base64)
+      const base64 = "R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+      const res = await fetch(`data:image/gif;base64,${base64}`);
+      const blob = await res.blob();
+
+      const formData = new FormData();
+      formData.append('item_id', crypto.randomUUID());
+      formData.append('user_id', crypto.randomUUID());
+      formData.append('latitude', (37.5665 + Math.random() * 0.01).toFixed(6)); // 랜덤 위치
+      formData.append('longitude', (126.9780 + Math.random() * 0.01).toFixed(6));
+      formData.append('hazard_type', 'Test_Dummy');
+      formData.append('risk_level', Math.floor(Math.random() * 5 + 1).toString()); // 1~5 랜덤
+      formData.append('description', `테스트 신고 데이터 ${new Date().toLocaleTimeString()}`);
+      formData.append('file', blob, 'dummy.gif');
+
+      console.log(`📤 더미 데이터 전송 중... (${API_BASE_URL})`);
+      const response = await fetch(`${API_BASE_URL}/api/v1/reports/`, {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (response.ok) {
+        alert("✅ 더미 데이터 전송 성공!");
+        fetchReports(); // 목록 갱신
+      } else {
+        const errorText = await response.text();
+        alert(`❌ 전송 실패: ${response.status} - ${errorText}`);
+      }
+    } catch (error) {
+      console.error("더미 전송 오류:", error);
+      alert("❌ 서버 연결 오류 (콘솔 확인)");
+    }
+  };
+
   // 3. 3초마다 자동 새로고침 (Polling)
   useEffect(() => {
     fetchReports(); // 최초 실행
-    const interval = setInterval(fetchReports, 3000); // 3초 주기
+    const interval = setInterval(fetchReports, 3000); // 3초 주기 
     return () => clearInterval(interval);
   }, []);
 
@@ -56,6 +95,12 @@ const TestMonitor: React.FC = () => {
         <div>
           <h1 className="text-3xl font-bold text-gray-800">📸 실시간 업로드 테스트</h1>
           <p className="text-gray-500 mt-1">앱에서 전송된 이미지가 3초마다 갱신됩니다.</p>
+          <button
+            onClick={sendDummyData}
+            className="mt-2 px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition-colors text-sm"
+          >
+            📤 테스트 데이터 전송 (Dummy)
+          </button>
         </div>
         <div className="text-right">
           <div className="inline-flex items-center px-3 py-1 rounded-full bg-green-100 text-green-800 text-sm font-medium animate-pulse">
@@ -114,12 +159,12 @@ const TestMonitor: React.FC = () => {
                 </div>
 
                 <p className="text-gray-800 font-bold text-lg mb-1 truncate">
-                   {report.description || "자동 촬영 데이터"}
+                  {report.description || "자동 촬영 데이터"}
                 </p>
 
                 <div className="mt-3 flex items-center text-xs text-gray-500 bg-gray-50 p-2 rounded border border-gray-100">
-                   <span className="mr-2">📍</span>
-                   {report.latitude.toFixed(5)}, {report.longitude.toFixed(5)}
+                  <span className="mr-2">📍</span>
+                  {report.latitude.toFixed(5)}, {report.longitude.toFixed(5)}
                 </div>
 
                 <div className="mt-2 text-xs text-gray-400 truncate">

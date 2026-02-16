@@ -1,4 +1,4 @@
-const API_BASE = import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8000";
+const API_BASE = import.meta.env.VITE_BACKEND_URL ?? "http://localhost:8000";
 
 export type ReportRow = {
     item_id: string;
@@ -18,7 +18,7 @@ export const fetchReports = async (skip = 0, limit = 100) => {
     if (!res.ok) throw new Error(`fetchReports failed: ${res.status}`);
     const result = await res.json();
 
-  // result: { total, data: ReportRow[] }
+    // result: { total, data: ReportRow[] }
     return result as { total: number; data: ReportRow[] };
 };
 
