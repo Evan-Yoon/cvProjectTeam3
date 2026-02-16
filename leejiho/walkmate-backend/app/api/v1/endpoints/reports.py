@@ -2,6 +2,9 @@ from typing import List, Optional
 from fastapi import APIRouter, HTTPException, UploadFile, File, Form, Query
 from app.crud import report as crud_report
 from app.services.s3_uploader import s3_uploader
+from fastapi import APIRouter
+from app.services.tmap_service import get_navigation_path
+from pydantic import BaseModel
 
 router = APIRouter()
 
@@ -99,3 +102,21 @@ def update_report_status(item_id: str, status: str):
         raise he
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+    
+
+class RouteRequestModel(BaseModel):
+    start_lat: float
+    start_lon: float
+    end_lat: float
+    end_lon: float
+
+# 2. 선생님이 기존에 붙여넣으셨던 코드 (수정 불필요)
+# 표준 예문: reports.py 맨 아래 함수 수정
+@router.post("/path")
+async def create_navigation_path(req_data: RouteRequestModel):
+    navigation_steps = await get_navigation_path(
+        start_coord={"x": req_data.start_lon, "y": req_data.start_lat},
+        end_coord={"x": req_data.end_lon, "y": req_data.end_lat}
+    )
+    # 가공된 딕셔너리 배열을 프론트엔드에 최종 반환
+    return {"status": "success", "data": navigation_steps}
