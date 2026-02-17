@@ -78,8 +78,10 @@ export const searchLocation = async (keyword: string, lat?: number, lng?: number
         // 내 위치가 있으면 반경 검색 파라미터 추가 (또는 정렬 옵션)
         // TMAP POI 검색에서 centerLat/centerLon을 넣으면 해당 위치 중심으로 검색됨
         if (lat && lng) {
-            requestUrl += `&centerLat=${lat}&centerLon=${lng}&searchType=name&searchtypCd=A`;
-            // searchType=name (명칭검색), searchtypCd=A (거리순 정렬 등 옵션 확인 필요, 보통 center 좌표 주면 거기가 우선됨)
+            // 내 위치가 있으면 반경 검색 파라미터 추가 (또는 정렬 옵션)
+            // TMAP POI 검색에서 centerLat/centerLon을 넣으면 해당 위치 중심으로 검색됨
+            requestUrl += `&centerLat=${lat}&centerLon=${lng}`;
+            // searchType=name (명칭검색), searchtypCd=A 제거 -> 통합 검색으로 변경
         }
 
         console.log("🔍 TMAP Search Request URL:", requestUrl); // Debug Log

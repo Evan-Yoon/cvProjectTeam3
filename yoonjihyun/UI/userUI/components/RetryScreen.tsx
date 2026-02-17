@@ -7,33 +7,49 @@ import { speak, startListening, stopListening } from './utils/audio';
 interface RetryScreenProps {
   onCancel: () => void;
   onSpeechDetected: (text: string) => void;
+  message?: string; // 커스텀 안내 메시지 (없으면 기본값)
+  autoStart?: boolean; // 자동 재시작 여부 (기본값 true)
 }
 
-const RetryScreen: React.FC<RetryScreenProps> = ({ onCancel, onSpeechDetected }) => {
+const RetryScreen: React.FC<RetryScreenProps> = ({
+  onCancel,
+  onSpeechDetected,
+  message = "잘 못 들었습니다. 다시 말씀해주세요.",
+  autoStart = true
+}) => {
   const isMounted = useRef(true);
 
   useEffect(() => {
     isMounted.current = true;
-    speak("잘 못 들었습니다. 다시 말씀해주세요.");
+    speak(message);
 
-    const timer = setTimeout(async () => {
-      if (!isMounted.current) return;
-      await startListening(
-        (transcript) => {
-          if (isMounted.current) onSpeechDetected(transcript);
-        },
-        () => {
-          console.log("Retry STT failed");
-        }
-      );
-    }, 2000); // Wait for TTS
+    // 자동 시작이 켜져있을 때만 리스닝 시작
+    if (autoStart) {
+      const timer = setTimeout(async () => {
+        if (!isMounted.current) return;
+        await startListening(
+          (transcript) => {
+            if (isMounted.current) onSpeechDetected(transcript);
+          },
+          () => {
+            console.log("Retry STT failed");
+          }
+        );
+      }, 2000); // Wait for TTS
 
-    return () => {
-      isMounted.current = false;
-      clearTimeout(timer);
-      stopListening();
-    };
-  }, [onSpeechDetected]);
+      return () => {
+        isMounted.current = false;
+        clearTimeout(timer);
+        stopListening();
+      };
+    } else {
+      // 자동 시작 안 함 -> 정리만
+      return () => {
+        isMounted.current = false;
+        stopListening();
+      };
+    }
+  }, [onSpeechDetected, message, autoStart]);
 
   const handleManualRetry = async () => {
     stopListening();
@@ -83,11 +99,11 @@ const RetryScreen: React.FC<RetryScreenProps> = ({ onCancel, onSpeechDetected })
       >
         {/* 안내 텍스트 */}
         <div className="text-center space-y-4">
-          <h1 className="text-4xl md:text-5xl font-black text-primary tracking-tight leading-tight drop-shadow-lg">
-            다시<br />말씀해주세요
+          <h1 className="text-4xl md:text-5xl font-black text-primary tracking-tight leading-tight drop-shadow-lg whitespace-pre-wrap">
+            {message !== "잘 못 들었습니다. 다시 말씀해주세요." ? "오류 발생" : "다시\n말씀해주세요"}
           </h1>
-          <p className="text-xl md:text-2xl font-bold text-primary/80">
-            예: "강남역"
+          <p className="text-xl md:text-2xl font-bold text-primary/80 px-4 whitespace-pre-wrap">
+            {message !== "잘 못 들었습니다. 다시 말씀해주세요." ? message : '예: "강남역"'}
           </p>
         </div>
 

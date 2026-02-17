@@ -7,36 +7,29 @@ import { speak } from '../src/utils/audio';
 // onStart: 화면을 터치했을 때 실행할 함수 (앱 시작 기능)
 interface IdleScreenProps {
   onStart: () => void;
+  isLocationReady: boolean;
 }
 
-const IdleScreen: React.FC<IdleScreenProps> = ({ onStart }) => {
+const IdleScreen: React.FC<IdleScreenProps> = ({ onStart, isLocationReady }) => {
   const [currentAddress, setCurrentAddress] = useState<string>("위치 확인 중...");
 
   useEffect(() => {
-    const initLocation = async () => {
-      try {
-        // 1. 현재 위치 가져오기
-        const pos = await Geolocation.getCurrentPosition();
-        const { latitude, longitude } = pos.coords;
-
-        // 2. 위치 확인 완료 멘트 (상세 주소 추천 제거)
-        setCurrentAddress("위치 확인 완료");
-
-        // 3. 안내 시작
-        await speak("현재 위치를 확인했습니다. 어디로 안내할까요?");
-
-        // 4. 리스닝 화면으로 자동 진입
+    if (isLocationReady) {
+      setCurrentAddress("위치 확인 완료");
+      speak("현재 위치를 확인했습니다. 어디로 안내할까요?");
+      // 자동으로 넘어가는 기능이 필요하다면 여기서 호출 (유저 요청: "app needs to really find my location -> and then ask")
+      // 즉, 위치 찾고 -> 물어보고 -> 리스닝 (현재 흐름 유지)
+      // 단, 너무 빨리 넘어가면 "위치 확인 완료"를 못 볼 수 있음. 
+      // 기존 코드는 바로 onStart() 호출했음.
+      const timer = setTimeout(() => {
         onStart();
-
-      } catch (error) {
-        console.error("Location Init Failed:", error);
-        setCurrentAddress("위치 확인 실패");
-        await speak("위치 정보를 가져올 수 없습니다. GPS를 확인해주세요.");
-      }
-    };
-
-    initLocation();
-  }, []);
+      }, 2000); // 2초 뒤 자동 시작
+      return () => clearTimeout(timer);
+    } else {
+      setCurrentAddress("위치 확인 중...");
+      speak("위치 정보를 찾고 있습니다.");
+    }
+  }, [isLocationReady]);
 
   return (
     <div

@@ -1,8 +1,9 @@
 // src/api/backend.ts
 import { CapacitorHttp } from '@capacitor/core';
 
-// ★ 백엔드 서버 주소 (명세서에 적힌 IP)
-const BACKEND_URL = `${process.env.BACKEND_URL}/api/v1/navigation/path`;
+// ★ 백엔드 서버 주소 (Vite 환경변수 사용)
+// .env 파일에 VITE_BACKEND_URL=http://... 형태로 정의해야 함
+const BACKEND_URL = (import.meta.env.VITE_BACKEND_URL || "http://localhost:8000") + "/api/v1/navigation/path";
 
 export interface NavigationRequest {
   start_lat: number;
