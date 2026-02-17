@@ -16,6 +16,7 @@
     "@capacitor/cli": "^8.0.2",
     "@capacitor/core": "^8.0.2",
     "@capacitor/geolocation": "^8.1.0",
+    "@capacitor/motion": "^8.0.0",
     "@tensorflow/tfjs": "^4.22.0",
     "@tensorflow/tfjs-tflite": "^0.0.1-alpha.10",
     "leaflet": "^1.9.4",

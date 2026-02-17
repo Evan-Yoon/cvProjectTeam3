@@ -3,7 +3,6 @@ import { CapacitorHttp } from '@capacitor/core';
 
 // ★ 백엔드 서버 주소 (명세서에 적힌 IP)
 const BACKEND_URL = `${process.env.BACKEND_URL}/api/v1/navigation/path`;
-process.env.BACKEND_URL
 
 export interface NavigationRequest {
   start_lat: number;
@@ -34,7 +33,11 @@ export const requestNavigation = async (req: NavigationRequest): Promise<Navigat
   };
 
   try {
+    console.log("🚀 백엔드 길찾기 요청:", JSON.stringify(req));
     const response = await CapacitorHttp.post(options);
+
+    console.log("📩 백엔드 응답 상태:", response.status);
+    console.log("📩 백엔드 응답 데이터:", JSON.stringify(response.data));
 
     if (response.status === 200 && response.data.status === 'success') {
       console.log("✅ 백엔드 길찾기 성공:", response.data.data.length, "개의 단계");

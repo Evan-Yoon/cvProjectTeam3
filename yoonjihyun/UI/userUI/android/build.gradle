@@ -1,17 +1,13 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
-    
     repositories {
         google()
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:9.0.0'
+        classpath 'com.android.tools.build:gradle:9.0.1'
         classpath 'com.google.gms:google-services:4.4.4'
-
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
     }
 }
 
@@ -26,4 +22,35 @@ allprojects {
 
 task clean(type: Delete) {
     delete rootProject.buildDir
+}
+
+// --- Force Java/Kotlin JVM target alignment across all subprojects (Capacitor plugins 포함) ---
+subprojects { p ->
+    afterEvaluate {
+        // Java target 17 통일
+        p.plugins.withId("com.android.application") {
+            p.android {
+                compileOptions {
+                    sourceCompatibility JavaVersion.VERSION_17
+                    targetCompatibility JavaVersion.VERSION_17
+                }
+            }
+        }
+        p.plugins.withId("com.android.library") {
+            p.android {
+                compileOptions {
+                    sourceCompatibility JavaVersion.VERSION_17
+                    targetCompatibility JavaVersion.VERSION_17
+                }
+            }
+        }
+
+        // Kotlin compile task들(jvmTarget) 강제 17 (타입 import 없이 이름/프로퍼티로만 처리)
+        p.tasks.matching { t ->
+            // compileDebugKotlin, compileReleaseKotlin 등
+            t.name.toLowerCase().contains("kotlin") && t.hasProperty("kotlinOptions")
+        }.configureEach { t ->
+            t.kotlinOptions.jvmTarget = "17"
+        }
+    }
 }

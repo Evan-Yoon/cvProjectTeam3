@@ -82,6 +82,8 @@ export const searchLocation = async (keyword: string, lat?: number, lng?: number
             // searchType=name (명칭검색), searchtypCd=A (거리순 정렬 등 옵션 확인 필요, 보통 center 좌표 주면 거기가 우선됨)
         }
 
+        console.log("🔍 TMAP Search Request URL:", requestUrl); // Debug Log
+
         const options: HttpOptions = {
             url: requestUrl,
             headers: {
@@ -93,6 +95,9 @@ export const searchLocation = async (keyword: string, lat?: number, lng?: number
 
         const response = await CapacitorHttp.get(options);
 
+        console.log("📩 TMAP Search Response Status:", response.status); // Debug Log
+        // console.log("📩 TMAP Search Response Data:", JSON.stringify(response.data)); // Too verbose? keeping it for now
+
         if (response.status === 200 && response.data.searchPoiInfo && response.data.searchPoiInfo.totalCount > 0) {
             const poi = response.data.searchPoiInfo.pois.poi[0];
             console.log(`✅ 장소 검색 성공: ${poi.name} (${poi.noorLat}, ${poi.noorLon})`);
@@ -102,7 +107,7 @@ export const searchLocation = async (keyword: string, lat?: number, lng?: number
                 lng: Number(poi.noorLon)
             };
         } else {
-            console.warn(`⚠️ 검색 결과가 없습니다: ${keyword}`);
+            console.warn(`⚠️ 검색 결과가 없습니다: ${keyword}`, JSON.stringify(response.data)); // Log data on failure
             return null;
         }
     } catch (error) {

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Geolocation } from '@capacitor/geolocation';
+import { Motion } from '@capacitor/motion';
 import VisionCamera from './VisionCamera';
 import { speak, startListening, stopListening } from '../src/utils/audio';
 import { NavigationStep } from '../src/api/backend'; // ★ 백엔드 타입 import
@@ -17,6 +18,8 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
 
   // 상태 관리
   const [isOriented, setIsOriented] = useState(false);
+  const isOrientedRef = useRef(false); // ★ Fix: Closure issue in watchPosition
+
   const [debugMsg, setDebugMsg] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [visualPos, setVisualPos] = useState<{ lat: number, lng: number } | null>(null);
@@ -27,7 +30,8 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
   const lastGuideIndex = useRef<number>(-1); // 현재 몇 번째 안내까지 했는지 기록
   const isSpeaking = useRef<boolean>(false);
   const prevPosition = useRef<{ lat: number; lng: number } | null>(null);
-  const currentHeading = useRef<number | null>(null);
+  const currentHeading = useRef<number | null>(null); // GPS Heading
+  const compassHeading = useRef<number | null>(null); // Compass Heading
 
   // 헬퍼 함수: TTS
   const safeSpeak = async (text: string) => {
@@ -68,9 +72,55 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
     return () => clearTimeout(timer);
   }, [taps]);
 
+  // Compass Logic
+  useEffect(() => {
+    const setupCompass = async () => {
+      try {
+        await Motion.addListener('orientation', (data) => {
+          if (data.alpha !== null) {
+            // Android: alpha is 0-360 degrees (0=North, 90=East, etc.)
+            // iOS: might be different, but typically alpha is compass heading
+            const heading = 360 - data.alpha; // Adjust if needed based on device
+            compassHeading.current = heading;
+            // If GPS heading is not reliable (stopped), use compass
+            if (!currentHeading.current) {
+              setVisualHeading(heading);
+            }
+
+            // Initial Orientation Check with Compass
+            if (!isOrientedRef.current && heading !== null) {
+              // Don't speak here if we want the INITIAL route instruction to be first.
+              // But user asked for "direction confirmed".
+              // Let's keep it but maybe we can chain them.
+              isOrientedRef.current = true;
+              setIsOriented(true);
+              safeSpeak("방향이 확인되었습니다.");
+            }
+          }
+        });
+      } catch (e) {
+        console.error("Compass Error", e);
+      }
+    };
+    setupCompass();
+
+    return () => {
+      Motion.removeAllListeners();
+    };
+  }, []);
+
+
   // 메인 로직
   useEffect(() => {
     isMounted.current = true;
+
+    // ★ [New] Speak First Instruction Immediately
+    if (routeData && routeData.length > 0) {
+      // Give a small delay for "Direction confirmed" to finish if it played
+      setTimeout(() => {
+        safeSpeak(`안내를 시작합니다. ${routeData[0].instruction}`);
+      }, 2000);
+    }
 
     const startNavigation = async () => {
       try {
@@ -87,69 +137,90 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
             const curLng = pos.coords.longitude;
             setVisualPos({ lat: curLat, lng: curLng });
 
-            // 1. 방향 벡터 계산 (4미터 이동 시)
+            // 1. 방향 벡터 계산 (2미터 이동 시)
+            let heading = compassHeading.current; // Default to compass
+
             if (prevPosition.current) {
               const movedDist = getDistance(prevPosition.current.lat, prevPosition.current.lng, curLat, curLng);
-              if (movedDist >= 4) {
-                const heading = getBearing(prevPosition.current.lat, prevPosition.current.lng, curLat, curLng);
-                currentHeading.current = heading;
-                setVisualHeading(heading);
+              if (movedDist >= 2) {
+                const gpsHeading = getBearing(prevPosition.current.lat, prevPosition.current.lng, curLat, curLng);
+                currentHeading.current = gpsHeading;
+                heading = gpsHeading; // Prefer GPS when moving
+                setVisualHeading(gpsHeading);
                 prevPosition.current = { lat: curLat, lng: curLng };
-
-                if (!isOriented) {
-                  setIsOriented(true);
-                  safeSpeak("방향이 확인되었습니다. 안내를 시작합니다.");
-                }
-
-                // ★ [추가됨] Heading Correction (방향 보정)
-                // 다음 안내 지점이 있다면 그 곳을 향한 각도와 내 진행 각도 비교
-                if (routeData && routeData.length > 0 && lastGuideIndex.current < routeData.length - 1) {
-                  const nextStep = routeData[lastGuideIndex.current + 1];
-                  const targetBearing = getBearing(curLat, curLng, nextStep.latitude, nextStep.longitude);
-
-                  let diff = targetBearing - heading;
-                  // 각도 차이를 -180 ~ 180 범위로 정규화
-                  if (diff > 180) diff -= 360;
-                  if (diff < -180) diff += 360;
-
-                  // 45도 이상 틀어지면 시계 방향 안내
-                  if (Math.abs(diff) > 45) {
-                    // 시계 방향 계산 (12시 = 0도, 3시 = 90도, ...)
-                    // diff가 양수면 오른쪽(3시 방향), 음수면 왼쪽(9시 방향) 등...
-                    // 단순히 "오른쪽/왼쪽으로 도세요" 보다는 "N시 방향" 요청
-                    // 목표 각도를 시계 방향(1~12)으로 매핑하기엔 내 헤딩 기준 상대 각도가 중요
-
-                    const clockDir = Math.round(((diff + 360) % 360) / 30);
-                    // 예: 90도(우회전) -> 3시, -90도(좌회전=270도) -> 9시
-                    // 0시는 12시로 표기
-                    const clockStr = clockDir === 0 ? 12 : clockDir;
-
-                    safeSpeak(`${clockStr}시 방향으로 돌아주세요.`);
-                  }
-                }
               }
             } else {
               prevPosition.current = { lat: curLat, lng: curLng };
             }
 
-            // 2. 백엔드 routeData 기반 안내 로직
-            if (routeData && routeData.length > 0 && !isSpeaking.current) {
-              // 현재 내 위치에서 다음 안내 지점들 확인
-              for (let i = lastGuideIndex.current + 1; i < routeData.length; i++) {
-                const step = routeData[i];
-                const distToStep = getDistance(curLat, curLng, step.latitude, step.longitude);
+            // Fallback visualization if not moving
+            if (heading === null && compassHeading.current !== null) {
+              heading = compassHeading.current;
+              setVisualHeading(heading);
+            }
 
-                // 안내 지점 15m~20m 이내 접근 시 TTS 출력
-                // (방향 보정 TTS와 겹치지 않게 주의하지만 safeSpeak가 처리함)
-                if (distToStep < 20) {
-                  safeSpeak(step.instruction);
-                  lastGuideIndex.current = i;
-                  break;
+
+            if (!isOrientedRef.current && heading !== null) {
+              isOrientedRef.current = true;
+              setIsOriented(true);
+              safeSpeak("방향이 확인되었습니다.");
+            }
+
+            if (isOrientedRef.current && heading !== null) {
+              // Heading Correction Logic (Clock direction)
+              if (routeData && routeData.length > 0 && lastGuideIndex.current < routeData.length - 1) {
+                // If we haven't started guiding yet (index -1), look at 0
+                const targetIndex = lastGuideIndex.current === -1 ? 0 : lastGuideIndex.current + 1;
+
+                if (targetIndex < routeData.length) {
+                  const nextStep = routeData[targetIndex];
+                  const targetBearing = getBearing(curLat, curLng, nextStep.latitude, nextStep.longitude);
+
+                  let diff = targetBearing - heading;
+                  if (diff > 180) diff -= 360;
+                  if (diff < -180) diff += 360;
+
+                  if (Math.abs(diff) > 45) {
+                    const clockDir = Math.round(((diff + 360) % 360) / 30);
+                    const clockStr = clockDir === 0 ? 12 : clockDir;
+                    // throttle this? safeSpeak handles some overlap but maybe too chatty
+                    // safeSpeak(`${clockStr}시 방향`); 
+                  }
                 }
               }
             }
 
-            setDebugMsg(`지점: ${lastGuideIndex.current + 1}/${routeData.length} | 방향: ${currentHeading.current?.toFixed(0) || '확인중'}°`);
+
+            // 2. 백엔드 routeData 기반 안내 로직
+            if (routeData && routeData.length > 0 && !isSpeaking.current) {
+              const nextIndex = lastGuideIndex.current + 1;
+              if (nextIndex < routeData.length) {
+                const step = routeData[nextIndex];
+                const distToStep = getDistance(curLat, curLng, step.latitude, step.longitude);
+
+                // ★ [Modified] Increase radius to 30m
+                // Also, if we are very close, update index and speak NEXT instruction if available?
+                // or just speak THIS instruction as "Arriving"?
+                // The instruction usually says "Go straight" or "Turn right".
+                // If we are close to Step 0, we should complete Step 0 and look at Step 1.
+
+                if (distToStep < 30) {
+                  // We arrived at step[nextIndex]
+                  // Check if there is a next step to announce
+                  const nextNextIndex = nextIndex + 1;
+                  if (nextNextIndex < routeData.length) {
+                    const nextInstruction = routeData[nextNextIndex].instruction;
+                    safeSpeak(`도착했습니다. 다음은 ${nextInstruction}`);
+                  } else {
+                    safeSpeak("목적지 부근입니다. 안내를 종료합니다.");
+                    onEndNavigation();
+                  }
+                  lastGuideIndex.current = nextIndex;
+                }
+              }
+            }
+
+            setDebugMsg(`Step: ${lastGuideIndex.current + 1}/${routeData.length} | 헤딩: ${heading?.toFixed(0) || '확인중'}°`);
           }
         );
       } catch (error) {
@@ -162,15 +233,19 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
 
     // STT (종료 명령 듣기)
     const listenLoop = async () => {
-      await new Promise(r => setTimeout(r, 3000));
+      await new Promise(r => setTimeout(r, 4000)); // Increased initial delay
       if (!isMounted.current) return;
       await startListening((text) => {
         if (["종료", "그만", "정지"].some(k => text.includes(k))) {
           onEndNavigation();
         } else if (isMounted.current) {
-          listenLoop();
+          // Success, restart loop with delay
+          setTimeout(listenLoop, 1000);
         }
-      }, () => { if (isMounted.current) setTimeout(listenLoop, 2000); });
+      }, () => {
+        // Failure/End, restart loop with longer delay to reduce "ding" frequency
+        if (isMounted.current) setTimeout(listenLoop, 3000);
+      });
     };
     listenLoop();
 
