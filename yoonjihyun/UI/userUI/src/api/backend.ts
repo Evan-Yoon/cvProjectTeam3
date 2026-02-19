@@ -3,7 +3,8 @@ import { CapacitorHttp } from '@capacitor/core';
 
 // ★ 백엔드 서버 주소 (Vite 환경변수 사용)
 // .env 파일에 VITE_BACKEND_URL=http://... 형태로 정의해야 함
-const BACKEND_URL = (import.meta.env.VITE_BACKEND_URL || "http://172.30.1.80:8000") + "/api/v1/navigation/path";
+const BACKEND_URL = "http://172.30.1.80:8000/api/v1/navigation/path";
+// const BACKEND_URL = (import.meta.env.VITE_BACKEND_URL || "http://172.30.1.80:8000") + "/api/v1/navigation/path";
 
 export interface NavigationRequest {
   start_lat: number;
@@ -21,10 +22,14 @@ export interface NavigationStep {
 export interface NavigationResponse {
   status: string;
   data: NavigationStep[];
+  path?: { latitude: number; longitude: number }[]; // ★ [추가] 전체 경로 좌표
 }
 
 // 백엔드에 길찾기 요청 보내기
-export const requestNavigation = async (req: NavigationRequest): Promise<NavigationStep[]> => {
+// ---------------------------------------------------------------------------
+// ★ [변경] 반환 타입을 { steps: ..., path: ... } 형태로 변경
+// ---------------------------------------------------------------------------
+export const requestNavigation = async (req: NavigationRequest): Promise<{ steps: NavigationStep[], path: { latitude: number; longitude: number }[] }> => {
   const options = {
     url: BACKEND_URL,
     headers: {
@@ -38,11 +43,14 @@ export const requestNavigation = async (req: NavigationRequest): Promise<Navigat
     const response = await CapacitorHttp.post(options);
 
     console.log("📩 백엔드 응답 상태:", response.status);
-    console.log("📩 백엔드 응답 데이터:", JSON.stringify(response.data));
+    // console.log("📩 백엔드 응답 데이터:", JSON.stringify(response.data)); 
 
     if (response.status === 200 && response.data.status === 'success') {
       console.log("✅ 백엔드 길찾기 성공:", response.data.data.length, "개의 단계");
-      return response.data.data; // 경로 데이터 배열 반환
+      return {
+        steps: response.data.data,
+        path: response.data.path || [] // 경로 좌표 (없으면 빈 배열)
+      };
     } else {
       console.error("❌ 백엔드 응답 에러:", response.data);
       throw new Error("길찾기 실패: 백엔드 에러");

@@ -10,9 +10,10 @@ interface GuidingScreenProps {
   onEndNavigation: () => void;
   destination: { name: string; lat: number; lng: number; };
   routeData: NavigationStep[]; // ★ 추가: 백엔드에서 받은 경로 데이터
+  routePath: { latitude: number; longitude: number }[]; // ★ [추가] 지도 그리기용 경로 좌표
 }
 
-const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destination, routeData }) => {
+const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destination, routeData, routePath }) => {
   const [taps, setTaps] = useState(0);
   const isMounted = useRef(true);
 
@@ -274,7 +275,7 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
           <div className="w-full h-full flex items-center justify-center text-white">GPS 확인 중...</div>
         ) : (
           <DebugMap
-            routeFeatures={[]} // 백엔드 데이터 포맷에 맞게 DebugMap 수정이 필요할 수 있음
+            path={routePath} // ★ [변경] routeFeatures=[] 대신 실제 경로 전달
             currentPos={visualPos}
             currentHeading={visualHeading}
           />

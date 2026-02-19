@@ -9,32 +9,23 @@ import 'leaflet/dist/leaflet.css';
 // GuidingScreen에서 넘겨주는 데이터 타입과 일치해야 합니다.
 // -----------------------------------------------------------
 interface DebugMapProps {
-    routeFeatures: any[]; // TMAP 경로 데이터
-    currentPos: { lat: number; lng: number } | null; // 내 현재 위치
-    currentHeading?: number | null; // ★ [추가] 내가 바라보는 방향 (0~360도)
+    path?: { latitude: number; longitude: number }[]; // ★ [변경] 단순화된 경로 좌표
+    currentPos: { lat: number; lng: number } | null;
+    currentHeading?: number | null;
 }
 
-// -----------------------------------------------------------
-// 2. 지도 중심 이동용 헬퍼 컴포넌트
-// 내 위치가 바뀌면 지도의 중심도 같이 따라가게 만듭니다.
-// -----------------------------------------------------------
 const ChangeView = ({ center }: { center: [number, number] }) => {
     const map = useMap();
     useEffect(() => {
-        // 부드럽게 이동 (animate: true)
         map.setView(center, map.getZoom(), { animate: true });
     }, [center, map]);
     return null;
 };
 
-const DebugMap: React.FC<DebugMapProps> = ({ routeFeatures, currentPos, currentHeading }) => {
+const DebugMap: React.FC<DebugMapProps> = ({ path, currentPos, currentHeading }) => {
 
-    // 3. TMAP 경로 데이터 변환 (Leaflet은 [lat, lng] 순서)
-    const pathPositions = routeFeatures
-        .filter(f => f.geometry.type === 'LineString')
-        .flatMap(f => {
-            return f.geometry.coordinates.map((coord: number[]) => [coord[1], coord[0]]);
-        });
+    // 3. 경로 데이터 변환 (Leaflet은 [lat, lng] 배열 필요)
+    const pathPositions = path?.map(p => [p.latitude, p.longitude]) || [];
 
     // 지도 초기 중심값 (내 위치 없으면 서울 시청)
     const center: [number, number] = currentPos

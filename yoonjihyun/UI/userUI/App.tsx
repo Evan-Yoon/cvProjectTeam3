@@ -30,7 +30,8 @@ const App: React.FC = () => {
   // 상태 관리
   const [myLocation, setMyLocation] = useState<GeoLocation | null>(null); // 내 위치
   const [destination, setDestination] = useState<Destination | null>(null); // 목적지 좌표
-  const [routeData, setRouteData] = useState<NavigationStep[]>([]); // ★ 백엔드에서 받은 경로
+  const [routeData, setRouteData] = useState<NavigationStep[]>([]); // ★ 백엔드에서 받은 경로 (안내용)
+  const [routePath, setRoutePath] = useState<{ latitude: number; longitude: number }[]>([]); // ★ [추가] 지도 그리기용 경로 좌표
 
   // 1. 앱 켜자마자 내 GPS 위치 가져오기 (watchPosition으로 변경하여 지속 업데이트 및 초기 확보 확률 증대)
   useEffect(() => {
@@ -139,14 +140,15 @@ const App: React.FC = () => {
       await speak(`${getJosa(destination.name, '으로/로')} 안내합니다.`);
 
       // (2) 백엔드 경로 요청
-      const routes = await requestNavigation({
+      const { steps, path } = await requestNavigation({
         start_lat: myLocation.lat,
         start_lon: myLocation.lng,
         end_lat: destination.lat,
         end_lon: destination.lng
       });
 
-      setRouteData(routes);
+      setRouteData(steps);
+      setRoutePath(path);
       setCurrentScreen(AppScreen.GUIDING);
 
     } catch (error: any) {
@@ -156,8 +158,14 @@ const App: React.FC = () => {
       let errorMsg = "네트워크 오류가 발생했습니다.";
       if (error.message) errorMsg += ` (${error.message})`;
 
-      // ★ 디버깅용 알림 추가
-      alert(`[Debug]\nURL: ${import.meta.env.VITE_BACKEND_URL}\nError: ${JSON.stringify(error)}`);
+      // ★ 디버깅용 알림 추가 (개선됨)
+      const errDetail = {
+        message: error.message || 'No message',
+        code: error.code || 'No code',
+        status: error.status || 'No status',
+        data: error.data || 'No data',
+      };
+      alert(`[Debug]\nURL: ${import.meta.env.VITE_BACKEND_URL}\nError: ${JSON.stringify(errDetail, null, 2)}`);
 
       await speak("경로를 안내할 수 없습니다. 잠시 후 다시 시도해주세요.");
 
@@ -220,6 +228,7 @@ const App: React.FC = () => {
           <GuidingScreen
             destination={destination}
             routeData={routeData} // 경로 데이터 전달
+            routePath={routePath} // ★ [추가] 경로 좌표 전달
             onEndNavigation={handleEndNavigation}
           />
         ) : null;
