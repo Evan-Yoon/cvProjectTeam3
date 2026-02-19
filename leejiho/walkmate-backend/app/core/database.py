@@ -9,13 +9,6 @@ load_dotenv()
 url: str = os.getenv("SUPABASE_URL")
 key: str = os.getenv("SUPABASE_KEY")
 
-
-print("\n" + "="*30)
-print(f"DEBUG: SUPABASE_URL -> {url}")
-print(f"DEBUG: SUPABASE_KEY -> {key[:10]}..." if key else "DEBUG: SUPABASE_KEY -> None")
-print("="*30 + "\n")
-
-
 if not url or not key:
     raise ValueError("Supabase URL or Key is missing in .env file")
 

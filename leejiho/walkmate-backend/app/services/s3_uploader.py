@@ -3,6 +3,9 @@ import uuid
 from fastapi import UploadFile
 from app.core.config import settings
 
+import logging
+logger = logging.getLogger("API_LOGGER")
+
 class S3Uploader:
     def __init__(self):
         self.s3_client = boto3.client(
@@ -29,7 +32,7 @@ class S3Uploader:
             return image_url
 
         except Exception as e:
-            print(f"❌ S3 Upload Error: {e}")
+            logger.error(f"❌ S3 Upload Error: {e}", exc_info=True)
             raise e
 
 s3_uploader = S3Uploader()
