@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 
-
 // 1. 데이터 타입 정의 (백엔드 DB 스키마와 일치)
 interface Report {
   item_id: string;
@@ -18,22 +17,30 @@ const TestMonitor: React.FC = () => {
   const [lastUpdated, setLastUpdated] = useState<string>("");
   const [loading, setLoading] = useState(true);
 
-  // ★ 백엔드 서버 주소 (본인의 IPv4 주소 확인 필수)
-  // 안드로이드 앱에서 보낸 서버 주소와 똑같아야 합니다.
-  // const API_BASE_URL = "http://172.30.1.80:8000";
+  // ★ [수정됨] 환경 변수 사용
   const API_BASE_URL = import.meta.env.VITE_BACKEND_URL || "http://172.30.1.80:8000";
 
   // 2. 데이터 가져오기 함수
   const fetchReports = async () => {
     try {
-      // 관리자용 전체 조회 API (경로가 맞는지 확인 필요)
-      // 만약 404가 뜨면 백엔드 admin.py 엔드포인트를 확인해야 합니다.
-      const response = await fetch(`${API_BASE_URL}/api/v1/admin/reports?skip=0&limit=50`);
+      // ★ [중요] Ngrok 헤더 추가
+      const headers = {
+        'ngrok-skip-browser-warning': 'true',
+      };
+
+      const response = await fetch(`${API_BASE_URL}/api/v1/admin/reports?skip=0&limit=50`, {
+        headers: headers
+      });
 
       if (response.ok) {
         const data = await response.json();
-        setReports(data);
-        setLastUpdated(new Date().toLocaleTimeString());
+        // 데이터가 배열인지 확인 (ngrok 경고 페이지가 올 수도 있음)
+        if (Array.isArray(data)) {
+          setReports(data);
+          setLastUpdated(new Date().toLocaleTimeString());
+        } else {
+          console.warn("데이터 형식이 배열이 아닙니다:", data);
+        }
       } else {
         console.error("데이터 가져오기 실패:", response.status);
       }
@@ -63,8 +70,12 @@ const TestMonitor: React.FC = () => {
       formData.append('file', blob, 'dummy.gif');
 
       console.log(`📤 더미 데이터 전송 중... (${API_BASE_URL})`);
+
       const response = await fetch(`${API_BASE_URL}/api/v1/reports/`, {
         method: 'POST',
+        headers: {
+          'ngrok-skip-browser-warning': 'true', // 여기도 헤더 추가
+        },
         body: formData,
       });
 
@@ -94,7 +105,9 @@ const TestMonitor: React.FC = () => {
       <div className="flex justify-between items-center mb-8">
         <div>
           <h1 className="text-3xl font-bold text-gray-800">📸 실시간 업로드 테스트</h1>
-          <p className="text-gray-500 mt-1">앱에서 전송된 이미지가 3초마다 갱신됩니다.</p>
+          <p className="text-gray-500 mt-1">
+            연결된 서버: <span className="font-mono bg-gray-200 px-1 rounded text-xs">{API_BASE_URL}</span>
+          </p>
           <button
             onClick={sendDummyData}
             className="mt-2 px-4 py-2 bg-blue-600 text-white rounded-lg shadow hover:bg-blue-700 transition-colors text-sm"
@@ -128,7 +141,6 @@ const TestMonitor: React.FC = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {reports.map((report) => {
           // 이미지 전체 URL 만들기
-          // DB에는 'static/파일명.jpg'로 저장되어 있으므로 앞에 도메인을 붙여줍니다.
           const fullImageUrl = `${API_BASE_URL}/${report.image_url}`;
 
           return (
@@ -141,9 +153,10 @@ const TestMonitor: React.FC = () => {
                   alt="Report"
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   onError={(e) => {
-                    // 이미지 로드 실패 시 대체 이미지
                     (e.target as HTMLImageElement).src = "https://via.placeholder.com/400x300?text=No+Image";
                   }}
+                // 이미지 로딩 시에도 헤더가 필요할 수 있으나 img 태그는 헤더 추가 불가
+                // Ngrok 무료 버전에서는 이미지 로딩이 차단될 수도 있음 (주의)
                 />
                 <div className="absolute top-2 right-2 bg-black/60 text-white text-xs px-2 py-1 rounded backdrop-blur-sm">
                   {report.hazard_type} (Lv.{report.risk_level})

@@ -33,7 +33,7 @@ const App: React.FC = () => {
   const [routeData, setRouteData] = useState<NavigationStep[]>([]); // ★ 백엔드에서 받은 경로 (안내용)
   const [routePath, setRoutePath] = useState<{ latitude: number; longitude: number }[]>([]); // ★ [추가] 지도 그리기용 경로 좌표
 
-  // 1. 앱 켜자마자 내 GPS 위치 가져오기 (watchPosition으로 변경하여 지속 업데이트 및 초기 확보 확률 증대)
+  // 1. 앱 켜자마자 내 GPS 위치 가져오기
   useEffect(() => {
     let watchId: string | null = null;
 
@@ -50,11 +50,10 @@ const App: React.FC = () => {
         }
 
         watchId = await Geolocation.watchPosition(
-          { enableHighAccuracy: true, timeout: 20000, maximumAge: 0 }, // timeout 증가
+          { enableHighAccuracy: true, timeout: 20000, maximumAge: 0 },
           (pos, err) => {
             if (err) {
               console.error("GPS Watch Error:", err);
-              // 에러가 나도 계속 시도하거나, 사용자에게 알림 (여기선 로그만)
               return;
             }
             if (pos) {
@@ -85,7 +84,6 @@ const App: React.FC = () => {
     setCurrentScreen(AppScreen.LISTENING);
   };
 
-  // 2. 음성 인식 후 처리 (검색 안 함 -> 확인 화면으로 이동)
   // 2. 음성 인식 후 처리 (바로 TMAP 검색)
   const handleSpeechDetected = async (transcript: string) => {
     if (!transcript) return;
@@ -93,11 +91,16 @@ const App: React.FC = () => {
     // GPS가 아직 없으면 다시 시도
     if (!myLocation) {
       await speak("현재 위치를 확인 중입니다. 잠시 후 다시 시도해주세요.");
-      const coordinates = await Geolocation.getCurrentPosition();
-      setMyLocation({
-        lat: coordinates.coords.latitude,
-        lng: coordinates.coords.longitude
-      });
+      // 한번 더 강제 시도
+      try {
+        const coordinates = await Geolocation.getCurrentPosition();
+        setMyLocation({
+          lat: coordinates.coords.latitude,
+          lng: coordinates.coords.longitude
+        });
+      } catch (e) {
+        console.error("GPS Retry Fail", e);
+      }
       setCurrentScreen(AppScreen.IDLE);
       return;
     }
@@ -111,7 +114,7 @@ const App: React.FC = () => {
       const location = await searchLocation(keyword, myLocation.lat, myLocation.lng);
 
       if (location) {
-        // 검색 성공 -> 확인 화면으로 이동 (검색된 장소명 표시)
+        // 검색 성공 -> 확인 화면으로 이동
         setDestination({
           name: location.name,
           lat: location.lat,
@@ -121,7 +124,7 @@ const App: React.FC = () => {
       } else {
         // 검색 실패
         await speak("장소를 찾을 수 없습니다. 다시 말씀해주세요.");
-        setDestination({ name: 'ERROR_NOT_FOUND', lat: 0, lng: 0 }); // 에러 상태 표시
+        setDestination({ name: 'ERROR_NOT_FOUND', lat: 0, lng: 0 });
         setCurrentScreen(AppScreen.RETRY);
       }
     } catch (error) {
@@ -140,6 +143,7 @@ const App: React.FC = () => {
       await speak(`${getJosa(destination.name, '으로/로')} 안내합니다.`);
 
       // (2) 백엔드 경로 요청
+      // backend.ts가 { steps, path } 형태로 리턴하도록 수정되어 있어야 함
       const { steps, path } = await requestNavigation({
         start_lat: myLocation.lat,
         start_lon: myLocation.lng,
@@ -147,8 +151,8 @@ const App: React.FC = () => {
         end_lon: destination.lng
       });
 
-      console.log("App.tsx: path from backend:", path); // 디버깅 로그 추가
-      console.log("App.tsx: steps from backend:", steps); // 디버깅 로그 추가
+      console.log("App.tsx: path from backend:", path);
+      console.log("App.tsx: steps from backend:", steps);
 
       setRouteData(steps);
       setRoutePath(path);
@@ -157,23 +161,21 @@ const App: React.FC = () => {
     } catch (error: any) {
       console.error("탐색 에러:", error);
 
-      // 구체적인 에러 메시지 생성
-      let errorMsg = "네트워크 오류가 발생했습니다.";
-      if (error.message) errorMsg += ` (${error.message})`;
+      // ★ [수정됨] 환경변수에서 현재 백엔드 URL 가져오기
+      const currentBackendUrl = import.meta.env.VITE_BACKEND_URL || "설정된 주소 없음";
 
-      // ★ 디버깅용 알림 추가 (개선됨)
       const errDetail = {
         message: error.message || 'No message',
         code: error.code || 'No code',
         status: error.status || 'No status',
         data: error.data || 'No data',
       };
-      alert(`[Debug]\nURL: ${import.meta.env.VITE_BACKEND_URL}\nError: ${JSON.stringify(errDetail, null, 2)}`);
+
+      // 디버깅용 알림창 (현재 URL 표시)
+      alert(`[Debug]\nURL: ${currentBackendUrl}\nError: ${JSON.stringify(errDetail, null, 2)}`);
 
       await speak("경로를 안내할 수 없습니다. 잠시 후 다시 시도해주세요.");
 
-      // ERROR_NETWORK 접두사를 붙여서 RetryScreen에서 구분 가능하게 할 수도 있음, 
-      // 혹은 그냥 destination.name을 ERROR_NETWORK로 설정
       setDestination({ name: `ERROR_NETWORK: ${error.message || 'Unknown'}`, lat: 0, lng: 0 });
       setCurrentScreen(AppScreen.RETRY);
     }
@@ -207,8 +209,6 @@ const App: React.FC = () => {
           <RetryScreen
             onCancel={handleCancel}
             onSpeechDetected={handleSpeechDetected}
-            // 에러 상태가 있으면 그 메시지를 보여주고, 아니면 기본값. 
-            // 에러일 때는 자동 재시작 끄기 (사용자가 확인 후 다시 시도하도록)
             message={
               destination?.name?.startsWith('ERROR')
                 ? `${destination.name.replace('ERROR_', '').replace('ERROR', '오류')}`
@@ -226,12 +226,11 @@ const App: React.FC = () => {
           />
         );
       case AppScreen.GUIDING:
-        // ★ GuidingScreen에 백엔드에서 받은 routeData를 넘겨줍니다.
         return destination && myLocation ? (
           <GuidingScreen
             destination={destination}
-            routeData={routeData} // 경로 데이터 전달
-            routePath={routePath} // ★ [추가] 경로 좌표 전달
+            routeData={routeData} // 안내 멘트용
+            routePath={routePath} // 지도 그리기용
             onEndNavigation={handleEndNavigation}
           />
         ) : null;

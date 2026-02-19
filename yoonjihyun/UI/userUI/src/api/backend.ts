@@ -1,7 +1,14 @@
 import { CapacitorHttp } from '@capacitor/core';
 
-// ★ 백엔드 서버 주소 (팀원분 IP)
-const BACKEND_URL = "http://172.30.1.80:8000/api/v1/navigation/path";
+// ---------------------------------------------------------------------------
+// ★ [수정됨] 환경 변수(.env) 사용
+// import.meta.env.VITE_BACKEND_URL 값을 가져옵니다.
+// 만약 .env 파일이 없거나 값을 못 읽으면 '기본값(fallback)'을 사용합니다.
+// ---------------------------------------------------------------------------
+const BASE_URL = import.meta.env.VITE_BACKEND_URL || "http://172.30.1.80:8000";
+
+// 최종 요청 주소 조합
+const BACKEND_URL = `${BASE_URL}/api/v1/navigation/path`;
 
 export interface NavigationRequest {
   start_lat: number;
@@ -27,12 +34,16 @@ export const requestNavigation = async (req: NavigationRequest): Promise<Navigat
     url: BACKEND_URL,
     headers: {
       'Content-Type': 'application/json',
+      // Ngrok 사용 시 필수 헤더 (로컬 IP 쓸 때는 있어도 상관없음)
+      'ngrok-skip-browser-warning': 'true',
     },
     data: req, // { start_lat, start_lon, end_lat, end_lon }
   };
 
   try {
-    console.log("🚀 백엔드 길찾기 요청:", JSON.stringify(req));
+    console.log(`🚀 백엔드 길찾기 요청 (URL: ${BACKEND_URL})`);
+    console.log("📤 요청 데이터:", JSON.stringify(req));
+
     const response = await CapacitorHttp.post(options);
 
     console.log("📩 백엔드 응답 상태:", response.status);
