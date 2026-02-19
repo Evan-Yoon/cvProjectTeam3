@@ -144,6 +144,13 @@ const App: React.FC = () => {
 
       // (2) 백엔드 경로 요청
       // backend.ts가 { steps, path } 형태로 리턴하도록 수정되어 있어야 함
+      console.log("App.tsx: Requesting navigation with:", {
+        start_lat: myLocation.lat,
+        start_lon: myLocation.lng,
+        end_lat: destination.lat,
+        end_lon: destination.lng
+      });
+
       const { steps, path } = await requestNavigation({
         start_lat: myLocation.lat,
         start_lon: myLocation.lng,
