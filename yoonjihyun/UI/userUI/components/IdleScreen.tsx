@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { Geolocation } from '@capacitor/geolocation';
-import { reverseGeoCoding, searchNearbyPoi } from '../src/api/tmap';
 import { speak } from '../src/utils/audio';
 
 // Props 인터페이스 정의

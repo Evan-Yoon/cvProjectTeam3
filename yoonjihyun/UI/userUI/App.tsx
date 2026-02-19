@@ -147,6 +147,9 @@ const App: React.FC = () => {
         end_lon: destination.lng
       });
 
+      console.log("App.tsx: path from backend:", path); // 디버깅 로그 추가
+      console.log("App.tsx: steps from backend:", steps); // 디버깅 로그 추가
+
       setRouteData(steps);
       setRoutePath(path);
       setCurrentScreen(AppScreen.GUIDING);
