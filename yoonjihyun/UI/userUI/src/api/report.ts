@@ -36,6 +36,8 @@ export interface ReportPayload {
   risk_level: number;   // 위험도 등급
   description?: string; // 추가 설명 (선택 사항)
   imageBase64: string;  // 텍스트 형태의 이미지 데이터
+  label?: string;       // 감지된 객체 라벨 (예: "person")
+  device_id?: string;   // 실제 디바이스 ID (예: "android_...")
 }
 
 /**
@@ -48,7 +50,12 @@ export const sendHazardReport = async (payload: ReportPayload) => {
 
     // 1. 필수 데이터 채우기 (백엔드에서 정해준 이름을 똑같이 써야 합니다)
     formData.append('item_id', uuidv4());      // 매 신고마다 고유한 아이디 자동 생성
-    formData.append('user_id', uuidv4());      // 사용자 아이디 (현재는 임시 생성)
+    formData.append('user_id', uuidv4());      // 사용자 아이디 (기존 UUID 유지, 백엔드 호환성)
+
+    // 추가된 메타데이터
+    formData.append('device_id', payload.device_id || 'unknown_device'); // 실제 디바이스 ID
+    formData.append('label', payload.label || '');                       // 객체 라벨
+
     formData.append('latitude', payload.latitude.toString());
     formData.append('longitude', payload.longitude.toString());
     formData.append('hazard_type', payload.hazard_type);
