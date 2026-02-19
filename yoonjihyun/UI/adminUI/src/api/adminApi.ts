@@ -14,7 +14,11 @@ export type ReportRow = {
 };
 
 export const fetchReports = async (skip = 0, limit = 100) => {
-    const res = await fetch(`${API_BASE}/api/v1/reports/?skip=${skip}&limit=${limit}`);
+    const res = await fetch(`${API_BASE}/api/v1/reports/?skip=${skip}&limit=${limit}`, {
+        headers: {
+            "ngrok-skip-browser-warning": "true",
+        },
+    });
     if (!res.ok) throw new Error(`fetchReports failed: ${res.status}`);
     const result = await res.json();
 
@@ -25,6 +29,9 @@ export const fetchReports = async (skip = 0, limit = 100) => {
 export const patchReportStatus = async (itemId: string, status: "new" | "processing" | "done") => {
     const res = await fetch(`${API_BASE}/api/v1/reports/${itemId}?status=${status}`, {
         method: "PATCH",
+        headers: {
+            "ngrok-skip-browser-warning": "true",
+        },
     });
     if (!res.ok) throw new Error(`patchReportStatus failed: ${res.status}`);
     return await res.json();

@@ -25,7 +25,7 @@ app.add_middleware(
 def health():
     return {"ok": True}
 
-app.include_router(reports_router, prefix="/api/v1")
+app.include_router(reports_router, prefix="/api/v1/reports")
 app.include_router(admin_router, prefix="/api/v1")
 
 # ★ [추가] 네비게이션 라우터 등록

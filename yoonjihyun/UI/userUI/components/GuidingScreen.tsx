@@ -173,18 +173,41 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
         }
 
         setDebugMsg("GPS 추적 시작...");
+
+        // 1. 초기 위치 즉시 확보 (Watch가 느릴 수 있으므로)
+        try {
+          const initialPos = await Geolocation.getCurrentPosition({
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0
+          });
+          if (initialPos && initialPos.coords) {
+            const { latitude, longitude } = initialPos.coords;
+            setVisualPos({ lat: latitude, lng: longitude });
+            prevPosition.current = { lat: latitude, lng: longitude };
+            setDebugMsg("초기 위치 확보 완료");
+          }
+        } catch (e) {
+          console.warn("초기 위치 실패 (Watch로 계속 시도)", e);
+        }
+
         setIsLoading(false);
 
-        // 실시간 위치 추적 (WatchPosition)
+        // 2. 실시간 위치 추적 (WatchPosition)
         watchId.current = await Geolocation.watchPosition(
           {
             enableHighAccuracy: true, // 배터리보다 정확도 우선
-            timeout: 20000,
+            timeout: 10000,
             maximumAge: 0,
-            minimumUpdateInterval: 3000 // 3초마다 업데이트
+            minimumUpdateInterval: 1000 // 1초마다 업데이트 (더 빠르게)
           },
           (pos, err) => {
-            if (err || !pos || !isMounted.current) return;
+            if (err) {
+              console.error("GPS Watch Error:", err);
+              setDebugMsg(`GPS 에러: ${err.message}`);
+              return;
+            }
+            if (!pos || !isMounted.current) return;
 
             const curLat = pos.coords.latitude;
             const curLng = pos.coords.longitude;
@@ -220,8 +243,8 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
                 const step = routeData[nextIndex];
                 const distToStep = getDistance(curLat, curLng, step.latitude, step.longitude);
 
-                // 목표 지점 반경 20m 이내 진입 시
-                if (distToStep < 20) {
+                // 목표 지점 반경 10m 이내 진입 시 (더 정밀하게 수정)
+                if (distToStep < 10) {
                   // 다음 안내 멘트 준비
                   const nextNextIndex = nextIndex + 1;
 
@@ -237,10 +260,16 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
                   lastGuideIndex.current = nextIndex;
                 }
               }
-            }
 
-            // 화면 하단 디버그 메시지 업데이트
-            setDebugMsg(`지점: ${lastGuideIndex.current + 1}/${routeData.length} | 나침반: ${compassHeading.current?.toFixed(0) || 0}°`);
+              // 화면 하단 디버그 메시지 업데이트 (남은 거리 표시 추가)
+              const distToNext = (nextIndex < routeData.length)
+                ? getDistance(curLat, curLng, routeData[nextIndex].latitude, routeData[nextIndex].longitude).toFixed(1)
+                : "0";
+
+              setDebugMsg(`지점: ${lastGuideIndex.current + 1}/${routeData.length} | 다음: ${distToNext}m | 나침반: ${compassHeading.current?.toFixed(0) || 0}°`);
+            } else {
+              setDebugMsg(`경로 완료 | 나침반: ${compassHeading.current?.toFixed(0) || 0}°`);
+            }
           }
         );
       } catch (error) {

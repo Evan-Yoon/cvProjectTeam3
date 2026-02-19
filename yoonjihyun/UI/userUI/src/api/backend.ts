@@ -47,6 +47,7 @@ export const requestNavigation = async (req: NavigationRequest): Promise<Navigat
       'Content-Type': 'application/json',
       // Ngrok 경고 페이지를 우회하기 위한 필수 헤더입니다.
       'ngrok-skip-browser-warning': 'true',
+      'User-Agent': 'WalkMate-App',
     },
     data: req, // 데이터 전송 { start_lat, start_lon, ... }
   };

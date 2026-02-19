@@ -2,11 +2,13 @@ import React, { useRef, useState, useEffect } from "react";
 import Webcam from "react-webcam";
 import { Geolocation } from "@capacitor/geolocation";
 import { sendHazardReport } from "../src/api/report";
-import NpuTflite from "../NpuTfliteBridge"; // Import custom bridge
+import NpuTflite from "../NpuTfliteBridge";
+import { YoloParser, DetectedBox } from "../src/utils/YoloParser";
 
 const VisionCamera: React.FC = () => {
   const webcamRef = useRef<Webcam>(null);
   const [status, setStatus] = useState<string>("모델 로딩 중...");
+  const [inferenceInfo, setInferenceInfo] = useState<string>(""); // 디버깅용 추론 정보
   const isMounted = useRef(true);
   const [modelLoaded, setModelLoaded] = useState(false);
 
@@ -28,60 +30,115 @@ const VisionCamera: React.FC = () => {
     loadModel();
   }, []);
 
-  // 2. 추론 루프 (0.5초마다 실행)
+  // 2. 통합 루프: 3초마다 촬영 -> 추론 -> 전송
   useEffect(() => {
     if (!modelLoaded) return;
 
     isMounted.current = true;
-    const inferenceInterval = setInterval(async () => {
+    const loopInterval = setInterval(async () => {
       if (!isMounted.current || !webcamRef.current) return;
 
       const imageSrc = webcamRef.current.getScreenshot();
       if (!imageSrc) return;
 
       try {
-        // Base64 헤더 제거 (data:image/jpeg;base64,...)
+        // [1] 이미지 캡처 (Base64 헤더 제거)
         const base64Data = imageSrc.split(",")[1];
 
-        // NPU 플러그인에 이미지 전달하여 추론 요청
+        // [2] NPU 추론 실행
+        const startTime = performance.now();
         const result = await NpuTflite.detect({ image: base64Data });
+        const endTime = performance.now();
+        const duration = (endTime - startTime).toFixed(0);
 
-        // 결과 파싱 (data: float array, shape: [1, 8400, 84])
-        // 여기서 간단히 박스가 있는지(위험 감지)만 체크하거나, 
-        // 복잡한 파싱 로직을 추가할 수 있습니다.
+        // 결과 파싱 및 그리기
+        let infoMsg = `시간: ${duration}ms`;
+        let finalImageBase64 = base64Data;
 
-        // 예시: 데이터가 있으면 위험으로 간주 (임시 로직)
-        // 실제 YOLO 출력 파싱은 복잡하므로, 일단 데이터 길이만 체크
-        if (result.data && result.data.length > 0) {
-          // TODO: Parse float array to bounding boxes
-          // For now, just logging length
-          // console.log("YOLO Output Size:", result.data.length); 
+        if (result && result.data && result.data.length > 0) {
+          infoMsg += ` | 데이터: ${result.data.length}개`;
+
+          // 파서 호출
+          const boxes = YoloParser.parse(result.data, result.shape || []);
+
+          if (boxes.length > 0) {
+            infoMsg += ` | 📦객체: ${boxes.length}개`;
+
+            // [Canvas Drawing Logic]
+            const img = new Image();
+            img.src = imageSrc;
+            await new Promise((resolve) => { img.onload = resolve; });
+
+            const canvas = document.createElement('canvas');
+            canvas.width = img.width;
+            canvas.height = img.height;
+            const ctx = canvas.getContext('2d');
+
+            if (ctx) {
+              ctx.drawImage(img, 0, 0);
+
+              ctx.lineWidth = 3;
+              ctx.font = "bold 24px Arial";
+
+              boxes.forEach((box) => {
+                const x = box.x * canvas.width;
+                const y = box.y * canvas.height;
+                const w = box.w * canvas.width;
+                const h = box.h * canvas.height;
+
+                const left = x - w / 2;
+                const top = y - h / 2;
+
+                ctx.strokeStyle = "#00FF00";
+                ctx.strokeRect(left, top, w, h);
+
+                const label = `${box.className} ${(box.score * 100).toFixed(0)}%`;
+                const textWidth = ctx.measureText(label).width;
+
+                ctx.fillStyle = "#00FF00";
+                ctx.fillRect(left, top - 30, textWidth + 10, 30);
+
+                ctx.fillStyle = "black";
+                ctx.fillText(label, left + 5, top - 6);
+              });
+
+              finalImageBase64 = canvas.toDataURL("image/jpeg", 0.8).split(",")[1];
+            }
+          } else {
+            infoMsg += " | ⚪객체없음";
+          }
         }
+        setInferenceInfo(infoMsg);
+        console.log(`🔍 추론 완료: ${infoMsg}`);
 
-        // 3. (옵션) 위험 감지 시 리포트 전송 로직 (기존 코드 유지)
-        // 여기서는 예시로 5초마다 전송하던 자동 로직 대신, 
-        // 특정 조건(예: 높은 신뢰도의 객체 검출)일 때만 전송하도록 수정 가능
-        // 현재는 기존 기능을 위해 주석 처리하거나, 필요 시 활성화
+        // [3] 리포트 전송
+        const position = await Geolocation.getCurrentPosition();
+
+        console.log("📤 3초 주기 데이터 전송 중...");
+        await sendHazardReport({
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+          hazard_type: "Periodic_Monitor",
+          risk_level: 1,
+          description: `모니터링 (3초 주기) ${new Date().toLocaleTimeString()} / ${infoMsg}`,
+          imageBase64: finalImageBase64
+        });
+
+        setStatus("전송 완료");
+        setTimeout(() => setStatus("모니터링 중..."), 1000);
 
       } catch (error) {
-        console.error("추론 에러:", error);
+        console.error("루프 에러:", error);
+        setStatus("에러 발생");
+        setInferenceInfo(`에러: ${error}`);
       }
-    }, 500); // 500ms 주기
+    }, 3000); // 3초 주기
 
     return () => {
       isMounted.current = false;
-      clearInterval(inferenceInterval);
+      clearInterval(loopInterval);
     };
   }, [modelLoaded]);
-
-  // 기존의 5초 주기 리포트 전송 유지 (사용자 요구사항일 수 있음)
-  useEffect(() => {
-    // ... (Existing auto-report logic if needed)
-    // For now, I'll assume the user wants the YOLO detection to drive reports or visualization.
-    // But to keep it simple and fix the build first, I will restore the basic webcam functionality
-    // and hook up the NpuTflite call without breaking anything.
-    return () => { };
-  }, []);
 
   return (
     <div className="relative w-full h-full bg-black flex justify-center items-center overflow-hidden">
@@ -99,10 +156,19 @@ const VisionCamera: React.FC = () => {
       />
 
       {/* 상태 표시 */}
-      <div className="absolute top-4 right-4 bg-black/60 px-3 py-1 rounded-full z-50">
-        <p className="text-yellow-400 font-mono text-xs font-bold animate-pulse">
-          {status}
-        </p>
+      <div className="absolute top-4 right-4 flex flex-col items-end gap-2 z-50">
+        <div className="bg-black/60 px-3 py-1 rounded-full">
+          <p className="text-yellow-400 font-mono text-xs font-bold animate-pulse">
+            {status}
+          </p>
+        </div>
+        {inferenceInfo && (
+          <div className="bg-blue-900/80 px-3 py-1 rounded-lg border border-blue-400">
+            <p className="text-white font-mono text-[10px] whitespace-pre-wrap max-w-[200px]">
+              {inferenceInfo}
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

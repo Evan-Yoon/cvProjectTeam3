@@ -70,6 +70,7 @@ export const sendHazardReport = async (payload: ReportPayload) => {
       // ngrok을 사용할 경우 브라우저 경고 페이지를 통과하기 위한 헤더입니다.
       headers: {
         'ngrok-skip-browser-warning': 'true',
+        'User-Agent': 'WalkMate-App',
       },
     });
 

@@ -38,19 +38,29 @@ async def create_report(
 
         saved_filename = f"{timestamp}_{uuid4().hex[:8]}.{file_extension}"
 
-        file_path = os.path.join(UPLOAD_DIR, saved_filename)
+        # 2. 이미지 저장 (S3 필수)
+        from app.core.config import S3_BUCKET_NAME
+        from app.services.s3_uploader import upload_image_to_s3
 
-        # 2. 서버 로컬 폴더(uploads)에 이미지 저장
-        with open(file_path, "wb") as buffer:
-            shutil.copyfileobj(file.file, buffer)
+        if not S3_BUCKET_NAME:
+             raise HTTPException(status_code=500, detail="Server Configuration Error: S3_BUCKET_NAME is missing. Local storage is disabled.")
 
-        # 3. DB에 저장할 URL 생성
-        # main.py에서 '/static'을 'uploads' 폴더로 연결했으므로,
-        # 브라우저 접근 URL은 http://서버IP:8000/static/파일명 이 됩니다.
-        image_url = f"static/{saved_filename}"
+        try:
+            # 파일 포인터를 처음으로 되돌림 (필요 시)
+            await file.seek(0)
+            content = await file.read()
+            
+            # S3 업로드
+            s3_key = f"uploads/{saved_filename}"
+            full_s3_url = upload_image_to_s3(content, s3_key, file.content_type)
+            image_url = full_s3_url
+            print(f"✅ S3 Upload Success: {image_url}")
 
-        # 4. DB에 정보 저장 (CRUD 호출)
-        # item_id와 user_id는 앱에서 문자로 오므로 UUID로 변환
+        except Exception as s3_error:
+            print(f"❌ S3 Upload Failed: {s3_error}")
+            raise HTTPException(status_code=500, detail=f"S3 Upload Failed: {str(s3_error)}")
+
+        # 3. DB에 정보 저장 (CRUD 호출)
         report = crud_report.create_report(
             db=db,
             item_id=UUID(item_id),
@@ -59,7 +69,7 @@ async def create_report(
             longitude=longitude,
             hazard_type=hazard_type,
             risk_level=risk_level,
-            image_url=image_url,  # 생성한 URL 전달
+            image_url=image_url,
             description=description
         )
 
