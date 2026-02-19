@@ -5,7 +5,7 @@ import { v4 as uuidv4 } from 'uuid';
 // ---------------------------------------------------------------------------
 // ★ 서버 주소 수정 (Wi-Fi IPv4 주소 사용)
 // ---------------------------------------------------------------------------
-const API_BASE_URL = `${process.env.BACKEND_URL}/api/v1/reports`;
+const API_BASE_URL = (import.meta.env.VITE_BACKEND_URL || "http://172.30.1.80:8000") + "/api/v1/reports";
 
 // [헬퍼 함수] Base64 문자열을 이미지 파일(Blob)로 변환
 const base64ToBlob = (base64Data: string, contentType: string = 'image/jpeg') => {

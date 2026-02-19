@@ -20,8 +20,8 @@ const TestMonitor: React.FC = () => {
 
   // ★ 백엔드 서버 주소 (본인의 IPv4 주소 확인 필수)
   // 안드로이드 앱에서 보낸 서버 주소와 똑같아야 합니다.
-  // const API_BASE_URL = "http://172.30.1.94:8000";
-  const API_BASE_URL = import.meta.env.VITE_BACKEND_URL || "http://172.30.1.94:8000";
+  // const API_BASE_URL = "http://172.30.1.80:8000";
+  const API_BASE_URL = import.meta.env.VITE_BACKEND_URL || "http://172.30.1.80:8000";
 
   // 2. 데이터 가져오기 함수
   const fetchReports = async () => {

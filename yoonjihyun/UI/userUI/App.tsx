@@ -38,8 +38,18 @@ const App: React.FC = () => {
 
     const startWatching = async () => {
       try {
+        // ★ 권한 요청 추가
+        const checkPermission = await Geolocation.checkPermissions();
+        if (checkPermission.location !== 'granted') {
+          const request = await Geolocation.requestPermissions();
+          if (request.location !== 'granted') {
+            await speak("위치 권한이 필요합니다. 설정에서 권한을 허용해주세요.");
+            return;
+          }
+        }
+
         watchId = await Geolocation.watchPosition(
-          { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 },
+          { enableHighAccuracy: true, timeout: 20000, maximumAge: 0 }, // timeout 증가
           (pos, err) => {
             if (err) {
               console.error("GPS Watch Error:", err);
@@ -145,6 +155,9 @@ const App: React.FC = () => {
       // 구체적인 에러 메시지 생성
       let errorMsg = "네트워크 오류가 발생했습니다.";
       if (error.message) errorMsg += ` (${error.message})`;
+
+      // ★ 디버깅용 알림 추가
+      alert(`[Debug]\nURL: ${import.meta.env.VITE_BACKEND_URL}\nError: ${JSON.stringify(error)}`);
 
       await speak("경로를 안내할 수 없습니다. 잠시 후 다시 시도해주세요.");
 

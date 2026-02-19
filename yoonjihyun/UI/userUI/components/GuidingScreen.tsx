@@ -124,12 +124,22 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
 
     const startNavigation = async () => {
       try {
+        // ★ 권한 확인 추가
+        const checkPermission = await Geolocation.checkPermissions();
+        if (checkPermission.location !== 'granted') {
+          const request = await Geolocation.requestPermissions();
+          if (request.location !== 'granted') {
+            safeSpeak("위치 권한이 거부되었습니다.");
+            return;
+          }
+        }
+
         setDebugMsg("GPS 추적 시작...");
         setIsLoading(false); // 이미 App.tsx에서 GPS를 잡고 오므로 바로 로딩 해제 가능
 
         // 실시간 위치 추적 시작
         watchId.current = await Geolocation.watchPosition(
-          { enableHighAccuracy: true, timeout: 10000, maximumAge: 0, minimumUpdateInterval: 1000 },
+          { enableHighAccuracy: true, timeout: 20000, maximumAge: 0, minimumUpdateInterval: 1000 },
           (pos, err) => {
             if (err || !pos || !isMounted.current) return;
 
