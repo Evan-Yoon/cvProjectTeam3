@@ -1,6 +1,10 @@
 from app.core.database import db_client
 import json
 
+import logging
+
+logger = logging.getLogger("API_LOGGER")
+
 def parse_location(location_data):
     try:
         # Case 1: 데이터가 없을 때
@@ -31,31 +35,34 @@ def parse_location(location_data):
         return {"latitude": 0.0, "longitude": 0.0}
 
     except Exception as e:
-        print(f"Location Parse Error: {e} | Data: {location_data}")
+        logger.warning(f"⚠️ Location Parse Error: {e} | Data: {location_data}")
         return {"latitude": 0.0, "longitude": 0.0}
 
 
 # 1. 신고 데이터 생성 (INSERT)
 def create_report(report_data: dict):
-    location_wkt = f"POINT({report_data['longitude']} {report_data['latitude']})"
+    try:
+        location_wkt = f"POINT({report_data['longitude']} {report_data['latitude']})"
+        payload = {
+            "item_id": report_data["item_id"],
+            "user_id": report_data["user_id"],
+            "location": location_wkt,
+            "hazard_type": report_data["hazard_type"],
+            "risk_level": report_data["risk_level"],
+            "image_url": report_data["image_url"],
+            "description": report_data.get("description"),
+            "status": "new"
+        }
 
-    payload = {
-        "item_id": report_data["item_id"],
-        "user_id": report_data["user_id"],
-        "location": location_wkt,
-        "hazard_type": report_data["hazard_type"],
-        "risk_level": report_data["risk_level"],
-        "image_url": report_data["image_url"],
-        "description": report_data.get("description"),
-        "status": "new"
-    }
-
-    response = (
-        db_client.table("reports")
-        .insert(payload)
-        .execute()
-    )
-    return response.data[0]
+        response = (
+            db_client.table("reports")
+            .insert(payload)
+            .execute()
+        )
+        return response.data[0]
+    except Exception as e:
+        logger.error(f"❌ DB Insert Error: {e}", exc_info=True)
+        raise e
 
 
 # 2. 지도용 경량 데이터 조회 (SELECT - Map View)
@@ -71,8 +78,6 @@ def get_reports_for_map():
         results = []
         for item in response.data:
             coords = parse_location(item.get("location"))
-            
-            # 기존 데이터에 lat/lon 추가
             item.update(coords)
             
             # 프론트엔드에 줄 필요 없는 원본 location 데이터 삭제
@@ -83,32 +88,36 @@ def get_reports_for_map():
             
         return results
     except Exception as e:
-        print(f"DB Select Error: {e}")
+        logger.error(f"❌ DB Select for Map Error: {e}", exc_info=True)
         raise e
 
 
 # 3. 관리자 리스트용 전체 조회
 def get_all_reports(skip: int = 0, limit: int = 20):
-    response = (
-        db_client.table("reports")
-        .select("*", count="exact") 
-        .order("created_at", desc=True)
-        .range(skip, skip + limit - 1)
-        .execute()
-    )
-    
-    processed_data = []
-    for item in response.data:
-        coords = parse_location(item.get("location"))
-        item.update(coords)
-        if "location" in item:
-            del item["location"]
-        processed_data.append(item)
+    try:
+        response = (
+            db_client.table("reports")
+            .select("*", count="exact") 
+            .order("created_at", desc=True)
+            .range(skip, skip + limit - 1)
+            .execute()
+        )
+        
+        processed_data = []
+        for item in response.data:
+            coords = parse_location(item.get("location"))
+            item.update(coords)
+            if "location" in item:
+                del item["location"]
+            processed_data.append(item)
             
-    return {
-        "total": response.count,
-        "data": processed_data
-    }
+        return {
+            "total": response.count,
+            "data": processed_data
+        }
+    except Exception as e:
+        logger.error(f"❌ DB Select All Error: {e}", exc_info=True)
+        raise e
 
 
 # 4. 상태 수정
@@ -123,4 +132,5 @@ def update_report_status(item_id: str, new_status: str):
         if not response.data: return None
         return response.data[0]
     except Exception as e:
+        logger.error(f"❌ DB Update Error: {e}", exc_info=True)
         return None
