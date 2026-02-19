@@ -31,7 +31,7 @@ def setup_logger():
 
     # 3. 포맷 설정 (Request ID 포함)
     formatter = logging.Formatter(
-        "%(asctime)s - [%(request_id)s] - %(levelname)s - %(message)s"
+        "[%(asctime)s] [%(request_id)s] %(levelname)s\n%(message)s"
     )
 
     # 필터 인스턴스 생성
@@ -44,7 +44,6 @@ def setup_logger():
     logger.addHandler(stream_handler)
 
     # 5. 핸들러 2: 파일 저장 (날짜별 회전)
-    # 파일명: logs/app.log (회전 시 app.log.2024-05-20 등으로 변경됨)
     filename = os.path.join(log_dir, "app.log") 
     
     file_handler = TimedRotatingFileHandler(

@@ -38,20 +38,21 @@ def read_root():
     return {"message": "WalkMate Server is Running! 🚀"}
 
 
-# 3. 네비게이션 라우터 연결 (기존에 연결 안 되어 있었음)
+# 3. 네비게이션 라우터 연결 
 app.include_router(navigation.router, prefix="/api/v1/navigation", tags=["Navigation"])
 
 @app.middleware("http")
 async def log_requests(request: Request, call_next):
     request_id = str(uuid.uuid4())
-    # ContextVar에 request_id 설정 (이후 로그에서 자동으로 사용됨)
+    # ContextVar에 request_id 설정 
     token = request_id_context.set(request_id)
 
     start_time = time.time()
     
     # 1. 입구: 어떤 주소로 어떤 메서드가 들어왔는지 기록 (IP 포함)
     client_host = request.client.host if request.client else "unknown"
-    logger.info(f"➡️ [START] {request.method} {request.url.path} | IP: {client_host}")
+    user_agent = request.headers.get("user-agent", "unknown")
+    logger.info(f"➡️ [START] {request.method} {request.url.path} | IP: {client_host} | Device: {user_agent}")
 
     try:
         # 2. 본문(라우터) 실행
