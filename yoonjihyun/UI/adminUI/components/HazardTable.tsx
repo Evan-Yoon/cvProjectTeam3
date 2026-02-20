@@ -28,7 +28,7 @@ const HazardTable: React.FC<HazardTableProps> = ({ data, onRowClick, compact = f
             {!compact && <th className="px-6 py-4">발생 시간</th>}
             {!compact && <th className="px-6 py-4">위치</th>}
             <th className="px-6 py-4">상태</th>
-            <th className="px-6 py-4 text-right">관리</th>
+            <th className="px-6 py-4 text-right">자세히 보기</th>
           </tr>
         </thead>
         <tbody className={`divide-y ${isDarkMode ? 'divide-slate-700/50' : 'divide-slate-100'}`}>
@@ -70,11 +70,11 @@ const HazardTable: React.FC<HazardTableProps> = ({ data, onRowClick, compact = f
                 </td>
               )}
               <td className="px-6 py-3">
-                <span className={`text-xs font-semibold transition-colors duration-300 flex items-center gap-1 ${item.status === 'Resolved' ? (isDarkMode ? 'text-green-400' : 'text-green-600') :
-                  item.status === 'In Progress' ? (isDarkMode ? 'text-yellow-400' : 'text-yellow-600') :
+                <span className={`text-xs font-semibold transition-colors duration-300 flex items-center gap-1 ${item.status === 'Done' ? (isDarkMode ? 'text-green-400' : 'text-green-600') :
+                  item.status === 'Processing' ? (isDarkMode ? 'text-yellow-400' : 'text-yellow-600') :
                     (isDarkMode ? 'text-red-400' : 'text-red-500')
                   }`}>
-                  {item.status === 'Pending' && <AlertTriangle size={12} />}
+                  {item.status === 'New' && <AlertTriangle size={12} />}
                   {item.status}
                 </span>
               </td>

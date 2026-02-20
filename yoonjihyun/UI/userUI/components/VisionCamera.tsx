@@ -147,6 +147,7 @@ const VisionCamera: React.FC = () => {
         let calculatedDirection = 'C';
         let primaryHazardType = "Periodic_Monitor";
         let boxes: DetectedBox[] = [];
+        let primaryBox: DetectedBox | null = null;
 
         if (result && result.data && (result.data.length ?? 0) > 0) {
           infoMsg += ` | 데이터: ${result.data.length}개`;
@@ -166,7 +167,7 @@ const VisionCamera: React.FC = () => {
             // 여러 객체가 발견되었을 때, 박스 면적(w * h)이 가장 큰 것을 
             // '가장 가까이 있는 주 방해물'로 판단합니다.
             // ---------------------------------------------------------------------
-            let primaryBox = boxes[0];
+            primaryBox = boxes[0];
             let maxArea = 0;
 
             boxes.forEach((box) => {
@@ -250,8 +251,12 @@ const VisionCamera: React.FC = () => {
           description: `모니터링 ${new Date().toLocaleTimeString()} / ${infoMsg}`,
           imageBase64: finalImageBase64,
           distance: calculatedDistance,   // float 데이터 전송
-          direction: calculatedDirection  // string 데이터 전송
-        } as any); // 타입 에러 우회를 위해 as any 사용 (필요시 sendHazardReport 인터페이스도 수정 요망)
+          direction: calculatedDirection,  // string 데이터 전송
+          x: primaryBox ? primaryBox.x : 0.0,
+          y: primaryBox ? primaryBox.y : 0.0,
+          w: primaryBox ? primaryBox.w : 0.0,
+          h: primaryBox ? primaryBox.h : 0.0,
+        });
 
         setStatus("전송 완료");
         setTimeout(() => {

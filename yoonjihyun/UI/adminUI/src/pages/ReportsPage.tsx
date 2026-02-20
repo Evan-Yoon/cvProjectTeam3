@@ -40,7 +40,7 @@ export default function ReportsPage() {
             reportType: 'B2G',
             thumbnail: `${API_BASE_URL}/${dbReport.image_url}`,
             description: dbReport.description || "자동 감지 시스템에 의해 수집된 데이터입니다.",
-            sensorData: { gyro: "N/A", accel: "N/A" }, // 필요시 실제 데이터 매핑
+            address: "주소 정보 없음", // 필요시 실제 데이터 매핑
             reporter: "WalkMate AI Camera",
         };
     };

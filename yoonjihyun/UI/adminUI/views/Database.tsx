@@ -39,13 +39,13 @@ const Database: React.FC<DatabaseProps> = ({ data, onRowClick }) => {
       <div className="bg-white p-4 rounded-lg shadow-sm border border-slate-200 flex items-center gap-4">
         <span className="text-sm font-medium text-slate-700">상태 필터:</span>
         <div className="flex gap-2">
-          {['All', 'Pending', 'In Progress', 'Resolved'].map((status) => (
+          {['All', 'New', 'Processing', 'Done'].map((status) => (
             <button
               key={status}
               onClick={() => setFilter(status)}
               className={`px-4 py-1.5 text-sm rounded-full transition-colors ${filter === status
-                  ? 'bg-slate-800 text-white font-medium'
-                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                ? 'bg-slate-800 text-white font-medium'
+                : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                 }`}
             >
               {status === 'All' ? '전체' : status}

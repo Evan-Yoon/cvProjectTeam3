@@ -53,8 +53,8 @@ const Dashboard: React.FC<DashboardProps> = ({ data, onRowClick, isDarkMode }) =
     { time: '17:00', reports: timeGroups[4] },
   ];
 
-  const pendingCount = data.filter(h => h.status === 'Pending').length;
-  const resolvedCount = data.filter(h => h.status === 'Resolved').length;
+  const pendingCount = data.filter(h => h.status === 'New').length;
+  const resolvedCount = data.filter(h => h.status === 'Done').length;
   const todayCount = data.filter(h => {
     const date = new Date(h.rawTimestamp || h.timestamp);
     return !isNaN(date.getTime()) && date.toDateString() === new Date().toDateString();

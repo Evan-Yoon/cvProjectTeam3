@@ -1,13 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { HazardData } from '../types';
 import { X, MapPin, Calendar, Activity, User, FileText, Server } from 'lucide-react';
+import ActionReportModal from './ActionReportModal';
 
 interface HazardModalProps {
   data: HazardData | null;
   onClose: () => void;
+  onStatusChange: (newStatus: "new" | "processing" | "done") => void;
+  onViewMap: (data: HazardData) => void;
 }
 
-const HazardModal: React.FC<HazardModalProps> = ({ data, onClose }) => {
+const HazardModal: React.FC<HazardModalProps> = ({ data, onClose, onStatusChange, onViewMap }) => {
+  const [isActionModalOpen, setIsActionModalOpen] = useState(false);
+
   if (!data) return null;
 
   // 1. 위험도(Risk Level) 색상 결정 함수 (다크모드 색상 추가)
@@ -25,18 +30,18 @@ const HazardModal: React.FC<HazardModalProps> = ({ data, onClose }) => {
   let statusLabel = '';
 
   switch (data.status) {
-    case 'Resolved':
+    case 'Done':
       statusColor = 'bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-400';
-      statusLabel = '해결됨 (Resolved)';
+      statusLabel = '해결됨 (Done)';
       break;
-    case 'In Progress':
+    case 'Processing':
       statusColor = 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-400';
-      statusLabel = '처리 중 (In Progress)';
+      statusLabel = '처리 중 (Processing)';
       break;
-    case 'Pending':
+    case 'New':
     default:
       statusColor = 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-400';
-      statusLabel = '접수됨 (Pending)';
+      statusLabel = '접수됨 (New)';
       break;
   }
 
@@ -129,14 +134,13 @@ const HazardModal: React.FC<HazardModalProps> = ({ data, onClose }) => {
                 </div>
               </div>
 
-              {/* 센서 데이터 */}
+              {/* 주소 데이터 */}
               <div className="space-y-1">
                 <div className="flex items-center text-xs text-slate-500 dark:text-slate-400 font-medium uppercase tracking-wider">
-                  <Server className="w-3 h-3 mr-1" /> 센서 데이터
+                  <MapPin className="w-3 h-3 mr-1" /> 근접 주소
                 </div>
-                <div className="text-xs font-mono text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800/80 p-1.5 rounded border border-slate-200 dark:border-slate-700 transition-colors duration-300">
-                  Gyro: {data.sensorData.gyro}<br />
-                  Accel: {data.sensorData.accel}
+                <div className="text-xs font-medium text-slate-700 dark:text-slate-300 bg-slate-100 dark:bg-slate-800/80 p-2 rounded border border-slate-200 dark:border-slate-700 transition-colors duration-300">
+                  {data.address || "주소 확인 중..."}
                 </div>
               </div>
             </div>
@@ -153,16 +157,30 @@ const HazardModal: React.FC<HazardModalProps> = ({ data, onClose }) => {
 
           {/* 하단 버튼 영역 */}
           <div className="mt-8 flex gap-3 pt-4 border-t border-slate-100 dark:border-slate-800 transition-colors duration-300">
-            <button className="flex-1 bg-slate-900 dark:bg-yellow-500 hover:bg-slate-800 dark:hover:bg-yellow-400 text-white dark:text-slate-900 py-2.5 px-4 rounded-lg text-sm font-bold transition-colors">
+            <button
+              onClick={() => setIsActionModalOpen(true)}
+              className="flex-1 bg-slate-900 dark:bg-yellow-500 hover:bg-slate-800 dark:hover:bg-yellow-400 text-white dark:text-slate-900 py-2.5 px-4 rounded-lg text-sm font-bold transition-colors"
+            >
               조치 보고서 작성
             </button>
-            <button className="flex-1 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 py-2.5 px-4 rounded-lg text-sm font-medium transition-colors">
+            <button
+              onClick={() => onViewMap(data)}
+              className="flex-1 bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 py-2.5 px-4 rounded-lg text-sm font-medium transition-colors"
+            >
               위치 지도 보기
             </button>
           </div>
 
         </div>
       </div>
+
+      {isActionModalOpen && (
+        <ActionReportModal
+          data={data}
+          onClose={() => setIsActionModalOpen(false)}
+          onStatusChange={onStatusChange}
+        />
+      )}
     </div>
   );
 };

@@ -38,6 +38,14 @@ export interface ReportPayload {
   imageBase64: string;  // 텍스트 형태의 이미지 데이터
   label?: string;       // 감지된 객체 라벨 (예: "person")
   device_id?: string;   // 실제 디바이스 ID (예: "android_...")
+
+  // 새로 추가된 바운딩 박스 및 거리 정보
+  distance?: number;
+  direction?: string;
+  x?: number;
+  y?: number;
+  w?: number;
+  h?: number;
 }
 
 /**
@@ -62,18 +70,15 @@ export const sendHazardReport = async (payload: ReportPayload) => {
     formData.append('risk_level', payload.risk_level.toString());
     formData.append('description', payload.description || '');
 
-    // ★ VisionCamera 등에서 as any로 넘어오는 distance/direction 데이터를 안전하게 서버로 넘겨줌
-    if ((payload as any).distance !== undefined) {
-      formData.append('distance', (payload as any).distance.toString());
-    } else {
-      formData.append('distance', '0'); // 기본값
-    }
+    // 거리 및 방향 데이터
+    formData.append('distance', payload.distance !== undefined ? payload.distance.toString() : '0');
+    formData.append('direction', payload.direction !== undefined ? payload.direction : 'C');
 
-    if ((payload as any).direction !== undefined) {
-      formData.append('direction', (payload as any).direction);
-    } else {
-      formData.append('direction', 'C'); // 기본값 (Center)
-    }
+    // ★ 바운딩 박스 좌표 데이터 (Float) 전송
+    if (payload.x !== undefined) formData.append('x', payload.x.toString());
+    if (payload.y !== undefined) formData.append('y', payload.y.toString());
+    if (payload.w !== undefined) formData.append('w', payload.w.toString());
+    if (payload.h !== undefined) formData.append('h', payload.h.toString());
 
     // 2. 이미지 변환 및 추가
     // 백엔드 파이썬 코드에서 'file'이라는 이름으로 사진을 받기 때문에 키값을 'file'로 맞춥니다.

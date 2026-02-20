@@ -23,10 +23,7 @@ export interface HazardData {
 
   description: string;
   reporter: string;
-  sensorData: {
-    gyro: string;
-    accel: string;
-  };
+  address?: string; // ★ 센서 데이터를 대체하는 실제 주소 데이터
 }
 
 export interface NavItem {

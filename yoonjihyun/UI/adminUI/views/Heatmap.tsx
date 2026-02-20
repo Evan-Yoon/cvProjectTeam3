@@ -8,6 +8,7 @@ import 'leaflet/dist/leaflet.css';
 interface HeatmapProps {
     data: HazardData[];
     isDarkMode: boolean;
+    initialCenter?: [number, number] | null;
 }
 
 // ★ 회색 잘림을 원천 차단하는 강력한 업데이트 헬퍼
@@ -46,9 +47,9 @@ const redArrowIcon = new L.DivIcon({
     iconAnchor: [14, 14],
 });
 
-const Heatmap: React.FC<HeatmapProps> = ({ data, isDarkMode }) => {
+const Heatmap: React.FC<HeatmapProps> = ({ data, isDarkMode, initialCenter }) => {
     const [activeRisk, setActiveRisk] = useState<string>('All');
-    const [centerPosition, setCenterPosition] = useState<[number, number]>([37.5665, 126.9780]);
+    const [centerPosition, setCenterPosition] = useState<[number, number]>(initialCenter || [37.5665, 126.9780]);
     const [myLocation, setMyLocation] = useState<[number, number] | null>(null);
 
     const moveToMyLocation = () => {
@@ -68,8 +69,12 @@ const Heatmap: React.FC<HeatmapProps> = ({ data, isDarkMode }) => {
     };
 
     useEffect(() => {
-        moveToMyLocation();
-    }, []);
+        if (initialCenter) {
+            setCenterPosition(initialCenter);
+        } else {
+            moveToMyLocation();
+        }
+    }, [initialCenter]);
 
     const mapData = data.map(d => {
         try {
@@ -120,8 +125,8 @@ const Heatmap: React.FC<HeatmapProps> = ({ data, isDarkMode }) => {
                                         key={level}
                                         onClick={() => setActiveRisk(level)}
                                         className={`text-left px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${activeRisk === level
-                                                ? (isDarkMode ? 'bg-yellow-500 text-slate-900' : 'bg-slate-800 text-white')
-                                                : (isDarkMode ? 'bg-slate-700/50 text-slate-300 hover:bg-slate-700' : 'bg-slate-100 text-slate-600 hover:bg-slate-200')
+                                            ? (isDarkMode ? 'bg-yellow-500 text-slate-900' : 'bg-slate-800 text-white')
+                                            : (isDarkMode ? 'bg-slate-700/50 text-slate-300 hover:bg-slate-700' : 'bg-slate-100 text-slate-600 hover:bg-slate-200')
                                             }`}
                                     >
                                         {level === 'All' ? '전체 보기' : `${level} Risk`}
