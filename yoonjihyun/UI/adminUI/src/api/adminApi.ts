@@ -1,4 +1,6 @@
-const API_BASE = import.meta.env.VITE_BACKEND_URL ?? "http://localhost:8000";
+// .env에서 가져온 주소 끝에 혹시 모를 공백이나 슬래시를 제거하는 안전장치
+const RAW_URL = import.meta.env.VITE_BACKEND_URL ?? "http://172.30.1.80:8000";
+const API_BASE = RAW_URL.replace(/\/$/, "");
 
 export type ReportRow = {
     item_id: string;
@@ -14,25 +16,32 @@ export type ReportRow = {
 };
 
 export const fetchReports = async (skip = 0, limit = 100) => {
-    const res = await fetch(`${API_BASE}/api/v1/reports/?skip=${skip}&limit=${limit}`, {
+    // ★ 핵심 수정: URL을 미리 만들어서 슬래시가 절대 붙지 않게 확인
+    const url = `${API_BASE}/api/v1/reports?skip=${skip}&limit=${limit}`;
+
+    const res = await fetch(url, {
+        method: "GET",
         headers: {
             "ngrok-skip-browser-warning": "true",
+            "Content-Type": "application/json",
         },
     });
-    if (!res.ok) throw new Error(`fetchReports failed: ${res.status}`);
-    const result = await res.json();
 
-    // result: { total, data: ReportRow[] }
-    return result as { total: number; data: ReportRow[] };
+    if (!res.ok) throw new Error(`fetchReports failed: ${res.status}`);
+    return await res.json() as { total: number; data: ReportRow[] };
 };
 
 export const patchReportStatus = async (itemId: string, status: "new" | "processing" | "done") => {
-    const res = await fetch(`${API_BASE}/api/v1/reports/${itemId}?status=${status}`, {
+    const url = `${API_BASE}/api/v1/reports/${itemId}?status=${status}`;
+
+    const res = await fetch(url, {
         method: "PATCH",
         headers: {
             "ngrok-skip-browser-warning": "true",
+            "Content-Type": "application/json",
         },
     });
+
     if (!res.ok) throw new Error(`patchReportStatus failed: ${res.status}`);
     return await res.json();
 };

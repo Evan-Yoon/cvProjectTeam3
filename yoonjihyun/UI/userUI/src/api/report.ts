@@ -62,6 +62,19 @@ export const sendHazardReport = async (payload: ReportPayload) => {
     formData.append('risk_level', payload.risk_level.toString());
     formData.append('description', payload.description || '');
 
+    // ★ VisionCamera 등에서 as any로 넘어오는 distance/direction 데이터를 안전하게 서버로 넘겨줌
+    if ((payload as any).distance !== undefined) {
+      formData.append('distance', (payload as any).distance.toString());
+    } else {
+      formData.append('distance', '0'); // 기본값
+    }
+
+    if ((payload as any).direction !== undefined) {
+      formData.append('direction', (payload as any).direction);
+    } else {
+      formData.append('direction', 'C'); // 기본값 (Center)
+    }
+
     // 2. 이미지 변환 및 추가
     // 백엔드 파이썬 코드에서 'file'이라는 이름으로 사진을 받기 때문에 키값을 'file'로 맞춥니다.
     const imageBlob = base64ToBlob(payload.imageBase64);

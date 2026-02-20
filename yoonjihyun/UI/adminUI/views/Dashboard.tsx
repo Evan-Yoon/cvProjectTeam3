@@ -7,11 +7,10 @@ import { AlertCircle, CheckCircle, Clock, TrendingUp } from 'lucide-react';
 interface DashboardProps {
   data: HazardData[];
   onRowClick: (data: HazardData) => void;
-  isDarkMode: boolean; // ★ 테마 상태를 명시적으로 받음
+  isDarkMode: boolean;
 }
 
 const StatCard = ({ title, value, subtext, icon, colorClass, isDarkMode }: any) => (
-  // ★ Tailwind의 dark: 버그를 무시하고, isDarkMode 값에 따라 강제로 클래스를 나눕니다.
   <div className={`p-6 rounded-xl shadow-sm border flex items-start justify-between transition-colors duration-300 ${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-100'
     }`}>
     <div>
@@ -100,7 +99,7 @@ const Dashboard: React.FC<DashboardProps> = ({ data, onRowClick, isDarkMode }) =
         </div>
 
         <div className={`p-6 rounded-xl shadow-sm border transition-colors duration-300 ${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-100'}`}>
-          <h3 className={`font-bold text-lg mb-4 ${isDarkMode ? 'text-slate-200' : 'text-slate-800'}`}>시간대별 접수 횟수</h3> {/* ★ 텍스트 수정됨 */}
+          <h3 className={`font-bold text-lg mb-4 ${isDarkMode ? 'text-slate-200' : 'text-slate-800'}`}>시간대별 접수 횟수</h3>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={timeData}>
@@ -117,7 +116,8 @@ const Dashboard: React.FC<DashboardProps> = ({ data, onRowClick, isDarkMode }) =
 
       <div>
         <h3 className={`font-bold text-lg mb-4 transition-colors duration-300 ${isDarkMode ? 'text-slate-200' : 'text-slate-800'}`}>최근 접수 내역 (Live Feed)</h3>
-        <HazardTable data={data.slice(0, 5)} onRowClick={onRowClick} compact />
+        {/* ★ 여기에 isDarkMode를 넘겨줍니다 */}
+        <HazardTable data={data.slice(0, 5)} onRowClick={onRowClick} compact isDarkMode={isDarkMode} />
       </div>
     </div>
   );

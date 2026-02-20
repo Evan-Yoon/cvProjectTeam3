@@ -10,7 +10,7 @@ interface HeatmapProps {
     isDarkMode: boolean;
 }
 
-// ★ 지도를 조작하는 헬퍼 컴포넌트
+// ★ 회색 잘림을 원천 차단하는 강력한 업데이트 헬퍼
 const MapUpdater: React.FC<{ center: [number, number] }> = ({ center }) => {
     const map = useMap();
 
@@ -19,26 +19,18 @@ const MapUpdater: React.FC<{ center: [number, number] }> = ({ center }) => {
     }, [center, map]);
 
     useEffect(() => {
-        const resizeObserver = new ResizeObserver(() => {
+        // 0.1초, 0.5초, 1초 뒤에 지도를 강제로 재계산합니다. (로딩 지연 대비 완벽 방어)
+        const timers = [100, 500, 1000].map(t => setTimeout(() => {
             map.invalidateSize();
-        });
-        const container = map.getContainer();
-        resizeObserver.observe(container);
+            window.dispatchEvent(new Event('resize'));
+        }, t));
 
-        const timer = setTimeout(() => {
-            map.invalidateSize();
-        }, 100);
-
-        return () => {
-            resizeObserver.disconnect();
-            clearTimeout(timer);
-        };
+        return () => timers.forEach(clearTimeout);
     }, [map]);
 
     return null;
 };
 
-// ★ [핵심 추가] 내 위치를 표시할 '빨간 화살표' 커스텀 아이콘 생성
 const redArrowHtml = `
   <div style="filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4)); transform: rotate(45deg);">
     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="#ef4444" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -49,16 +41,14 @@ const redArrowHtml = `
 
 const redArrowIcon = new L.DivIcon({
     html: redArrowHtml,
-    className: '', // leaflet 기본 아이콘 테두리 제거
+    className: '',
     iconSize: [28, 28],
-    iconAnchor: [14, 14], // 중심점을 정확히 가운데로 맞춤
+    iconAnchor: [14, 14],
 });
 
 const Heatmap: React.FC<HeatmapProps> = ({ data, isDarkMode }) => {
     const [activeRisk, setActiveRisk] = useState<string>('All');
     const [centerPosition, setCenterPosition] = useState<[number, number]>([37.5665, 126.9780]);
-
-    // ★ 내 위치(GPS) 상태 저장용 state 추가
     const [myLocation, setMyLocation] = useState<[number, number] | null>(null);
 
     const moveToMyLocation = () => {
@@ -66,8 +56,8 @@ const Heatmap: React.FC<HeatmapProps> = ({ data, isDarkMode }) => {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
                     const loc: [number, number] = [position.coords.latitude, position.coords.longitude];
-                    setCenterPosition(loc); // 지도 중심 이동
-                    setMyLocation(loc);     // 빨간 화살표 위치 저장
+                    setCenterPosition(loc);
+                    setMyLocation(loc);
                 },
                 (error) => {
                     console.warn("위치 정보를 가져올 수 없습니다.", error);
@@ -114,8 +104,8 @@ const Heatmap: React.FC<HeatmapProps> = ({ data, isDarkMode }) => {
                 </div>
             </div>
 
-            <div className="flex flex-1 gap-6 min-h-0">
-                <div className={`w-72 rounded-xl border flex flex-col p-5 transition-colors duration-300 ${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200 shadow-sm'}`}>
+            <div className="flex flex-1 gap-6 min-h-0 relative">
+                <div className={`w-72 rounded-xl border flex flex-col p-5 transition-colors duration-300 z-10 relative ${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-200 shadow-sm'}`}>
                     <div className="flex items-center gap-2 mb-6">
                         <Filter size={20} className={isDarkMode ? 'text-yellow-400' : 'text-slate-600'} />
                         <h3 className={`font-bold ${isDarkMode ? 'text-white' : 'text-slate-800'}`}>지도 필터</h3>
@@ -130,8 +120,8 @@ const Heatmap: React.FC<HeatmapProps> = ({ data, isDarkMode }) => {
                                         key={level}
                                         onClick={() => setActiveRisk(level)}
                                         className={`text-left px-4 py-2.5 rounded-lg text-sm font-medium transition-colors ${activeRisk === level
-                                            ? (isDarkMode ? 'bg-yellow-500 text-slate-900' : 'bg-slate-800 text-white')
-                                            : (isDarkMode ? 'bg-slate-700/50 text-slate-300 hover:bg-slate-700' : 'bg-slate-100 text-slate-600 hover:bg-slate-200')
+                                                ? (isDarkMode ? 'bg-yellow-500 text-slate-900' : 'bg-slate-800 text-white')
+                                                : (isDarkMode ? 'bg-slate-700/50 text-slate-300 hover:bg-slate-700' : 'bg-slate-100 text-slate-600 hover:bg-slate-200')
                                             }`}
                                     >
                                         {level === 'All' ? '전체 보기' : `${level} Risk`}
@@ -150,7 +140,8 @@ const Heatmap: React.FC<HeatmapProps> = ({ data, isDarkMode }) => {
                     </div>
                 </div>
 
-                <div className={`flex-1 rounded-xl border relative overflow-hidden transition-colors duration-300 z-0 ${isDarkMode ? 'border-slate-700' : 'border-slate-300'}`}>
+                {/* ★ 짤림 방지: div에 h-full w-full을 주고 MapContainer를 position: absolute로 꽉 채웁니다. */}
+                <div className={`flex-1 rounded-xl border relative overflow-hidden transition-colors duration-300 h-full ${isDarkMode ? 'border-slate-700' : 'border-slate-300'}`}>
 
                     <button
                         onClick={moveToMyLocation}
@@ -161,7 +152,7 @@ const Heatmap: React.FC<HeatmapProps> = ({ data, isDarkMode }) => {
                         <NavIcon size={20} className="fill-current" />
                     </button>
 
-                    <MapContainer center={centerPosition} zoom={13} style={{ height: '100%', width: '100%', zIndex: 0 }}>
+                    <MapContainer center={centerPosition} zoom={13} style={{ position: 'absolute', top: 0, left: 0, height: '100%', width: '100%', zIndex: 0 }}>
                         <TileLayer
                             url={tileUrl}
                             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -169,7 +160,6 @@ const Heatmap: React.FC<HeatmapProps> = ({ data, isDarkMode }) => {
 
                         <MapUpdater center={centerPosition} />
 
-                        {/* ★ [핵심 렌더링] 내 위치가 확인되면 빨간 화살표 마커를 그립니다 */}
                         {myLocation && (
                             <Marker position={myLocation} icon={redArrowIcon}>
                                 <LeafletTooltip direction="top" offset={[0, -10]} opacity={1}>

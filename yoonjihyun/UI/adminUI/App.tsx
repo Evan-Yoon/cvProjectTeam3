@@ -1,10 +1,12 @@
+// adminUI/src/App.tsx 전체 코드
+
 import React, { useState, useEffect, useCallback } from 'react';
 import { createClient } from '@supabase/supabase-js';
 
 import Sidebar from './components/Sidebar';
 import Dashboard from './views/Dashboard';
 import Database from './views/Database';
-import Heatmap from './views/Heatmap'; // ★ 새로운 히트맵 컴포넌트 (Reports 대체)
+import Heatmap from './views/Heatmap';
 import HazardModal from './components/HazardModal';
 import TestMonitor from './src/pages/TestMonitor';
 import { HazardData } from './types';
@@ -19,7 +21,6 @@ const App: React.FC = () => {
   const [activePage, setActivePage] = useState('dashboard');
   const [selectedHazard, setSelectedHazard] = useState<HazardData | null>(null);
   const [reports, setReports] = useState<HazardData[]>([]);
-
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
@@ -40,6 +41,12 @@ const App: React.FC = () => {
     const safeLat = Number(dbReport.latitude || 0).toFixed(4);
     const safeLng = Number(dbReport.longitude || 0).toFixed(4);
 
+    // ★ 404 방지: S3 풀 경로인 경우와 로컬 경로인 경우를 구분합니다.
+    const rawImageUrl = dbReport.image_url || '';
+    const finalThumbnail = rawImageUrl.startsWith('http')
+      ? rawImageUrl
+      : `${API_BASE_URL}/${rawImageUrl}`;
+
     return {
       id: dbReport.item_id,
       type: dbReport.hazard_type,
@@ -51,7 +58,7 @@ const App: React.FC = () => {
       distance: dbReport.distance,
       direction: dbReport.direction,
       status: currentStatus as any,
-      thumbnail: `${API_BASE_URL}/${dbReport.image_url}`,
+      thumbnail: finalThumbnail,
       description: dbReport.description || "자동 감지 시스템 수집 데이터",
       sensorData: { gyro: "N/A", accel: "N/A" },
       reporter: "WalkMate AI Camera",
@@ -76,12 +83,11 @@ const App: React.FC = () => {
 
   const handleRowClick = (data: HazardData) => setSelectedHazard(data);
 
-  // ★ isDarkMode를 prop으로 넘겨주어 하위 컴포넌트의 테마를 강제로 통제합니다!
   const renderContent = () => {
     switch (activePage) {
       case 'dashboard': return <Dashboard data={reports} onRowClick={handleRowClick} isDarkMode={isDarkMode} />;
       case 'heatmap': return <Heatmap data={reports} isDarkMode={isDarkMode} />;
-      case 'database': return <Database data={reports} onRowClick={handleRowClick} />; // (Database도 추후 isDarkMode 추가 가능)
+      case 'database': return <Database data={reports} onRowClick={handleRowClick} />;
       case 'test-monitor': return <TestMonitor />;
       default: return <Dashboard data={reports} onRowClick={handleRowClick} isDarkMode={isDarkMode} />;
     }
