@@ -146,13 +146,14 @@ const VisionCamera: React.FC = () => {
         let calculatedDistance = 0.0;
         let calculatedDirection = 'C';
         let primaryHazardType = "Periodic_Monitor";
+        let boxes: DetectedBox[] = [];
 
         if (result && result.data && (result.data.length ?? 0) > 0) {
           infoMsg += ` | 데이터: ${result.data.length}개`;
           if (result.shape) infoMsg += ` | Shape: [${result.shape.join("x")}]`;
 
           const { flat, normShape } = normalizeYoloOutput(result.data, result.shape);
-          const boxes: DetectedBox[] = YoloParser.parse(flat, normShape);
+          boxes = YoloParser.parse(flat, normShape);
 
           if (boxes.length > 0) {
             infoMsg += ` | 📦객체: ${boxes.length}개`;

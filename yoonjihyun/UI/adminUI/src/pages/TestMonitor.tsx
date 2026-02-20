@@ -1,13 +1,11 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { createClient } from '@supabase/supabase-js';
 
+// 1. .env 파일에 등록한 API 키를 바탕으로 Supabase 클라이언트 생성 (DB 담당자 요청사항 완수)
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-// ---------------------------------------------------------------------------
-// 1. 데이터 타입 정의 (distance, direction 추가)
-// ---------------------------------------------------------------------------
 interface Report {
   item_id: string;
   created_at: string;
@@ -21,9 +19,6 @@ interface Report {
   direction: string;
 }
 
-// ---------------------------------------------------------------------------
-// 2. 카드 컴포넌트 (ReportCard)
-// ---------------------------------------------------------------------------
 interface ReportCardProps {
   report: Report;
   baseUrl: string;
@@ -38,7 +33,6 @@ const ReportCard: React.FC<ReportCardProps> = ({ report, baseUrl }) => {
     return 'bg-amber-500';
   };
 
-  // 방향 코드('L', 'C', 'R')를 한글 라벨로 변환
   const getDirectionLabel = (dir: string) => {
     if (dir === 'L') return '⬅️ 좌측';
     if (dir === 'R') return '➡️ 우측';
@@ -61,7 +55,7 @@ const ReportCard: React.FC<ReportCardProps> = ({ report, baseUrl }) => {
           Lv.{report.risk_level} {report.hazard_type}
         </div>
 
-        {/* ★ 추가됨: 거리와 방향을 함께 보여주는 통합 배지 */}
+        {/* 거리와 방향 배지 */}
         <div className="absolute top-3 left-3 bg-blue-800/90 text-white text-[10px] font-black px-2 py-1 rounded-lg shadow-md flex items-center gap-1.5 backdrop-blur-sm">
           <span>📏 {report.distance}m</span>
           <span className="w-px h-3 bg-blue-400/50"></span>
@@ -98,21 +92,19 @@ const ReportCard: React.FC<ReportCardProps> = ({ report, baseUrl }) => {
   );
 }
 
-// ---------------------------------------------------------------------------
-// 3. 메인 모니터 컴포넌트 (TestMonitor)
-// ---------------------------------------------------------------------------
 const TestMonitor: React.FC = () => {
   const [reports, setReports] = useState<Report[]>([]);
   const [lastUpdated, setLastUpdated] = useState<string>("");
   const [loading, setLoading] = useState(true);
-  const [isSending, setIsSending] = useState(false);
 
+  // ngrok 환경을 포함할 수 있도록 동적 할당
   const API_BASE_URL = import.meta.env.VITE_BACKEND_URL || "http://172.30.1.80:8000";
 
   const fetchReports = useCallback(async () => {
     try {
       const response = await fetch(`${API_BASE_URL}/api/v1/reports/`, {
         headers: {
+          // 2. 외부 접속 테스트용 ngrok 우회 헤더 (DB 담당자 요청사항 완수)
           'ngrok-skip-browser-warning': 'true',
           'Accept': 'application/json'
         }
@@ -135,57 +127,18 @@ const TestMonitor: React.FC = () => {
     }
   }, [API_BASE_URL]);
 
-  const sendDummyData = async () => {
-    if (isSending) return;
-    setIsSending(true);
-    try {
-      const base64 = "R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
-      const res = await fetch(`data:image/gif;base64,${base64}`);
-      const blob = await res.blob();
-
-      const formData = new FormData();
-      formData.append('item_id', crypto.randomUUID());
-      formData.append('user_id', crypto.randomUUID());
-      formData.append('latitude', (37.5665 + Math.random() * 0.01).toFixed(6));
-      formData.append('longitude', (126.9780 + Math.random() * 0.01).toFixed(6));
-      formData.append('hazard_type', 'Test_Dummy');
-      formData.append('risk_level', Math.floor(Math.random() * 5 + 1).toString());
-      formData.append('distance', (Math.random() * 4.5 + 0.5).toFixed(2));
-
-      // ★ 추가됨: 'L', 'C', 'R' 중 랜덤으로 방향 값 생성
-      const directions = ['L', 'C', 'R'];
-      const randomDirection = directions[Math.floor(Math.random() * directions.length)];
-      formData.append('direction', randomDirection);
-
-      formData.append('description', `관리자 전송 테스트 ${new Date().toLocaleTimeString()}`);
-      formData.append('file', blob, 'dummy.gif');
-
-      const response = await fetch(`${API_BASE_URL}/api/v1/reports/`, {
-        method: 'POST',
-        headers: { 'ngrok-skip-browser-warning': 'true' },
-        body: formData,
-      });
-
-      if (!response.ok) {
-        alert("전송 실패");
-      }
-    } catch (error) {
-      alert("서버 연결 오류");
-    } finally {
-      setIsSending(false);
-    }
-  };
-
   useEffect(() => {
+    // 최초 1회 기존 데이터 가져오기
     fetchReports();
 
+    // 3. Supabase Realtime 구독 (DB 담당자 요청: public.reports 테이블의 INSERT 감시)
     const channel = supabase
       .channel('realtime-reports')
       .on(
         'postgres_changes',
         { event: 'INSERT', schema: 'public', table: 'reports' },
         (payload) => {
-          console.log('새로운 데이터 실시간 수신:', payload.new);
+          console.log('🌟 새로운 데이터 실시간 수신 완료:', payload.new);
           const newReport = payload.new as Report;
 
           setReports((prevReports) => {
@@ -212,7 +165,7 @@ const TestMonitor: React.FC = () => {
           <p className="text-slate-500 mt-2 flex items-center gap-2">
             <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
             서버: <code className="bg-slate-200 px-2 py-0.5 rounded text-sm">{API_BASE_URL}</code>
-            <span className="text-xs font-bold text-indigo-500 bg-indigo-100 px-2 py-0.5 rounded ml-2">Realtime ON</span>
+            <span className="text-xs font-bold text-indigo-500 bg-indigo-100 px-2 py-0.5 rounded ml-2">Supabase Realtime ON</span>
           </p>
         </div>
 
@@ -221,14 +174,6 @@ const TestMonitor: React.FC = () => {
             <p className="text-xs text-slate-400 uppercase font-semibold">Last Update</p>
             <p className="text-sm font-mono text-slate-700">{lastUpdated || "연결 중..."}</p>
           </div>
-          <button
-            onClick={sendDummyData}
-            disabled={isSending}
-            className={`px-6 py-3 rounded-xl font-bold text-white shadow-lg transition-all ${isSending ? 'bg-slate-400' : 'bg-indigo-600 hover:bg-indigo-700'
-              }`}
-          >
-            {isSending ? "전송 중..." : "📤 더미 데이터 추가"}
-          </button>
         </div>
       </header>
 

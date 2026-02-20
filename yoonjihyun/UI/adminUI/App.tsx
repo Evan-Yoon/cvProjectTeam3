@@ -1,17 +1,100 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
+import { createClient } from '@supabase/supabase-js';
+
 import Sidebar from './components/Sidebar';
 import Dashboard from './views/Dashboard';
 import Reports from './views/Reports';
 import Database from './views/Database';
 import HazardModal from './components/HazardModal';
-// ★ [추가] 방금 만든 TestMonitor 페이지 import
 import TestMonitor from './src/pages/TestMonitor';
 import { HazardData } from './types';
 import { Bell, Search, UserCircle } from 'lucide-react';
 
+// ---------------------------------------------------------------------------
+// 1. 환경 변수 및 Supabase 설정
+// ---------------------------------------------------------------------------
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
+const API_BASE_URL = import.meta.env.VITE_BACKEND_URL || "http://172.30.1.80:8000";
+
 const App: React.FC = () => {
   const [activePage, setActivePage] = useState('dashboard');
   const [selectedHazard, setSelectedHazard] = useState<HazardData | null>(null);
+
+  // ★ [핵심 추가] 전체 앱에서 공유할 실시간 데이터 상태
+  const [reports, setReports] = useState<HazardData[]>([]);
+
+  // DB 데이터를 UI 규격(HazardData)으로 변환
+  const mapToHazardData = (dbReport: any): HazardData => {
+    let riskLabel: 'High' | 'Medium' | 'Low' = 'Low';
+    if (dbReport.risk_level >= 4) riskLabel = 'High';
+    else if (dbReport.risk_level === 3) riskLabel = 'Medium';
+
+    const currentStatus = dbReport.status || 'Pending';
+    const dirMap: Record<string, string> = { 'L': '좌측', 'R': '우측', 'C': '정면' };
+    const directionStr = dirMap[dbReport.direction] || '정면';
+
+    return {
+      id: dbReport.item_id,
+      type: dbReport.hazard_type,
+      riskLevel: riskLabel,
+      timestamp: new Date(dbReport.created_at).toLocaleString(),
+      location: `위도: ${dbReport.latitude?.toFixed(4)}, 경도: ${dbReport.longitude?.toFixed(4)}`,
+      coordinates: `거리: ${dbReport.distance}m | 방향: ${directionStr}`,
+      distance: dbReport.distance,
+      direction: dbReport.direction,
+      status: currentStatus,
+      thumbnail: `${API_BASE_URL}/${dbReport.image_url}`,
+      description: dbReport.description || "자동 감지 시스템 수집 데이터",
+      sensorData: { gyro: "N/A", accel: "N/A" },
+      reporter: "WalkMate AI Camera",
+    };
+  };
+
+  // ---------------------------------------------------------------------------
+  // 2. 데이터 페칭 및 실시간 구독 로직
+  // ---------------------------------------------------------------------------
+  const fetchInitialData = useCallback(async () => {
+    try {
+      const { data, error } = await supabase
+        .from('reports')
+        .select('*')
+        .order('created_at', { ascending: false });
+
+      if (error) throw error;
+      if (data) {
+        setReports(data.map(mapToHazardData));
+      }
+    } catch (err) {
+      console.error("데이터 로드 실패:", err);
+    }
+  }, []);
+
+  useEffect(() => {
+    // 앱이 처음 켜질 때 1회 로드
+    fetchInitialData();
+
+    // Supabase Realtime 구독
+    const channel = supabase
+      .channel('app_realtime_reports')
+      .on(
+        'postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'reports' },
+        (payload) => {
+          const newHazard = mapToHazardData(payload.new);
+          setReports((prev) => {
+            if (prev.some(r => r.id === newHazard.id)) return prev;
+            return [newHazard, ...prev]; // 최신 데이터 맨 앞에 추가
+          });
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [fetchInitialData]);
 
   const handleRowClick = (data: HazardData) => {
     setSelectedHazard(data);
@@ -20,20 +103,19 @@ const App: React.FC = () => {
   const renderContent = () => {
     switch (activePage) {
       case 'dashboard':
-        return <Dashboard onRowClick={handleRowClick} />;
+        // ★ 부모가 가진 reports 데이터를 자식에게 props로 전달
+        return <Dashboard data={reports} onRowClick={handleRowClick} />;
       case 'reports-b2b':
-        return <Reports type="B2B" onRowClick={handleRowClick} />;
+        return <Reports data={reports} type="B2B" onRowClick={handleRowClick} />;
       case 'reports-b2g':
-        return <Reports type="B2G" onRowClick={handleRowClick} />;
+        return <Reports data={reports} type="B2G" onRowClick={handleRowClick} />;
       case 'database':
-        return <Database onRowClick={handleRowClick} />;
-
-      // ★ [추가] test-monitor 상태일 때 보여줄 컴포넌트 설정
+        return <Database data={reports} onRowClick={handleRowClick} />;
       case 'test-monitor':
+        // TestMonitor는 자체적으로 데이터를 호출하는 구조를 유지
         return <TestMonitor />;
-
       default:
-        return <Dashboard onRowClick={handleRowClick} />;
+        return <Dashboard data={reports} onRowClick={handleRowClick} />;
     }
   };
 
@@ -43,10 +125,7 @@ const App: React.FC = () => {
       case 'reports-b2b': return 'B2B Hazard Reports';
       case 'reports-b2g': return 'B2G Hazard Reports';
       case 'database': return 'Master Database';
-
-      // ★ [추가] 상단 헤더 제목 설정
       case 'test-monitor': return 'Real-time Test Monitor';
-
       default: return 'WalkMate System';
     }
   };
