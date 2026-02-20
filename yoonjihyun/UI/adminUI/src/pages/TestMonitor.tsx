@@ -1,10 +1,15 @@
 import React, { useEffect, useState, useCallback } from 'react';
+import { createClient } from '@supabase/supabase-js';
+
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 // ---------------------------------------------------------------------------
-// 1. 데이터 타입 정의
+// 1. 데이터 타입 정의 (distance, direction 추가)
 // ---------------------------------------------------------------------------
 interface Report {
-  item_id: string;      // 백엔드 데이터에 이 필드가 정확히 있는지 확인해주세요!
+  item_id: string;
   created_at: string;
   hazard_type: string;
   image_url: string;
@@ -12,18 +17,18 @@ interface Report {
   latitude: number;
   longitude: number;
   risk_level: number;
+  distance: number;
+  direction: string;
 }
 
 // ---------------------------------------------------------------------------
 // 2. 카드 컴포넌트 (ReportCard)
 // ---------------------------------------------------------------------------
-// ★ [해결책] Props 인터페이스에는 절대 'key'를 넣지 않습니다.
 interface ReportCardProps {
   report: Report;
   baseUrl: string;
 }
 
-// React.FC를 사용하여 key 등 내부 props 타입을 자동으로 처리합니다.
 const ReportCard: React.FC<ReportCardProps> = ({ report, baseUrl }) => {
   const fullImageUrl = `${baseUrl}/${report.image_url}`;
 
@@ -31,6 +36,13 @@ const ReportCard: React.FC<ReportCardProps> = ({ report, baseUrl }) => {
     if (level >= 4) return 'bg-red-500';
     if (level >= 3) return 'bg-orange-500';
     return 'bg-amber-500';
+  };
+
+  // 방향 코드('L', 'C', 'R')를 한글 라벨로 변환
+  const getDirectionLabel = (dir: string) => {
+    if (dir === 'L') return '⬅️ 좌측';
+    if (dir === 'R') return '➡️ 우측';
+    return '⬆️ 정면';
   };
 
   return (
@@ -47,6 +59,13 @@ const ReportCard: React.FC<ReportCardProps> = ({ report, baseUrl }) => {
         />
         <div className={`absolute top-3 right-3 ${getRiskColor(report.risk_level)} text-white text-[10px] font-black px-2 py-1 rounded-lg shadow-md uppercase`}>
           Lv.{report.risk_level} {report.hazard_type}
+        </div>
+
+        {/* ★ 추가됨: 거리와 방향을 함께 보여주는 통합 배지 */}
+        <div className="absolute top-3 left-3 bg-blue-800/90 text-white text-[10px] font-black px-2 py-1 rounded-lg shadow-md flex items-center gap-1.5 backdrop-blur-sm">
+          <span>📏 {report.distance}m</span>
+          <span className="w-px h-3 bg-blue-400/50"></span>
+          <span>{getDirectionLabel(report.direction)}</span>
         </div>
       </div>
 
@@ -131,6 +150,13 @@ const TestMonitor: React.FC = () => {
       formData.append('longitude', (126.9780 + Math.random() * 0.01).toFixed(6));
       formData.append('hazard_type', 'Test_Dummy');
       formData.append('risk_level', Math.floor(Math.random() * 5 + 1).toString());
+      formData.append('distance', (Math.random() * 4.5 + 0.5).toFixed(2));
+
+      // ★ 추가됨: 'L', 'C', 'R' 중 랜덤으로 방향 값 생성
+      const directions = ['L', 'C', 'R'];
+      const randomDirection = directions[Math.floor(Math.random() * directions.length)];
+      formData.append('direction', randomDirection);
+
       formData.append('description', `관리자 전송 테스트 ${new Date().toLocaleTimeString()}`);
       formData.append('file', blob, 'dummy.gif');
 
@@ -140,8 +166,8 @@ const TestMonitor: React.FC = () => {
         body: formData,
       });
 
-      if (response.ok) {
-        await fetchReports();
+      if (!response.ok) {
+        alert("전송 실패");
       }
     } catch (error) {
       alert("서버 연결 오류");
@@ -152,8 +178,30 @@ const TestMonitor: React.FC = () => {
 
   useEffect(() => {
     fetchReports();
-    const interval = setInterval(fetchReports, 3000);
-    return () => clearInterval(interval);
+
+    const channel = supabase
+      .channel('realtime-reports')
+      .on(
+        'postgres_changes',
+        { event: 'INSERT', schema: 'public', table: 'reports' },
+        (payload) => {
+          console.log('새로운 데이터 실시간 수신:', payload.new);
+          const newReport = payload.new as Report;
+
+          setReports((prevReports) => {
+            const isDuplicate = prevReports.some(report => report.item_id === newReport.item_id);
+            if (isDuplicate) return prevReports;
+            return [newReport, ...prevReports];
+          });
+
+          setLastUpdated(new Date().toLocaleTimeString());
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, [fetchReports]);
 
   return (
@@ -164,6 +212,7 @@ const TestMonitor: React.FC = () => {
           <p className="text-slate-500 mt-2 flex items-center gap-2">
             <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
             서버: <code className="bg-slate-200 px-2 py-0.5 rounded text-sm">{API_BASE_URL}</code>
+            <span className="text-xs font-bold text-indigo-500 bg-indigo-100 px-2 py-0.5 rounded ml-2">Realtime ON</span>
           </p>
         </div>
 
@@ -196,8 +245,6 @@ const TestMonitor: React.FC = () => {
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {reports.map((report, index) => (
-              // ★ [해결 포인트] key에 고유한 값을 넣어줍니다.
-              // 만약 report.item_id가 여전히 에러를 내면 index를 사용해보세요.
               <ReportCard
                 key={report.item_id || index}
                 report={report}

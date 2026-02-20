@@ -47,18 +47,10 @@ const VisionCamera: React.FC = () => {
     };
   }, []);
 
-  /**
-   * ✅ YOLO TFLite 출력(data/shape)이 플랫폼/브릿지별로 달라질 수 있어 정규화
-   * - 대표 형태:
-   *   (1, 84, 8400) / (1, 85, 8400)
-   *   (8400, 84) / (8400, 85)
-   *   shape 누락 + data 길이로 추정
-   */
   const normalizeYoloOutput = (
     data: any,
     shape: any
   ): { flat: number[]; normShape: number[] } => {
-    // data -> number[]
     let flat: number[] = [];
     if (Array.isArray(data)) {
       flat = data.map((v) => Number(v));
@@ -68,38 +60,29 @@ const VisionCamera: React.FC = () => {
       flat = [];
     }
 
-    // shape -> number[]
     let normShape: number[] = [];
     if (Array.isArray(shape) && shape.length) {
       normShape = shape.map((v) => Number(v));
     }
 
-    // shape 없으면 data 길이로 추정
     if (normShape.length === 0 && flat.length > 0) {
-      // 640 기준 8400 boxes가 가장 흔함 (P3/P4/P5 합)
-      // 다른 입력(320/1280)도 방어적으로 포함
       const boxCandidates = [8400, 2100, 33600];
-
       for (const n of boxCandidates) {
         if (flat.length % n === 0) {
-          const attrs = flat.length / n; // 84, 85, 9 등
+          const attrs = flat.length / n;
           normShape = [1, attrs, n];
           break;
         }
       }
     }
 
-    // (boxes, attrs) 형태면 (1, attrs, boxes)로 표준화
     if (normShape.length === 2) {
       const a = normShape[0];
       const b = normShape[1];
 
-      // attrs 범위(대략 6~300)를 이용해 판별
       if (b >= 6 && b <= 300) {
-        // (boxes, attrs)
         normShape = [1, b, a];
       } else if (a >= 6 && a <= 300) {
-        // (attrs, boxes) -> 이미 괜찮지만 표준으로 맞춤
         normShape = [1, a, b];
       }
     }
@@ -120,7 +103,7 @@ const VisionCamera: React.FC = () => {
         const imageSrc = webcamRef.current.getScreenshot();
         if (!imageSrc) return;
 
-        // [Step 1] Letterbox Preprocessing (640x640) - ✅ 변경하지 않음
+        // [Step 1] Letterbox Preprocessing (640x640)
         const img = new Image();
         img.src = imageSrc;
 
@@ -137,21 +120,17 @@ const VisionCamera: React.FC = () => {
         const ctx = canvas.getContext("2d");
         if (!ctx) return;
 
-        // Fill with black (padding)
         ctx.fillStyle = "black";
         ctx.fillRect(0, 0, modelInputSize, modelInputSize);
 
-        // Resize with aspect ratio preserved
         const scale = Math.min(modelInputSize / img.width, modelInputSize / img.height);
         const w = img.width * scale;
         const h = img.height * scale;
         const tx = (modelInputSize - w) / 2;
         const ty = (modelInputSize - h) / 2;
 
-        // Draw image centered (letterboxed)
         ctx.drawImage(img, tx, ty, w, h);
 
-        // Inference용 Base64 extraction (Letterboxed Image)
         const letterboxedBase64 = canvas.toDataURL("image/jpeg", 0.9).split(",")[1];
 
         // [Step 2] NPU 추론 실행
@@ -160,16 +139,19 @@ const VisionCamera: React.FC = () => {
         const endTime = performance.now();
         const duration = (endTime - startTime).toFixed(0);
 
-        // [Step 3] 결과 파싱 및 그리기 (same canvas)
+        // [Step 3] 결과 파싱 및 그리기
         let infoMsg = `시간: ${duration}ms`;
+
+        // ★ DB 전송을 위한 거리 및 방향 초기값 설정 (NOT NULL 제약조건 방어)
+        let calculatedDistance = 0.0;
+        let calculatedDirection = 'C';
+        let primaryHazardType = "Periodic_Monitor";
 
         if (result && result.data && (result.data.length ?? 0) > 0) {
           infoMsg += ` | 데이터: ${result.data.length}개`;
           if (result.shape) infoMsg += ` | Shape: [${result.shape.join("x")}]`;
 
           const { flat, normShape } = normalizeYoloOutput(result.data, result.shape);
-
-          // ✅ 파서 입력 안정화
           const boxes: DetectedBox[] = YoloParser.parse(flat, normShape);
 
           if (boxes.length > 0) {
@@ -178,8 +160,15 @@ const VisionCamera: React.FC = () => {
             ctx.lineWidth = 2;
             ctx.font = "bold 20px Arial";
 
+            // ---------------------------------------------------------------------
+            // [학습 포인트: 가장 위협이 되는(가까운) 주 객체 찾기]
+            // 여러 객체가 발견되었을 때, 박스 면적(w * h)이 가장 큰 것을 
+            // '가장 가까이 있는 주 방해물'로 판단합니다.
+            // ---------------------------------------------------------------------
+            let primaryBox = boxes[0];
+            let maxArea = 0;
+
             boxes.forEach((box) => {
-              // YOLO 결과는 0~1 정규화된 좌표 가정
               const x = box.x * modelInputSize;
               const y = box.y * modelInputSize;
               const width = box.w * modelInputSize;
@@ -188,11 +177,17 @@ const VisionCamera: React.FC = () => {
               const left = x - width / 2;
               const top = y - height / 2;
 
-              // 박스
+              // 박스 면적 계산
+              const area = box.w * box.h;
+              if (area > maxArea) {
+                maxArea = area;
+                primaryBox = box;
+              }
+
+              // 캔버스에 그리기
               ctx.strokeStyle = "#00FF00";
               ctx.strokeRect(left, top, width, height);
 
-              // 라벨
               const labelText = `${box.className} ${(box.score * 100).toFixed(0)}%`;
               const textWidth = ctx.measureText(labelText).width;
 
@@ -202,6 +197,32 @@ const VisionCamera: React.FC = () => {
               ctx.fillStyle = "black";
               ctx.fillText(labelText, left + 5, top - 5);
             });
+
+            // ---------------------------------------------------------------------
+            // [학습 포인트: 거리 계산 공식 적용]
+            // 화면에서 차지하는 비율이 클수록 거리가 가깝습니다. (가상 핀홀 카메라 원리 적용)
+            // 1.0 / Math.max(w, h)를 사용하여, 꽉 차면(1.0) 약 1m, 10%면(0.1) 10m로 추산합니다.
+            // ---------------------------------------------------------------------
+            const maxSizeRatio = Math.max(primaryBox.w, primaryBox.h);
+            // 너무 큰 값(무한대)을 방지하기 위해 최대 20m, 최소 0.5m로 제한합니다.
+            calculatedDistance = parseFloat(Math.max(0.5, Math.min(20.0, 1.0 / (maxSizeRatio + 0.001))).toFixed(2));
+
+            // ---------------------------------------------------------------------
+            // [학습 포인트: 방향 판단 로직]
+            // YOLO 결과의 box.x는 0 ~ 1 사이의 중심점 좌표입니다.
+            // 0 ~ 0.33은 좌측, 0.33 ~ 0.66은 정면, 0.66 ~ 1.0은 우측입니다.
+            // ---------------------------------------------------------------------
+            if (primaryBox.x < 0.33) {
+              calculatedDirection = 'L'; // 좌측
+            } else if (primaryBox.x > 0.66) {
+              calculatedDirection = 'R'; // 우측
+            } else {
+              calculatedDirection = 'C'; // 정면(중앙)
+            }
+
+            primaryHazardType = primaryBox.className;
+            infoMsg += ` | 타겟: ${primaryHazardType} (${calculatedDirection}, ${calculatedDistance}m)`;
+
           } else {
             infoMsg += " | ⚪객체없음";
           }
@@ -217,14 +238,19 @@ const VisionCamera: React.FC = () => {
         const position = await Geolocation.getCurrentPosition();
 
         console.log("📤 3초 주기 데이터 전송 중...");
+
+        // ★ API 명세에 맞게 distance와 direction 데이터를 추가하여 전송합니다.
+        // 객체가 없을 때는 기본값(거리: 0, 방향: 'C')이 전송됩니다.
         await sendHazardReport({
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
-          hazard_type: "Periodic_Monitor",
-          risk_level: 1,
-          description: `모니터링 (3초 주기) ${new Date().toLocaleTimeString()} / ${infoMsg}`,
+          hazard_type: boxes && boxes.length > 0 ? primaryHazardType : "Periodic_Monitor",
+          risk_level: boxes && boxes.length > 0 ? 3 : 1, // 객체가 감지되면 위험도를 높입니다.
+          description: `모니터링 ${new Date().toLocaleTimeString()} / ${infoMsg}`,
           imageBase64: finalImageBase64,
-        });
+          distance: calculatedDistance,   // float 데이터 전송
+          direction: calculatedDirection  // string 데이터 전송
+        } as any); // 타입 에러 우회를 위해 as any 사용 (필요시 sendHazardReport 인터페이스도 수정 요망)
 
         setStatus("전송 완료");
         setTimeout(() => {
