@@ -1,7 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { createClient } from '@supabase/supabase-js';
 
-// 1. .env 파일에 등록한 API 키를 바탕으로 Supabase 클라이언트 생성 (DB 담당자 요청사항 완수)
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
@@ -12,8 +11,8 @@ interface Report {
   hazard_type: string;
   image_url: string;
   description: string;
-  latitude: number;
-  longitude: number;
+  latitude: number | string;
+  longitude: number | string;
   risk_level: number;
   distance: number;
   direction: string;
@@ -39,6 +38,10 @@ const ReportCard: React.FC<ReportCardProps> = ({ report, baseUrl }) => {
     return '⬆️ 정면';
   };
 
+  // ★ 빈화면 오류 방지: 확실하게 숫자로 변환 후 toFixed 적용
+  const safeLat = Number(report.latitude || 0).toFixed(4);
+  const safeLng = Number(report.longitude || 0).toFixed(4);
+
   return (
     <div className="group bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
       <div className="relative h-52 overflow-hidden bg-slate-100">
@@ -55,7 +58,6 @@ const ReportCard: React.FC<ReportCardProps> = ({ report, baseUrl }) => {
           Lv.{report.risk_level} {report.hazard_type}
         </div>
 
-        {/* 거리와 방향 배지 */}
         <div className="absolute top-3 left-3 bg-blue-800/90 text-white text-[10px] font-black px-2 py-1 rounded-lg shadow-md flex items-center gap-1.5 backdrop-blur-sm">
           <span>📏 {report.distance}m</span>
           <span className="w-px h-3 bg-blue-400/50"></span>
@@ -77,7 +79,7 @@ const ReportCard: React.FC<ReportCardProps> = ({ report, baseUrl }) => {
         <div className="flex items-center gap-2 text-slate-500 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
           <span className="text-sm">📍</span>
           <span className="text-xs font-medium font-mono">
-            {report.latitude.toFixed(4)}, {report.longitude.toFixed(4)}
+            {safeLat}, {safeLng}
           </span>
         </div>
 
@@ -96,15 +98,14 @@ const TestMonitor: React.FC = () => {
   const [reports, setReports] = useState<Report[]>([]);
   const [lastUpdated, setLastUpdated] = useState<string>("");
   const [loading, setLoading] = useState(true);
+  const [isSending, setIsSending] = useState(false);
 
-  // ngrok 환경을 포함할 수 있도록 동적 할당
   const API_BASE_URL = import.meta.env.VITE_BACKEND_URL || "http://172.30.1.80:8000";
 
   const fetchReports = useCallback(async () => {
     try {
       const response = await fetch(`${API_BASE_URL}/api/v1/reports/`, {
         headers: {
-          // 2. 외부 접속 테스트용 ngrok 우회 헤더 (DB 담당자 요청사항 완수)
           'ngrok-skip-browser-warning': 'true',
           'Accept': 'application/json'
         }
@@ -127,26 +128,77 @@ const TestMonitor: React.FC = () => {
     }
   }, [API_BASE_URL]);
 
+  // ★ 다른 컴퓨터에서도 작동하는 안전한 UUID 생성기
+  const generateSafeUUID = () => {
+    if (typeof window !== 'undefined' && window.crypto && window.crypto.randomUUID) {
+      return window.crypto.randomUUID();
+    }
+    return Math.random().toString(36).substring(2, 15) + Date.now().toString(36);
+  };
+
+  const sendDummyData = async () => {
+    if (isSending) return;
+    setIsSending(true);
+
+    try {
+      const base64 = "R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+      const res = await fetch(`data:image/gif;base64,${base64}`);
+      const blob = await res.blob();
+
+      const hazardTypes = ['점자블록 파손', '포트홀', '공사 자재 방치', '불법 주정차', '전동 킥보드 방치'];
+      const randomHazard = hazardTypes[Math.floor(Math.random() * hazardTypes.length)];
+      const directions = ['L', 'C', 'R'];
+      const randomDir = directions[Math.floor(Math.random() * directions.length)];
+      const randomRisk = Math.floor(Math.random() * 5) + 1;
+      const randomDist = (Math.random() * 4.5 + 0.5).toFixed(2);
+
+      const lat = (37.5665 + Math.random() * 0.01 - 0.005).toFixed(6);
+      const lng = (126.9780 + Math.random() * 0.01 - 0.005).toFixed(6);
+
+      const formData = new FormData();
+      formData.append('item_id', generateSafeUUID());
+      formData.append('user_id', generateSafeUUID());
+      formData.append('latitude', lat);
+      formData.append('longitude', lng);
+      formData.append('hazard_type', randomHazard);
+      formData.append('risk_level', randomRisk.toString());
+      formData.append('distance', randomDist);
+      formData.append('direction', randomDir);
+      formData.append('description', `[테스트] ${randomHazard} 감지 (자동 생성)`);
+      formData.append('file', blob, 'dummy.gif');
+
+      const response = await fetch(`${API_BASE_URL}/api/v1/reports/`, {
+        method: 'POST',
+        headers: { 'ngrok-skip-browser-warning': 'true' },
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("서버에서 오류를 반환했습니다.");
+      }
+
+    } catch (error) {
+      alert("서버 연결 오류: 백엔드 서버가 켜져 있는지 확인해주세요.\n" + error);
+    } finally {
+      setIsSending(false);
+    }
+  };
+
   useEffect(() => {
-    // 최초 1회 기존 데이터 가져오기
     fetchReports();
 
-    // 3. Supabase Realtime 구독 (DB 담당자 요청: public.reports 테이블의 INSERT 감시)
     const channel = supabase
       .channel('realtime-reports')
       .on(
         'postgres_changes',
         { event: 'INSERT', schema: 'public', table: 'reports' },
         (payload) => {
-          console.log('🌟 새로운 데이터 실시간 수신 완료:', payload.new);
           const newReport = payload.new as Report;
-
           setReports((prevReports) => {
             const isDuplicate = prevReports.some(report => report.item_id === newReport.item_id);
             if (isDuplicate) return prevReports;
             return [newReport, ...prevReports];
           });
-
           setLastUpdated(new Date().toLocaleTimeString());
         }
       )
@@ -174,6 +226,24 @@ const TestMonitor: React.FC = () => {
             <p className="text-xs text-slate-400 uppercase font-semibold">Last Update</p>
             <p className="text-sm font-mono text-slate-700">{lastUpdated || "연결 중..."}</p>
           </div>
+
+          <button
+            onClick={sendDummyData}
+            disabled={isSending}
+            className={`flex items-center gap-2 px-6 py-3 rounded-xl font-bold text-white shadow-lg transition-all ${isSending
+              ? 'bg-slate-400 cursor-not-allowed'
+              : 'bg-indigo-600 hover:bg-indigo-700 hover:-translate-y-0.5'
+              }`}
+          >
+            {isSending ? (
+              <>
+                <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                전송 중...
+              </>
+            ) : (
+              "📤 더미 데이터 추가"
+            )}
+          </button>
         </div>
       </header>
 

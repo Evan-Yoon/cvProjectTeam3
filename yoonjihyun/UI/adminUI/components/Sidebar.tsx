@@ -1,6 +1,5 @@
 import React from 'react';
-// ★ [수정 1] Camera 아이콘 추가
-import { LayoutDashboard, FileText, Database, LogOut, ShieldCheck, Camera } from 'lucide-react';
+import { LayoutDashboard, Database, LogOut, Camera, Map } from 'lucide-react'; // ★ Map 아이콘 추가
 
 interface SidebarProps {
   activePage: string;
@@ -10,25 +9,22 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ activePage, setPage }) => {
   const menuItems = [
     { id: 'dashboard', label: '대시보드', icon: <LayoutDashboard size={20} /> },
-    { id: 'reports-b2b', label: 'B2B 리포트', icon: <FileText size={20} /> },
-    { id: 'reports-b2g', label: 'B2G 리포트', icon: <FileText size={20} /> },
+    { id: 'heatmap', label: '위험 히트맵', icon: <Map size={20} /> }, // ★ 리포트 삭제 및 히트맵 추가
     { id: 'database', label: '마스터 DB', icon: <Database size={20} /> },
-
-    // ★ [수정 2] 실시간 모니터링 메뉴 추가
-    // id는 App.tsx의 case 'test-monitor'와 똑같아야 합니다!
     { id: 'test-monitor', label: '실시간 모니터링', icon: <Camera size={20} /> },
   ];
 
   return (
-    <div className="w-64 bg-slate-900 text-white h-screen fixed left-0 top-0 flex flex-col shadow-xl z-20">
-      <div className="p-6 border-b border-slate-800 flex items-center space-x-3">
-        <div className="w-10 h-10 bg-yellow-500 rounded-lg flex items-center justify-center text-slate-900 shadow-lg shadow-yellow-500/20">
-          <ShieldCheck size={24} strokeWidth={2.5} />
-        </div>
-        <div>
-          <h1 className="font-bold text-xl tracking-tight text-white">WalkMate</h1>
-          <p className="text-xs text-slate-400">Admin System</p>
-        </div>
+    <div className="w-64 bg-white text-slate-800 h-screen fixed left-0 top-0 flex flex-col border-r border-slate-200 shadow-[4px_0_24px_rgba(0,0,0,0.02)] z-20">
+      <div
+        className="p-5 border-b border-slate-200 flex items-center justify-center cursor-pointer hover:bg-slate-50 transition-colors"
+        onClick={() => setPage('dashboard')}
+      >
+        <img
+          src="/walkmate_logo.png"
+          alt="WalkMate Logo"
+          className="w-full max-w-[180px] h-auto object-contain transition-transform hover:scale-105"
+        />
       </div>
 
       <nav className="flex-1 py-6 px-3 space-y-1">
@@ -37,11 +33,11 @@ const Sidebar: React.FC<SidebarProps> = ({ activePage, setPage }) => {
             key={item.id}
             onClick={() => setPage(item.id)}
             className={`w-full flex items-center space-x-3 px-4 py-3 rounded-lg transition-all duration-200 group ${activePage === item.id
-                ? 'bg-yellow-500 text-slate-900 font-semibold shadow-md'
-                : 'text-slate-300 hover:bg-slate-800 hover:text-white'
+              ? 'bg-yellow-500 text-slate-900 font-bold shadow-sm'
+              : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
               }`}
           >
-            <span className={activePage === item.id ? 'text-slate-900' : 'text-slate-400 group-hover:text-white'}>
+            <span className={activePage === item.id ? 'text-slate-900' : 'text-slate-400 group-hover:text-slate-600'}>
               {item.icon}
             </span>
             <span>{item.label}</span>
@@ -49,8 +45,8 @@ const Sidebar: React.FC<SidebarProps> = ({ activePage, setPage }) => {
         ))}
       </nav>
 
-      <div className="p-4 border-t border-slate-800">
-        <button className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-slate-400 hover:bg-slate-800 hover:text-red-400 transition-colors">
+      <div className="p-4 border-t border-slate-200">
+        <button className="w-full flex items-center space-x-3 px-4 py-3 rounded-lg text-slate-500 hover:bg-red-50 hover:text-red-600 transition-colors font-medium">
           <LogOut size={20} />
           <span>로그아웃</span>
         </button>

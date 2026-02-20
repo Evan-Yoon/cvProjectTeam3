@@ -5,37 +5,40 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import { AlertCircle, CheckCircle, Clock, TrendingUp } from 'lucide-react';
 
 interface DashboardProps {
-  data: HazardData[]; // ★ 추가: 실제 데이터를 부모로부터 받습니다.
+  data: HazardData[];
   onRowClick: (data: HazardData) => void;
+  isDarkMode: boolean; // ★ 테마 상태를 명시적으로 받음
 }
 
-const StatCard = ({ title, value, subtext, icon, color }: any) => (
-  <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100 flex items-start justify-between">
+const StatCard = ({ title, value, subtext, icon, colorClass, isDarkMode }: any) => (
+  // ★ Tailwind의 dark: 버그를 무시하고, isDarkMode 값에 따라 강제로 클래스를 나눕니다.
+  <div className={`p-6 rounded-xl shadow-sm border flex items-start justify-between transition-colors duration-300 ${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-100'
+    }`}>
     <div>
-      <p className="text-sm font-medium text-slate-500 mb-1">{title}</p>
-      <h3 className="text-3xl font-bold text-slate-800">{value}</h3>
-      <p className={`text-xs mt-2 font-medium ${subtext.includes('+') ? 'text-green-600' : 'text-slate-400'}`}>
+      <p className={`text-sm font-medium mb-1 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{title}</p>
+      <h3 className={`text-3xl font-bold ${isDarkMode ? 'text-slate-100' : 'text-slate-800'}`}>{value}</h3>
+      <p className={`text-xs mt-2 font-medium ${subtext.includes('+') ? (isDarkMode ? 'text-green-400' : 'text-green-600') : (isDarkMode ? 'text-slate-500' : 'text-slate-400')}`}>
         {subtext}
       </p>
     </div>
-    <div className={`p-3 rounded-lg ${color}`}>
+    <div className={`p-3 rounded-lg ${colorClass} transition-colors duration-300`}>
       {icon}
     </div>
   </div>
 );
 
-const Dashboard: React.FC<DashboardProps> = ({ data, onRowClick }) => {
-  // 실제 데이터를 바탕으로 위험 레벨 계산
+const Dashboard: React.FC<DashboardProps> = ({ data, onRowClick, isDarkMode }) => {
   const riskData = [
     { name: 'High', count: data.filter(h => h.riskLevel === 'High').length },
     { name: 'Medium', count: data.filter(h => h.riskLevel === 'Medium').length },
     { name: 'Low', count: data.filter(h => h.riskLevel === 'Low').length },
   ];
 
-  // 실제 데이터의 시간대를 분석하여 차트 데이터 생성
   const timeGroups = [0, 0, 0, 0, 0];
   data.forEach(h => {
-    const hour = new Date(h.timestamp).getHours();
+    const dateObj = new Date(h.rawTimestamp || h.timestamp);
+    if (isNaN(dateObj.getTime())) return;
+    const hour = dateObj.getHours();
     if (hour >= 9 && hour < 11) timeGroups[0]++;
     else if (hour >= 11 && hour < 13) timeGroups[1]++;
     else if (hour >= 13 && hour < 15) timeGroups[2]++;
@@ -53,72 +56,58 @@ const Dashboard: React.FC<DashboardProps> = ({ data, onRowClick }) => {
 
   const pendingCount = data.filter(h => h.status === 'Pending').length;
   const resolvedCount = data.filter(h => h.status === 'Resolved').length;
-  // 오늘 접수된 건수 계산
-  const todayCount = data.filter(h => new Date(h.timestamp).toDateString() === new Date().toDateString()).length;
+  const todayCount = data.filter(h => {
+    const date = new Date(h.rawTimestamp || h.timestamp);
+    return !isNaN(date.getTime()) && date.toDateString() === new Date().toDateString();
+  }).length;
 
   return (
     <div className="space-y-6 animate-in fade-in duration-500">
       <div>
-        <h2 className="text-2xl font-bold text-slate-900">대시보드 개요</h2>
-        <p className="text-slate-500">실시간 안전 모니터링 현황입니다.</p>
+        <h2 className={`text-2xl font-bold transition-colors duration-300 ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>대시보드 개요</h2>
+        <p className={`transition-colors duration-300 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>실시간 안전 모니터링 현황입니다.</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <StatCard
-          title="오늘 접수된 신고"
-          value={todayCount}
-          subtext="실시간 동기화 중"
-          icon={<TrendingUp size={24} className="text-blue-600" />}
-          color="bg-blue-50"
-        />
-        <StatCard
-          title="처리 대기 중"
-          value={pendingCount}
-          subtext="긴급 조치 필요"
-          icon={<AlertCircle size={24} className="text-red-600" />}
-          color="bg-red-50"
-        />
-        <StatCard
-          title="해결 완료"
-          value={resolvedCount}
-          subtext="실시간 업데이트"
-          icon={<CheckCircle size={24} className="text-green-600" />}
-          color="bg-green-50"
-        />
-        <StatCard
-          title="전체 누적 데이터"
-          value={data.length}
-          subtext="Total Reports"
-          icon={<Clock size={24} className="text-orange-600" />}
-          color="bg-orange-50"
-        />
+        <StatCard title="오늘 접수된 신고" value={todayCount} subtext="실시간 동기화 중"
+          icon={<TrendingUp size={24} className={isDarkMode ? 'text-blue-400' : 'text-blue-600'} />}
+          colorClass={isDarkMode ? 'bg-blue-900/30' : 'bg-blue-50'} isDarkMode={isDarkMode} />
+        <StatCard title="처리 대기 중" value={pendingCount} subtext="긴급 조치 필요"
+          icon={<AlertCircle size={24} className={isDarkMode ? 'text-red-400' : 'text-red-600'} />}
+          colorClass={isDarkMode ? 'bg-red-900/30' : 'bg-red-50'} isDarkMode={isDarkMode} />
+        <StatCard title="해결 완료" value={resolvedCount} subtext="실시간 업데이트"
+          icon={<CheckCircle size={24} className={isDarkMode ? 'text-green-400' : 'text-green-600'} />}
+          colorClass={isDarkMode ? 'bg-green-900/30' : 'bg-green-50'} isDarkMode={isDarkMode} />
+        <StatCard title="전체 누적 데이터" value={data.length} subtext="Total Reports"
+          icon={<Clock size={24} className={isDarkMode ? 'text-orange-400' : 'text-orange-600'} />}
+          colorClass={isDarkMode ? 'bg-orange-900/30' : 'bg-orange-50'} isDarkMode={isDarkMode} />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-          <h3 className="font-bold text-lg text-slate-800 mb-4">위험 레벨 분포</h3>
+        <div className={`p-6 rounded-xl shadow-sm border transition-colors duration-300 ${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-100'}`}>
+          <h3 className={`font-bold text-lg mb-4 ${isDarkMode ? 'text-slate-200' : 'text-slate-800'}`}>위험 레벨 분포</h3>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={riskData}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                <XAxis dataKey="name" tick={{ fontSize: 12 }} />
-                <YAxis tick={{ fontSize: 12 }} allowDecimals={false} />
-                <Tooltip cursor={{ fill: '#f1f5f9' }} contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={isDarkMode ? '#334155' : '#e2e8f0'} />
+                <XAxis dataKey="name" tick={{ fontSize: 12, fill: '#94a3b8' }} stroke={isDarkMode ? '#475569' : '#cbd5e1'} />
+                <YAxis tick={{ fontSize: 12, fill: '#94a3b8' }} allowDecimals={false} stroke={isDarkMode ? '#475569' : '#cbd5e1'} />
+                <Tooltip cursor={{ fill: isDarkMode ? '#1e293b' : '#f8fafc' }} contentStyle={{ backgroundColor: isDarkMode ? '#0f172a' : '#ffffff', border: 'none', borderRadius: '8px', color: isDarkMode ? '#f1f5f9' : '#0f172a' }} />
                 <Bar dataKey="count" fill="#3b82f6" radius={[4, 4, 0, 0]} barSize={50} />
               </BarChart>
             </ResponsiveContainer>
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-100">
-          <h3 className="font-bold text-lg text-slate-800 mb-4">시간대별 신고 추이</h3>
+        <div className={`p-6 rounded-xl shadow-sm border transition-colors duration-300 ${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-100'}`}>
+          <h3 className={`font-bold text-lg mb-4 ${isDarkMode ? 'text-slate-200' : 'text-slate-800'}`}>시간대별 접수 횟수</h3> {/* ★ 텍스트 수정됨 */}
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={timeData}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                <XAxis dataKey="time" tick={{ fontSize: 12 }} />
-                <YAxis tick={{ fontSize: 12 }} allowDecimals={false} />
-                <Tooltip contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} />
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={isDarkMode ? '#334155' : '#e2e8f0'} />
+                <XAxis dataKey="time" tick={{ fontSize: 12, fill: '#94a3b8' }} stroke={isDarkMode ? '#475569' : '#cbd5e1'} />
+                <YAxis tick={{ fontSize: 12, fill: '#94a3b8' }} allowDecimals={false} stroke={isDarkMode ? '#475569' : '#cbd5e1'} />
+                <Tooltip contentStyle={{ backgroundColor: isDarkMode ? '#0f172a' : '#ffffff', border: 'none', borderRadius: '8px', color: isDarkMode ? '#f1f5f9' : '#0f172a' }} />
                 <Line type="monotone" dataKey="reports" stroke="#f59e0b" strokeWidth={3} dot={{ r: 4 }} activeDot={{ r: 6 }} />
               </LineChart>
             </ResponsiveContainer>
@@ -127,8 +116,7 @@ const Dashboard: React.FC<DashboardProps> = ({ data, onRowClick }) => {
       </div>
 
       <div>
-        <h3 className="font-bold text-lg text-slate-800 mb-4">최근 접수 내역 (Live Feed)</h3>
-        {/* 최근 5개만 잘라서 보여줍니다. */}
+        <h3 className={`font-bold text-lg mb-4 transition-colors duration-300 ${isDarkMode ? 'text-slate-200' : 'text-slate-800'}`}>최근 접수 내역 (Live Feed)</h3>
         <HazardTable data={data.slice(0, 5)} onRowClick={onRowClick} compact />
       </div>
     </div>
