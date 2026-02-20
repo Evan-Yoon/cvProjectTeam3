@@ -1,11 +1,9 @@
-from fastapi import FastAPI, APIRouter, Request
+from fastapi import FastAPI, APIRouter, Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from app.api.v1.endpoints import reports, navigation
 import time
-import time
-import uuid
-from app.core.logger import setup_logger, request_id_context
+from app.core.logger import setup_logger
 
 # 로그 출력 형식 세팅
 logger = setup_logger()
@@ -24,9 +22,26 @@ app.add_middleware(
 # 2. 라우터 연결
 app.include_router(reports.router, prefix="/api/v1/reports", tags=["reports"])
 
+# 3. 네비게이션 라우터 연결 
+app.include_router(navigation.router, prefix="/api/v1/navigation", tags=["Navigation"])
+
 @app.exception_handler(Exception)
 async def global_exception_handler(request: Request, exc: Exception):
-    # 에러 로그 기록 (Traceback 포함)
+    # 1. HTTP Exception (우리가 의도적으로 발생시킨 에러) 처리
+    if isinstance(exc, HTTPException):
+        # 500번대 에러는 서버 문제이므로 로그를 남김
+        if exc.status_code >= 500:
+            logger.error(f"❌ [HTTP Exception] {exc.detail}")
+        else:
+            # 400번대 에러는 클라이언트 과실이므로 경고만 남김
+            logger.warning(f"⚠️ [HTTP Exception] {exc.detail}")
+            
+        return JSONResponse(
+            status_code=exc.status_code,
+            content={"detail": exc.detail},
+        )
+
+    # 2. 예기치 못한 에러 (Traceback 포함)
     logger.error(f"❌ [Global Exception] {str(exc)}", exc_info=True)
     return JSONResponse(
         status_code=500,
@@ -37,22 +52,13 @@ async def global_exception_handler(request: Request, exc: Exception):
 def read_root():
     return {"message": "WalkMate Server is Running! 🚀"}
 
-
-# 3. 네비게이션 라우터 연결 
-app.include_router(navigation.router, prefix="/api/v1/navigation", tags=["Navigation"])
-
 @app.middleware("http")
 async def log_requests(request: Request, call_next):
-    request_id = str(uuid.uuid4())
-    # ContextVar에 request_id 설정 
-    token = request_id_context.set(request_id)
-
     start_time = time.time()
     
     # 1. 입구: 어떤 주소로 어떤 메서드가 들어왔는지 기록 (IP 포함)
-    client_host = request.client.host if request.client else "unknown"
     user_agent = request.headers.get("user-agent", "unknown")
-    logger.info(f"➡️ [START] {request.method} {request.url.path} | IP: {client_host} | Device: {user_agent}")
+    logger.info(f"➡️ [요청 시작] {request.method} {request.url.path} | Device: {user_agent}")
 
     try:
         # 2. 본문(라우터) 실행
@@ -62,13 +68,10 @@ async def log_requests(request: Request, call_next):
         process_time = (time.time() - start_time) * 1000
         
         logger.info(
-            f"⬅️ [END] {response.status_code} | {process_time:.2f}ms"
+            f"⬅️ [요청 완료] {response.status_code} | 소요시간: {process_time:.2f}ms"
         )
         
-        # 응답 헤더에 Request ID 포함 (클라이언트 디버깅용)
-        response.headers["X-Request-ID"] = request_id
-        
         return response
-    finally:
-        # 요청 처리 완료 후 ContextVar 정리 (메모리 누수 방지)
-        request_id_context.reset(token)
+    except Exception as e:
+        # 미들웨어에서 놓친 에러가 있다면 여기서도 잡힐 수 있음
+        raise e

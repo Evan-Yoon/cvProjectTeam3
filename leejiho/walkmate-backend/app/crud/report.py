@@ -48,6 +48,8 @@ def create_report(report_data: dict):
             "user_id": report_data["user_id"],
             "location": location_wkt,
             "hazard_type": report_data["hazard_type"],
+            "distance": report_data["distance"],
+            "direction": report_data["direction"],
             "risk_level": report_data["risk_level"],
             "image_url": report_data["image_url"],
             "description": report_data.get("description"),
@@ -70,7 +72,7 @@ def get_reports_for_map():
     try:
         response = (
             db_client.table("reports")
-            .select("item_id, location, hazard_type, risk_level, status")
+            .select("item_id, location, hazard_type, distance, direction, risk_level, status")
             .neq("status", "done")
             .execute()
         )
@@ -134,3 +136,21 @@ def update_report_status(item_id: str, new_status: str):
     except Exception as e:
         logger.error(f"❌ DB Update Error: {e}", exc_info=True)
         return None
+
+# [추가] 히트맵 데이터 조회 (Bounding Box 필터링 적용)
+def get_heatmap_data(min_lat: float, max_lat: float, min_lng: float, max_lng: float):
+    try:
+        # DB 내부의 공간 연산 함수(RPC)를 호출
+        response = (
+            db_client.rpc(
+                "get_reports_in_bbox", 
+                {
+                    "min_lon": min_lng, "min_lat": min_lat, 
+                    "max_lon": max_lng, "max_lat": max_lat
+                }
+            ).execute()
+        )
+        return response.data # DB가 이미 필터링과 JSON 변환을 끝낸 상태로 반환함
+    except Exception as e:
+        logger.error(f"❌ DB Select for Heatmap Error: {e}", exc_info=True)
+        raise e

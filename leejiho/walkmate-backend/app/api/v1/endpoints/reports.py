@@ -11,6 +11,8 @@ router = APIRouter()
 import logging
 logger = logging.getLogger("API_LOGGER")
 
+from app.models.schemas import HeatmapResponse
+
 # 1. [앱] 위험물 신고 접수 (통합 파이프라인: S3 -> DB)
 @router.post("/")
 async def create_report_pipeline(
@@ -18,11 +20,16 @@ async def create_report_pipeline(
     user_id: str = Form(...),
     latitude: float = Form(...),
     longitude: float = Form(...),
+    distance: float = Form(...),
+    direction: str = Form(...),
     hazard_type: str = Form(...),
     risk_level: int = Form(...),
     description: str = Form(None),
     file: UploadFile = File(...)
 ):
+    if direction not in ['L', 'C', 'R']:
+        raise HTTPException(status_code=400, detail="Direction must be L, C, or R")
+
     # 1. S3 업로드
     s3_url = await s3_uploader.upload_image(file)
     if not s3_url:
@@ -34,6 +41,8 @@ async def create_report_pipeline(
         "user_id": user_id,
         "latitude": latitude,
         "longitude": longitude,
+        "distance": distance,
+        "direction": direction,
         "hazard_type": hazard_type,
         "risk_level": risk_level,
         "description": description,
@@ -49,6 +58,23 @@ async def create_report_pipeline(
         "image_url": s3_url,
         "message": "Report created successfully."
     }
+
+# [추가] 히트맵 전용 라우터 (Bounding Box 좌표값을 Query Parameter로 받음)
+@router.get("/heatmap", response_model=List[HeatmapResponse])
+def read_heatmap_data(
+    min_lat: float = Query(..., description="지도 남단의 위도"),
+    max_lat: float = Query(..., description="지도 북단의 위도"),
+    min_lng: float = Query(..., description="지도 서단의 경도"),
+    max_lng: float = Query(..., description="지도 동단의 경도")
+):
+    """
+    현재 클라이언트 지도 화면(Bounding Box) 영역 안의 데이터만 필터링하여 
+    히트맵 시각화에 필요한 최소한의 데이터만 반환합니다.
+    """
+    results = crud_report.get_heatmap_data(
+        min_lat=min_lat, max_lat=max_lat, min_lng=min_lng, max_lng=max_lng
+    )
+    return results
 
 
 # 2. [관리자] 지도 마커 데이터 조회

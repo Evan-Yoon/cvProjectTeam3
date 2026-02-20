@@ -13,7 +13,7 @@ class RouteRequestModel(BaseModel):
 router = APIRouter()
 
 # 2. API 창구 개설 (POST 메서드)
-@router.post("/path")
+@router.post("/path/")
 async def create_navigation_path(req_data: RouteRequestModel):
     # FE가 보낸 객체를 딕셔너리로 변환하여 Tmap 서비스 공장에 전달
     navigation_steps = await get_navigation_path(
