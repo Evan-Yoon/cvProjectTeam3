@@ -39,8 +39,16 @@ const HazardTable: React.FC<HazardTableProps> = ({ data, onRowClick, compact = f
               className={`cursor-pointer transition-colors group ${isDarkMode ? 'hover:bg-slate-700/30' : 'hover:bg-slate-50'}`}
             >
               <td className="px-6 py-3">
-                <div className={`relative w-12 h-12 rounded overflow-hidden shadow-sm border transition-colors duration-300 ${isDarkMode ? 'border-slate-600' : 'border-slate-200'}`}>
-                  <img src={item.thumbnail} alt="thumbnail" className="w-full h-full object-cover" />
+                <div className={`relative w-12 h-12 rounded overflow-hidden shadow-sm border transition-colors duration-300 ${isDarkMode ? 'border-slate-600' : 'border-slate-200'} bg-slate-100 dark:bg-slate-800 flex items-center justify-center`}>
+                  <img
+                    src={item.thumbnail}
+                    alt="thumbnail"
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      // 403 에러 등으로 이미지가 깨질 때 플레이스홀더로 대체
+                      (e.target as HTMLImageElement).src = 'https://placehold.co/100x100?text=No+Image';
+                    }}
+                  />
                 </div>
               </td>
               <td className="px-6 py-3">
@@ -63,8 +71,8 @@ const HazardTable: React.FC<HazardTableProps> = ({ data, onRowClick, compact = f
               )}
               <td className="px-6 py-3">
                 <span className={`text-xs font-semibold transition-colors duration-300 flex items-center gap-1 ${item.status === 'Resolved' ? (isDarkMode ? 'text-green-400' : 'text-green-600') :
-                    item.status === 'In Progress' ? (isDarkMode ? 'text-yellow-400' : 'text-yellow-600') :
-                      (isDarkMode ? 'text-red-400' : 'text-red-500')
+                  item.status === 'In Progress' ? (isDarkMode ? 'text-yellow-400' : 'text-yellow-600') :
+                    (isDarkMode ? 'text-red-400' : 'text-red-500')
                   }`}>
                   {item.status === 'Pending' && <AlertTriangle size={12} />}
                   {item.status}

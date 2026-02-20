@@ -1,0 +1,27 @@
+[
+  {
+    "item_id": "834980a6-08db-4861-9f21-62d55c881c75",
+    "user_id": "1f075396-cc0b-47ac-8ade-ff68a3e95445",
+    "created_at": "2026-02-20T05:06:37.946391+00:00",
+    "hazard_type": "laptop",
+    "risk_level": 3,
+    "description": "모니터링 오후 2:06:37 / 시간: 589ms | 데이터: 1800개 | Shape: [1x300x6] | 📦객체: 11개 | 타겟: laptop (C, 1.51m)",
+    "image_url": "https://amzn-walkmate.s3.ap-northeast-2.amazonaws.com/9ef8263c-3fda-43a4-801e-768c957080a0.jpg",
+    "status": "new",
+    "location": {
+      "type": "Point",
+      "crs": {
+        "type": "name",
+        "properties": {
+          "name": "EPSG:4326"
+        }
+      },
+      "coordinates": [
+        127.047446,
+        37.2887309
+      ]
+    },
+    "distance": 1.51,
+    "direction": "C"
+  }
+]

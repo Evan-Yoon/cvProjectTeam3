@@ -52,11 +52,14 @@ const HazardModal: React.FC<HazardModalProps> = ({ data, onClose }) => {
       >
 
         {/* 왼쪽: 이미지 영역 */}
-        <div className="w-full md:w-1/2 bg-gray-100 dark:bg-slate-800 relative min-h-[300px] md:min-h-auto">
+        <div className="w-full md:w-1/2 bg-gray-100 dark:bg-slate-800 relative min-h-[300px] md:min-h-auto flex items-center justify-center">
           <img
             src={data.thumbnail}
             alt={data.type}
             className="absolute inset-0 w-full h-full object-cover"
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = 'https://placehold.co/600x400?text=No+Image+(403+Forbidden)';
+            }}
           />
           <div className="absolute top-4 left-4">
             <span className={`px-3 py-1 rounded-full text-sm font-bold border ${getRiskColor(data.riskLevel)} shadow-sm backdrop-blur-md`}>

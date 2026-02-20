@@ -38,8 +38,16 @@ const App: React.FC = () => {
 
     const dirMap: Record<string, string> = { 'L': '좌측', 'R': '우측', 'C': '정면' };
     const directionStr = dirMap[dbReport.direction] || '정면';
-    const safeLat = Number(dbReport.latitude || 0).toFixed(4);
-    const safeLng = Number(dbReport.longitude || 0).toFixed(4);
+
+    let lat = dbReport.latitude;
+    let lng = dbReport.longitude;
+    if (dbReport.location && dbReport.location.coordinates) {
+      lng = dbReport.location.coordinates[0];
+      lat = dbReport.location.coordinates[1];
+    }
+
+    const safeLat = Number(lat || 0).toFixed(4);
+    const safeLng = Number(lng || 0).toFixed(4);
 
     // ★ 404 방지: S3 풀 경로인 경우와 로컬 경로인 경우를 구분합니다.
     const rawImageUrl = dbReport.image_url || '';
