@@ -1,0 +1,35 @@
+{
+    "name": "WalkMate Dev Environment",
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "workspace",
+    "workspaceFolder": "/workspaces/walkmate",
+    "features": {
+        "ghcr.io/devcontainers/features/docker-outside-of-docker:1": {}
+    },
+    "customizations": {
+        "vscode": {
+            "settings": {
+                "python.defaultInterpreterPath": "/usr/local/bin/python",
+                "python.formatting.provider": "black",
+                "editor.formatOnSave": true
+            },
+            "extensions": [
+                "ms-python.python",
+                "ms-python.vscode-pylance",
+                "ms-python.black-formatter",
+                "dbaeumer.vscode-eslint",
+                "esbenp.prettier-vscode",
+                "humao.rest-client",
+                "vscjava.vscode-java-pack"
+            ]
+        }
+    },
+    "forwardPorts": [
+        8000,
+        5173,
+        5174,
+        5432,
+        6379
+    ],
+    "postCreateCommand": "npm i -g npm@latest && pip install -U pip && echo 'Environment is ready!'"
+}
