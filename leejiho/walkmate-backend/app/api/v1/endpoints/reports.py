@@ -22,6 +22,10 @@ async def create_report_pipeline(
     longitude: float = Form(...),
     distance: float = Form(...),
     direction: str = Form(...),
+    x: float = Form(...),
+    y: float = Form(...),
+    w: float = Form(...),
+    h: float = Form(...),
     hazard_type: str = Form(...),
     risk_level: int = Form(...),
     description: str = Form(None),
@@ -43,6 +47,10 @@ async def create_report_pipeline(
         "longitude": longitude,
         "distance": distance,
         "direction": direction,
+        "x": x,
+        "y": y,
+        "w": w,
+        "h": h,
         "hazard_type": hazard_type,
         "risk_level": risk_level,
         "description": description,
@@ -104,10 +112,11 @@ def read_all_reports(
 def update_report_status(item_id: str, status: str):
     """
     특정 신고 건의 처리 상태를 변경합니다.
+    (소프트 딜리트를 원할 경우 status를 'hidden'으로 전송)
     """
 
     # status 값 유효성 검사 
-    if status not in ["new", "processing", "done"]:
+    if status not in ["new", "processing", "done", "hidden"]:
         raise HTTPException(status_code=400, detail="Invalid status value")
 
     updated_item = crud_report.update_report_status(item_id, status)

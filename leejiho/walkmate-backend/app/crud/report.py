@@ -50,6 +50,10 @@ def create_report(report_data: dict):
             "hazard_type": report_data["hazard_type"],
             "distance": report_data["distance"],
             "direction": report_data["direction"],
+            "x": report_data["x"],
+            "y": report_data["y"],
+            "w": report_data["w"],
+            "h": report_data["h"],
             "risk_level": report_data["risk_level"],
             "image_url": report_data["image_url"],
             "description": report_data.get("description"),
@@ -74,6 +78,7 @@ def get_reports_for_map():
             db_client.table("reports")
             .select("item_id, location, hazard_type, distance, direction, risk_level, status")
             .neq("status", "done")
+            .neq("status", "hidden") # [추가] 숨김 리포트 마커 제외
             .execute()
         )
         
@@ -100,6 +105,7 @@ def get_all_reports(skip: int = 0, limit: int = 20):
         response = (
             db_client.table("reports")
             .select("*", count="exact") 
+            .neq("status", "hidden") # [추가] 숨김 처리된 항목 제외
             .order("created_at", desc=True)
             .range(skip, skip + limit - 1)
             .execute()

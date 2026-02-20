@@ -48,9 +48,29 @@ async def global_exception_handler(request: Request, exc: Exception):
         content={"detail": "Internal Server Error", "error": str(exc)}, # 개발 단계에서만 에러 내용 노출
     )
 
+import os
+from fastapi.responses import PlainTextResponse
+
 @app.get("/")
 def read_root():
     return {"message": "WalkMate Server is Running! 🚀"}
+
+@app.get("/logs", description="최근 백엔드 서버 로그 100줄을 확인합니다.")
+def view_logs():
+    # 로그 파일이 저장되는 경로
+    log_path = "logs/app.log"
+    if not os.path.exists(log_path):
+        return PlainTextResponse("No logs found.", status_code=404)
+    
+    try:
+        # 마지막 100줄만 읽기
+        with open(log_path, "r", encoding="utf-8") as f:
+            lines = f.readlines()
+            tail_lines = lines[-100:] 
+            
+        return PlainTextResponse("".join(tail_lines))
+    except Exception as e:
+        return PlainTextResponse(f"Error reading logs: {str(e)}", status_code=500)
 
 @app.middleware("http")
 async def log_requests(request: Request, call_next):

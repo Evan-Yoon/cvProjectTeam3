@@ -1,0 +1,1128 @@
+2026-02-19 10:08:45,806 - INFO - Test log message
+2026-02-19 10:14:37,095 - INFO - ➡️ [요청 시작] POST /api/v1/navigation/path
+2026-02-19 10:14:37,258 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 162.59ms
+2026-02-19 10:14:46,201 - INFO - ➡️ [요청 시작] POST /api/v1/reports/
+2026-02-19 10:14:48,029 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1828.82ms
+2026-02-19 10:14:59,752 - INFO - ➡️ [요청 시작] POST /api/v1/reports/
+2026-02-19 10:15:00,318 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 565.95ms
+2026-02-19 10:15:08,343 - INFO - ➡️ [요청 시작] POST /api/v1/reports/
+2026-02-19 10:15:08,831 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 488.03ms
+2026-02-19 10:15:16,612 - INFO - ➡️ [요청 시작] POST /api/v1/reports/
+2026-02-19 10:15:17,097 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 484.72ms
+2026-02-19 10:15:25,110 - INFO - ➡️ [요청 시작] POST /api/v1/reports/
+2026-02-19 10:15:25,470 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 360.53ms
+2026-02-19 10:15:28,134 - INFO - ➡️ [요청 시작] POST /api/v1/reports/
+2026-02-19 10:15:28,391 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 257.08ms
+2026-02-19 10:43:53,973 - INFO - ➡️ [요청 시작] POST /api/v1/navigation/path
+2026-02-19 10:43:54,140 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 168.00ms
+2026-02-19 10:44:04,341 - INFO - ➡️ [요청 시작] POST /api/v1/reports/
+2026-02-19 10:44:06,049 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1708.18ms
+2026-02-19 10:46:02,485 - INFO - ➡️ [요청 시작] POST /api/v1/navigation/path
+2026-02-19 10:46:02,648 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 163.92ms
+2026-02-19 10:46:12,440 - INFO - ➡️ [요청 시작] POST /api/v1/reports/
+2026-02-19 10:46:13,329 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 888.95ms
+2026-02-19 10:46:20,817 - INFO - ➡️ [요청 시작] POST /api/v1/reports/
+2026-02-19 10:46:21,248 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 431.25ms
+2026-02-19 10:46:29,315 - INFO - ➡️ [요청 시작] POST /api/v1/reports/
+2026-02-19 10:46:29,816 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 500.94ms
+2026-02-19 10:46:37,412 - INFO - ➡️ [요청 시작] POST /api/v1/reports/
+2026-02-19 10:46:37,754 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 341.96ms
+2026-02-19 10:57:44,961 - INFO - ➡️ [요청 시작] POST /api/v1/navigation/path
+2026-02-19 10:57:45,219 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 258.52ms
+2026-02-19 10:57:55,615 - INFO - ➡️ [요청 시작] POST /api/v1/reports/
+2026-02-19 10:57:56,602 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 987.13ms
+2026-02-19 10:58:03,874 - INFO - ➡️ [요청 시작] POST /api/v1/reports/
+2026-02-19 10:58:04,183 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 309.03ms
+2026-02-19 10:58:12,403 - INFO - ➡️ [요청 시작] POST /api/v1/reports/
+2026-02-19 10:58:12,747 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 343.41ms
+2026-02-19 10:58:29,112 - INFO - ➡️ [요청 시작] POST /api/v1/reports/
+2026-02-19 10:58:29,396 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 284.48ms
+2026-02-19 10:58:37,493 - INFO - ➡️ [요청 시작] POST /api/v1/reports/
+2026-02-19 10:58:37,784 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 290.49ms
+2026-02-19 10:58:45,984 - INFO - ➡️ [요청 시작] POST /api/v1/reports/
+2026-02-19 10:58:46,263 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 279.29ms
+2026-02-19 10:58:54,279 - INFO - ➡️ [요청 시작] POST /api/v1/reports/
+2026-02-19 10:58:54,544 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 265.36ms
+2026-02-19 10:59:02,784 - INFO - ➡️ [요청 시작] POST /api/v1/reports/
+2026-02-19 10:59:03,070 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 285.90ms
+2026-02-19 11:12:56,214 - INFO - ➡️ [요청 시작] POST /api/v1/navigation/path
+2026-02-19 11:12:56,354 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 140.84ms
+2026-02-19 11:33:18,647 - INFO - ➡️ [요청 시작] POST /api/v1/navigation/path
+2026-02-19 11:33:18,792 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 145.57ms
+2026-02-19 11:33:29,647 - INFO - ➡️ [요청 시작] POST /api/v1/reports/
+2026-02-19 11:33:30,983 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1335.77ms
+2026-02-19 11:33:37,974 - INFO - ➡️ [요청 시작] POST /api/v1/reports/
+2026-02-19 11:33:38,293 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 319.37ms
+2026-02-19 11:33:41,293 - INFO - ➡️ [요청 시작] POST /api/v1/reports/
+2026-02-19 11:33:41,533 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 239.76ms
+2026-02-19 11:33:53,884 - INFO - ➡️ [요청 시작] POST /api/v1/reports/
+2026-02-19 11:33:54,364 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 480.73ms
+2026-02-19 11:34:07,070 - INFO - ➡️ [요청 시작] POST /api/v1/reports/
+2026-02-19 11:34:07,542 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 472.19ms
+2026-02-19 11:54:22,834 - INFO - ➡️ [요청 시작] POST /api/v1/navigation/path
+2026-02-19 11:54:22,988 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 154.27ms
+2026-02-19 11:54:34,109 - INFO - ➡️ [요청 시작] POST /api/v1/reports/
+2026-02-19 11:54:35,566 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1457.34ms
+2026-02-19 11:57:14,073 - INFO - ➡️ [요청 시작] POST /api/v1/navigation/path
+2026-02-19 11:57:14,302 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 229.49ms
+2026-02-19 11:57:22,426 - INFO - ➡️ [요청 시작] POST /api/v1/reports/
+2026-02-19 11:57:23,252 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 826.04ms
+2026-02-19 11:58:04,552 - INFO - ➡️ [요청 시작] POST /api/v1/navigation/path
+2026-02-19 11:58:04,769 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 217.54ms
+2026-02-19 11:59:33,924 - INFO - ➡️ [요청 시작] POST /api/v1/navigation/path
+2026-02-19 11:59:34,080 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 156.04ms
+2026-02-19 11:59:44,335 - INFO - ➡️ [요청 시작] POST /api/v1/reports/
+2026-02-19 11:59:45,284 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 948.54ms
+2026-02-19 11:59:52,697 - INFO - ➡️ [요청 시작] POST /api/v1/reports/
+2026-02-19 11:59:53,020 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 322.75ms
+2026-02-19 11:59:59,383 - INFO - ➡️ [요청 시작] POST /api/v1/reports/
+2026-02-19 11:59:59,887 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 504.51ms
+2026-02-19 12:00:01,104 - INFO - ➡️ [요청 시작] POST /api/v1/reports/
+2026-02-19 12:00:01,297 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 192.91ms
+2026-02-19 12:00:05,147 - INFO - ➡️ [요청 시작] POST /api/v1/reports/
+2026-02-19 12:00:05,345 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 198.47ms
+2026-02-19 13:02:11,879 - INFO - ➡️ [요청 시작] GET /
+2026-02-19 13:02:11,884 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 4.98ms
+2026-02-19 13:02:12,009 - INFO - ➡️ [요청 시작] GET /favicon.ico
+2026-02-19 13:02:12,010 - INFO - ⬅️ [요청 완료] 404 | 소요시간: 0.57ms
+2026-02-19 13:03:57,479 - INFO - ➡️ [요청 시작] GET /docs
+2026-02-19 13:03:57,480 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1.13ms
+2026-02-19 13:03:57,671 - INFO - ➡️ [요청 시작] GET /openapi.json
+2026-02-19 13:03:57,686 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 15.26ms
+2026-02-19 13:15:44,778 - [45f6cc28-2211-4d97-bc73-06c98b2d57f7] - INFO - ➡️ [START] GET / | IP: testclient
+2026-02-19 13:15:44,778 - [45f6cc28-2211-4d97-bc73-06c98b2d57f7] - INFO - ⬅️ [END] 200 | 0.63ms | UA: TestClient/1.0 | Ref: http://test.com | Headers: {'host': 'testserver', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, zstd', 'connection': 'keep-alive', 'user-agent': 'TestClient/1.0', 'referer': 'http://test.com', 'custom-header': 'TestValue'}
+2026-02-19 13:17:33,755 - [0f795141-e345-4617-abf6-79708e2538fd] - INFO - ➡️ [START] OPTIONS /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:17:33,756 - [cd71f456-2b08-4d60-84ed-f1733df873ef] - INFO - ➡️ [START] OPTIONS /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:17:33,756 - [0f795141-e345-4617-abf6-79708e2538fd] - INFO - ⬅️ [END] 200 | 1.75ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'access-control-request-headers': 'ngrok-skip-browser-warning', 'access-control-request-method': 'GET', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:17:33,757 - [cd71f456-2b08-4d60-84ed-f1733df873ef] - INFO - ⬅️ [END] 200 | 1.04ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'access-control-request-headers': 'ngrok-skip-browser-warning', 'access-control-request-method': 'GET', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:17:33,844 - [889853e8-40dd-4918-8602-5599e0671c22] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:17:33,845 - [889853e8-40dd-4918-8602-5599e0671c22] - INFO - ⬅️ [END] 404 | 0.95ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:17:33,929 - [94988413-9816-4ea7-b006-633019b1c3fd] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:17:33,930 - [94988413-9816-4ea7-b006-633019b1c3fd] - INFO - ⬅️ [END] 404 | 0.83ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:17:36,522 - [1bad562c-a694-48c0-a402-4a6a7a7d5d15] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:17:36,524 - [1bad562c-a694-48c0-a402-4a6a7a7d5d15] - INFO - ⬅️ [END] 404 | 1.41ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:17:39,556 - [46aee7c9-ce3c-4b5c-bf4b-de73068545c7] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:17:39,557 - [46aee7c9-ce3c-4b5c-bf4b-de73068545c7] - INFO - ⬅️ [END] 404 | 0.95ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:17:42,774 - [51348436-f693-4a16-b2cd-5b54c4193f44] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:17:42,775 - [51348436-f693-4a16-b2cd-5b54c4193f44] - INFO - ⬅️ [END] 404 | 1.15ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:17:45,615 - [159ec13e-9bd2-47bc-953e-4e6352b42ab1] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:17:45,617 - [159ec13e-9bd2-47bc-953e-4e6352b42ab1] - INFO - ⬅️ [END] 404 | 1.38ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:17:49,185 - [34ff9c07-e586-437b-8e61-92af069eb728] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:17:49,186 - [34ff9c07-e586-437b-8e61-92af069eb728] - INFO - ⬅️ [END] 404 | 1.13ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:17:56,677 - [260b51fa-a414-4291-8f81-fa520aadb6c1] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:17:56,678 - [260b51fa-a414-4291-8f81-fa520aadb6c1] - INFO - ⬅️ [END] 404 | 1.07ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:17:57,596 - [36af112b-151d-46ff-9fae-34b26d326d9f] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:17:57,597 - [36af112b-151d-46ff-9fae-34b26d326d9f] - INFO - ⬅️ [END] 404 | 0.74ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:18:01,199 - [8dc25bc3-0ff7-48cc-8a63-4d3e13a9f9cc] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:18:01,200 - [8dc25bc3-0ff7-48cc-8a63-4d3e13a9f9cc] - INFO - ⬅️ [END] 404 | 0.55ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:18:04,201 - [138abddd-0233-40b0-a798-8fb940d1761f] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:18:04,202 - [138abddd-0233-40b0-a798-8fb940d1761f] - INFO - ⬅️ [END] 404 | 0.76ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:18:07,223 - [a86558b0-9267-47d5-9284-4c8780dd419a] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:18:07,223 - [a86558b0-9267-47d5-9284-4c8780dd419a] - INFO - ⬅️ [END] 404 | 0.79ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:18:10,192 - [e7d3c364-7091-434b-bd43-7623c0046f32] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:18:10,193 - [e7d3c364-7091-434b-bd43-7623c0046f32] - INFO - ⬅️ [END] 404 | 0.77ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:18:13,197 - [e1f18579-cffd-484c-a07f-d36ecf109c89] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:18:13,198 - [e1f18579-cffd-484c-a07f-d36ecf109c89] - INFO - ⬅️ [END] 404 | 1.14ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:18:16,198 - [9ace9e7c-1ee1-4098-b4a7-c8ea85abb013] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:18:16,199 - [9ace9e7c-1ee1-4098-b4a7-c8ea85abb013] - INFO - ⬅️ [END] 404 | 1.05ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:18:19,195 - [5b86f0c5-a076-42e9-8418-68b4095f68ec] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:18:19,196 - [5b86f0c5-a076-42e9-8418-68b4095f68ec] - INFO - ⬅️ [END] 404 | 0.97ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:18:22,235 - [2ce4e143-cd8f-4f43-afc1-81184c7fe9d4] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:18:22,235 - [2ce4e143-cd8f-4f43-afc1-81184c7fe9d4] - INFO - ⬅️ [END] 404 | 0.81ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:18:25,245 - [1910d4ef-22b5-4202-bf13-b41417a620e2] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:18:25,245 - [1910d4ef-22b5-4202-bf13-b41417a620e2] - INFO - ⬅️ [END] 404 | 0.81ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:18:28,213 - [80165217-68ad-45e0-8575-acf852c7f123] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:18:28,215 - [80165217-68ad-45e0-8575-acf852c7f123] - INFO - ⬅️ [END] 404 | 1.20ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:18:31,287 - [86a43917-279e-470e-a199-1105cc764080] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:18:31,288 - [86a43917-279e-470e-a199-1105cc764080] - INFO - ⬅️ [END] 404 | 0.42ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:18:34,199 - [cadaa2a7-891d-4d0e-9fe5-693e808a1f0b] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:18:34,201 - [cadaa2a7-891d-4d0e-9fe5-693e808a1f0b] - INFO - ⬅️ [END] 404 | 1.29ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:18:37,223 - [7f95970d-75ab-4d52-b3ff-a6c462ddb6c1] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:18:37,224 - [7f95970d-75ab-4d52-b3ff-a6c462ddb6c1] - INFO - ⬅️ [END] 404 | 0.60ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:18:40,188 - [ee4f109f-8752-44f1-9bce-d808c75f1869] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:18:40,189 - [ee4f109f-8752-44f1-9bce-d808c75f1869] - INFO - ⬅️ [END] 404 | 0.77ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:18:43,266 - [e11834cf-e3af-49ba-930a-b789709d5c9d] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:18:43,267 - [e11834cf-e3af-49ba-930a-b789709d5c9d] - INFO - ⬅️ [END] 404 | 0.82ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:18:46,197 - [05eca99d-de2f-4ad3-9e84-318cc4dc8f02] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:18:46,198 - [05eca99d-de2f-4ad3-9e84-318cc4dc8f02] - INFO - ⬅️ [END] 404 | 1.09ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:18:49,307 - [7e040bbd-5e97-49e1-963d-48dd685d29d5] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:18:49,308 - [7e040bbd-5e97-49e1-963d-48dd685d29d5] - INFO - ⬅️ [END] 404 | 0.86ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:18:52,276 - [53f48004-8004-4666-b5e1-f2762763e021] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:18:52,277 - [53f48004-8004-4666-b5e1-f2762763e021] - INFO - ⬅️ [END] 404 | 0.71ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:18:55,202 - [7cde8335-2968-4472-83a3-95437f035840] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:18:55,203 - [7cde8335-2968-4472-83a3-95437f035840] - INFO - ⬅️ [END] 404 | 1.20ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:18:58,216 - [80252911-460f-4fda-98ea-aee0619c8c3d] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:18:58,217 - [80252911-460f-4fda-98ea-aee0619c8c3d] - INFO - ⬅️ [END] 404 | 0.93ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:19:07,545 - [0a88211f-68ac-4f2a-a786-4a87d6162508] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:19:07,546 - [0a88211f-68ac-4f2a-a786-4a87d6162508] - INFO - ⬅️ [END] 404 | 1.05ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:19:09,583 - [e94df12f-da98-45d3-ba43-44a22ac53a6e] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:19:09,585 - [e94df12f-da98-45d3-ba43-44a22ac53a6e] - INFO - ⬅️ [END] 404 | 1.26ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:19:12,526 - [7c1a7e32-b960-4a6e-85ba-0039eaad3754] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:19:12,526 - [7c1a7e32-b960-4a6e-85ba-0039eaad3754] - INFO - ⬅️ [END] 404 | 0.58ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:19:15,624 - [1266cb73-2612-49cc-8333-5cc79513ac1d] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:19:15,625 - [1266cb73-2612-49cc-8333-5cc79513ac1d] - INFO - ⬅️ [END] 404 | 0.78ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:19:18,799 - [e011c795-e539-4f87-961d-4f9b3f4b2ef7] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:19:18,800 - [e011c795-e539-4f87-961d-4f9b3f4b2ef7] - INFO - ⬅️ [END] 404 | 0.77ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:19:22,281 - [a2878882-3375-4cdf-aace-2ca61488cb75] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:19:22,282 - [a2878882-3375-4cdf-aace-2ca61488cb75] - INFO - ⬅️ [END] 404 | 1.15ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:19:25,250 - [7af29645-ec66-415b-8811-4add6950e097] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:19:25,251 - [7af29645-ec66-415b-8811-4add6950e097] - INFO - ⬅️ [END] 404 | 1.01ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:19:28,220 - [95cc58c9-3577-4781-924f-079580337e54] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:19:28,221 - [95cc58c9-3577-4781-924f-079580337e54] - INFO - ⬅️ [END] 404 | 1.12ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:19:31,201 - [d1f85457-885b-4d1d-9e79-ff7503acece0] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:19:31,202 - [d1f85457-885b-4d1d-9e79-ff7503acece0] - INFO - ⬅️ [END] 404 | 0.75ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:19:34,195 - [5c7fa58e-81e5-45f6-9c1c-a2ed9b5df69b] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:19:34,196 - [5c7fa58e-81e5-45f6-9c1c-a2ed9b5df69b] - INFO - ⬅️ [END] 404 | 0.84ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:19:37,194 - [cba8d1f7-5b37-4504-abfc-914ac1e0edb9] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:19:37,195 - [cba8d1f7-5b37-4504-abfc-914ac1e0edb9] - INFO - ⬅️ [END] 404 | 1.05ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:19:40,202 - [d4e1d744-b4c3-48b6-8790-5beb19723064] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:19:40,203 - [d4e1d744-b4c3-48b6-8790-5beb19723064] - INFO - ⬅️ [END] 404 | 1.19ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:19:43,200 - [8836073f-48c6-458c-9478-9a792b3dfa28] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:19:43,202 - [8836073f-48c6-458c-9478-9a792b3dfa28] - INFO - ⬅️ [END] 404 | 1.06ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:19:46,199 - [49ccdc09-568d-4ebd-b22a-846dc7c72ef6] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:19:46,200 - [49ccdc09-568d-4ebd-b22a-846dc7c72ef6] - INFO - ⬅️ [END] 404 | 1.07ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:19:49,213 - [643f0ce2-469d-484e-a65b-b24eedb2dcbd] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:19:49,214 - [643f0ce2-469d-484e-a65b-b24eedb2dcbd] - INFO - ⬅️ [END] 404 | 0.91ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:19:52,233 - [2344ca64-15ec-4ef7-803d-c453bd78ab58] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:19:52,234 - [2344ca64-15ec-4ef7-803d-c453bd78ab58] - INFO - ⬅️ [END] 404 | 1.23ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:19:55,195 - [1aadcd85-0d5b-4076-adf4-8931f6b7f970] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:19:55,196 - [1aadcd85-0d5b-4076-adf4-8931f6b7f970] - INFO - ⬅️ [END] 404 | 0.83ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:19:58,224 - [35905c45-e6da-4541-b5b5-148049412bba] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:19:58,225 - [35905c45-e6da-4541-b5b5-148049412bba] - INFO - ⬅️ [END] 404 | 0.87ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:20:01,200 - [56a81fb2-b73a-405e-b889-e147f1d06965] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:20:01,201 - [56a81fb2-b73a-405e-b889-e147f1d06965] - INFO - ⬅️ [END] 404 | 1.08ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:20:04,196 - [46cc64ea-0ae5-4eb3-9d67-8c53ffdf4c66] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:20:04,197 - [46cc64ea-0ae5-4eb3-9d67-8c53ffdf4c66] - INFO - ⬅️ [END] 404 | 0.89ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:20:07,235 - [8afe8029-68f1-4b34-aebf-6ce2456c3003] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:20:07,236 - [8afe8029-68f1-4b34-aebf-6ce2456c3003] - INFO - ⬅️ [END] 404 | 1.26ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:20:10,199 - [080a8a34-69e2-4c7c-aeb0-1d4b3fc9befb] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:20:10,200 - [080a8a34-69e2-4c7c-aeb0-1d4b3fc9befb] - INFO - ⬅️ [END] 404 | 0.99ms | UA: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36 | Ref: http://172.30.1.94:3000/ | Headers: {'host': 'continently-shunnable-tripp.ngrok-free.dev', 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36', 'accept': '*/*', 'accept-encoding': 'gzip, deflate, br, zstd', 'accept-language': 'ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7', 'dnt': '1', 'ngrok-skip-browser-warning': 'true', 'origin': 'http://172.30.1.94:3000', 'priority': 'u=1, i', 'referer': 'http://172.30.1.94:3000/', 'sec-ch-ua': '"Not:A-Brand";v="99", "Google Chrome";v="145", "Chromium";v="145"', 'sec-ch-ua-mobile': '?0', 'sec-ch-ua-platform': '"Windows"', 'sec-fetch-dest': 'empty', 'sec-fetch-mode': 'cors', 'sec-fetch-site': 'cross-site', 'x-forwarded-for': '59.12.53.205', 'x-forwarded-host': 'continently-shunnable-tripp.ngrok-free.dev', 'x-forwarded-proto': 'https'}
+2026-02-19 13:20:33,769 - [6006335e-9ef4-4107-bc96-c872f740ab2c] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:20:33,769 - [6006335e-9ef4-4107-bc96-c872f740ab2c] - INFO - ⬅️ [END] 404 | 0.58ms
+2026-02-19 13:20:33,853 - [4d02ebea-9d4b-45fb-80f2-b93d20a1394b] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:20:33,853 - [4d02ebea-9d4b-45fb-80f2-b93d20a1394b] - INFO - ⬅️ [END] 404 | 0.30ms
+2026-02-19 13:20:33,939 - [a733db58-8380-47bf-a4f4-61a647875e02] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:20:33,940 - [a733db58-8380-47bf-a4f4-61a647875e02] - INFO - ⬅️ [END] 404 | 0.75ms
+2026-02-19 13:21:33,205 - [4ef17527-3248-4b09-aae3-772958e00a2d] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:21:33,207 - [4ef17527-3248-4b09-aae3-772958e00a2d] - INFO - ⬅️ [END] 404 | 1.74ms
+2026-02-19 13:22:33,212 - [f514e5e7-c558-4573-a558-04909cdad875] - INFO - ➡️ [START] GET /api/v1/admin/reports | IP: 59.12.53.205
+2026-02-19 13:22:33,215 - [f514e5e7-c558-4573-a558-04909cdad875] - INFO - ⬅️ [END] 404 | 2.93ms
+2026-02-19 13:23:20,739 - [cfd56f90-4abf-4c9a-87f5-f450d5c38840] - INFO - ➡️ [START] OPTIONS /api/v1/reports | IP: 59.12.53.205
+2026-02-19 13:23:20,744 - [cfd56f90-4abf-4c9a-87f5-f450d5c38840] - INFO - ⬅️ [END] 200 | 5.61ms
+2026-02-19 13:23:20,774 - [236e2f6d-4b9e-43d0-a46f-a32b175cd45d] - INFO - ➡️ [START] OPTIONS /api/v1/reports | IP: 59.12.53.205
+2026-02-19 13:23:20,774 - [236e2f6d-4b9e-43d0-a46f-a32b175cd45d] - INFO - ⬅️ [END] 200 | 0.66ms
+2026-02-19 13:23:20,832 - [809f87d9-42fa-46ff-8c9f-56e871a42007] - INFO - ➡️ [START] GET /api/v1/reports | IP: 59.12.53.205
+2026-02-19 13:23:20,833 - [809f87d9-42fa-46ff-8c9f-56e871a42007] - INFO - ⬅️ [END] 307 | 1.03ms
+2026-02-19 13:23:20,926 - [070d62aa-826b-4945-8a6c-ffcb3711252a] - INFO - ➡️ [START] OPTIONS /api/v1/reports/ | IP: 59.12.53.205
+2026-02-19 13:23:20,927 - [190e1320-9537-455e-8106-ae289b850e0a] - INFO - ➡️ [START] GET /api/v1/reports | IP: 59.12.53.205
+2026-02-19 13:23:20,928 - [070d62aa-826b-4945-8a6c-ffcb3711252a] - INFO - ⬅️ [END] 200 | 1.50ms
+2026-02-19 13:23:20,928 - [190e1320-9537-455e-8106-ae289b850e0a] - INFO - ⬅️ [END] 307 | 1.31ms
+2026-02-19 13:23:21,014 - [6b076f7b-2998-4b8c-b58a-b2bfb9932d2b] - INFO - ➡️ [START] GET /api/v1/reports/ | IP: 59.12.53.205
+2026-02-19 13:23:22,529 - [6b076f7b-2998-4b8c-b58a-b2bfb9932d2b] - INFO - ⬅️ [END] 200 | 1514.73ms
+2026-02-19 13:23:22,618 - [209c8fa8-bd13-466b-9cf3-6b983babeaf5] - INFO - ➡️ [START] GET /api/v1/reports/ | IP: 59.12.53.205
+2026-02-19 13:23:22,776 - [209c8fa8-bd13-466b-9cf3-6b983babeaf5] - INFO - ⬅️ [END] 200 | 157.97ms
+2026-02-19 13:23:24,480 - [3f13efcb-815a-46cb-abd8-f7b95e9273e0] - INFO - ➡️ [START] GET /api/v1/reports | IP: 59.12.53.205
+2026-02-19 13:23:24,481 - [3f13efcb-815a-46cb-abd8-f7b95e9273e0] - INFO - ⬅️ [END] 307 | 0.92ms
+2026-02-19 13:23:24,568 - [e3fee9b3-941e-4b18-9d61-27896a63f06c] - INFO - ➡️ [START] GET /api/v1/reports/ | IP: 59.12.53.205
+2026-02-19 13:23:24,833 - [e3fee9b3-941e-4b18-9d61-27896a63f06c] - INFO - ⬅️ [END] 200 | 265.29ms
+[2026-02-19 13:52:40,084] [793da22a-5528-46fc-975d-179d6d45c4ec] INFO
+➡️ [START] OPTIONS /api/v1/reports | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:52:40,086] [2b8d2501-d3a6-470a-ae76-278f0a8e2527] INFO
+➡️ [START] OPTIONS /api/v1/reports | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:52:40,086] [793da22a-5528-46fc-975d-179d6d45c4ec] INFO
+⬅️ [END] 200 | 2.80ms
+[2026-02-19 13:52:40,087] [2b8d2501-d3a6-470a-ae76-278f0a8e2527] INFO
+⬅️ [END] 200 | 1.09ms
+[2026-02-19 13:52:40,166] [14c6e465-7562-4c30-b4fd-a03d7c985576] INFO
+➡️ [START] GET /api/v1/reports | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:52:40,167] [14c6e465-7562-4c30-b4fd-a03d7c985576] INFO
+⬅️ [END] 307 | 1.01ms
+[2026-02-19 13:52:40,247] [903a8454-cc41-4369-9035-7f30af920160] INFO
+➡️ [START] GET /api/v1/reports | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:52:40,247] [903a8454-cc41-4369-9035-7f30af920160] INFO
+⬅️ [END] 307 | 0.76ms
+[2026-02-19 13:52:40,249] [8c5d371d-cd47-445d-aed0-ed30fb39ce8c] INFO
+➡️ [START] OPTIONS /api/v1/reports/ | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:52:40,250] [8c5d371d-cd47-445d-aed0-ed30fb39ce8c] INFO
+⬅️ [END] 200 | 0.55ms
+[2026-02-19 13:52:40,344] [6369572a-465c-4d4f-8361-9f676ce1c18c] INFO
+➡️ [START] OPTIONS /api/v1/reports/ | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:52:40,345] [27dd6072-5dda-456c-a85b-a4232298e2a8] INFO
+➡️ [START] GET /api/v1/reports/ | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:52:40,348] [6369572a-465c-4d4f-8361-9f676ce1c18c] INFO
+⬅️ [END] 200 | 3.73ms
+[2026-02-19 13:52:41,720] [27dd6072-5dda-456c-a85b-a4232298e2a8] INFO
+⬅️ [END] 200 | 1375.36ms
+[2026-02-19 13:52:41,825] [4d09ac18-51a1-45c3-acea-e57f842c1852] INFO
+➡️ [START] GET /api/v1/reports/ | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:52:42,134] [4d09ac18-51a1-45c3-acea-e57f842c1852] INFO
+⬅️ [END] 200 | 308.52ms
+[2026-02-19 13:52:44,703] [35240254-3a84-4d15-85f5-c2ce00140d69] INFO
+➡️ [START] GET /api/v1/reports | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:52:44,704] [35240254-3a84-4d15-85f5-c2ce00140d69] INFO
+⬅️ [END] 307 | 0.99ms
+[2026-02-19 13:52:44,789] [4d6c11ec-1ccf-41ed-95e9-d29825670b58] INFO
+➡️ [START] GET /api/v1/reports/ | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:52:44,971] [4d6c11ec-1ccf-41ed-95e9-d29825670b58] INFO
+⬅️ [END] 200 | 182.36ms
+[2026-02-19 13:52:45,962] [3be22d95-6a99-4945-96eb-346ff5bdb062] INFO
+➡️ [START] GET /api/v1/reports | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:52:45,963] [3be22d95-6a99-4945-96eb-346ff5bdb062] INFO
+⬅️ [END] 307 | 0.73ms
+[2026-02-19 13:52:46,045] [87ff5c5f-5fff-4935-970c-2aafe1b3f2d1] INFO
+➡️ [START] GET /api/v1/reports/ | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:52:46,245] [87ff5c5f-5fff-4935-970c-2aafe1b3f2d1] INFO
+⬅️ [END] 200 | 199.89ms
+[2026-02-19 13:52:49,232] [e2e49f1b-5876-4d7d-b8cf-fcb0f30536bd] INFO
+➡️ [START] GET /api/v1/reports | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:52:49,233] [e2e49f1b-5876-4d7d-b8cf-fcb0f30536bd] INFO
+⬅️ [END] 307 | 0.80ms
+[2026-02-19 13:52:49,379] [c6c8a278-8f6c-4e6c-aec1-9351812f3dd2] INFO
+➡️ [START] GET /api/v1/reports/ | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:52:49,552] [c6c8a278-8f6c-4e6c-aec1-9351812f3dd2] INFO
+⬅️ [END] 200 | 173.30ms
+[2026-02-19 13:52:52,310] [0066a304-0ae8-46f1-98ac-361410ee14a1] INFO
+➡️ [START] GET /api/v1/reports | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:52:52,311] [0066a304-0ae8-46f1-98ac-361410ee14a1] INFO
+⬅️ [END] 307 | 0.64ms
+[2026-02-19 13:52:52,395] [f15772e1-af51-4e15-be63-ad0d74da0f99] INFO
+➡️ [START] GET /api/v1/reports/ | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:52:52,533] [f15772e1-af51-4e15-be63-ad0d74da0f99] INFO
+⬅️ [END] 200 | 137.61ms
+[2026-02-19 13:52:54,972] [c9f82570-1c40-49f2-ae66-c859139a2efa] INFO
+➡️ [START] GET /api/v1/reports | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:52:54,973] [c9f82570-1c40-49f2-ae66-c859139a2efa] INFO
+⬅️ [END] 307 | 0.78ms
+[2026-02-19 13:52:55,139] [8698e44e-736c-4ffb-ac4b-5dbb6eb7cf02] INFO
+➡️ [START] GET /api/v1/reports/ | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:52:55,249] [8698e44e-736c-4ffb-ac4b-5dbb6eb7cf02] INFO
+⬅️ [END] 200 | 110.06ms
+[2026-02-19 13:53:00,681] [6230ede2-2a02-4366-a253-0276f2ab76b4] INFO
+➡️ [START] GET /api/v1/reports | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:53:00,682] [6230ede2-2a02-4366-a253-0276f2ab76b4] INFO
+⬅️ [END] 307 | 0.68ms
+[2026-02-19 13:53:00,764] [716f6f1a-acfd-4488-a16e-832efc3a83b9] INFO
+➡️ [START] GET /api/v1/reports/ | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:53:00,949] [716f6f1a-acfd-4488-a16e-832efc3a83b9] INFO
+⬅️ [END] 200 | 184.57ms
+[2026-02-19 13:53:01,237] [aab35d55-9043-48cc-a8a8-6b6dd9897804] INFO
+➡️ [START] GET /api/v1/reports | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:53:01,238] [aab35d55-9043-48cc-a8a8-6b6dd9897804] INFO
+⬅️ [END] 307 | 0.59ms
+[2026-02-19 13:53:01,321] [d8e93eb4-dcbe-4c0f-bed1-24e5de33324a] INFO
+➡️ [START] GET /api/v1/reports/ | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:53:01,448] [d8e93eb4-dcbe-4c0f-bed1-24e5de33324a] INFO
+⬅️ [END] 200 | 126.16ms
+[2026-02-19 13:53:04,227] [6fdd04a2-0994-4947-a3f5-88f07e9a35f0] INFO
+➡️ [START] GET /api/v1/reports | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:53:04,228] [6fdd04a2-0994-4947-a3f5-88f07e9a35f0] INFO
+⬅️ [END] 307 | 1.02ms
+[2026-02-19 13:53:04,311] [b99c9b4d-178e-4458-82d9-45440af4b300] INFO
+➡️ [START] GET /api/v1/reports/ | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:53:04,463] [b99c9b4d-178e-4458-82d9-45440af4b300] INFO
+⬅️ [END] 200 | 151.83ms
+[2026-02-19 13:53:07,372] [ab638cb3-48ec-4018-932f-082e1d3ccc3e] INFO
+➡️ [START] GET /api/v1/reports | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:53:07,373] [ab638cb3-48ec-4018-932f-082e1d3ccc3e] INFO
+⬅️ [END] 307 | 0.32ms
+[2026-02-19 13:53:07,462] [e55a0e97-fcce-49f5-8905-bb1fb80e1d01] INFO
+➡️ [START] GET /api/v1/reports/ | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:53:07,623] [e55a0e97-fcce-49f5-8905-bb1fb80e1d01] INFO
+⬅️ [END] 200 | 161.00ms
+[2026-02-19 13:53:10,350] [61c8af88-5a26-4c15-90b0-809c7fb2c522] INFO
+➡️ [START] GET /api/v1/reports | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:53:10,352] [61c8af88-5a26-4c15-90b0-809c7fb2c522] INFO
+⬅️ [END] 307 | 1.34ms
+[2026-02-19 13:53:10,436] [6885575a-a90f-42f0-bf56-9034819c2fec] INFO
+➡️ [START] GET /api/v1/reports/ | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:53:10,581] [6885575a-a90f-42f0-bf56-9034819c2fec] INFO
+⬅️ [END] 200 | 144.52ms
+[2026-02-19 13:53:13,251] [5980f038-a808-431b-95cf-47c562cf28ca] INFO
+➡️ [START] GET /api/v1/reports | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:53:13,252] [5980f038-a808-431b-95cf-47c562cf28ca] INFO
+⬅️ [END] 307 | 1.01ms
+[2026-02-19 13:53:13,332] [a99e2a65-aff9-4b84-8eb6-cb177d8140e9] INFO
+➡️ [START] GET /api/v1/reports/ | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:53:13,502] [a99e2a65-aff9-4b84-8eb6-cb177d8140e9] INFO
+⬅️ [END] 200 | 169.87ms
+[2026-02-19 13:53:16,237] [5ef311fe-5b6e-4551-af27-1f3446e56767] INFO
+➡️ [START] GET /api/v1/reports | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:53:16,238] [5ef311fe-5b6e-4551-af27-1f3446e56767] INFO
+⬅️ [END] 307 | 0.75ms
+[2026-02-19 13:53:16,333] [6a4fd6c0-addc-4327-8167-37d913a07753] INFO
+➡️ [START] GET /api/v1/reports/ | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:53:16,491] [6a4fd6c0-addc-4327-8167-37d913a07753] INFO
+⬅️ [END] 200 | 157.62ms
+[2026-02-19 13:53:19,255] [0f875960-1194-4096-894c-b3bca772d36d] INFO
+➡️ [START] GET /api/v1/reports | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:53:19,256] [0f875960-1194-4096-894c-b3bca772d36d] INFO
+⬅️ [END] 307 | 0.70ms
+[2026-02-19 13:53:19,340] [e3430891-b42f-40d6-b284-171df92f1ec9] INFO
+➡️ [START] GET /api/v1/reports/ | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:53:19,482] [e3430891-b42f-40d6-b284-171df92f1ec9] INFO
+⬅️ [END] 200 | 141.84ms
+[2026-02-19 13:53:22,323] [d6de3c41-69f6-473a-84f8-e482445a613d] INFO
+➡️ [START] GET /api/v1/reports | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:53:22,324] [d6de3c41-69f6-473a-84f8-e482445a613d] INFO
+⬅️ [END] 307 | 1.16ms
+[2026-02-19 13:53:22,487] [3a22c027-5bc8-45f2-ae69-7155facb7fc4] INFO
+➡️ [START] GET /api/v1/reports/ | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:53:22,814] [3a22c027-5bc8-45f2-ae69-7155facb7fc4] INFO
+⬅️ [END] 200 | 327.11ms
+[2026-02-19 13:53:25,234] [b02fc904-228a-4dc0-b122-40a0272f2f62] INFO
+➡️ [START] GET /api/v1/reports | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:53:25,234] [b02fc904-228a-4dc0-b122-40a0272f2f62] INFO
+⬅️ [END] 307 | 0.57ms
+[2026-02-19 13:53:25,316] [4c14513e-be80-4651-9a24-2166b0134502] INFO
+➡️ [START] GET /api/v1/reports/ | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:53:25,442] [4c14513e-be80-4651-9a24-2166b0134502] INFO
+⬅️ [END] 200 | 125.56ms
+[2026-02-19 13:53:28,231] [67ce9480-e0b5-4b13-8fc4-c1010deb08f3] INFO
+➡️ [START] GET /api/v1/reports | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:53:28,232] [67ce9480-e0b5-4b13-8fc4-c1010deb08f3] INFO
+⬅️ [END] 307 | 0.81ms
+[2026-02-19 13:53:28,318] [44f1491f-484f-42a9-b1c5-a039522474ee] INFO
+➡️ [START] GET /api/v1/reports/ | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:53:28,435] [44f1491f-484f-42a9-b1c5-a039522474ee] INFO
+⬅️ [END] 200 | 117.39ms
+[2026-02-19 13:53:31,222] [6469b761-c288-4034-b7ba-5eba4fd78475] INFO
+➡️ [START] GET /api/v1/reports | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:53:31,223] [6469b761-c288-4034-b7ba-5eba4fd78475] INFO
+⬅️ [END] 307 | 0.68ms
+[2026-02-19 13:53:31,322] [293b2915-5d10-4867-a8c5-1690c5505301] INFO
+➡️ [START] GET /api/v1/reports/ | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:53:31,598] [293b2915-5d10-4867-a8c5-1690c5505301] INFO
+⬅️ [END] 200 | 276.04ms
+[2026-02-19 13:53:34,224] [21123e1a-7488-48ad-8449-f578e43e854e] INFO
+➡️ [START] GET /api/v1/reports | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:53:34,225] [21123e1a-7488-48ad-8449-f578e43e854e] INFO
+⬅️ [END] 307 | 0.78ms
+[2026-02-19 13:53:34,505] [2b69eb2b-4c6e-4655-b7c3-2ca417b09225] INFO
+➡️ [START] GET /api/v1/reports/ | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:53:34,613] [2b69eb2b-4c6e-4655-b7c3-2ca417b09225] INFO
+⬅️ [END] 200 | 108.63ms
+[2026-02-19 13:53:37,247] [1a195540-8dbb-40ac-814e-99a8815520b2] INFO
+➡️ [START] GET /api/v1/reports | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:53:37,247] [1a195540-8dbb-40ac-814e-99a8815520b2] INFO
+⬅️ [END] 307 | 0.67ms
+[2026-02-19 13:53:37,345] [cac15e3c-5017-40c8-a731-7d5d1da662f6] INFO
+➡️ [START] GET /api/v1/reports/ | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:53:37,476] [cac15e3c-5017-40c8-a731-7d5d1da662f6] INFO
+⬅️ [END] 200 | 130.76ms
+[2026-02-19 13:53:40,295] [c71301c4-fb7c-47de-a3aa-177520c8b5ff] INFO
+➡️ [START] GET /api/v1/reports | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:53:40,296] [c71301c4-fb7c-47de-a3aa-177520c8b5ff] INFO
+⬅️ [END] 307 | 0.50ms
+[2026-02-19 13:53:40,381] [1989fbc2-8738-4c49-8561-88b2349287f3] INFO
+➡️ [START] GET /api/v1/reports/ | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:53:40,494] [1989fbc2-8738-4c49-8561-88b2349287f3] INFO
+⬅️ [END] 200 | 113.70ms
+[2026-02-19 13:53:43,227] [4560e13c-dc0c-4d82-814a-7044dce7497c] INFO
+➡️ [START] GET /api/v1/reports | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:53:43,228] [4560e13c-dc0c-4d82-814a-7044dce7497c] INFO
+⬅️ [END] 307 | 0.72ms
+[2026-02-19 13:53:43,460] [d5d64c06-756a-4809-8152-e300bd97e470] INFO
+➡️ [START] GET /api/v1/reports/ | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:53:43,591] [d5d64c06-756a-4809-8152-e300bd97e470] INFO
+⬅️ [END] 200 | 130.60ms
+[2026-02-19 13:53:46,279] [153ea961-b741-41b3-a10a-2bb6edff9135] INFO
+➡️ [START] GET /api/v1/reports | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:53:46,279] [153ea961-b741-41b3-a10a-2bb6edff9135] INFO
+⬅️ [END] 307 | 0.44ms
+[2026-02-19 13:53:46,362] [1943ecbf-e1e6-4883-92bf-63969e303402] INFO
+➡️ [START] GET /api/v1/reports/ | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:53:46,527] [1943ecbf-e1e6-4883-92bf-63969e303402] INFO
+⬅️ [END] 200 | 165.34ms
+[2026-02-19 13:53:49,237] [a7e71dc6-782c-431d-b38d-7255a3fa01aa] INFO
+➡️ [START] GET /api/v1/reports | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:53:49,238] [a7e71dc6-782c-431d-b38d-7255a3fa01aa] INFO
+⬅️ [END] 307 | 0.73ms
+[2026-02-19 13:53:49,322] [69567240-9c3c-4d39-a096-cef448d88357] INFO
+➡️ [START] GET /api/v1/reports/ | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:53:49,433] [69567240-9c3c-4d39-a096-cef448d88357] INFO
+⬅️ [END] 200 | 110.49ms
+[2026-02-19 13:53:52,295] [e3f858d0-9b25-45e2-b74a-d78976ac6863] INFO
+➡️ [START] GET /api/v1/reports | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:53:52,296] [e3f858d0-9b25-45e2-b74a-d78976ac6863] INFO
+⬅️ [END] 307 | 0.67ms
+[2026-02-19 13:53:52,391] [a1b85e82-e2d0-4bd2-b9be-7a718fe079bd] INFO
+➡️ [START] GET /api/v1/reports/ | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:53:52,504] [a1b85e82-e2d0-4bd2-b9be-7a718fe079bd] INFO
+⬅️ [END] 200 | 112.71ms
+[2026-02-19 13:53:55,230] [de027824-c5f9-4e9a-83a8-2a6f9af0fb75] INFO
+➡️ [START] GET /api/v1/reports | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:53:55,231] [de027824-c5f9-4e9a-83a8-2a6f9af0fb75] INFO
+⬅️ [END] 307 | 0.93ms
+[2026-02-19 13:53:55,314] [d78215ae-d372-4b60-84bc-6f787d1ac852] INFO
+➡️ [START] GET /api/v1/reports/ | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:53:55,450] [d78215ae-d372-4b60-84bc-6f787d1ac852] INFO
+⬅️ [END] 200 | 135.42ms
+[2026-02-19 13:53:58,227] [256ccc79-2f2e-4282-aa17-488c7f3587b9] INFO
+➡️ [START] GET /api/v1/reports | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:53:58,228] [256ccc79-2f2e-4282-aa17-488c7f3587b9] INFO
+⬅️ [END] 307 | 0.73ms
+[2026-02-19 13:53:58,308] [940e2660-7611-40fa-90da-595ab697101f] INFO
+➡️ [START] GET /api/v1/reports/ | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:53:58,418] [940e2660-7611-40fa-90da-595ab697101f] INFO
+⬅️ [END] 200 | 110.54ms
+[2026-02-19 13:54:01,329] [e823f83a-9f0a-47c9-9e7e-0cbeb7b5b784] INFO
+➡️ [START] GET /api/v1/reports | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:54:01,329] [e823f83a-9f0a-47c9-9e7e-0cbeb7b5b784] INFO
+⬅️ [END] 307 | 0.71ms
+[2026-02-19 13:54:01,416] [9b7c6d7b-3f80-49ab-9c1b-82c2e2ced143] INFO
+➡️ [START] GET /api/v1/reports/ | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:54:01,527] [9b7c6d7b-3f80-49ab-9c1b-82c2e2ced143] INFO
+⬅️ [END] 200 | 111.20ms
+[2026-02-19 13:54:33,242] [e5df7113-e7f7-43b0-b2c9-979d9b9eb7ea] INFO
+➡️ [START] GET /api/v1/reports | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:54:33,242] [e5df7113-e7f7-43b0-b2c9-979d9b9eb7ea] INFO
+⬅️ [END] 307 | 0.44ms
+[2026-02-19 13:54:33,336] [6c677f4d-df2e-417f-98b2-8689f20b47e8] INFO
+➡️ [START] GET /api/v1/reports/ | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:54:34,013] [6c677f4d-df2e-417f-98b2-8689f20b47e8] INFO
+⬅️ [END] 200 | 677.45ms
+[2026-02-19 13:55:33,325] [8d1a21ed-4f49-4f3c-94a0-b3009d169ab9] INFO
+➡️ [START] GET /api/v1/reports | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:55:33,326] [8d1a21ed-4f49-4f3c-94a0-b3009d169ab9] INFO
+⬅️ [END] 307 | 0.97ms
+[2026-02-19 13:55:33,479] [d14f816f-d719-49a6-ab76-672900e904c1] INFO
+➡️ [START] GET /api/v1/reports/ | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:55:33,909] [d14f816f-d719-49a6-ab76-672900e904c1] INFO
+⬅️ [END] 200 | 430.47ms
+[2026-02-19 13:56:33,249] [aac76ca6-4e1b-43eb-8896-81089d89ad9d] INFO
+➡️ [START] GET /api/v1/reports | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:56:33,250] [aac76ca6-4e1b-43eb-8896-81089d89ad9d] INFO
+⬅️ [END] 307 | 0.95ms
+[2026-02-19 13:56:33,339] [8a15b494-f6cb-416a-8b89-2725a87c27d4] INFO
+➡️ [START] GET /api/v1/reports/ | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:56:33,557] [8a15b494-f6cb-416a-8b89-2725a87c27d4] INFO
+⬅️ [END] 200 | 218.57ms
+[2026-02-19 13:57:33,257] [0cba02ba-abf6-4c5b-84f0-5cbf60c451d9] INFO
+➡️ [START] GET /api/v1/reports | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:57:33,258] [0cba02ba-abf6-4c5b-84f0-5cbf60c451d9] INFO
+⬅️ [END] 307 | 0.99ms
+[2026-02-19 13:57:33,349] [6fb11379-079a-4d3f-91ec-e292c87a9954] INFO
+➡️ [START] GET /api/v1/reports/ | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:57:33,552] [6fb11379-079a-4d3f-91ec-e292c87a9954] INFO
+⬅️ [END] 200 | 203.05ms
+[2026-02-19 13:58:33,411] [052a6f51-c5bb-4ebd-baff-6df77129b990] INFO
+➡️ [START] GET /api/v1/reports | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:58:33,412] [052a6f51-c5bb-4ebd-baff-6df77129b990] INFO
+⬅️ [END] 307 | 1.01ms
+[2026-02-19 13:58:33,510] [c05ba988-6f8e-4971-ba5f-e7e2cc043d7f] INFO
+➡️ [START] GET /api/v1/reports/ | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:58:34,085] [c05ba988-6f8e-4971-ba5f-e7e2cc043d7f] INFO
+⬅️ [END] 200 | 575.73ms
+[2026-02-19 13:59:33,245] [7092ac39-ee28-4c7c-acc8-5a4737520b5d] INFO
+➡️ [START] GET /api/v1/reports | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:59:33,247] [7092ac39-ee28-4c7c-acc8-5a4737520b5d] INFO
+⬅️ [END] 307 | 1.77ms
+[2026-02-19 13:59:33,352] [e151d90b-9746-4023-b2e8-d87c147ca45b] INFO
+➡️ [START] GET /api/v1/reports/ | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 13:59:33,609] [e151d90b-9746-4023-b2e8-d87c147ca45b] INFO
+⬅️ [END] 200 | 257.06ms
+[2026-02-19 14:00:33,426] [424577f5-e89d-4d61-b2cd-c8b6594cd608] INFO
+➡️ [START] GET /api/v1/reports | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 14:00:33,427] [424577f5-e89d-4d61-b2cd-c8b6594cd608] INFO
+⬅️ [END] 307 | 1.06ms
+[2026-02-19 14:00:33,525] [49046b32-ccfc-44da-a5f5-f424bba6e548] INFO
+➡️ [START] GET /api/v1/reports/ | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 14:00:33,721] [49046b32-ccfc-44da-a5f5-f424bba6e548] INFO
+⬅️ [END] 200 | 195.68ms
+[2026-02-19 14:01:33,248] [094ebf3b-ae83-4789-9364-74746c8a6818] INFO
+➡️ [START] GET /api/v1/reports | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 14:01:33,248] [094ebf3b-ae83-4789-9364-74746c8a6818] INFO
+⬅️ [END] 307 | 1.02ms
+[2026-02-19 14:01:33,332] [b66b5987-1e36-4271-a866-ca9b13179b7c] INFO
+➡️ [START] GET /api/v1/reports/ | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 14:01:33,799] [b66b5987-1e36-4271-a866-ca9b13179b7c] INFO
+⬅️ [END] 200 | 467.79ms
+[2026-02-19 14:02:33,254] [081e373d-69fb-4471-8c0e-33365cd4d456] INFO
+➡️ [START] GET /api/v1/reports | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 14:02:33,256] [081e373d-69fb-4471-8c0e-33365cd4d456] INFO
+⬅️ [END] 307 | 2.37ms
+[2026-02-19 14:02:33,345] [81aa6a26-d035-463b-9403-ed8fd4c21db9] INFO
+➡️ [START] GET /api/v1/reports/ | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 14:02:33,644] [81aa6a26-d035-463b-9403-ed8fd4c21db9] INFO
+⬅️ [END] 200 | 299.70ms
+[2026-02-19 14:03:33,244] [40f90978-72a3-4c2c-bc50-3eabe6dca19c] INFO
+➡️ [START] OPTIONS /api/v1/reports | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 14:03:33,245] [40f90978-72a3-4c2c-bc50-3eabe6dca19c] INFO
+⬅️ [END] 200 | 0.73ms
+[2026-02-19 14:03:33,333] [e16808dc-2aaf-4acd-9e13-9d7638ce9bb1] INFO
+➡️ [START] GET /api/v1/reports | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 14:03:33,574] [e16808dc-2aaf-4acd-9e13-9d7638ce9bb1] INFO
+⬅️ [END] 200 | 240.93ms
+[2026-02-19 14:04:33,356] [49efee39-603d-4778-8541-0293d2c6b37b] INFO
+➡️ [START] GET /api/v1/reports | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 14:04:33,588] [49efee39-603d-4778-8541-0293d2c6b37b] INFO
+⬅️ [END] 200 | 232.49ms
+[2026-02-19 14:04:33,588] [49efee39-603d-4778-8541-0293d2c6b37b] INFO
+------------------------------------------------------------
+[2026-02-19 14:05:33,263] [ac998e97-59eb-4648-95c0-b31044eed09f] INFO
+➡️ [START] GET /api/v1/reports | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 14:05:33,472] [ac998e97-59eb-4648-95c0-b31044eed09f] INFO
+⬅️ [END] 200 | 208.38ms
+[2026-02-19 14:05:33,472] [ac998e97-59eb-4648-95c0-b31044eed09f] INFO
+------------------------------------------------------------
+[2026-02-19 14:06:33,257] [61228c7b-135f-4fa7-9c7a-a56db7209d52] INFO
+➡️ [START] GET /api/v1/reports | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 14:06:33,461] [61228c7b-135f-4fa7-9c7a-a56db7209d52] INFO
+⬅️ [END] 200 | 204.05ms
+[2026-02-19 14:06:33,462] [61228c7b-135f-4fa7-9c7a-a56db7209d52] INFO
+------------------------------------------------------------
+[2026-02-19 14:07:33,330] [7f62d45d-7717-4efa-81a0-22fa2ad38179] INFO
+➡️ [START] GET /api/v1/reports | IP: 59.12.53.205 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+[2026-02-19 14:07:33,536] [7f62d45d-7717-4efa-81a0-22fa2ad38179] INFO
+⬅️ [END] 200 | 205.84ms
+[2026-02-19 14:07:33,536] [7f62d45d-7717-4efa-81a0-22fa2ad38179] INFO
+------------------------------------------------------------
+2026-02-19 14:08:33,249 - INFO - ➡️ [요청 시작] GET /api/v1/reports | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-19 14:08:33,464 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 214.84ms
+2026-02-19 14:09:21,346 - INFO - ➡️ [요청 시작] POST /api/v1/navigation/path/ | Device: Dalvik/2.1.0 (Linux; U; Android 13; SM-N981N Build/TP1A.220624.014)
+2026-02-19 14:09:21,347 - INFO - ⬅️ [요청 완료] 307 | 소요시간: 1.13ms
+2026-02-19 14:09:33,280 - INFO - ➡️ [요청 시작] GET /api/v1/reports | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-19 14:09:33,562 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 282.13ms
+2026-02-19 14:10:33,259 - INFO - ➡️ [요청 시작] GET /api/v1/reports | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-19 14:10:33,477 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 217.29ms
+2026-02-19 14:11:33,256 - INFO - ➡️ [요청 시작] GET /api/v1/reports | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-19 14:11:33,474 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 217.89ms
+2026-02-19 14:12:33,262 - INFO - ➡️ [요청 시작] GET /api/v1/reports | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-19 14:12:33,814 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 551.40ms
+2026-02-19 14:17:24,278 - INFO - ➡️ [요청 시작] GET /non-existent-route | Device: testclient
+2026-02-19 14:17:24,278 - INFO - ⬅️ [요청 완료] 404 | 소요시간: 0.26ms
+2026-02-19 14:27:54,817 - INFO - ➡️ [요청 시작] POST /api/v1/navigation/path/ | Device: Dalvik/2.1.0 (Linux; U; Android 13; SM-N981N Build/TP1A.220624.014)
+2026-02-19 14:27:54,819 - INFO - ⬅️ [요청 완료] 307 | 소요시간: 2.50ms
+2026-02-19 15:09:24,580 - INFO - ➡️ [요청 시작] POST /api/v1/navigation/path/ | Device: WalkMate-App
+2026-02-19 15:09:24,801 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 221.79ms
+2026-02-19 15:19:40,652 - INFO - ➡️ [요청 시작] POST /api/v1/navigation/path/ | Device: WalkMate-App
+2026-02-19 15:19:40,820 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 168.70ms
+2026-02-19 15:20:44,838 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:20:44,841 - INFO - ⬅️ [요청 완료] 307 | 소요시간: 3.09ms
+2026-02-19 15:27:57,804 - INFO - ➡️ [요청 시작] POST /api/v1/navigation/path/ | Device: WalkMate-App
+2026-02-19 15:27:57,949 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 145.09ms
+2026-02-19 15:38:50,292 - INFO - ➡️ [요청 시작] POST /api/v1/navigation/path/ | Device: WalkMate-App
+2026-02-19 15:38:50,457 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 165.19ms
+2026-02-19 15:39:00,803 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:39:02,477 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1673.88ms
+2026-02-19 15:39:09,109 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:39:09,570 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 461.14ms
+2026-02-19 15:39:09,571 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:39:09,947 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 376.25ms
+2026-02-19 15:39:17,480 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:39:17,482 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:39:17,785 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 303.73ms
+2026-02-19 15:39:17,786 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:39:17,983 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 502.85ms
+2026-02-19 15:39:18,144 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 358.56ms
+2026-02-19 15:39:25,724 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:39:25,764 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:39:25,805 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:39:26,380 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 655.63ms
+2026-02-19 15:39:26,381 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 616.94ms
+2026-02-19 15:39:26,582 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 777.74ms
+2026-02-19 15:39:34,122 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:39:34,161 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:39:34,200 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:39:34,734 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 611.77ms
+2026-02-19 15:39:35,259 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1098.77ms
+2026-02-19 15:39:35,260 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1059.22ms
+2026-02-19 15:39:42,629 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:39:42,629 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:39:42,669 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:39:42,997 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 367.92ms
+2026-02-19 15:39:43,423 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 794.24ms
+2026-02-19 15:39:43,424 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 755.00ms
+2026-02-19 15:39:51,079 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:39:51,123 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:39:51,123 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:39:51,477 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 398.26ms
+2026-02-19 15:39:51,851 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 728.64ms
+2026-02-19 15:39:51,851 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 728.29ms
+2026-02-19 15:39:59,517 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:39:59,562 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:40:00,127 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 609.61ms
+2026-02-19 15:40:00,127 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 565.58ms
+2026-02-19 15:40:07,883 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:40:07,919 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:40:07,922 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:40:08,627 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 705.02ms
+2026-02-19 15:40:08,628 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 708.97ms
+2026-02-19 15:40:08,628 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 745.47ms
+2026-02-19 15:40:09,157 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:40:09,450 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 292.77ms
+2026-02-19 15:40:21,649 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:40:21,689 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:40:21,690 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:40:22,545 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 896.34ms
+2026-02-19 15:40:22,546 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 855.55ms
+2026-02-19 15:40:22,546 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:40:22,722 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1033.02ms
+2026-02-19 15:40:22,883 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 336.21ms
+2026-02-19 15:40:24,119 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:40:24,366 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 246.35ms
+2026-02-19 15:40:27,139 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:40:27,427 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 287.41ms
+2026-02-19 15:40:30,141 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:40:30,376 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 235.13ms
+2026-02-19 15:40:33,183 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:40:33,420 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 236.92ms
+2026-02-19 15:40:36,188 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:40:36,430 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 242.58ms
+2026-02-19 15:50:18,642 - INFO - ➡️ [요청 시작] POST /api/v1/navigation/path/ | Device: WalkMate-App
+2026-02-19 15:50:18,797 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 155.57ms
+2026-02-19 15:50:41,979 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:50:43,029 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1049.85ms
+2026-02-19 15:50:43,029 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:50:43,030 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:50:43,031 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:50:43,032 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:50:43,367 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 337.42ms
+2026-02-19 15:50:43,551 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 520.79ms
+2026-02-19 15:50:43,714 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 683.57ms
+2026-02-19 15:50:43,715 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 683.42ms
+2026-02-19 15:50:45,211 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:50:45,525 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 313.99ms
+2026-02-19 15:50:48,356 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:50:48,620 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 263.72ms
+2026-02-19 15:50:51,199 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:50:51,693 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 494.00ms
+2026-02-19 15:50:54,275 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:50:54,604 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 329.13ms
+2026-02-19 15:50:57,161 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:50:57,763 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 601.57ms
+2026-02-19 15:51:00,169 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:51:00,492 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 323.60ms
+2026-02-19 15:51:03,173 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:51:03,502 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 329.58ms
+2026-02-19 15:51:06,136 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:51:06,431 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 294.63ms
+2026-02-19 15:51:09,145 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:51:09,416 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 270.86ms
+2026-02-19 15:51:12,241 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:51:12,613 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 371.71ms
+2026-02-19 15:51:15,163 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:51:15,506 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 343.56ms
+2026-02-19 15:51:18,288 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:51:18,576 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 287.71ms
+2026-02-19 15:51:21,247 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 15:51:21,754 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 507.39ms
+2026-02-19 16:02:23,624 - INFO - ➡️ [요청 시작] POST /api/v1/navigation/path/ | Device: WalkMate-App
+2026-02-19 16:02:23,818 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 195.21ms
+2026-02-19 16:02:47,265 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:02:48,713 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1448.27ms
+2026-02-19 16:02:48,714 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:02:48,718 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:02:48,719 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:02:48,720 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:02:49,150 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 435.85ms
+2026-02-19 16:02:49,528 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 809.82ms
+2026-02-19 16:02:49,753 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1033.88ms
+2026-02-19 16:02:49,753 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1033.78ms
+2026-02-19 16:02:58,419 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:02:58,458 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:02:58,459 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:02:59,278 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 858.55ms
+2026-02-19 16:02:59,278 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:02:59,664 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1205.58ms
+2026-02-19 16:02:59,665 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1205.29ms
+2026-02-19 16:02:59,905 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 626.42ms
+2026-02-19 16:03:02,147 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:03:02,458 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 311.00ms
+2026-02-19 16:03:05,131 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:03:05,597 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 466.10ms
+2026-02-19 16:03:08,163 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:03:08,774 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 610.48ms
+2026-02-19 16:03:11,112 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:03:11,397 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 284.58ms
+2026-02-19 16:03:14,129 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:03:14,381 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 251.11ms
+2026-02-19 16:03:17,178 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:03:17,516 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 337.42ms
+2026-02-19 16:03:20,145 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:03:20,405 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 259.54ms
+2026-02-19 16:03:23,216 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:03:23,442 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 226.08ms
+2026-02-19 16:03:26,189 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:03:26,582 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 393.14ms
+2026-02-19 16:03:29,040 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:03:29,269 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 228.85ms
+2026-02-19 16:03:32,150 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:03:32,393 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 243.76ms
+2026-02-19 16:10:42,526 - INFO - ➡️ [요청 시작] POST /api/v1/navigation/path/ | Device: WalkMate-App
+2026-02-19 16:10:42,683 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 157.32ms
+2026-02-19 16:11:06,149 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:11:06,822 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 673.00ms
+2026-02-19 16:11:06,822 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:11:06,823 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:11:06,824 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:11:06,825 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:11:07,205 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 382.98ms
+2026-02-19 16:11:07,357 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 533.92ms
+2026-02-19 16:11:07,516 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 692.28ms
+2026-02-19 16:11:07,517 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 692.26ms
+2026-02-19 16:11:11,293 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:11:11,763 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 469.42ms
+2026-02-19 16:11:14,161 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:11:14,496 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 338.70ms
+2026-02-19 16:11:15,323 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:11:15,478 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 155.47ms
+2026-02-19 16:11:18,204 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:11:18,454 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 249.81ms
+2026-02-19 16:11:21,197 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:11:21,664 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 466.99ms
+2026-02-19 16:11:24,089 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:11:24,327 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 237.68ms
+2026-02-19 16:11:26,826 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:11:27,067 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 241.04ms
+2026-02-19 16:25:40,160 - INFO - ➡️ [요청 시작] POST /api/v1/navigation/path/ | Device: WalkMate-App
+2026-02-19 16:25:40,330 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 170.13ms
+2026-02-19 16:26:00,740 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:26:02,190 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1450.55ms
+2026-02-19 16:26:02,191 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:26:02,192 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:26:02,193 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:26:02,643 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 451.82ms
+2026-02-19 16:26:02,814 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 622.12ms
+2026-02-19 16:26:02,815 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 622.06ms
+2026-02-19 16:26:04,320 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:26:04,608 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 288.10ms
+2026-02-19 16:26:07,412 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:26:07,878 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 466.87ms
+2026-02-19 16:26:09,864 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:26:10,125 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 260.93ms
+2026-02-19 16:26:12,545 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:26:12,874 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 329.21ms
+2026-02-19 16:26:15,487 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:26:15,965 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 477.39ms
+2026-02-19 16:26:18,283 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:26:18,761 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 477.41ms
+2026-02-19 16:26:21,185 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:26:21,527 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 341.54ms
+2026-02-19 16:26:24,515 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:26:24,935 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 419.38ms
+2026-02-19 16:26:27,438 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:26:27,801 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 363.22ms
+2026-02-19 16:26:30,243 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:26:30,511 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 268.12ms
+2026-02-19 16:26:33,724 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:26:34,262 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 538.37ms
+2026-02-19 16:26:36,330 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:26:36,713 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 382.54ms
+2026-02-19 16:26:39,190 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:26:39,596 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 405.50ms
+2026-02-19 16:26:42,297 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:26:42,871 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 573.82ms
+2026-02-19 16:26:45,392 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:26:45,837 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 445.24ms
+2026-02-19 16:26:48,265 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:26:48,573 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 308.55ms
+2026-02-19 16:26:51,213 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:26:51,592 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 378.67ms
+2026-02-19 16:26:54,124 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:26:54,659 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 535.44ms
+2026-02-19 16:26:57,559 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:26:57,850 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 290.13ms
+2026-02-19 16:27:00,216 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:27:00,519 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 303.47ms
+2026-02-19 16:27:03,351 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:27:03,647 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 295.70ms
+2026-02-19 16:27:06,078 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:27:06,365 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 286.96ms
+2026-02-19 16:27:09,360 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:27:09,676 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 316.16ms
+2026-02-19 16:27:12,147 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:27:12,659 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 511.67ms
+2026-02-19 16:27:15,175 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:27:15,474 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 298.73ms
+2026-02-19 16:27:18,262 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:27:18,655 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 393.32ms
+2026-02-19 16:27:21,052 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:27:21,582 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 530.13ms
+2026-02-19 16:27:24,352 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:27:24,553 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 201.13ms
+2026-02-19 16:27:27,178 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:27:27,537 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 358.85ms
+2026-02-19 16:27:30,237 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:27:30,598 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 361.36ms
+2026-02-19 16:29:08,559 - INFO - ➡️ [요청 시작] POST /api/v1/navigation/path/ | Device: WalkMate-App
+2026-02-19 16:29:08,702 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 143.47ms
+2026-02-19 16:29:30,060 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:29:31,088 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1028.06ms
+2026-02-19 16:29:31,088 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:29:31,091 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:29:31,252 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 163.56ms
+2026-02-19 16:29:31,252 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:29:31,410 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 319.12ms
+2026-02-19 16:29:31,692 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 440.00ms
+2026-02-19 16:29:32,814 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:29:33,275 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 461.19ms
+2026-02-19 16:29:35,169 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:29:35,469 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 299.33ms
+2026-02-19 16:29:38,315 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:29:38,802 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 486.50ms
+2026-02-19 16:29:41,260 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:29:41,646 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 386.08ms
+2026-02-19 16:29:44,488 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:29:44,860 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 372.23ms
+2026-02-19 16:29:47,193 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:29:47,650 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 456.65ms
+2026-02-19 16:29:50,100 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:29:50,394 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 293.50ms
+2026-02-19 16:29:53,313 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:29:53,810 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 496.85ms
+2026-02-19 16:29:56,273 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:29:56,532 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 258.68ms
+2026-02-19 16:29:59,152 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:29:59,441 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 289.45ms
+2026-02-19 16:30:02,063 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:30:02,490 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 427.13ms
+2026-02-19 16:30:05,286 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:30:05,592 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 306.06ms
+2026-02-19 16:30:08,263 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 16:30:08,573 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 310.04ms
+2026-02-19 17:01:24,775 - INFO - ➡️ [요청 시작] POST /api/v1/navigation/path/ | Device: WalkMate-App
+2026-02-19 17:01:24,944 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 169.09ms
+2026-02-19 17:01:31,245 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 17:01:32,767 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1521.64ms
+2026-02-19 17:01:34,314 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 17:01:34,833 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 518.52ms
+2026-02-19 17:01:37,061 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 17:01:37,334 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 273.13ms
+2026-02-19 17:01:40,296 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 17:01:40,501 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 204.51ms
+2026-02-19 17:01:43,298 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 17:01:43,708 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 410.27ms
+2026-02-19 17:01:45,884 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 17:01:46,156 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 272.01ms
+2026-02-19 17:01:49,184 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 17:01:49,491 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 307.29ms
+2026-02-19 17:01:52,197 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 17:01:52,733 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 536.32ms
+2026-02-19 17:01:55,161 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 17:01:55,437 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 275.68ms
+2026-02-19 17:11:43,666 - INFO - ➡️ [요청 시작] POST /api/v1/navigation/path/ | Device: WalkMate-App
+2026-02-19 17:11:43,865 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 198.34ms
+2026-02-19 17:11:54,598 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 17:11:55,477 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 879.41ms
+2026-02-19 17:12:02,918 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 17:12:03,512 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 593.95ms
+2026-02-19 17:12:08,265 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 17:12:08,718 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 452.86ms
+2026-02-19 17:12:11,198 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 17:12:11,509 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 310.65ms
+2026-02-19 17:12:13,186 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 17:12:13,444 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 257.77ms
+2026-02-19 17:12:16,212 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 17:12:16,677 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 465.54ms
+2026-02-19 17:12:19,144 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 17:12:19,652 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 508.21ms
+2026-02-19 17:12:22,145 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 17:12:22,542 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 397.68ms
+2026-02-19 17:12:25,343 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 17:12:25,742 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 399.71ms
+2026-02-19 17:12:28,244 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 17:12:28,495 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 251.45ms
+2026-02-19 17:23:00,415 - INFO - ➡️ [요청 시작] POST /api/v1/navigation/path/ | Device: WalkMate-App
+2026-02-19 17:23:00,593 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 178.43ms
+2026-02-19 17:23:13,390 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 17:23:14,688 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1298.22ms
+2026-02-19 17:23:20,283 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 17:23:20,564 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 280.24ms
+2026-02-19 17:23:24,167 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 17:23:24,423 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 256.33ms
+2026-02-19 17:23:27,180 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 17:23:27,445 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 265.71ms
+2026-02-19 17:23:30,170 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 17:23:30,409 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 238.14ms
+2026-02-19 17:23:33,184 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 17:23:33,422 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 238.21ms
+2026-02-19 17:23:36,156 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 17:23:36,425 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 268.24ms
+2026-02-19 17:23:38,875 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 17:23:39,071 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 195.69ms
+2026-02-19 17:25:51,382 - INFO - ➡️ [요청 시작] POST /api/v1/navigation/path/ | Device: WalkMate-App
+2026-02-19 17:25:51,566 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 184.34ms
+2026-02-19 17:25:57,414 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 17:25:58,827 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1412.70ms
+2026-02-19 17:26:04,283 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 17:26:05,026 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 743.78ms
+2026-02-19 17:26:08,201 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 17:26:08,562 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 361.00ms
+2026-02-19 17:26:11,135 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 17:26:11,546 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 410.84ms
+2026-02-19 17:26:14,200 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 17:26:14,652 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 451.88ms
+2026-02-19 17:26:17,190 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 17:26:17,481 - ERROR - ❌ DB Insert Error: {'message': 'JSON could not be generated', 'code': 502, 'hint': 'Refer to full message for details', 'details': 'b\'<!DOCTYPE html>\\n<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en-US"> <![endif]-->\\n<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en-US"> <![endif]-->\\n<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en-US"> <![endif]-->\\n<!--[if gt IE 8]><!--> <html class="no-js" lang="en-US"> <!--<![endif]-->\\n<head>\\n\\n<title> | 500: Internal server error</title>\\n<meta charset="UTF-8" />\\n<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />\\n<meta http-equiv="X-UA-Compatible" content="IE=Edge" />\\n<meta name="robots" content="noindex, nofollow" />\\n<meta name="viewport" content="width=device-width,initial-scale=1" />\\n<link rel="stylesheet" id="cf_styles-css" href="/cdn-cgi/styles/main.css" />\\n</head>\\n<body>\\n<div id="cf-wrapper">\\n    <div id="cf-error-details" class="p-0">\\n        <header class="mx-auto pt-10 lg:pt-6 lg:px-8 w-240 lg:w-full mb-8">\\n            <h1 class="inline-block sm:block sm:mb-2 font-light text-60 lg:text-4xl text-black-dark leading-tight mr-2">\\n                <span class="inline-block">Internal server error</span>\\n                <span class="code-label">Error code 500</span>\\n            </h1>\\n            <div>\\n                Visit <a href="https://www.cloudflare.com/5xx-error-landing?utm_source=errorcode_500&utm_campaign=ssguhklvrefgbahqonhk.supabase.co" target="_blank" rel="noopener noreferrer">cloudflare.com</a> for more information.\\n            </div>\\n            <div class="mt-3">2026-02-19 08:26:17 UTC</div>\\n        </header>\\n        <div class="my-8 bg-gradient-gray">\\n            <div class="w-240 lg:w-full mx-auto">\\n                <div class="clearfix md:px-8">\\n                    <div id="cf-browser-status" class=" relative w-1/3 md:w-full py-15 md:p-0 md:py-8 md:text-left md:border-solid md:border-0 md:border-b md:border-gray-400 overflow-hidden float-left md:float-none text-center">\\n  <div class="relative mb-10 md:m-0">\\n    \\n    <span class="cf-icon-browser block md:hidden h-20 bg-center bg-no-repeat"></span>\\n    <span class="cf-icon-ok w-12 h-12 absolute left-1/2 md:left-auto md:right-0 md:top-0 -ml-6 -bottom-4"></span>\\n    \\n  </div>\\n  <span class="md:block w-full truncate">You</span>\\n  <h3 class="md:inline-block mt-3 md:mt-0 text-2xl text-gray-600 font-light leading-1.3">\\n  \\n    Browser\\n  \\n  </h3>\\n  \\n  <span class="leading-1.3 text-2xl text-green-success">Working</span>\\n  \\n</div>\\n                    <div id="cf-cloudflare-status" class="cf-error-source relative w-1/3 md:w-full py-15 md:p-0 md:py-8 md:text-left md:border-solid md:border-0 md:border-b md:border-gray-400 overflow-hidden float-left md:float-none text-center">\\n  <div class="relative mb-10 md:m-0">\\n    <a href="https://www.cloudflare.com/5xx-error-landing?utm_source=errorcode_500&#38;utm_campaign=ssguhklvrefgbahqonhk.supabase.co" target="_blank" rel="noopener noreferrer">\\n    <span class="cf-icon-cloud block md:hidden h-20 bg-center bg-no-repeat"></span>\\n    <span class="cf-icon-error w-12 h-12 absolute left-1/2 md:left-auto md:right-0 md:top-0 -ml-6 -bottom-4"></span>\\n    </a>\\n  </div>\\n  <span class="md:block w-full truncate">Seoul</span>\\n  <h3 class="md:inline-block mt-3 md:mt-0 text-2xl text-gray-600 font-light leading-1.3">\\n  <a href="https://www.cloudflare.com/5xx-error-landing?utm_source=errorcode_500&utm_campaign=ssguhklvrefgbahqonhk.supabase.co" target="_blank" rel="noopener noreferrer">\\n    Cloudflare\\n  </a>\\n  </h3>\\n  \\n  <span class="leading-1.3 text-2xl text-red-error">Error</span>\\n  \\n</div>\\n                    <div id="cf-host-status" class=" relative w-1/3 md:w-full py-15 md:p-0 md:py-8 md:text-left md:border-solid md:border-0 md:border-b md:border-gray-400 overflow-hidden float-left md:float-none text-center">\\n  <div class="relative mb-10 md:m-0">\\n    \\n    <span class="cf-icon-server block md:hidden h-20 bg-center bg-no-repeat"></span>\\n    <span class="cf-icon-ok w-12 h-12 absolute left-1/2 md:left-auto md:right-0 md:top-0 -ml-6 -bottom-4"></span>\\n    \\n  </div>\\n  <span class="md:block w-full truncate">ssguhklvrefgbahqonhk.supabase.co</span>\\n  <h3 class="md:inline-block mt-3 md:mt-0 text-2xl text-gray-600 font-light leading-1.3">\\n  \\n    Host\\n  \\n  </h3>\\n  \\n  <span class="leading-1.3 text-2xl text-green-success">Working</span>\\n  \\n</div>\\n                </div>\\n            </div>\\n        </div>\\n\\n        <div class="w-240 lg:w-full mx-auto mb-8 lg:px-8">\\n            <div class="clearfix">\\n                <div class="w-1/2 md:w-full float-left pr-6 md:pb-10 md:pr-0 leading-relaxed">\\n                    <h2 class="text-3xl font-normal leading-1.3 mb-4">What happened?</h2>\\n                    <p>There is an internal server error on Cloudflare\\\'s network.</p>\\n                </div>\\n                <div class="w-1/2 md:w-full float-left leading-relaxed">\\n                    <h2 class="text-3xl font-normal leading-1.3 mb-4">What can I do?</h2>\\n                    <p class="mb-6">Please try again in a few minutes.</p>\\n                </div>\\n            </div>\\n        </div>\\n\\n        <div class="cf-error-footer cf-wrapper w-240 lg:w-full py-10 sm:py-4 sm:px-8 mx-auto text-center sm:text-left border-solid border-0 border-t border-gray-300">\\n    <p class="text-13">\\n      <span class="cf-footer-item sm:block sm:mb-1">Cloudflare Ray ID: <strong class="font-semibold">9d0460e2a8ecd1da</strong></span>\\n      <span class="cf-footer-separator sm:hidden">&bull;</span>\\n      <span id="cf-footer-item-ip" class="cf-footer-item hidden sm:block sm:mb-1">\\n        Your IP:\\n        <button type="button" id="cf-footer-ip-reveal" class="cf-footer-ip-reveal-btn">Click to reveal</button>\\n        <span class="hidden" id="cf-footer-ip">59.12.53.205</span>\\n        <span class="cf-footer-separator sm:hidden">&bull;</span>\\n      </span>\\n      <span class="cf-footer-item sm:block sm:mb-1"><span>Performance &amp; security by</span> <a rel="noopener noreferrer" href="https://www.cloudflare.com/5xx-error-landing?utm_source=errorcode_500&#38;utm_campaign=ssguhklvrefgbahqonhk.supabase.co" id="brand_link" target="_blank">Cloudflare</a></span>\\n      \\n    </p>\\n    <script>(function(){function d(){var b=a.getElementById("cf-footer-item-ip"),c=a.getElementById("cf-footer-ip-reveal");b&&"classList"in b&&(b.classList.remove("hidden"),c.addEventListener("click",function(){c.classList.add("hidden");a.getElementById("cf-footer-ip").classList.remove("hidden")}))}var a=document;document.addEventListener&&a.addEventListener("DOMContentLoaded",d)})();</script>\\n  </div><!-- /.error-footer -->\\n\\n    </div>\\n</div>\\n</body>\\n</html>\''}
+Traceback (most recent call last):
+  File "/Users/ziro/CVproject/cvProjectTeam3/leejiho/walkmate-backend/venv/lib/python3.13/site-packages/postgrest/_sync/request_builder.py", line 52, in execute
+    json_obj = model_validate_json(APIErrorFromJSON, r.content)
+  File "/Users/ziro/CVproject/cvProjectTeam3/leejiho/walkmate-backend/venv/lib/python3.13/site-packages/postgrest/utils.py", line 56, in model_validate_json
+    return model.model_validate_json(contents)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/ziro/CVproject/cvProjectTeam3/leejiho/walkmate-backend/venv/lib/python3.13/site-packages/pydantic/main.py", line 766, in model_validate_json
+    return cls.__pydantic_validator__.validate_json(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        json_data, strict=strict, extra=extra, context=context, by_alias=by_alias, by_name=by_name
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+pydantic_core._pydantic_core.ValidationError: 1 validation error for APIErrorFromJSON
+  Invalid JSON: expected value at line 1 column 1 [type=json_invalid, input_value=b'<!DOCTYPE html>\n<!--[i.../div>\n</body>\n</html>', input_type=bytes]
+    For further information visit https://errors.pydantic.dev/2.12/v/json_invalid
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/ziro/CVproject/cvProjectTeam3/leejiho/walkmate-backend/app/crud/report.py", line 60, in create_report
+    .execute()
+     ~~~~~~~^^
+  File "/Users/ziro/CVproject/cvProjectTeam3/leejiho/walkmate-backend/venv/lib/python3.13/site-packages/postgrest/_sync/request_builder.py", line 55, in execute
+    raise APIError(generate_default_error_message(r))
+postgrest.exceptions.APIError: {'message': 'JSON could not be generated', 'code': 502, 'hint': 'Refer to full message for details', 'details': 'b\'<!DOCTYPE html>\\n<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en-US"> <![endif]-->\\n<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en-US"> <![endif]-->\\n<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en-US"> <![endif]-->\\n<!--[if gt IE 8]><!--> <html class="no-js" lang="en-US"> <!--<![endif]-->\\n<head>\\n\\n<title> | 500: Internal server error</title>\\n<meta charset="UTF-8" />\\n<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />\\n<meta http-equiv="X-UA-Compatible" content="IE=Edge" />\\n<meta name="robots" content="noindex, nofollow" />\\n<meta name="viewport" content="width=device-width,initial-scale=1" />\\n<link rel="stylesheet" id="cf_styles-css" href="/cdn-cgi/styles/main.css" />\\n</head>\\n<body>\\n<div id="cf-wrapper">\\n    <div id="cf-error-details" class="p-0">\\n        <header class="mx-auto pt-10 lg:pt-6 lg:px-8 w-240 lg:w-full mb-8">\\n            <h1 class="inline-block sm:block sm:mb-2 font-light text-60 lg:text-4xl text-black-dark leading-tight mr-2">\\n                <span class="inline-block">Internal server error</span>\\n                <span class="code-label">Error code 500</span>\\n            </h1>\\n            <div>\\n                Visit <a href="https://www.cloudflare.com/5xx-error-landing?utm_source=errorcode_500&utm_campaign=ssguhklvrefgbahqonhk.supabase.co" target="_blank" rel="noopener noreferrer">cloudflare.com</a> for more information.\\n            </div>\\n            <div class="mt-3">2026-02-19 08:26:17 UTC</div>\\n        </header>\\n        <div class="my-8 bg-gradient-gray">\\n            <div class="w-240 lg:w-full mx-auto">\\n                <div class="clearfix md:px-8">\\n                    <div id="cf-browser-status" class=" relative w-1/3 md:w-full py-15 md:p-0 md:py-8 md:text-left md:border-solid md:border-0 md:border-b md:border-gray-400 overflow-hidden float-left md:float-none text-center">\\n  <div class="relative mb-10 md:m-0">\\n    \\n    <span class="cf-icon-browser block md:hidden h-20 bg-center bg-no-repeat"></span>\\n    <span class="cf-icon-ok w-12 h-12 absolute left-1/2 md:left-auto md:right-0 md:top-0 -ml-6 -bottom-4"></span>\\n    \\n  </div>\\n  <span class="md:block w-full truncate">You</span>\\n  <h3 class="md:inline-block mt-3 md:mt-0 text-2xl text-gray-600 font-light leading-1.3">\\n  \\n    Browser\\n  \\n  </h3>\\n  \\n  <span class="leading-1.3 text-2xl text-green-success">Working</span>\\n  \\n</div>\\n                    <div id="cf-cloudflare-status" class="cf-error-source relative w-1/3 md:w-full py-15 md:p-0 md:py-8 md:text-left md:border-solid md:border-0 md:border-b md:border-gray-400 overflow-hidden float-left md:float-none text-center">\\n  <div class="relative mb-10 md:m-0">\\n    <a href="https://www.cloudflare.com/5xx-error-landing?utm_source=errorcode_500&#38;utm_campaign=ssguhklvrefgbahqonhk.supabase.co" target="_blank" rel="noopener noreferrer">\\n    <span class="cf-icon-cloud block md:hidden h-20 bg-center bg-no-repeat"></span>\\n    <span class="cf-icon-error w-12 h-12 absolute left-1/2 md:left-auto md:right-0 md:top-0 -ml-6 -bottom-4"></span>\\n    </a>\\n  </div>\\n  <span class="md:block w-full truncate">Seoul</span>\\n  <h3 class="md:inline-block mt-3 md:mt-0 text-2xl text-gray-600 font-light leading-1.3">\\n  <a href="https://www.cloudflare.com/5xx-error-landing?utm_source=errorcode_500&utm_campaign=ssguhklvrefgbahqonhk.supabase.co" target="_blank" rel="noopener noreferrer">\\n    Cloudflare\\n  </a>\\n  </h3>\\n  \\n  <span class="leading-1.3 text-2xl text-red-error">Error</span>\\n  \\n</div>\\n                    <div id="cf-host-status" class=" relative w-1/3 md:w-full py-15 md:p-0 md:py-8 md:text-left md:border-solid md:border-0 md:border-b md:border-gray-400 overflow-hidden float-left md:float-none text-center">\\n  <div class="relative mb-10 md:m-0">\\n    \\n    <span class="cf-icon-server block md:hidden h-20 bg-center bg-no-repeat"></span>\\n    <span class="cf-icon-ok w-12 h-12 absolute left-1/2 md:left-auto md:right-0 md:top-0 -ml-6 -bottom-4"></span>\\n    \\n  </div>\\n  <span class="md:block w-full truncate">ssguhklvrefgbahqonhk.supabase.co</span>\\n  <h3 class="md:inline-block mt-3 md:mt-0 text-2xl text-gray-600 font-light leading-1.3">\\n  \\n    Host\\n  \\n  </h3>\\n  \\n  <span class="leading-1.3 text-2xl text-green-success">Working</span>\\n  \\n</div>\\n                </div>\\n            </div>\\n        </div>\\n\\n        <div class="w-240 lg:w-full mx-auto mb-8 lg:px-8">\\n            <div class="clearfix">\\n                <div class="w-1/2 md:w-full float-left pr-6 md:pb-10 md:pr-0 leading-relaxed">\\n                    <h2 class="text-3xl font-normal leading-1.3 mb-4">What happened?</h2>\\n                    <p>There is an internal server error on Cloudflare\\\'s network.</p>\\n                </div>\\n                <div class="w-1/2 md:w-full float-left leading-relaxed">\\n                    <h2 class="text-3xl font-normal leading-1.3 mb-4">What can I do?</h2>\\n                    <p class="mb-6">Please try again in a few minutes.</p>\\n                </div>\\n            </div>\\n        </div>\\n\\n        <div class="cf-error-footer cf-wrapper w-240 lg:w-full py-10 sm:py-4 sm:px-8 mx-auto text-center sm:text-left border-solid border-0 border-t border-gray-300">\\n    <p class="text-13">\\n      <span class="cf-footer-item sm:block sm:mb-1">Cloudflare Ray ID: <strong class="font-semibold">9d0460e2a8ecd1da</strong></span>\\n      <span class="cf-footer-separator sm:hidden">&bull;</span>\\n      <span id="cf-footer-item-ip" class="cf-footer-item hidden sm:block sm:mb-1">\\n        Your IP:\\n        <button type="button" id="cf-footer-ip-reveal" class="cf-footer-ip-reveal-btn">Click to reveal</button>\\n        <span class="hidden" id="cf-footer-ip">59.12.53.205</span>\\n        <span class="cf-footer-separator sm:hidden">&bull;</span>\\n      </span>\\n      <span class="cf-footer-item sm:block sm:mb-1"><span>Performance &amp; security by</span> <a rel="noopener noreferrer" href="https://www.cloudflare.com/5xx-error-landing?utm_source=errorcode_500&#38;utm_campaign=ssguhklvrefgbahqonhk.supabase.co" id="brand_link" target="_blank">Cloudflare</a></span>\\n      \\n    </p>\\n    <script>(function(){function d(){var b=a.getElementById("cf-footer-item-ip"),c=a.getElementById("cf-footer-ip-reveal");b&&"classList"in b&&(b.classList.remove("hidden"),c.addEventListener("click",function(){c.classList.add("hidden");a.getElementById("cf-footer-ip").classList.remove("hidden")}))}var a=document;document.addEventListener&&a.addEventListener("DOMContentLoaded",d)})();</script>\\n  </div><!-- /.error-footer -->\\n\\n    </div>\\n</div>\\n</body>\\n</html>\''}
+2026-02-19 17:26:17,613 - ERROR - ❌ [Global Exception] {'message': 'JSON could not be generated', 'code': 502, 'hint': 'Refer to full message for details', 'details': 'b\'<!DOCTYPE html>\\n<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en-US"> <![endif]-->\\n<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en-US"> <![endif]-->\\n<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en-US"> <![endif]-->\\n<!--[if gt IE 8]><!--> <html class="no-js" lang="en-US"> <!--<![endif]-->\\n<head>\\n\\n<title> | 500: Internal server error</title>\\n<meta charset="UTF-8" />\\n<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />\\n<meta http-equiv="X-UA-Compatible" content="IE=Edge" />\\n<meta name="robots" content="noindex, nofollow" />\\n<meta name="viewport" content="width=device-width,initial-scale=1" />\\n<link rel="stylesheet" id="cf_styles-css" href="/cdn-cgi/styles/main.css" />\\n</head>\\n<body>\\n<div id="cf-wrapper">\\n    <div id="cf-error-details" class="p-0">\\n        <header class="mx-auto pt-10 lg:pt-6 lg:px-8 w-240 lg:w-full mb-8">\\n            <h1 class="inline-block sm:block sm:mb-2 font-light text-60 lg:text-4xl text-black-dark leading-tight mr-2">\\n                <span class="inline-block">Internal server error</span>\\n                <span class="code-label">Error code 500</span>\\n            </h1>\\n            <div>\\n                Visit <a href="https://www.cloudflare.com/5xx-error-landing?utm_source=errorcode_500&utm_campaign=ssguhklvrefgbahqonhk.supabase.co" target="_blank" rel="noopener noreferrer">cloudflare.com</a> for more information.\\n            </div>\\n            <div class="mt-3">2026-02-19 08:26:17 UTC</div>\\n        </header>\\n        <div class="my-8 bg-gradient-gray">\\n            <div class="w-240 lg:w-full mx-auto">\\n                <div class="clearfix md:px-8">\\n                    <div id="cf-browser-status" class=" relative w-1/3 md:w-full py-15 md:p-0 md:py-8 md:text-left md:border-solid md:border-0 md:border-b md:border-gray-400 overflow-hidden float-left md:float-none text-center">\\n  <div class="relative mb-10 md:m-0">\\n    \\n    <span class="cf-icon-browser block md:hidden h-20 bg-center bg-no-repeat"></span>\\n    <span class="cf-icon-ok w-12 h-12 absolute left-1/2 md:left-auto md:right-0 md:top-0 -ml-6 -bottom-4"></span>\\n    \\n  </div>\\n  <span class="md:block w-full truncate">You</span>\\n  <h3 class="md:inline-block mt-3 md:mt-0 text-2xl text-gray-600 font-light leading-1.3">\\n  \\n    Browser\\n  \\n  </h3>\\n  \\n  <span class="leading-1.3 text-2xl text-green-success">Working</span>\\n  \\n</div>\\n                    <div id="cf-cloudflare-status" class="cf-error-source relative w-1/3 md:w-full py-15 md:p-0 md:py-8 md:text-left md:border-solid md:border-0 md:border-b md:border-gray-400 overflow-hidden float-left md:float-none text-center">\\n  <div class="relative mb-10 md:m-0">\\n    <a href="https://www.cloudflare.com/5xx-error-landing?utm_source=errorcode_500&#38;utm_campaign=ssguhklvrefgbahqonhk.supabase.co" target="_blank" rel="noopener noreferrer">\\n    <span class="cf-icon-cloud block md:hidden h-20 bg-center bg-no-repeat"></span>\\n    <span class="cf-icon-error w-12 h-12 absolute left-1/2 md:left-auto md:right-0 md:top-0 -ml-6 -bottom-4"></span>\\n    </a>\\n  </div>\\n  <span class="md:block w-full truncate">Seoul</span>\\n  <h3 class="md:inline-block mt-3 md:mt-0 text-2xl text-gray-600 font-light leading-1.3">\\n  <a href="https://www.cloudflare.com/5xx-error-landing?utm_source=errorcode_500&utm_campaign=ssguhklvrefgbahqonhk.supabase.co" target="_blank" rel="noopener noreferrer">\\n    Cloudflare\\n  </a>\\n  </h3>\\n  \\n  <span class="leading-1.3 text-2xl text-red-error">Error</span>\\n  \\n</div>\\n                    <div id="cf-host-status" class=" relative w-1/3 md:w-full py-15 md:p-0 md:py-8 md:text-left md:border-solid md:border-0 md:border-b md:border-gray-400 overflow-hidden float-left md:float-none text-center">\\n  <div class="relative mb-10 md:m-0">\\n    \\n    <span class="cf-icon-server block md:hidden h-20 bg-center bg-no-repeat"></span>\\n    <span class="cf-icon-ok w-12 h-12 absolute left-1/2 md:left-auto md:right-0 md:top-0 -ml-6 -bottom-4"></span>\\n    \\n  </div>\\n  <span class="md:block w-full truncate">ssguhklvrefgbahqonhk.supabase.co</span>\\n  <h3 class="md:inline-block mt-3 md:mt-0 text-2xl text-gray-600 font-light leading-1.3">\\n  \\n    Host\\n  \\n  </h3>\\n  \\n  <span class="leading-1.3 text-2xl text-green-success">Working</span>\\n  \\n</div>\\n                </div>\\n            </div>\\n        </div>\\n\\n        <div class="w-240 lg:w-full mx-auto mb-8 lg:px-8">\\n            <div class="clearfix">\\n                <div class="w-1/2 md:w-full float-left pr-6 md:pb-10 md:pr-0 leading-relaxed">\\n                    <h2 class="text-3xl font-normal leading-1.3 mb-4">What happened?</h2>\\n                    <p>There is an internal server error on Cloudflare\\\'s network.</p>\\n                </div>\\n                <div class="w-1/2 md:w-full float-left leading-relaxed">\\n                    <h2 class="text-3xl font-normal leading-1.3 mb-4">What can I do?</h2>\\n                    <p class="mb-6">Please try again in a few minutes.</p>\\n                </div>\\n            </div>\\n        </div>\\n\\n        <div class="cf-error-footer cf-wrapper w-240 lg:w-full py-10 sm:py-4 sm:px-8 mx-auto text-center sm:text-left border-solid border-0 border-t border-gray-300">\\n    <p class="text-13">\\n      <span class="cf-footer-item sm:block sm:mb-1">Cloudflare Ray ID: <strong class="font-semibold">9d0460e2a8ecd1da</strong></span>\\n      <span class="cf-footer-separator sm:hidden">&bull;</span>\\n      <span id="cf-footer-item-ip" class="cf-footer-item hidden sm:block sm:mb-1">\\n        Your IP:\\n        <button type="button" id="cf-footer-ip-reveal" class="cf-footer-ip-reveal-btn">Click to reveal</button>\\n        <span class="hidden" id="cf-footer-ip">59.12.53.205</span>\\n        <span class="cf-footer-separator sm:hidden">&bull;</span>\\n      </span>\\n      <span class="cf-footer-item sm:block sm:mb-1"><span>Performance &amp; security by</span> <a rel="noopener noreferrer" href="https://www.cloudflare.com/5xx-error-landing?utm_source=errorcode_500&#38;utm_campaign=ssguhklvrefgbahqonhk.supabase.co" id="brand_link" target="_blank">Cloudflare</a></span>\\n      \\n    </p>\\n    <script>(function(){function d(){var b=a.getElementById("cf-footer-item-ip"),c=a.getElementById("cf-footer-ip-reveal");b&&"classList"in b&&(b.classList.remove("hidden"),c.addEventListener("click",function(){c.classList.add("hidden");a.getElementById("cf-footer-ip").classList.remove("hidden")}))}var a=document;document.addEventListener&&a.addEventListener("DOMContentLoaded",d)})();</script>\\n  </div><!-- /.error-footer -->\\n\\n    </div>\\n</div>\\n</body>\\n</html>\''}
+Traceback (most recent call last):
+  File "/Users/ziro/CVproject/cvProjectTeam3/leejiho/walkmate-backend/venv/lib/python3.13/site-packages/postgrest/_sync/request_builder.py", line 52, in execute
+    json_obj = model_validate_json(APIErrorFromJSON, r.content)
+  File "/Users/ziro/CVproject/cvProjectTeam3/leejiho/walkmate-backend/venv/lib/python3.13/site-packages/postgrest/utils.py", line 56, in model_validate_json
+    return model.model_validate_json(contents)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "/Users/ziro/CVproject/cvProjectTeam3/leejiho/walkmate-backend/venv/lib/python3.13/site-packages/pydantic/main.py", line 766, in model_validate_json
+    return cls.__pydantic_validator__.validate_json(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        json_data, strict=strict, extra=extra, context=context, by_alias=by_alias, by_name=by_name
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+pydantic_core._pydantic_core.ValidationError: 1 validation error for APIErrorFromJSON
+  Invalid JSON: expected value at line 1 column 1 [type=json_invalid, input_value=b'<!DOCTYPE html>\n<!--[i.../div>\n</body>\n</html>', input_type=bytes]
+    For further information visit https://errors.pydantic.dev/2.12/v/json_invalid
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/ziro/CVproject/cvProjectTeam3/leejiho/walkmate-backend/venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/Users/ziro/CVproject/cvProjectTeam3/leejiho/walkmate-backend/venv/lib/python3.13/site-packages/starlette/middleware/base.py", line 191, in __call__
+    with recv_stream, send_stream, collapse_excgroups():
+                                   ~~~~~~~~~~~~~~~~~~^^
+  File "/opt/miniconda3/lib/python3.13/contextlib.py", line 162, in __exit__
+    self.gen.throw(value)
+    ~~~~~~~~~~~~~~^^^^^^^
+  File "/Users/ziro/CVproject/cvProjectTeam3/leejiho/walkmate-backend/venv/lib/python3.13/site-packages/starlette/_utils.py", line 87, in collapse_excgroups
+    raise exc
+  File "/Users/ziro/CVproject/cvProjectTeam3/leejiho/walkmate-backend/venv/lib/python3.13/site-packages/starlette/middleware/base.py", line 193, in __call__
+    response = await self.dispatch_func(request, call_next)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ziro/CVproject/cvProjectTeam3/leejiho/walkmate-backend/app/main.py", line 77, in log_requests
+    raise e
+  File "/Users/ziro/CVproject/cvProjectTeam3/leejiho/walkmate-backend/app/main.py", line 65, in log_requests
+    response = await call_next(request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ziro/CVproject/cvProjectTeam3/leejiho/walkmate-backend/venv/lib/python3.13/site-packages/starlette/middleware/base.py", line 168, in call_next
+    raise app_exc from app_exc.__cause__ or app_exc.__context__
+  File "/Users/ziro/CVproject/cvProjectTeam3/leejiho/walkmate-backend/venv/lib/python3.13/site-packages/starlette/middleware/base.py", line 144, in coro
+    await self.app(scope, receive_or_disconnect, send_no_error)
+  File "/Users/ziro/CVproject/cvProjectTeam3/leejiho/walkmate-backend/venv/lib/python3.13/site-packages/starlette/middleware/cors.py", line 87, in __call__
+    await self.app(scope, receive, send)
+  File "/Users/ziro/CVproject/cvProjectTeam3/leejiho/walkmate-backend/venv/lib/python3.13/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/Users/ziro/CVproject/cvProjectTeam3/leejiho/walkmate-backend/venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/ziro/CVproject/cvProjectTeam3/leejiho/walkmate-backend/venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/ziro/CVproject/cvProjectTeam3/leejiho/walkmate-backend/venv/lib/python3.13/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/Users/ziro/CVproject/cvProjectTeam3/leejiho/walkmate-backend/venv/lib/python3.13/site-packages/starlette/routing.py", line 716, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/Users/ziro/CVproject/cvProjectTeam3/leejiho/walkmate-backend/venv/lib/python3.13/site-packages/starlette/routing.py", line 736, in app
+    await route.handle(scope, receive, send)
+  File "/Users/ziro/CVproject/cvProjectTeam3/leejiho/walkmate-backend/venv/lib/python3.13/site-packages/starlette/routing.py", line 290, in handle
+    await self.app(scope, receive, send)
+  File "/Users/ziro/CVproject/cvProjectTeam3/leejiho/walkmate-backend/venv/lib/python3.13/site-packages/fastapi/routing.py", line 121, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/Users/ziro/CVproject/cvProjectTeam3/leejiho/walkmate-backend/venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/Users/ziro/CVproject/cvProjectTeam3/leejiho/walkmate-backend/venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/Users/ziro/CVproject/cvProjectTeam3/leejiho/walkmate-backend/venv/lib/python3.13/site-packages/fastapi/routing.py", line 107, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/Users/ziro/CVproject/cvProjectTeam3/leejiho/walkmate-backend/venv/lib/python3.13/site-packages/fastapi/routing.py", line 426, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "/Users/ziro/CVproject/cvProjectTeam3/leejiho/walkmate-backend/venv/lib/python3.13/site-packages/fastapi/routing.py", line 314, in run_endpoint_function
+    return await dependant.call(**values)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/ziro/CVproject/cvProjectTeam3/leejiho/walkmate-backend/app/api/v1/endpoints/reports.py", line 44, in create_report_pipeline
+    new_report = crud_report.create_report(report_data)
+  File "/Users/ziro/CVproject/cvProjectTeam3/leejiho/walkmate-backend/app/crud/report.py", line 65, in create_report
+    raise e
+  File "/Users/ziro/CVproject/cvProjectTeam3/leejiho/walkmate-backend/app/crud/report.py", line 60, in create_report
+    .execute()
+     ~~~~~~~^^
+  File "/Users/ziro/CVproject/cvProjectTeam3/leejiho/walkmate-backend/venv/lib/python3.13/site-packages/postgrest/_sync/request_builder.py", line 55, in execute
+    raise APIError(generate_default_error_message(r))
+postgrest.exceptions.APIError: {'message': 'JSON could not be generated', 'code': 502, 'hint': 'Refer to full message for details', 'details': 'b\'<!DOCTYPE html>\\n<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en-US"> <![endif]-->\\n<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en-US"> <![endif]-->\\n<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en-US"> <![endif]-->\\n<!--[if gt IE 8]><!--> <html class="no-js" lang="en-US"> <!--<![endif]-->\\n<head>\\n\\n<title> | 500: Internal server error</title>\\n<meta charset="UTF-8" />\\n<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />\\n<meta http-equiv="X-UA-Compatible" content="IE=Edge" />\\n<meta name="robots" content="noindex, nofollow" />\\n<meta name="viewport" content="width=device-width,initial-scale=1" />\\n<link rel="stylesheet" id="cf_styles-css" href="/cdn-cgi/styles/main.css" />\\n</head>\\n<body>\\n<div id="cf-wrapper">\\n    <div id="cf-error-details" class="p-0">\\n        <header class="mx-auto pt-10 lg:pt-6 lg:px-8 w-240 lg:w-full mb-8">\\n            <h1 class="inline-block sm:block sm:mb-2 font-light text-60 lg:text-4xl text-black-dark leading-tight mr-2">\\n                <span class="inline-block">Internal server error</span>\\n                <span class="code-label">Error code 500</span>\\n            </h1>\\n            <div>\\n                Visit <a href="https://www.cloudflare.com/5xx-error-landing?utm_source=errorcode_500&utm_campaign=ssguhklvrefgbahqonhk.supabase.co" target="_blank" rel="noopener noreferrer">cloudflare.com</a> for more information.\\n            </div>\\n            <div class="mt-3">2026-02-19 08:26:17 UTC</div>\\n        </header>\\n        <div class="my-8 bg-gradient-gray">\\n            <div class="w-240 lg:w-full mx-auto">\\n                <div class="clearfix md:px-8">\\n                    <div id="cf-browser-status" class=" relative w-1/3 md:w-full py-15 md:p-0 md:py-8 md:text-left md:border-solid md:border-0 md:border-b md:border-gray-400 overflow-hidden float-left md:float-none text-center">\\n  <div class="relative mb-10 md:m-0">\\n    \\n    <span class="cf-icon-browser block md:hidden h-20 bg-center bg-no-repeat"></span>\\n    <span class="cf-icon-ok w-12 h-12 absolute left-1/2 md:left-auto md:right-0 md:top-0 -ml-6 -bottom-4"></span>\\n    \\n  </div>\\n  <span class="md:block w-full truncate">You</span>\\n  <h3 class="md:inline-block mt-3 md:mt-0 text-2xl text-gray-600 font-light leading-1.3">\\n  \\n    Browser\\n  \\n  </h3>\\n  \\n  <span class="leading-1.3 text-2xl text-green-success">Working</span>\\n  \\n</div>\\n                    <div id="cf-cloudflare-status" class="cf-error-source relative w-1/3 md:w-full py-15 md:p-0 md:py-8 md:text-left md:border-solid md:border-0 md:border-b md:border-gray-400 overflow-hidden float-left md:float-none text-center">\\n  <div class="relative mb-10 md:m-0">\\n    <a href="https://www.cloudflare.com/5xx-error-landing?utm_source=errorcode_500&#38;utm_campaign=ssguhklvrefgbahqonhk.supabase.co" target="_blank" rel="noopener noreferrer">\\n    <span class="cf-icon-cloud block md:hidden h-20 bg-center bg-no-repeat"></span>\\n    <span class="cf-icon-error w-12 h-12 absolute left-1/2 md:left-auto md:right-0 md:top-0 -ml-6 -bottom-4"></span>\\n    </a>\\n  </div>\\n  <span class="md:block w-full truncate">Seoul</span>\\n  <h3 class="md:inline-block mt-3 md:mt-0 text-2xl text-gray-600 font-light leading-1.3">\\n  <a href="https://www.cloudflare.com/5xx-error-landing?utm_source=errorcode_500&utm_campaign=ssguhklvrefgbahqonhk.supabase.co" target="_blank" rel="noopener noreferrer">\\n    Cloudflare\\n  </a>\\n  </h3>\\n  \\n  <span class="leading-1.3 text-2xl text-red-error">Error</span>\\n  \\n</div>\\n                    <div id="cf-host-status" class=" relative w-1/3 md:w-full py-15 md:p-0 md:py-8 md:text-left md:border-solid md:border-0 md:border-b md:border-gray-400 overflow-hidden float-left md:float-none text-center">\\n  <div class="relative mb-10 md:m-0">\\n    \\n    <span class="cf-icon-server block md:hidden h-20 bg-center bg-no-repeat"></span>\\n    <span class="cf-icon-ok w-12 h-12 absolute left-1/2 md:left-auto md:right-0 md:top-0 -ml-6 -bottom-4"></span>\\n    \\n  </div>\\n  <span class="md:block w-full truncate">ssguhklvrefgbahqonhk.supabase.co</span>\\n  <h3 class="md:inline-block mt-3 md:mt-0 text-2xl text-gray-600 font-light leading-1.3">\\n  \\n    Host\\n  \\n  </h3>\\n  \\n  <span class="leading-1.3 text-2xl text-green-success">Working</span>\\n  \\n</div>\\n                </div>\\n            </div>\\n        </div>\\n\\n        <div class="w-240 lg:w-full mx-auto mb-8 lg:px-8">\\n            <div class="clearfix">\\n                <div class="w-1/2 md:w-full float-left pr-6 md:pb-10 md:pr-0 leading-relaxed">\\n                    <h2 class="text-3xl font-normal leading-1.3 mb-4">What happened?</h2>\\n                    <p>There is an internal server error on Cloudflare\\\'s network.</p>\\n                </div>\\n                <div class="w-1/2 md:w-full float-left leading-relaxed">\\n                    <h2 class="text-3xl font-normal leading-1.3 mb-4">What can I do?</h2>\\n                    <p class="mb-6">Please try again in a few minutes.</p>\\n                </div>\\n            </div>\\n        </div>\\n\\n        <div class="cf-error-footer cf-wrapper w-240 lg:w-full py-10 sm:py-4 sm:px-8 mx-auto text-center sm:text-left border-solid border-0 border-t border-gray-300">\\n    <p class="text-13">\\n      <span class="cf-footer-item sm:block sm:mb-1">Cloudflare Ray ID: <strong class="font-semibold">9d0460e2a8ecd1da</strong></span>\\n      <span class="cf-footer-separator sm:hidden">&bull;</span>\\n      <span id="cf-footer-item-ip" class="cf-footer-item hidden sm:block sm:mb-1">\\n        Your IP:\\n        <button type="button" id="cf-footer-ip-reveal" class="cf-footer-ip-reveal-btn">Click to reveal</button>\\n        <span class="hidden" id="cf-footer-ip">59.12.53.205</span>\\n        <span class="cf-footer-separator sm:hidden">&bull;</span>\\n      </span>\\n      <span class="cf-footer-item sm:block sm:mb-1"><span>Performance &amp; security by</span> <a rel="noopener noreferrer" href="https://www.cloudflare.com/5xx-error-landing?utm_source=errorcode_500&#38;utm_campaign=ssguhklvrefgbahqonhk.supabase.co" id="brand_link" target="_blank">Cloudflare</a></span>\\n      \\n    </p>\\n    <script>(function(){function d(){var b=a.getElementById("cf-footer-item-ip"),c=a.getElementById("cf-footer-ip-reveal");b&&"classList"in b&&(b.classList.remove("hidden"),c.addEventListener("click",function(){c.classList.add("hidden");a.getElementById("cf-footer-ip").classList.remove("hidden")}))}var a=document;document.addEventListener&&a.addEventListener("DOMContentLoaded",d)})();</script>\\n  </div><!-- /.error-footer -->\\n\\n    </div>\\n</div>\\n</body>\\n</html>\''}
+2026-02-19 17:26:20,223 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 17:26:20,666 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 442.91ms
+2026-02-19 17:26:23,295 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 17:26:23,757 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 461.79ms
+2026-02-19 17:26:26,215 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 17:26:26,522 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 306.81ms
+2026-02-19 17:26:29,190 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 17:26:29,586 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 395.96ms
+2026-02-19 17:26:32,265 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 17:26:32,679 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 414.10ms
+2026-02-19 17:26:35,073 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 17:26:35,425 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 352.19ms
+2026-02-19 17:26:38,239 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 17:26:38,774 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 534.72ms
+2026-02-19 17:26:41,128 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 17:26:41,673 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 544.56ms
+2026-02-19 17:26:44,221 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 17:26:44,457 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 236.20ms
+2026-02-19 17:26:47,183 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 17:26:47,731 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 548.53ms
+2026-02-19 17:32:16,202 - INFO - ➡️ [요청 시작] POST /api/v1/navigation/path/ | Device: WalkMate-App
+2026-02-19 17:32:16,479 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 277.15ms
+2026-02-19 17:32:29,493 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 17:32:30,351 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 858.08ms
+2026-02-19 17:32:38,127 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 17:32:38,436 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 308.58ms
+2026-02-19 17:32:46,342 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-19 17:32:46,738 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 396.04ms
+2026-02-19 17:48:36,012 - INFO - ➡️ [요청 시작] GET /docs | Device: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36
+2026-02-19 17:48:36,015 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 3.07ms
+2026-02-19 17:48:36,127 - INFO - ➡️ [요청 시작] GET /openapi.json | Device: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36
+2026-02-19 17:48:36,143 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 15.89ms
+2026-02-19 17:48:44,656 - INFO - ➡️ [요청 시작] GET /api/v1/gallery/ | Device: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36
+2026-02-19 17:48:44,815 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 159.68ms
+2026-02-19 17:49:59,720 - INFO - ➡️ [요청 시작] GET /api/v1/gallery | Device: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36
+2026-02-19 17:49:59,735 - INFO - ⬅️ [요청 완료] 307 | 소요시간: 16.69ms
+2026-02-19 17:49:59,740 - INFO - ➡️ [요청 시작] GET /api/v1/gallery/ | Device: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36
+2026-02-19 17:49:59,904 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 164.06ms
+2026-02-19 17:49:59,957 - INFO - ➡️ [요청 시작] GET /favicon.ico | Device: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36
+2026-02-19 17:49:59,958 - INFO - ⬅️ [요청 완료] 404 | 소요시간: 1.13ms
+2026-02-19 17:51:26,887 - INFO - ➡️ [요청 시작] GET /api/v1/gallery/ | Device: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36
+2026-02-19 17:51:27,087 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 199.68ms
+2026-02-19 17:52:50,290 - INFO - ➡️ [요청 시작] GET /api/v1/gallery/ | Device: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36
+2026-02-19 17:52:50,475 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 185.50ms
+2026-02-19 17:52:50,899 - INFO - ➡️ [요청 시작] GET /favicon.ico | Device: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36
+2026-02-19 17:52:50,900 - INFO - ⬅️ [요청 완료] 404 | 소요시간: 1.03ms
+2026-02-19 17:53:04,281 - INFO - ➡️ [요청 시작] GET /api/v1/gallery/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36
+2026-02-19 17:53:04,469 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 188.40ms
+2026-02-19 17:53:04,867 - INFO - ➡️ [요청 시작] GET /favicon.ico | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36
+2026-02-19 17:53:04,868 - INFO - ⬅️ [요청 완료] 404 | 소요시간: 0.77ms
+2026-02-19 17:53:21,800 - INFO - ➡️ [요청 시작] GET /api/v1/gallery/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-19 17:53:21,986 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 186.36ms
+2026-02-19 17:54:54,873 - INFO - ➡️ [요청 시작] GET /api/v1/gallery/ | Device: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36
+2026-02-19 17:54:55,070 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 196.94ms
+2026-02-19 17:57:02,326 - INFO - ➡️ [요청 시작] GET /api/v1/gallery/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36
+2026-02-19 17:57:02,513 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 186.26ms
+2026-02-19 17:57:03,570 - INFO - ➡️ [요청 시작] GET /api/v1/gallery/ | Device: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36
+2026-02-19 17:57:03,678 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 108.05ms

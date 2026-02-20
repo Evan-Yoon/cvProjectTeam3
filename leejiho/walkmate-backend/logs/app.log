@@ -1263,3 +1263,253 @@ postgrest.exceptions.APIError: {'message': 'invalid input syntax for type uuid: 
 2026-02-20 14:41:11,432 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 132.08ms
 2026-02-20 14:41:11,518 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
 2026-02-20 14:41:11,636 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 117.70ms
+2026-02-20 14:49:45,379 - INFO - ➡️ [요청 시작] OPTIONS /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 14:49:45,382 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 3.09ms
+2026-02-20 14:49:45,413 - INFO - ➡️ [요청 시작] OPTIONS /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 14:49:45,413 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 0.71ms
+2026-02-20 14:49:45,462 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 14:49:45,995 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 533.12ms
+2026-02-20 14:49:46,084 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 14:49:46,291 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 207.25ms
+2026-02-20 14:57:22,937 - INFO - ➡️ [요청 시작] POST /api/v1/navigation/path/ | Device: WalkMate-App
+2026-02-20 14:57:23,077 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 140.27ms
+2026-02-20 14:57:33,893 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-20 14:57:34,784 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 890.67ms
+2026-02-20 14:57:42,362 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-20 14:57:42,977 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 615.11ms
+2026-02-20 14:58:31,637 - INFO - ➡️ [요청 시작] OPTIONS /api/v1/reports/ | Device: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36
+2026-02-20 14:58:31,638 - INFO - ➡️ [요청 시작] OPTIONS /api/v1/reports/ | Device: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36
+2026-02-20 14:58:31,638 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1.55ms
+2026-02-20 14:58:31,639 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1.02ms
+2026-02-20 14:58:31,716 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36
+2026-02-20 14:58:31,946 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 229.55ms
+2026-02-20 14:58:32,022 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36
+2026-02-20 14:58:32,361 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 338.61ms
+2026-02-20 15:02:11,212 - INFO - ➡️ [요청 시작] OPTIONS /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 15:02:11,215 - INFO - ➡️ [요청 시작] OPTIONS /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 15:02:11,215 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 3.31ms
+2026-02-20 15:02:11,216 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1.70ms
+2026-02-20 15:02:11,299 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 15:02:11,679 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 380.04ms
+2026-02-20 15:02:11,762 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 15:02:12,034 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 271.85ms
+2026-02-20 15:04:52,628 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36
+2026-02-20 15:04:53,343 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 715.99ms
+2026-02-20 15:04:53,429 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36
+2026-02-20 15:04:53,626 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 196.97ms
+2026-02-20 15:04:56,389 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36
+2026-02-20 15:04:56,537 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 148.29ms
+2026-02-20 15:04:56,616 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36
+2026-02-20 15:04:56,760 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 143.18ms
+2026-02-20 15:07:22,519 - INFO - ➡️ [요청 시작] OPTIONS /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 15:07:22,520 - INFO - ➡️ [요청 시작] OPTIONS /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 15:07:22,520 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1.87ms
+2026-02-20 15:07:22,521 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 0.96ms
+2026-02-20 15:07:22,606 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 15:07:22,744 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 138.16ms
+2026-02-20 15:07:22,947 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 15:07:23,083 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 136.28ms
+2026-02-20 15:07:33,858 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 15:07:33,990 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 131.74ms
+2026-02-20 15:07:34,083 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 15:07:34,219 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 135.84ms
+2026-02-20 15:07:38,816 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 15:07:38,933 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 117.38ms
+2026-02-20 15:07:39,012 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 15:07:39,144 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 132.05ms
+2026-02-20 15:07:49,500 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 15:07:49,663 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 163.17ms
+2026-02-20 15:07:49,742 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 15:07:49,859 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 116.59ms
+2026-02-20 15:13:19,041 - INFO - ➡️ [요청 시작] POST /api/v1/navigation/path/ | Device: WalkMate-App
+2026-02-20 15:13:19,249 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 208.83ms
+2026-02-20 15:13:42,001 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-20 15:13:42,827 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 826.14ms
+2026-02-20 15:16:15,928 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 15:16:16,828 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 900.38ms
+2026-02-20 15:16:16,908 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 15:16:17,107 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 198.40ms
+2026-02-20 15:31:08,692 - INFO - ➡️ [요청 시작] OPTIONS /api/v1/reports/f8dcc5da-bcab-4662-81c7-7a691aaec922 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 15:31:08,694 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 2.76ms
+2026-02-20 15:31:08,783 - INFO - ➡️ [요청 시작] PATCH /api/v1/reports/f8dcc5da-bcab-4662-81c7-7a691aaec922 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 15:31:09,032 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 249.10ms
+2026-02-20 15:50:59,440 - INFO - ➡️ [요청 시작] OPTIONS /api/v1/reports/abb97c04-70fb-4b6f-818c-0076bcd0e2d6 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 15:50:59,442 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 2.25ms
+2026-02-20 15:50:59,525 - INFO - ➡️ [요청 시작] PATCH /api/v1/reports/abb97c04-70fb-4b6f-818c-0076bcd0e2d6 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 15:51:00,035 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 509.11ms
+2026-02-20 15:53:28,147 - INFO - ➡️ [요청 시작] OPTIONS /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 15:53:28,148 - INFO - ➡️ [요청 시작] OPTIONS /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 15:53:28,149 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1.78ms
+2026-02-20 15:53:28,149 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 0.77ms
+2026-02-20 15:53:28,229 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 15:53:29,073 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 843.92ms
+2026-02-20 15:53:29,158 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 15:53:29,647 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 488.78ms
+2026-02-20 15:56:56,917 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 15:56:57,425 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 508.32ms
+2026-02-20 15:56:57,508 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 15:56:57,764 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 256.30ms
+2026-02-20 16:07:35,318 - INFO - ➡️ [요청 시작] POST /api/v1/navigation/path/ | Device: WalkMate-App
+2026-02-20 16:07:35,499 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 181.72ms
+2026-02-20 16:07:46,261 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-20 16:07:46,273 - INFO - ⬅️ [요청 완료] 422 | 소요시간: 11.49ms
+2026-02-20 16:07:54,901 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-20 16:07:54,943 - INFO - ⬅️ [요청 완료] 422 | 소요시간: 42.76ms
+2026-02-20 16:08:02,711 - INFO - ➡️ [요청 시작] OPTIONS /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 16:08:02,712 - INFO - ➡️ [요청 시작] OPTIONS /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 16:08:02,713 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1.56ms
+2026-02-20 16:08:02,713 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1.15ms
+2026-02-20 16:08:02,791 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 16:08:03,044 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 253.54ms
+2026-02-20 16:08:03,120 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 16:08:03,299 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 178.67ms
+2026-02-20 16:08:10,101 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 16:08:10,242 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 140.52ms
+2026-02-20 16:08:10,319 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 16:08:10,455 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 136.31ms
+2026-02-20 16:09:03,210 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-20 16:09:03,420 - INFO - ⬅️ [요청 완료] 422 | 소요시간: 210.85ms
+2026-02-20 16:09:12,365 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-20 16:09:12,414 - INFO - ⬅️ [요청 완료] 422 | 소요시간: 49.11ms
+2026-02-20 16:09:20,783 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-20 16:09:20,878 - INFO - ⬅️ [요청 완료] 422 | 소요시간: 95.36ms
+2026-02-20 16:09:29,385 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-20 16:09:29,387 - INFO - ⬅️ [요청 완료] 422 | 소요시간: 2.18ms
+2026-02-20 16:09:37,708 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-20 16:09:37,710 - INFO - ⬅️ [요청 완료] 422 | 소요시간: 2.29ms
+2026-02-20 16:13:41,353 - INFO - ➡️ [요청 시작] OPTIONS /api/v1/reports/ce8af2cd-bdd3-4108-b032-8892d577adf1 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 16:13:41,355 - INFO - ➡️ [요청 시작] OPTIONS /api/v1/reports/06348af9-fc3d-4138-b437-e1033ef2e77e | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 16:13:41,356 - INFO - ➡️ [요청 시작] OPTIONS /api/v1/reports/b1eca3c6-507d-4dba-ae39-de372ff785f7 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 16:13:41,356 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 3.45ms
+2026-02-20 16:13:41,356 - INFO - ➡️ [요청 시작] OPTIONS /api/v1/reports/ab65a93f-b95a-4eb6-9630-893a5a4b4300 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 16:13:41,357 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1.77ms
+2026-02-20 16:13:41,357 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1.32ms
+2026-02-20 16:13:41,358 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1.05ms
+2026-02-20 16:13:41,439 - INFO - ➡️ [요청 시작] DELETE /api/v1/reports/b1eca3c6-507d-4dba-ae39-de372ff785f7 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 16:13:41,441 - INFO - ➡️ [요청 시작] DELETE /api/v1/reports/ce8af2cd-bdd3-4108-b032-8892d577adf1 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 16:13:41,442 - INFO - ⬅️ [요청 완료] 405 | 소요시간: 2.64ms
+2026-02-20 16:13:41,442 - INFO - ➡️ [요청 시작] DELETE /api/v1/reports/06348af9-fc3d-4138-b437-e1033ef2e77e | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 16:13:41,443 - INFO - ⬅️ [요청 완료] 405 | 소요시간: 2.04ms
+2026-02-20 16:13:41,443 - INFO - ➡️ [요청 시작] DELETE /api/v1/reports/ab65a93f-b95a-4eb6-9630-893a5a4b4300 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 16:13:41,443 - INFO - ⬅️ [요청 완료] 405 | 소요시간: 0.92ms
+2026-02-20 16:13:41,444 - INFO - ⬅️ [요청 완료] 405 | 소요시간: 0.46ms
+2026-02-20 16:22:39,902 - INFO - ➡️ [요청 시작] DELETE /api/v1/reports/06348af9-fc3d-4138-b437-e1033ef2e77e | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 16:22:39,904 - INFO - ➡️ [요청 시작] DELETE /api/v1/reports/ab65a93f-b95a-4eb6-9630-893a5a4b4300 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 16:22:39,904 - INFO - ⬅️ [요청 완료] 405 | 소요시간: 2.32ms
+2026-02-20 16:22:39,905 - INFO - ➡️ [요청 시작] DELETE /api/v1/reports/ce8af2cd-bdd3-4108-b032-8892d577adf1 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 16:22:39,905 - INFO - ➡️ [요청 시작] DELETE /api/v1/reports/b1eca3c6-507d-4dba-ae39-de372ff785f7 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 16:22:39,905 - INFO - ⬅️ [요청 완료] 405 | 소요시간: 1.37ms
+2026-02-20 16:22:39,906 - INFO - ⬅️ [요청 완료] 405 | 소요시간: 1.01ms
+2026-02-20 16:22:39,906 - INFO - ⬅️ [요청 완료] 405 | 소요시간: 0.97ms
+2026-02-20 16:22:45,440 - INFO - ➡️ [요청 시작] DELETE /api/v1/reports/b1eca3c6-507d-4dba-ae39-de372ff785f7 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 16:22:45,441 - INFO - ⬅️ [요청 완료] 405 | 소요시간: 0.94ms
+2026-02-20 16:22:45,479 - INFO - ➡️ [요청 시작] DELETE /api/v1/reports/ab65a93f-b95a-4eb6-9630-893a5a4b4300 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 16:22:45,480 - INFO - ➡️ [요청 시작] DELETE /api/v1/reports/ce8af2cd-bdd3-4108-b032-8892d577adf1 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 16:22:45,480 - INFO - ➡️ [요청 시작] DELETE /api/v1/reports/06348af9-fc3d-4138-b437-e1033ef2e77e | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 16:22:45,482 - INFO - ⬅️ [요청 완료] 405 | 소요시간: 2.21ms
+2026-02-20 16:22:45,482 - INFO - ⬅️ [요청 완료] 405 | 소요시간: 1.99ms
+2026-02-20 16:22:45,482 - INFO - ⬅️ [요청 완료] 405 | 소요시간: 1.65ms
+2026-02-20 16:24:22,910 - INFO - ➡️ [요청 시작] DELETE /api/v1/reports/abb97c04-70fb-4b6f-818c-0076bcd0e2d6 | Device: Mozilla/5.0 (Windows NT; Windows NT 10.0; ko-KR) WindowsPowerShell/5.1.26100.7705
+2026-02-20 16:24:22,912 - INFO - ⬅️ [요청 완료] 405 | 소요시간: 1.32ms
+2026-02-20 16:30:07,726 - INFO - ➡️ [요청 시작] POST /api/v1/navigation/path/ | Device: WalkMate-App
+2026-02-20 16:30:07,879 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 152.74ms
+2026-02-20 16:30:19,770 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-20 16:30:20,335 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 564.57ms
+2026-02-20 16:30:28,236 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-20 16:30:28,650 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 413.81ms
+2026-02-20 16:30:50,099 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-20 16:30:50,554 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 454.30ms
+2026-02-20 16:30:59,287 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-20 16:30:59,765 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 477.68ms
+2026-02-20 16:31:12,731 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-20 16:31:13,417 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 686.21ms
+2026-02-20 16:31:16,335 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-20 16:31:16,568 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 233.68ms
+2026-02-20 16:31:20,140 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-20 16:31:20,435 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 295.13ms
+2026-02-20 16:32:18,720 - INFO - ➡️ [요청 시작] OPTIONS /api/v1/reports/ab65a93f-b95a-4eb6-9630-893a5a4b4300 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 16:32:18,721 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 0.63ms
+2026-02-20 16:32:18,758 - INFO - ➡️ [요청 시작] OPTIONS /api/v1/reports/ce8af2cd-bdd3-4108-b032-8892d577adf1 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 16:32:18,759 - INFO - ➡️ [요청 시작] OPTIONS /api/v1/reports/b1eca3c6-507d-4dba-ae39-de372ff785f7 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 16:32:18,760 - INFO - ➡️ [요청 시작] OPTIONS /api/v1/reports/06348af9-fc3d-4138-b437-e1033ef2e77e | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 16:32:18,760 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1.77ms
+2026-02-20 16:32:18,760 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1.35ms
+2026-02-20 16:32:18,761 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1.11ms
+2026-02-20 16:32:18,803 - INFO - ➡️ [요청 시작] DELETE /api/v1/reports/ab65a93f-b95a-4eb6-9630-893a5a4b4300 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 16:32:18,804 - INFO - ⬅️ [요청 완료] 405 | 소요시간: 0.66ms
+2026-02-20 16:32:18,845 - INFO - ➡️ [요청 시작] DELETE /api/v1/reports/b1eca3c6-507d-4dba-ae39-de372ff785f7 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 16:32:18,845 - INFO - ➡️ [요청 시작] DELETE /api/v1/reports/ce8af2cd-bdd3-4108-b032-8892d577adf1 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 16:32:18,846 - INFO - ⬅️ [요청 완료] 405 | 소요시간: 0.70ms
+2026-02-20 16:32:18,846 - INFO - ⬅️ [요청 완료] 405 | 소요시간: 0.56ms
+2026-02-20 16:32:18,851 - INFO - ➡️ [요청 시작] DELETE /api/v1/reports/06348af9-fc3d-4138-b437-e1033ef2e77e | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 16:32:18,851 - INFO - ⬅️ [요청 완료] 405 | 소요시간: 0.36ms
+2026-02-20 16:32:57,236 - INFO - ➡️ [요청 시작] DELETE /api/v1/reports/ce8af2cd-bdd3-4108-b032-8892d577adf1 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 16:32:57,237 - INFO - ⬅️ [요청 완료] 405 | 소요시간: 0.86ms
+2026-02-20 16:34:44,225 - INFO - ➡️ [요청 시작] GET / | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 16:34:44,232 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 7.50ms
+2026-02-20 16:34:58,597 - INFO - ➡️ [요청 시작] DELETE /api/v1/reports/ce8af2cd-bdd3-4108-b032-8892d577adf1 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 16:34:58,599 - INFO - ⬅️ [요청 완료] 405 | 소요시간: 1.33ms
+2026-02-20 16:39:39,506 - INFO - ➡️ [요청 시작] DELETE /api/v1/reports/ce8af2cd-bdd3-4108-b032-8892d577adf1 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 16:39:39,509 - INFO - ⬅️ [요청 완료] 405 | 소요시간: 2.86ms
+2026-02-20 16:46:17,133 - INFO - ➡️ [요청 시작] OPTIONS /api/v1/reports/ce8af2cd-bdd3-4108-b032-8892d577adf1 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 16:46:17,136 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 2.84ms
+2026-02-20 16:46:17,216 - INFO - ➡️ [요청 시작] DELETE /api/v1/reports/ce8af2cd-bdd3-4108-b032-8892d577adf1 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 16:46:17,217 - INFO - ⬅️ [요청 완료] 405 | 소요시간: 1.22ms
+2026-02-20 17:06:00,051 - INFO - ➡️ [요청 시작] OPTIONS /api/v1/reports/ce8af2cd-bdd3-4108-b032-8892d577adf1 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 17:06:00,054 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 3.60ms
+2026-02-20 17:06:00,135 - INFO - ➡️ [요청 시작] PATCH /api/v1/reports/ce8af2cd-bdd3-4108-b032-8892d577adf1 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 17:06:00,450 - ERROR - ❌ DB Update Error: {'message': 'new row for relation "reports" violates check constraint "reports_status_check"', 'code': '23514', 'hint': None, 'details': 'Failing row contains (ce8af2cd-bdd3-4108-b032-8892d577adf1, 4e5f4896-2a61-413d-968a-cb2980c9ee33, 2026-02-20 01:32:30.805846+00, 불법 주정차, 5, [테스트] 불법 주정차 감지 (자동 생성), https://amzn-walkmate.s3.ap-northeast-2.amazonaws.com/d99b0aa8-a..., hidden, 0101000020E61000002463B5F97FBE5F407F129F3BC1C84240, 0.71, R, 0, 0, 0, 0).'}
+Traceback (most recent call last):
+  File "/Users/ziro/CVproject/cvProjectTeam3/leejiho/walkmate-backend/app/crud/report.py", line 138, in update_report_status
+    .execute()
+     ~~~~~~~^^
+  File "/Users/ziro/CVproject/cvProjectTeam3/leejiho/walkmate-backend/venv/lib/python3.13/site-packages/postgrest/_sync/request_builder.py", line 53, in execute
+    raise APIError(dict(json_obj))
+postgrest.exceptions.APIError: {'message': 'new row for relation "reports" violates check constraint "reports_status_check"', 'code': '23514', 'hint': None, 'details': 'Failing row contains (ce8af2cd-bdd3-4108-b032-8892d577adf1, 4e5f4896-2a61-413d-968a-cb2980c9ee33, 2026-02-20 01:32:30.805846+00, 불법 주정차, 5, [테스트] 불법 주정차 감지 (자동 생성), https://amzn-walkmate.s3.ap-northeast-2.amazonaws.com/d99b0aa8-a..., hidden, 0101000020E61000002463B5F97FBE5F407F129F3BC1C84240, 0.71, R, 0, 0, 0, 0).'}
+2026-02-20 17:06:00,456 - INFO - ⬅️ [요청 완료] 404 | 소요시간: 321.04ms
+2026-02-20 17:09:21,494 - INFO - ➡️ [요청 시작] PATCH /api/v1/reports/ce8af2cd-bdd3-4108-b032-8892d577adf1 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 17:09:21,780 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 285.96ms
+2026-02-20 17:11:41,450 - INFO - ➡️ [요청 시작] OPTIONS /api/v1/reports/07e967e2-24ad-43c6-9046-9298eeac298b | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 17:11:41,451 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 0.95ms
+2026-02-20 17:11:41,533 - INFO - ➡️ [요청 시작] PATCH /api/v1/reports/07e967e2-24ad-43c6-9046-9298eeac298b | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 17:11:41,657 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 123.89ms
+2026-02-20 17:11:57,333 - INFO - ➡️ [요청 시작] OPTIONS /api/v1/reports/b1eca3c6-507d-4dba-ae39-de372ff785f7 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 17:11:57,334 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 0.66ms
+2026-02-20 17:11:57,379 - INFO - ➡️ [요청 시작] OPTIONS /api/v1/reports/ab65a93f-b95a-4eb6-9630-893a5a4b4300 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 17:11:57,380 - INFO - ➡️ [요청 시작] OPTIONS /api/v1/reports/06348af9-fc3d-4138-b437-e1033ef2e77e | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 17:11:57,380 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 0.70ms
+2026-02-20 17:11:57,380 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 0.50ms
+2026-02-20 17:11:57,448 - INFO - ➡️ [요청 시작] PATCH /api/v1/reports/b1eca3c6-507d-4dba-ae39-de372ff785f7 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 17:11:57,475 - INFO - ➡️ [요청 시작] PATCH /api/v1/reports/ab65a93f-b95a-4eb6-9630-893a5a4b4300 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 17:11:57,480 - INFO - ➡️ [요청 시작] PATCH /api/v1/reports/06348af9-fc3d-4138-b437-e1033ef2e77e | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 17:11:57,728 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 279.68ms
+2026-02-20 17:11:57,729 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 249.36ms
+2026-02-20 17:11:57,730 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 255.13ms
+2026-02-20 17:21:06,231 - INFO - ➡️ [요청 시작] GET /logs | Device: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36
+2026-02-20 17:21:06,236 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 5.24ms
+2026-02-20 17:21:43,363 - INFO - ➡️ [요청 시작] GET /logs | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 17:21:43,366 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 3.68ms
+2026-02-20 17:21:59,132 - INFO - ➡️ [요청 시작] OPTIONS /api/v1/reports/c1a184c3-ce98-4abf-8cf3-d60dfaee9396 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 17:21:59,132 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 0.80ms
+2026-02-20 17:21:59,215 - INFO - ➡️ [요청 시작] PATCH /api/v1/reports/c1a184c3-ce98-4abf-8cf3-d60dfaee9396 | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 17:21:59,812 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 596.61ms
+2026-02-20 17:22:00,136 - INFO - ➡️ [요청 시작] GET /logs | Device: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36
+2026-02-20 17:22:00,138 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 2.13ms
+2026-02-20 17:22:02,406 - INFO - ➡️ [요청 시작] GET /logs | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 17:22:02,408 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1.71ms
+2026-02-20 17:22:04,220 - INFO - ➡️ [요청 시작] GET /logs | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 17:22:04,222 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 2.33ms
+2026-02-20 17:22:05,145 - INFO - ➡️ [요청 시작] GET /logs | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 17:22:05,147 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1.28ms
+2026-02-20 17:22:14,673 - INFO - ➡️ [요청 시작] GET /logs | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 17:22:14,677 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 3.72ms
+2026-02-20 17:22:15,294 - INFO - ➡️ [요청 시작] GET /logs | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 17:22:15,295 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1.37ms
+2026-02-20 17:22:16,049 - INFO - ➡️ [요청 시작] GET /logs | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 17:22:16,052 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 2.46ms
+2026-02-20 17:22:16,639 - INFO - ➡️ [요청 시작] GET /logs | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 17:22:16,640 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1.41ms
+2026-02-20 17:22:16,996 - INFO - ➡️ [요청 시작] GET /logs | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-20 17:22:16,999 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 3.03ms
+2026-02-20 17:22:30,060 - INFO - ➡️ [요청 시작] GET /logs | Device: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36
+2026-02-20 17:22:30,063 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 3.27ms
