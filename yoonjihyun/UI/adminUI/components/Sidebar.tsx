@@ -1,5 +1,5 @@
 import React from 'react';
-import { LayoutDashboard, Database, LogOut, Camera, Map } from 'lucide-react'; // ★ Map 아이콘 추가
+import { LayoutDashboard, Database, LogOut, Map } from 'lucide-react'; // ★ Map 아이콘 추가
 
 interface SidebarProps {
   activePage: string;
@@ -11,7 +11,6 @@ const Sidebar: React.FC<SidebarProps> = ({ activePage, setPage }) => {
     { id: 'dashboard', label: '대시보드', icon: <LayoutDashboard size={20} /> },
     { id: 'heatmap', label: '위험 히트맵', icon: <Map size={20} /> }, // ★ 리포트 삭제 및 히트맵 추가
     { id: 'database', label: '마스터 DB', icon: <Database size={20} /> },
-    { id: 'test-monitor', label: '실시간 모니터링', icon: <Camera size={20} /> },
   ];
 
   return (

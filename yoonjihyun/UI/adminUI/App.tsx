@@ -8,7 +8,6 @@ import Dashboard from './views/Dashboard';
 import Database from './views/Database';
 import Heatmap from './views/Heatmap';
 import HazardModal from './components/HazardModal';
-import TestMonitor from './src/pages/TestMonitor';
 import { HazardData } from './types';
 import { Bell, Search, UserCircle, Sun, Moon } from 'lucide-react';
 
@@ -38,6 +37,7 @@ const App: React.FC = () => {
     if (currentStatus === 'new') currentStatus = 'New';
     if (currentStatus === 'processing') currentStatus = 'Processing';
     if (currentStatus === 'done') currentStatus = 'Done';
+    if (currentStatus === 'hidden') currentStatus = 'Hidden';
 
     const dirMap: Record<string, string> = { 'L': '좌측', 'R': '우측', 'C': '정면' };
     const directionStr = dirMap[dbReport.direction] || '정면';
@@ -62,7 +62,17 @@ const App: React.FC = () => {
       id: dbReport.item_id,
       type: dbReport.hazard_type,
       riskLevel: riskLabel,
-      timestamp: new Date(dbReport.created_at).toLocaleString(),
+
+      // 날짜(YYYY.MM.DD) 형식과 시간(오전/오후 H:MM:SS) 형식을 명확하게 분리
+      timestamp: (() => {
+        const dateObj = new Date(dbReport.created_at);
+        const datePart = dateObj.toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' })
+          .replace(/\. /g, '.')
+          .replace(/\.$/, ''); // "2026.02.20"
+        const timePart = dateObj.toLocaleTimeString('ko-KR', { hour: 'numeric', minute: '2-digit', second: '2-digit', hour12: true });
+        return `${datePart} ${timePart}`;
+      })(),
+
       rawTimestamp: dbReport.created_at,
       location: `위도: ${safeLat}, 경도: ${safeLng}`,
       coordinates: `거리: ${dbReport.distance}m | 방향: ${directionStr}`,
@@ -78,7 +88,11 @@ const App: React.FC = () => {
 
   const fetchInitialData = useCallback(async () => {
     try {
-      const { data, error } = await supabase.from('reports').select('*').order('created_at', { ascending: false });
+      const { data, error } = await supabase
+        .from('reports')
+        .select('*')
+        .neq('status', 'hidden') // ★ 숨김 처리된 항목 제외
+        .order('created_at', { ascending: false });
       if (!error && data) {
         const mappedData = data.map(mapToHazardData);
         setReports(mappedData);
@@ -120,6 +134,10 @@ const App: React.FC = () => {
     fetchInitialData();
     const channel = supabase.channel('app_realtime_reports').on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'reports' }, (payload) => {
       const newHazard = mapToHazardData(payload.new);
+
+      // ★ 실시간 추가될 때 hidden 상태면 무시
+      if (newHazard.status === 'Hidden') return;
+
       setReports((prev) => prev.some(r => r.id === newHazard.id) ? prev : [newHazard, ...prev]);
 
       // 실시간 데이터도 주소 가져오기
@@ -151,8 +169,7 @@ const App: React.FC = () => {
     switch (activePage) {
       case 'dashboard': return <Dashboard data={reports} onRowClick={handleRowClick} isDarkMode={isDarkMode} />;
       case 'heatmap': return <Heatmap data={reports} isDarkMode={isDarkMode} initialCenter={heatmapFocus} />;
-      case 'database': return <Database data={reports} onRowClick={handleRowClick} />;
-      case 'test-monitor': return <TestMonitor />;
+      case 'database': return <Database data={reports} onRowClick={handleRowClick} onRefreshData={fetchInitialData} isDarkMode={isDarkMode} />;
       default: return <Dashboard data={reports} onRowClick={handleRowClick} isDarkMode={isDarkMode} />;
     }
   };
@@ -162,7 +179,6 @@ const App: React.FC = () => {
       case 'dashboard': return 'Dashboard Overview';
       case 'heatmap': return 'Real-time Hazard Heatmap';
       case 'database': return 'Master Database';
-      case 'test-monitor': return 'Real-time Test Monitor';
       default: return 'WalkMate System';
     }
   };

@@ -7,7 +7,7 @@ export type ReportRow = {
     hazard_type: string;
     image_url: string;
     created_at: string;
-    status: "new" | "processing" | "done";
+    status: "new" | "processing" | "done" | "hidden";
     risk_level: number;
     latitude?: number;
     longitude?: number;
@@ -31,7 +31,7 @@ export const fetchReports = async (skip = 0, limit = 100) => {
     return await res.json() as { total: number; data: ReportRow[] };
 };
 
-export const patchReportStatus = async (itemId: string, status: "new" | "processing" | "done") => {
+export const patchReportStatus = async (itemId: string, status: "new" | "processing" | "done" | "hidden") => {
     const url = `${API_BASE}/api/v1/reports/${itemId}?status=${status}`;
 
     const res = await fetch(url, {
@@ -44,4 +44,9 @@ export const patchReportStatus = async (itemId: string, status: "new" | "process
 
     if (!res.ok) throw new Error(`patchReportStatus failed: ${res.status}`);
     return await res.json();
+};
+
+export const deleteReport = async (itemId: string) => {
+    // Soft delete: Change status to 'hidden'
+    return patchReportStatus(itemId, "hidden");
 };

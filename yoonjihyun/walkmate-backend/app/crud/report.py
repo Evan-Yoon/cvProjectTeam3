@@ -77,6 +77,7 @@ def get_map_markers(db: Session):
             risk_level,
             status
         FROM public.reports
+        WHERE status != 'Hidden'
         ORDER BY created_at DESC
     """)
     return db.execute(q).mappings().all()
@@ -86,7 +87,7 @@ def get_map_markers(db: Session):
 # 3. 전체 신고 개수 조회 (Read - Count)
 # ------------------------------------------------------------------
 def count_reports(db: Session) -> int:
-    q = text("SELECT count(*) as cnt FROM public.reports")
+    q = text("SELECT count(*) as cnt FROM public.reports WHERE status != 'Hidden'")
     result = db.execute(q).mappings().first()
     return int(result["cnt"]) if result else 0
 
@@ -109,6 +110,7 @@ def list_reports_admin(db: Session, skip: int, limit: int):
             ST_Y(location) as latitude,
             ST_X(location) as longitude
         FROM public.reports
+        WHERE status != 'Hidden'
         ORDER BY created_at DESC
         OFFSET :skip
         LIMIT :limit
@@ -138,4 +140,26 @@ def patch_status(db: Session, item_id: UUID, status: str):
     except Exception as e:
         db.rollback()
         print(f"❌ DB Update Error: {e}")
+        raise e
+
+# ------------------------------------------------------------------
+# 6. 신고 삭제 (Delete)
+# ------------------------------------------------------------------
+def delete_report(db: Session, item_id: UUID):
+    q = text("""
+        UPDATE public.reports
+        SET status = 'Hidden'
+        WHERE item_id = :item_id
+        RETURNING item_id
+    """)
+
+    params = {"item_id": str(item_id)}
+
+    try:
+        row = db.execute(q, params).mappings().first()
+        db.commit()
+        return row
+    except Exception as e:
+        db.rollback()
+        print(f"❌ DB Delete Error: {e}")
         raise e

@@ -7,9 +7,20 @@ interface HazardTableProps {
   onRowClick: (hazard: HazardData) => void;
   compact?: boolean;
   isDarkMode?: boolean; // ★ 테마 상태를 명시적으로 받음
+  selectedIds?: Set<string>;
+  onSelect?: (id: string, selected: boolean) => void;
+  onSelectAll?: (selected: boolean) => void;
 }
 
-const HazardTable: React.FC<HazardTableProps> = ({ data, onRowClick, compact = false, isDarkMode = false }) => {
+const HazardTable: React.FC<HazardTableProps> = ({
+  data,
+  onRowClick,
+  compact = false,
+  isDarkMode = false,
+  selectedIds = new Set<string>(),
+  onSelect,
+  onSelectAll
+}) => {
   const getRiskBadge = (level: string) => {
     const base = "px-2.5 py-0.5 rounded-full text-xs font-medium border transition-colors duration-300";
     if (level === 'High') return `${base} ${isDarkMode ? 'bg-red-900/30 text-red-400 border-red-800/50' : 'bg-red-100 text-red-800 border-red-200'}`;
@@ -22,9 +33,20 @@ const HazardTable: React.FC<HazardTableProps> = ({ data, onRowClick, compact = f
       <table className="w-full text-sm text-left">
         <thead className={`uppercase text-xs font-semibold transition-colors duration-300 ${isDarkMode ? 'bg-slate-800/80 text-slate-400' : 'bg-slate-50 text-slate-500'}`}>
           <tr>
+            {!compact && (
+              <th className="px-6 py-4 w-12">
+                <input
+                  type="checkbox"
+                  className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer"
+                  checked={data.length > 0 && selectedIds.size === data.length}
+                  onChange={(e) => onSelectAll?.(e.target.checked)}
+                />
+              </th>
+            )}
             <th className="px-6 py-4">썸네일</th>
             <th className="px-6 py-4">위험 등급</th>
             <th className="px-6 py-4">ID / 유형</th>
+            {!compact && <th className="px-6 py-4">발생일</th>}
             {!compact && <th className="px-6 py-4">발생 시간</th>}
             {!compact && <th className="px-6 py-4">위치</th>}
             <th className="px-6 py-4">상태</th>
@@ -36,8 +58,18 @@ const HazardTable: React.FC<HazardTableProps> = ({ data, onRowClick, compact = f
             <tr
               key={item.id}
               onClick={() => onRowClick(item)}
-              className={`cursor-pointer transition-colors group ${isDarkMode ? 'hover:bg-slate-700/30' : 'hover:bg-slate-50'}`}
+              className={`cursor-pointer transition-colors group ${isDarkMode ? 'hover:bg-slate-700/30' : 'hover:bg-slate-50'} ${selectedIds.has(item.id) ? (isDarkMode ? 'bg-blue-900/20' : 'bg-blue-50') : ''}`}
             >
+              {!compact && (
+                <td className="px-6 py-3" onClick={(e) => e.stopPropagation()}>
+                  <input
+                    type="checkbox"
+                    className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer"
+                    checked={selectedIds.has(item.id)}
+                    onChange={(e) => onSelect?.(item.id, e.target.checked)}
+                  />
+                </td>
+              )}
               <td className="px-6 py-3">
                 <div className={`relative w-12 h-12 rounded overflow-hidden shadow-sm border transition-colors duration-300 ${isDarkMode ? 'border-slate-600' : 'border-slate-200'} bg-slate-100 dark:bg-slate-800 flex items-center justify-center`}>
                   <img
@@ -59,10 +91,14 @@ const HazardTable: React.FC<HazardTableProps> = ({ data, onRowClick, compact = f
                 <div className={`text-xs mt-0.5 transition-colors duration-300 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>{item.type}</div>
               </td>
               {!compact && (
-                <td className={`px-6 py-3 whitespace-nowrap transition-colors duration-300 ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`}>
-                  {item.timestamp.split(' ')[0]}<br />
-                  <span className={`text-xs transition-colors duration-300 ${isDarkMode ? 'text-slate-500' : 'text-slate-400'}`}>{item.timestamp.split(' ')[1]}</span>
-                </td>
+                <>
+                  <td className={`px-6 py-3 whitespace-nowrap transition-colors duration-300 font-medium ${isDarkMode ? 'text-slate-200' : 'text-slate-700'}`}>
+                    {item.timestamp.split(' ')[0]}
+                  </td>
+                  <td className={`px-6 py-3 whitespace-nowrap transition-colors duration-300 ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
+                    {item.timestamp.split(' ').slice(1).join(' ')}
+                  </td>
+                </>
               )}
               {!compact && (
                 <td className={`px-6 py-3 truncate max-w-xs transition-colors duration-300 ${isDarkMode ? 'text-slate-300' : 'text-slate-600'}`} title={item.location}>

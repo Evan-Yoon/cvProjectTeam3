@@ -1,7 +1,7 @@
 import React from 'react';
 
 export type RiskLevel = 'High' | 'Medium' | 'Low';
-export type Status = 'Pending' | 'In Progress' | 'Resolved';
+export type Status = 'New' | 'Processing' | 'Done' | 'Hidden' | 'Pending' | 'In Progress' | 'Resolved';
 export type ReportType = 'B2B' | 'B2G';
 
 export interface HazardData {
