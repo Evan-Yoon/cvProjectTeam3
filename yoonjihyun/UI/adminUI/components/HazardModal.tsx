@@ -12,6 +12,7 @@ interface HazardModalProps {
 
 const HazardModal: React.FC<HazardModalProps> = ({ data, onClose, onStatusChange, onViewMap }) => {
   const [isActionModalOpen, setIsActionModalOpen] = useState(false);
+  const [isImageEnlarged, setIsImageEnlarged] = useState(false);
 
   if (!data) return null;
 
@@ -61,7 +62,8 @@ const HazardModal: React.FC<HazardModalProps> = ({ data, onClose, onStatusChange
           <img
             src={data.thumbnail}
             alt={data.type}
-            className="absolute inset-0 w-full h-full object-cover"
+            className="absolute inset-0 w-full h-full object-cover cursor-pointer hover:opacity-90 transition-opacity"
+            onClick={() => setIsImageEnlarged(true)}
             onError={(e) => {
               (e.target as HTMLImageElement).src = 'https://placehold.co/600x400?text=No+Image+(403+Forbidden)';
             }}
@@ -180,6 +182,29 @@ const HazardModal: React.FC<HazardModalProps> = ({ data, onClose, onStatusChange
           onClose={() => setIsActionModalOpen(false)}
           onStatusChange={onStatusChange}
         />
+      )}
+
+      {/* 뒤 배경에서 이미지를 크게 띄우기 위한 풀스크린 오버레이 */}
+      {isImageEnlarged && (
+        <div
+          className="fixed inset-0 z-[60] flex items-center justify-center bg-black/90 p-4 animate-in fade-in duration-200 cursor-zoom-out"
+          onClick={(e) => { e.stopPropagation(); setIsImageEnlarged(false); }}
+        >
+          <img
+            src={data.thumbnail}
+            alt={data.type}
+            className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
+            onError={(e) => {
+              (e.target as HTMLImageElement).src = 'https://placehold.co/600x400?text=No+Image+(403+Forbidden)';
+            }}
+          />
+          <button
+            className="absolute top-6 right-6 p-2 bg-black/50 hover:bg-black/80 text-white rounded-full transition-colors"
+            onClick={(e) => { e.stopPropagation(); setIsImageEnlarged(false); }}
+          >
+            <X className="w-8 h-8" />
+          </button>
+        </div>
       )}
     </div>
   );
