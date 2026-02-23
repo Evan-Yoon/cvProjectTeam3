@@ -49,7 +49,7 @@ async def global_exception_handler(request: Request, exc: Exception):
     )
 
 import os
-from fastapi.responses import PlainTextResponse
+from fastapi.responses import PlainTextResponse, HTMLResponse
 
 @app.get("/")
 def read_root():
@@ -71,6 +71,107 @@ def view_logs():
         return PlainTextResponse("".join(tail_lines))
     except Exception as e:
         return PlainTextResponse(f"Error reading logs: {str(e)}", status_code=500)
+
+@app.get("/mirror", description="임시: DB에 적재되는 x,y,w,h 실시간 미러링 페이지")
+def view_mirror():
+    html_content = """
+    <!DOCTYPE html>
+    <html lang="ko">
+    <head>
+        <meta charset="UTF-8">
+        <title>Real-time DB Mirror (x,y,w,h)</title>
+        <style>
+            body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px; background-color: #f9f9f9; }
+            h1 { color: #333; }
+            .status { margin-bottom: 20px; color: #666; font-size: 0.9em; }
+            table { border-collapse: collapse; width: 100%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+            th, td { border: 1px solid #eee; padding: 12px 15px; text-align: center; }
+            th { background-color: #007bff; color: white; font-weight: bold; }
+            tr:nth-child(even) { background-color: #f8f9fa; }
+            tr:hover { background-color: #f1f8ff; }
+            img { max-height: 80px; border-radius: 4px; }
+            .badge { padding: 4px 8px; border-radius: 12px; font-size: 0.85em; font-weight: bold; }
+            .new { background: #e3f2fd; color: #0d47a1; }
+        </style>
+    </head>
+    <body>
+        <h1>🕒 Real-time Bounding Box Mirror</h1>
+        <div class="status">
+            <button onclick="fetchData()" style="padding: 5px 15px; cursor: pointer; border: 1px solid #007bff; background: #007bff; color: white; border-radius: 4px; margin-right: 10px; font-weight: bold;">🔄 데이터 수동 갱신</button>
+            마지막 업데이트: <span id="last-updated" style="font-weight: bold; color: #d32f2f;"></span>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>항목 ID</th>
+                    <th>생성 시각</th>
+                    <th>분류</th>
+                    <th>x</th>
+                    <th>y</th>
+                    <th>w</th>
+                    <th>h</th>
+                    <th>거리/방향</th>
+                    <th>이미지</th>
+                </tr>
+            </thead>
+            <tbody id="data-table">
+                <tr><td colspan="9" style="text-align:center; padding: 20px;">데이터를 불러오는 중...</td></tr>
+            </tbody>
+        </table>
+
+        <script>
+            async function fetchData() {
+                try {
+                    const response = await fetch('/api/v1/reports/?limit=20');
+                    if (!response.ok) throw new Error("API Network error");
+                    const result = await response.json();
+                    
+                    const tbody = document.getElementById('data-table');
+                    tbody.innerHTML = '';
+                    
+                    if (result.data && result.data.length > 0) {
+                        result.data.forEach(item => {
+                            const tr = document.createElement('tr');
+                            
+                            // Parse date
+                            let timeStr = '-';
+                            if (item.created_at) {
+                                const d = new Date(item.created_at);
+                                timeStr = d.toLocaleTimeString('ko-KR', { hour12: false });
+                            }
+                            
+                            tr.innerHTML = `
+                                <td><span class="badge new">${item.item_id || item.id || '-'}</span></td>
+                                <td>${timeStr}</td>
+                                <td style="font-weight: bold;">${item.hazard_type || '-'}</td>
+                                <td>${item.x !== undefined && item.x !== null ? Number(item.x).toFixed(4) : '-'}</td>
+                                <td>${item.y !== undefined && item.y !== null ? Number(item.y).toFixed(4) : '-'}</td>
+                                <td>${item.w !== undefined && item.w !== null ? Number(item.w).toFixed(4) : '-'}</td>
+                                <td>${item.h !== undefined && item.h !== null ? Number(item.h).toFixed(4) : '-'}</td>
+                                <td>${item.distance ? item.distance.toFixed(1) + 'm' : '-'} (${item.direction || '-'})</td>
+                                <td>${item.image_url ? '<a href="'+item.image_url+'" target="_blank"><img src="'+item.image_url+'" alt="image"/></a>' : '<span style="color:#aaa;">No Image</span>'}</td>
+                            `;
+                            tbody.appendChild(tr);
+                        });
+                    } else {
+                        tbody.innerHTML = '<tr><td colspan="9" style="text-align:center; padding: 20px;">현재 접수된 데이터가 없습니다.</td></tr>';
+                    }
+                    
+                    const now = new Date();
+                    document.getElementById('last-updated').innerText = now.toLocaleTimeString('ko-KR') + '.' + now.getMilliseconds().toString().padStart(3, '0');
+                } catch (error) {
+                    console.error("Error fetching data:", error);
+                    document.getElementById('last-updated').innerText = "업데이트 실패 (재시도 중...)";
+                }
+            }
+
+            // Initialize data on page load
+            fetchData();
+        </script>
+    </body>
+    </html>
+    """
+    return HTMLResponse(content=html_content)
 
 @app.middleware("http")
 async def log_requests(request: Request, call_next):
