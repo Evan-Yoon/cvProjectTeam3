@@ -30,6 +30,12 @@ android {
         jniLibs {
             useLegacyPackaging = true
         }
+        resources {
+            excludes += '**/ic_launcher.png'
+            excludes += '**/ic_launcher_round.png'
+            excludes += '**/ic_launcher_background.png'
+            excludes += '**/ic_launcher_foreground.png'
+        }
     }
 
     compileOptions {

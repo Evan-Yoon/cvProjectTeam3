@@ -22,6 +22,7 @@ const App: React.FC = () => {
   const [reports, setReports] = useState<HazardData[]>([]);
   const [isDarkMode, setIsDarkMode] = useState(false);
   const [heatmapFocus, setHeatmapFocus] = useState<[number, number] | null>(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   useEffect(() => {
     if (isDarkMode) document.documentElement.classList.add('dark');
@@ -216,8 +217,14 @@ const App: React.FC = () => {
 
   return (
     <div className={`flex min-h-screen font-sans transition-colors duration-300 ${isDarkMode ? 'dark bg-slate-900 text-slate-100' : 'bg-slate-50 text-slate-900'}`}>
-      <Sidebar activePage={activePage} setPage={setActivePage} />
-      <div className="flex-1 ml-64 flex flex-col min-h-screen">
+      <Sidebar
+        activePage={activePage}
+        setPage={setActivePage}
+        isDarkMode={isDarkMode}
+        isOpen={isSidebarOpen}
+        setIsOpen={setIsSidebarOpen}
+      />
+      <div className={`flex-1 flex flex-col min-h-screen transition-all duration-300 ${isSidebarOpen ? 'ml-64' : 'ml-20'}`}>
         <header className={`h-16 shadow-sm border-b sticky top-0 z-10 flex items-center justify-between px-8 transition-colors duration-300 ${isDarkMode ? 'bg-slate-900 border-slate-800' : 'bg-white border-slate-200'}`}>
           <div className={`flex items-center text-sm ${isDarkMode ? 'text-slate-400' : 'text-slate-500'}`}>
             <span className={`font-semibold ${isDarkMode ? 'text-slate-200' : 'text-slate-700'}`}>HOME</span>
