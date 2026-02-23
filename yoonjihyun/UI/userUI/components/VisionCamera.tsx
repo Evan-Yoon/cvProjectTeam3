@@ -28,6 +28,16 @@ const LABELS_KO: Record<string, string> = {
   "vase": "꽃병", "scissors": "가위", "teddy bear": "곰인형", "hair drier": "헤어드라이어", "toothbrush": "칫솔"
 };
 
+const RISK_LEVELS: Record<string, number> = {
+  "car": 3, "bus": 3, "truck": 3, "motorcycle": 3, "bicycle": 3, "train": 3, "traffic light": 3,
+  "fire hydrant": 3, "stop sign": 3, "parking meter": 3, "bench": 3, "potted plant": 3, "skateboard": 3,
+
+  "person": 2, "dog": 2, "horse": 2, "boat": 2, "umbrella": 2, "backpack": 2, "suitcase": 2,
+  "chair": 2, "couch": 2, "bed": 2, "dining table": 2, "bird": 2, "cat": 2,
+
+  "airplane": 1, "kite": 1, "sports ball": 1, "frisbee": 1, "bottle": 1, "book": 1, "clock": 1
+};
+
 interface VisionCameraProps {
   onSpeak?: (text: string, isObstacle?: boolean) => void;
 }
@@ -271,7 +281,16 @@ const VisionCamera: React.FC<VisionCameraProps> = ({ onSpeak }) => {
               if (onSpeak) {
                 const labelKo = LABELS_KO[primaryBox.className] || primaryBox.className;
                 const distanceText = Math.round(calculatedDistance);
-                onSpeak(`약 ${distanceText}미터 앞에 ${labelKo}이 있습니다.`, true);
+                const currentRiskLevel = RISK_LEVELS[primaryBox.className] || 1; // 매핑 없으면 기본 위험도 1
+
+                if (currentRiskLevel === 3 && calculatedDistance <= 5.0) {
+                  // 위험도 3: 5미터 이내로 감지될 때 즉시 음성 경고
+                  onSpeak(`약 ${distanceText}미터 앞에 ${labelKo}이 있습니다.`, true);
+                } else if (currentRiskLevel === 2 && calculatedDistance <= 3.0) {
+                  // 위험도 2: 3미터 이내로 근접했을 때만 경고
+                  onSpeak(`약 ${distanceText}미터 앞에 ${labelKo}이 있습니다.`, true);
+                }
+                // 위험도 1은 TTS 경고 생략
               }
 
               // ---------------------------------------------------------------------
@@ -310,11 +329,14 @@ const VisionCamera: React.FC<VisionCameraProps> = ({ onSpeak }) => {
 
         // ★ API 명세에 맞게 distance와 direction 데이터를 추가하여 전송합니다.
         // 객체가 없을 때는 기본값(거리: 0, 방향: 'C')이 전송됩니다.
+        const finalRiskLevel = primaryBox ? (RISK_LEVELS[primaryBox.className] || 1) : 1;
+
         await sendHazardReport({
           latitude: position.coords.latitude,
           longitude: position.coords.longitude,
           hazard_type: boxes && boxes.length > 0 ? primaryHazardType : "1/3으로 나눴을때 가운데면서 아래에서부터 절반까지 안에서 객체감지X",
-          risk_level: boxes && boxes.length > 0 ? 3 : 1, // 객체가 감지되면 위험도를 높입니다.
+          risk_level: finalRiskLevel, // 분류된 객체에 따른 동적 위험도 부여
+
           description: `모니터링 ${new Date().toLocaleTimeString()} / ${infoMsg}`,
           imageBase64: finalImageBase64,
           distance: calculatedDistance,   // float 데이터 전송

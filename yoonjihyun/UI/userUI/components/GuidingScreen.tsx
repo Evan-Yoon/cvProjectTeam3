@@ -127,6 +127,9 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
   // 6. ★ 핵심: 나침반(Compass) 센서 로직 (화살표 방향 제어)
   // ----------------------------------------------------------------
   useEffect(() => {
+    let lastSmoothedHeading: number | null = null;
+    const LPF_ALPHA = 0.15; // 낮을수록 부드럽지만 반응 지연, 높을수록 빠르지만 떨림 (0.1 ~ 0.3 추천)
+
     const setupCompass = async () => {
       try {
         // iOS 13 이상을 위한 권한 요청 (안드로이드는 자동 통과됨)
@@ -135,34 +138,61 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
           if (response !== 'granted') return;
         }
 
-        // 센서 데이터 리스너 등록
-        await Motion.addListener('orientation', (data) => {
-          // data.alpha: Z축 기준 회전각 (0~360도)
-          let heading = data.alpha || 0;
+        // 브라우저 네이티브 이벤트 'deviceorientationabsolute'가 가장 정밀함
+        // iOS Safari는 'deviceorientation' 이벤트 내 webkitCompassHeading 프로퍼티 지원
+        // Capacitor Motion은 브라우저 엔진에 의존.
+        window.addEventListener('deviceorientationabsolute', handleOrientation, true);
+        window.addEventListener('deviceorientation', handleOrientation, true);
 
-          // ★ [중요] 안드로이드/iOS 차이 보정
-          // 만약 화살표가 내가 도는 반대 방향으로 돈다면 아래 식을 사용하세요.
-          heading = 360 - heading;
-
-          // 나침반 보정값 적용 (기기별 오차 수정)
-          heading = (heading + COMPASS_OFFSET) % 360;
-          if (heading < 0) heading += 360;
-
-          compassHeading.current = heading;
-
-          // ★ [수정됨] GPS 이동과 상관없이, 화살표는 무조건 나침반을 따릅니다.
-          // 사용자가 제자리에서 고개를 돌리면 화살표도 즉시 돌아갑니다.
-          setVisualHeading(heading);
-
-          // 처음 방향을 잡았을 때 멘트
-          if (!isOrientedRef.current && heading !== null) {
-            isOrientedRef.current = true;
-            setIsOriented(true);
-            // safeSpeak("방향 센서가 활성화되었습니다."); // 너무 말이 많으면 주석 처리
-          }
-        });
       } catch (e) {
         console.error("Compass Error", e);
+      }
+    };
+
+    const handleOrientation = (event: DeviceOrientationEvent) => {
+      let rawHeading = 0;
+      let validData = false;
+
+      // 1. iOS 전용: 기울기를 3차원으로 보정해주는 하드웨어 나침반 (가장 정확함)
+      if (typeof (event as any).webkitCompassHeading !== "undefined") {
+        rawHeading = (event as any).webkitCompassHeading;
+        validData = true;
+      }
+      // 2. Android (Chromium): 절대 방위각 (지구 북극 기준 Z 회전)
+      else if (event.absolute && event.alpha !== null) {
+        // 안드로이드의 alpha 값은 시계 반대방향(CCW)일 때가 많아 360에서 빼줌
+        rawHeading = 360 - event.alpha;
+        validData = true;
+      }
+
+      if (!validData) return;
+
+      // 나침반 보정값 적용 (기기별 오차 수정)
+      let currentHeading = (rawHeading + COMPASS_OFFSET) % 360;
+      if (currentHeading < 0) currentHeading += 360;
+
+      // 3. 저역 통과 필터(LPF) 적용 및 360도 경계선 최단거리 보간 로직
+      if (lastSmoothedHeading === null) {
+        lastSmoothedHeading = currentHeading; // 첫 값은 그대로 적용
+      } else {
+        // 현재 각도와 이전 각도의 차이 구하기 (-180 ~ +180 범위로 정규화)
+        let diff = currentHeading - lastSmoothedHeading;
+        diff = ((diff + 540) % 360) - 180;
+
+        // 부드럽게 새 각도 반영 (기존 각도에 차이값의 일정 비율만 더함)
+        lastSmoothedHeading = lastSmoothedHeading + LPF_ALPHA * diff;
+
+        // 다시 0~360 사이로 보정
+        lastSmoothedHeading = (lastSmoothedHeading + 360) % 360;
+      }
+
+      compassHeading.current = lastSmoothedHeading;
+      setVisualHeading(lastSmoothedHeading);
+
+      // 처음 방향을 잡았을 때 멘트
+      if (!isOrientedRef.current && lastSmoothedHeading !== null) {
+        isOrientedRef.current = true;
+        setIsOriented(true);
       }
     };
 
@@ -170,7 +200,8 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
 
     // 컴포넌트 꺼질 때 센서 끄기
     return () => {
-      Motion.removeAllListeners();
+      window.removeEventListener('deviceorientationabsolute', handleOrientation, true);
+      window.removeEventListener('deviceorientation', handleOrientation, true);
     };
   }, []);
 
