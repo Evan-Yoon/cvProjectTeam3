@@ -234,30 +234,40 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
             }
 
             // ----------------------------------------------------------
-            // 경로 안내 로직 (다음 지점까지 거리 체크)
+            // 경로 안내 로직 (다음 지점까지 거리 체크 및 스킵 처리)
             // ----------------------------------------------------------
             if (routeData && routeData.length > 0 && !isSpeaking.current) {
               const nextIndex = lastGuideIndex.current + 1;
 
               if (nextIndex < routeData.length) {
-                const step = routeData[nextIndex];
-                const distToStep = getDistance(curLat, curLng, step.latitude, step.longitude);
+                // 사용자가 체크포인트를 건너뛰었을(bypass/skip) 가능성을 고려하여,
+                // 현재 위치에서 반경 15m 이내에 들어온 가장 먼(미래의) 체크포인트를 찾습니다.
+                let reachedIndex = -1;
+                for (let i = routeData.length - 1; i >= nextIndex; i--) {
+                  const dist = getDistance(curLat, curLng, routeData[i].latitude, routeData[i].longitude);
+                  if (dist < 15) { // 스킵 판정을 위해 기존 10m에서 15m로 약간 완화
+                    reachedIndex = i;
+                    break;
+                  }
+                }
 
-                // 목표 지점 반경 10m 이내 진입 시 (더 정밀하게 수정)
-                if (distToStep < 10) {
+                // 목표 지점 중 하나에 진입 시
+                if (reachedIndex !== -1) {
                   // 다음 안내 멘트 준비
-                  const nextNextIndex = nextIndex + 1;
+                  const nextNextIndex = reachedIndex + 1;
 
                   if (nextNextIndex < routeData.length) {
                     const nextInstruction = routeData[nextNextIndex].instruction;
+                    // 만약 여러 단계를 건너뛰었다면 "경로를 건너뛰었습니다." 등의 멘트를 추가할 수도 있지만,
+                    // 자연스럽게 이어서 안내합니다.
                     safeSpeak(`이어서, ${nextInstruction}`);
                   } else {
                     safeSpeak("목적지 부근입니다. 안내를 종료합니다.");
                     onEndNavigation();
                   }
 
-                  // 현재 단계 완료 처리
-                  lastGuideIndex.current = nextIndex;
+                  // 현재 단계 완료 처리 (스킵된 단계들 포함하여 업데이트)
+                  lastGuideIndex.current = reachedIndex;
                 }
               }
 
@@ -329,7 +339,7 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
       {/* 2. 하단: 카메라 및 안내 텍스트 (50%) */}
       <div className="h-[50%] w-full relative">
         {/* 카메라 화면 (배경) */}
-        <div className="absolute inset-0 z-0"><VisionCamera /></div>
+        <div className="absolute inset-0 z-0"><VisionCamera onSpeak={safeSpeak} /></div>
 
         {/* 반투명 검은 배경 위 텍스트 */}
         <div className="absolute inset-0 z-10 bg-black/50 flex flex-col items-center justify-center text-white text-center p-4">
