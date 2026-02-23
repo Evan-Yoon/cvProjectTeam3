@@ -11,6 +11,10 @@ class ReportBase(BaseModel):
     image_url: str
     distance: float
     direction: Literal['L', 'C', 'R']
+    x: float
+    y: float
+    w: float
+    h: float
     description: Optional[str] = None # 선택 항목 (없으면 null)
     risk_level: int = 1
 
@@ -31,7 +35,7 @@ class ReportResponse(ReportBase):
 
 # 4. [수정] 관리자가 상태를 변경할 때 사용하는 양식 (Update)
 class ReportUpdate(BaseModel):
-    status: Literal['new', 'processing', 'done']
+    status: Literal['new', 'processing', 'done', 'hidden']
 
 # [추가] 히트맵 전용 초경량 응답 모델 (불필요한 데이터 제거)
 class HeatmapResponse(BaseModel):
