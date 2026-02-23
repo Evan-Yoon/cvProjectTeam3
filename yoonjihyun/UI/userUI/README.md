@@ -1,20 +1,65 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+## 📝 [최종 결과보고서] 프로젝트 'WalkMate' 담당 핵심 내용 요약
 
-# Run and deploy your AI Studio app
+### 02. 프로젝트 팀 구성 및 역할 (Team Roles)
+* **윤지현 (팀장)**: 기획 총괄, 클라이언트 UI/UX 전체 설계 및 구현 (`yoonjihyun/UI` 폴더 내 프론트엔드 전담 개발)
 
-This contains everything you need to run your app locally.
+---
 
-View your app in AI Studio: https://ai.studio/apps/drive/1mJtgC0KyCPMh0GI8V42cSD5QEYYXEV7o
+### 03. 프로젝트 수행 절차 및 방법 (Methodology)
+* **1단계 (사전 기획)**: 시각장애인을 위한 '음성 주도형(Voice-driven)' UI/UX 페르소나 설정 및 화면 흐름 설계.
+* **2단계 (설계 및 기능 구현)**: 
+  * 웹-앱 하이브리드(Capacitor) 기반 Android/iOS 크로스 플랫폼 `userUI`, `adminUI` 프로젝트 구조 세팅.
+  * Tmap 보행자 내비게이션 API 연동을 통한 실시간 경로 가이드 로직 기초 설계.
+* **3단계 (전략적 피벗 및 모듈 통합)**: 
+  * 시각장애인의 보행 특성을 고려하여 Tmap API 결과물과 카메라(**YOLOv26n**) 객체 탐지를 프론트엔드 단(`VisionCamera.tsx`, `GuidingScreen.tsx`)에서 비동기로 병렬 처리하도록 통합.
+  * STT/TTS 기반 대화형 목적지 검색 및 확정 프로세스 구현.
+* **4단계 (테스트 및 사용자 경험 최적화)**: 
+  * 디바이스 온디바이스 추론 시 카메라 프레임 드랍을 막기 위한 React 컴포넌트 라이프사이클 최적화.
+  * 가슴 거치(체스트 하네스) 환경의 치명적인 나침반 센서 떨림 문제를 GPS 센서 퓨전 및 저역 통과 필터(LPF)로 S/W적 보정.
+  * 경로 이탈 감지 시 시계 방향각 보정을 포함한 스마트 TTS 안내 큐(Queue) 시스템 구축.
 
-## Run Locally
+---
 
-**Prerequisites:**  Node.js
+### 💡 활용 프론트엔드 라이브러리 및 기술 스택
+* **코어 프레임워크**: React, Vite, TypeScript, Tailwind CSS
+* **크로스 플랫폼 앱 래퍼**: `@capacitor/core`, `@capacitor/cli`
+* **음성 처리 (STT/TTS)**: `@capacitor-community/text-to-speech`, `@capacitor-community/speech-recognition` (OS 네이티브 음성 엔진 활용)
+* **디바이스 센서 제어**: `@capacitor/geolocation` (GPS 위치), `@capacitor/motion` (나침반/자이로스코프)
+* **지도 렌더링 (Map)**: `react-leaflet`, `leaflet` (디버그 지도 및 관제 대시보드 시각화)
+* **온디바이스 AI 비전**: `react-webcam`, 커스텀 NPU/TFLite 브릿지, **YOLOv26n (Float32 TFLite)**
+* **데이터 포맷 및 통신**: `@capacitor/core (CapacitorHttp)`, `uuid`
+* **데이터 시각화 (Admin)**: `recharts` (통계 차트), `lucide-react` (아이콘 UI 컴포넌트)
+* **백엔드 연동 (Admin)**: `@supabase/supabase-js`
 
+---
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+### 🛠️ 구현된 상세 기능 목록 (Feature List)
+
+#### 📱 User UI (시각장애인용 모바일 앱)
+1. **음성 주도 목적지 검색 (STT/TTS)**: 화면 터치 없이 "~~(으)로 안내해줘" 발화 시 Tmap API로 목적지를 검색하고 음성으로 확인하는 절차 구현 (`ListeningScreen`, `ConfirmationScreen`).
+2. **실시간 턴바이턴(Turn-by-turn) 음성 네비게이션**: Tmap 보행자 경로 데이터 파싱 후, 사용자 위치에 맞춰 다음 꺾이는 지점을 음성으로 연속 안내.
+3. **스마트 경로 이탈 감지 및 정정**: 사용자가 정상 경로에서 역방향 등 10m 이상 멀어질 경우, "N시 방향으로 돌아주세요" 형태의 시계 방향 상대각으로 구체적 이탈 복구 안내.
+4. **온디바이스 YOLOv26n 객체 탐지**: 서버 연결 없이 스마트폰 내부(NPU/CPU)에서 실시간으로 전방의 장애물을 탐지하여 COCO 라벨을 한국어로 번역 매핑 (`VisionCamera`).
+5. **동적 위험도(Risk Level) 산정 로직**: 사물의 종류(자전거=High(3), 의자=Medium(2))에 따라 위험도를 3단계로 차등 부여하고 관리자 서버(Supabase)로 패킷 전송.
+6. **거리 기반 조건부 경고 TTS**: 가상의 핀홀 카메라 원리를 적용해 거리(m)를 추산하고, 위험도 3(High) 객체는 5m 이내 즉시 알림, 위험도 2(Medium) 객체는 3m 이내 근접 시에만 스피커를 울려 오경보 방지.
+7. **우선순위 기반 TTS Queue 시스템**: Tmap 길 안내 음성 도중 전방에 위험물이 나타나면 안내를 잠시 스토리지 큐에 쌓아두고 장애물 경고를 1순위로 선제 출력.
+8. **센서 퓨전 나침반 (Sensor Fusion)**: 체스트 하네스 거치 시의 흔들림을 개선하기 위해, 정지 시엔 나침반(LPF 적용)+기울기 보정 로직을, 걷기 시작하면 GPS 궤적(Bearing)을 결합하여 시각장애인의 진행 방향(Heading)을 정밀하게 보정 (`GuidingScreen`).
+9. **시작/종료 및 에러 제어**: 화면 3번 터치 또는 "종료" 음성 명령으로 시스템 수동 종료 처리, 경로 로딩 중 백그라운드 재시도 자동화.
+
+#### 💻 Admin UI (지자체/관리자용 웹 대시보드)
+1. **실시간 도로 위험 관제 대시보드 (Dashboard)**: 수집된 전체 위험 리포트 현황을 Recharts 라이브러리를 통해 '일자별 건수(라인 차트)', '위험물 종류별 분포(바 차트)' 등으로 시각화하여 한눈에 파악.
+2. **반응형 다크모드 슬라이드 사이드바 (Sidebar)**: WalkMate 로고 컬러 스키마에 맞춘 접이식 사이드 네비게이션과 시스템 전체의 라이트/다크 테마 토글 버튼 연동.
+3. **위험물 데이터베이스 테이블 (Database View)**: Supabase 통신을 통해 수집된 모든 위험 구역 이력을 시간, 위도/경도, 이미지, 처리 상태별로 정렬 및 페이징하여 테이블 형태로 조회.
+4. **리포트 실무 액션 처리 로직**: 테이블 내의 특정 리포트를 클릭하여 처리 상태(New -> Processing -> Done)를 변경하고 저장할 수 있는 상태 관리 기능.
+5. **전체 화면 사고 발생 팝업 (Image Popup)**: 현장 파악을 위해 썸네일을 클릭하면 이벤트 버블링(stopPropagation 처리)이 제거된 안전한 Full-Screen 이미지 뷰어 제공 (`HazardModal`).
+6. **장애물 발생 밀도 히트맵 (Heatmap View)**: `react-leaflet`을 활용하여 위험도가 높은 지역을 지도 위에 클러스터/히트맵 형태로 시각화해, 지자체가 보수 자원을 어떻게 분배할지 직관적으로 제공.
+
+---
+
+### 05. 자체 평가 의견 (Self-Evaluation)
+* **성과**: 복잡한 비전 모델(YOLO)과 내비게이션(Tmap) 기술이 결합하는 상황에서도, 최종 사용자(보행 약자)가 전혀 기술적 어려움을 느끼지 않도록 극도로 직관적인 음성 UI를 성공적으로 구축하였습니다.
+* **잘한 점**: 
+  * React와 Capacitor를 결합하여 웹 개발 지식만으로 네이티브 앱 수준의 깊은 센서 제어와 음성 융합을 이뤄냈습니다.
+  * 단순히 경로를 알려주는 것에 그치지 않고, "3시 방향으로 돌아주세요", "3미터 앞 자전거가 있습니다" 와 같이 타겟 유저에게 실질적으로 와닿는 구체적이고 배려 깊은 안내 로직을 설계한 점입니다.
+* **아쉬운 점 및 개선 방향**:
+  * 실외 환경에서 바람 소리나 차량 소음이 섞일 때 내장 STT 모듈의 오인식 한계가 있습니다. 향후 노이즈 캔슬링 소프트웨어 필터나, 사용자의 발화가 끝났음을 정확히 인지하는 VAD(Voice Activity Detection) 로직 고도화가 필요해 보입니다.
