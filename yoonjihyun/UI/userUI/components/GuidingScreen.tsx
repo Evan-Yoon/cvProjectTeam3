@@ -45,9 +45,12 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
   const isSpeaking = useRef<boolean>(false); // 지금 말하고 있는지 (중복 방지)
 
   const prevPosition = useRef<{ lat: number; lng: number } | null>(null); // 직전 위치 (이동거리 계산용)
-  const currentHeading = useRef<number | null>(null); // GPS로 계산한 이동 방향
   const compassHeading = useRef<number | null>(null); // 나침반 센서값 저장용
   const isOrientedRef = useRef(false); // useState의 비동기 문제 해결용 Ref
+
+  // 센서 퓨전(Sensor Fusion) 보정용
+  const targetGpsHeading = useRef<number | null>(null); // 명확한 GPS 이동 궤적 방향
+  const gpsActiveTime = useRef<number>(0); // GPS 궤적이 유효하게 측정된 마지막 시간
 
   // ----------------------------------------------------------------
   // 4. 유틸리티 함수들 (거리 계산, 각도 계산)
@@ -167,11 +170,23 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
 
       if (!validData) return;
 
-      // 나침반 보정값 적용 (기기별 오차 수정)
+      // 나침반 기본 보정값 적용
       let currentHeading = (rawHeading + COMPASS_OFFSET) % 360;
       if (currentHeading < 0) currentHeading += 360;
 
-      // 3. 저역 통과 필터(LPF) 적용 및 360도 경계선 최단거리 보간 로직
+      // ★ [핵심] 3. 센서 퓨전 (Sensor Fusion) - GPS 기반 가속도 보정
+      // 체스트 하네스는 들썩거림이 심해 자이로만으로 방향이 심하게 틀어집니다.
+      // 따라서 사용자가 걷고 있을 때(최근 4초 이내 1.5m 이상 이동)는, 이동하는 방향(GPS 궤적)을 시선 방향으로 크게 신뢰합니다.
+      const now = Date.now();
+      if (targetGpsHeading.current !== null && (now - gpsActiveTime.current) < 4000) {
+        let diffGps = targetGpsHeading.current - currentHeading;
+        diffGps = ((diffGps + 540) % 360) - 180;
+        // GPS 궤적으로 90% 확 끌고 옵니다. (자석 왜곡 무시)
+        currentHeading = currentHeading + (diffGps * 0.9);
+        currentHeading = (currentHeading + 360) % 360;
+      }
+
+      // 4. 저역 통과 필터(LPF) 적용 및 360도 경계선 최단거리 보간 로직
       if (lastSmoothedHeading === null) {
         lastSmoothedHeading = currentHeading; // 첫 값은 그대로 적용
       } else {
@@ -180,7 +195,9 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
         diff = ((diff + 540) % 360) - 180;
 
         // 부드럽게 새 각도 반영 (기존 각도에 차이값의 일정 비율만 더함)
-        lastSmoothedHeading = lastSmoothedHeading + LPF_ALPHA * diff;
+        // 걷고 있을 땐 더 빠르게(0.35) 반응하고, 서 있을 땐 더 부드럽게(0.15) 처리
+        const dynamicAlpha = (now - gpsActiveTime.current) < 4000 ? 0.35 : 0.15;
+        lastSmoothedHeading = lastSmoothedHeading + dynamicAlpha * diff;
 
         // 다시 0~360 사이로 보정
         lastSmoothedHeading = (lastSmoothedHeading + 360) % 360;
@@ -273,17 +290,18 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
             // 지도에 내 위치(점) 업데이트
             setVisualPos({ lat: curLat, lng: curLng });
 
-            // 이동 거리 계산 (2m 이상 움직였는지 체크)
+            // 이동 거리 계산 (1.5m 이상 움직였는지 체크)
             if (prevPosition.current) {
               const movedDist = getDistance(prevPosition.current.lat, prevPosition.current.lng, curLat, curLng);
 
-              if (movedDist >= 2) {
-                // 실제 이동 방향(GPS Course) 계산 -> 경로 이탈 로직에만 사용
+              if (movedDist >= 1.5) {
+                // 실제 이동 궤적(GPS Course) 방위각 계산
                 const gpsHeading = getBearing(prevPosition.current.lat, prevPosition.current.lng, curLat, curLng);
-                currentHeading.current = gpsHeading;
 
-                // ★ [수정됨] 여기서 setVisualHeading(gpsHeading)을 하지 않습니다!
-                // 화살표는 오직 나침반(Compass)만 믿습니다.
+                // 센서 퓨전을 위해 GPS 이동 방향과 현재 시간을 저장합니다.
+                // 가슴(체스트 하네스)에 부착된 경우 걸어가는 이동 궤적이 무조건 사용자의 시선 방향이 됩니다.
+                targetGpsHeading.current = gpsHeading;
+                gpsActiveTime.current = Date.now();
 
                 prevPosition.current = { lat: curLat, lng: curLng };
               }
@@ -334,9 +352,9 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
                 ? getDistance(curLat, curLng, routeData[nextIndex].latitude, routeData[nextIndex].longitude).toFixed(1)
                 : "0";
 
-              setDebugMsg(`지점: ${lastGuideIndex.current + 1}/${routeData.length} | 다음: ${distToNext}m | 나침반: ${compassHeading.current?.toFixed(0) || 0}°`);
+              setDebugMsg(`지점: ${lastGuideIndex.current + 1}/${routeData.length} | 다음: ${distToNext}m | GPS: ${targetGpsHeading.current?.toFixed(0) || '대기'}`);
             } else {
-              setDebugMsg(`경로 완료 | 나침반: ${compassHeading.current?.toFixed(0) || 0}°`);
+              setDebugMsg(`경로 완료 | GPS: ${targetGpsHeading.current?.toFixed(0) || '대기'}`);
             }
           }
         );

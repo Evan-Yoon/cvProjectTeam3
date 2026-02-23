@@ -285,10 +285,10 @@ const VisionCamera: React.FC<VisionCameraProps> = ({ onSpeak }) => {
 
                 if (currentRiskLevel === 3 && calculatedDistance <= 5.0) {
                   // 위험도 3: 5미터 이내로 감지될 때 즉시 음성 경고
-                  onSpeak(`약 ${distanceText}미터 앞에 ${labelKo}이 있습니다.`, true);
+                  onSpeak(`약 ${distanceText}미터 앞에 ${labelKo} 확인됨.`, true);
                 } else if (currentRiskLevel === 2 && calculatedDistance <= 3.0) {
                   // 위험도 2: 3미터 이내로 근접했을 때만 경고
-                  onSpeak(`약 ${distanceText}미터 앞에 ${labelKo}이 있습니다.`, true);
+                  onSpeak(`약 ${distanceText}미터 앞에 ${labelKo} 확인됨.`, true);
                 }
                 // 위험도 1은 TTS 경고 생략
               }
