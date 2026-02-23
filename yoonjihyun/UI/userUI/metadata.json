@@ -2,6 +2,7 @@
   "name": "WalkMate",
   "description": "A voice-activated pedestrian navigation assistant with high-contrast accessibility features.",
   "requestFramePermissions": [
-    "microphone"
+    "microphone",
+    "camera"
   ]
 }
