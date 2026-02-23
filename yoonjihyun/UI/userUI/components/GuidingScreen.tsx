@@ -52,6 +52,10 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
   const targetGpsHeading = useRef<number | null>(null); // 명확한 GPS 이동 궤적 방향
   const gpsActiveTime = useRef<number>(0); // GPS 궤적이 유효하게 측정된 마지막 시간
 
+  // 경로 이탈 감지용 (Off-Route Detection)
+  const minDistanceToNext = useRef<number>(Infinity); // 다음 지점까지 좁혔던 최단 거리
+  const lastWarningTime = useRef<number>(0); // 마지막으로 경로 이탈 경고를 준 시간 (쿨타임 방지용)
+
   // ----------------------------------------------------------------
   // 4. 유틸리티 함수들 (거리 계산, 각도 계산)
   // ----------------------------------------------------------------
@@ -344,7 +348,47 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
 
                   // 현재 단계 완료 처리 (스킵된 단계들 포함하여 업데이트)
                   lastGuideIndex.current = reachedIndex;
+
+                  // 다음 체크포인트를 넘어갔으므로 이탈 감지 기록 초기화
+                  minDistanceToNext.current = Infinity;
+                  lastWarningTime.current = 0;
                 }
+
+                // --------- ★ [추가됨] 경로 이탈(역주행 등) 감지 로직 ---------
+                // 가장 가까운 다음 체크포인트(목표 지점) 좌표 및 현재 거리
+                const targetLat = routeData[nextIndex].latitude;
+                const targetLng = routeData[nextIndex].longitude;
+                const distToCurrentTarget = getDistance(curLat, curLng, targetLat, targetLng);
+
+                // 역대 최단 기록보다 현재 거리가 10m 이상 멀어졌다면 경로 이탈로 간주
+                if (distToCurrentTarget > minDistanceToNext.current + 10) {
+                  const now = Date.now();
+                  // 15초의 쿨타임을 두고 안내 (안내 스팸 방지)
+                  if (now - lastWarningTime.current > 15000) {
+                    // 시각장애인을 위한 구체적인 방향 지시 로직 (시계 방향각)
+                    const bearingToTarget = getBearing(curLat, curLng, targetLat, targetLng);
+                    const userHeading = compassHeading.current !== null ? compassHeading.current : 0;
+
+                    // 나와 목표의 각도 차이를 상대 각도로 계산 (-180 ~ 180 혹은 0 ~ 360)
+                    let diffAngle = bearingToTarget - userHeading;
+
+                    // 360도 체계 안에서 몇 시 방향인지 계산 (30도를 1시간 단위로 취급)
+                    let clockFace = Math.round(((diffAngle % 360) + 360) % 360 / 30);
+                    if (clockFace === 0) clockFace = 12; // 0시는 12시로 치환
+
+                    safeSpeak(`경로를 벗어났습니다. ${clockFace}시 방향으로 돌아주세요.`);
+                    lastWarningTime.current = now;
+                    // 최단 거리를 현재의 멀어진 거리로 리셋하여, 이 위치를 기준으로 다시 판단하도록 함
+                    minDistanceToNext.current = distToCurrentTarget;
+                  }
+                } else {
+                  // 거리가 좁혀지고 있다면 (제대로 가고 있다면) 최단 거리 기록 갱신
+                  if (distToCurrentTarget < minDistanceToNext.current) {
+                    minDistanceToNext.current = distToCurrentTarget;
+                  }
+                }
+                // -------------------------------------------------------------
+
               }
 
               // 화면 하단 디버그 메시지 업데이트 (남은 거리 표시 추가)
