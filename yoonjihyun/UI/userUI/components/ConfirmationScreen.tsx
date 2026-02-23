@@ -78,8 +78,8 @@ const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({ destination, on
                 {/* 텍스트 내용 */}
                 <div className="text-center space-y-6">
                     {/* 인식된 목적지 텍스트 (가장 크게 강조) */}
-                    <h1 className="text-6xl font-black text-primary tracking-tight leading-tight drop-shadow-2xl">
-                        {destination}
+                    <h1 className="text-6xl font-black text-primary tracking-tight leading-tight drop-shadow-2xl whitespace-pre-wrap">
+                        {destination.replace(/([\[\(])/g, '\n$1')}
                     </h1>
                     {/* 확인 질문 */}
                     <p className="text-3xl font-bold text-white tracking-tight">

@@ -29,7 +29,7 @@ const LABELS_KO: Record<string, string> = {
 };
 
 interface VisionCameraProps {
-  onSpeak?: (text: string) => void;
+  onSpeak?: (text: string, isObstacle?: boolean) => void;
 }
 
 const VisionCamera: React.FC<VisionCameraProps> = ({ onSpeak }) => {
@@ -271,7 +271,7 @@ const VisionCamera: React.FC<VisionCameraProps> = ({ onSpeak }) => {
               if (onSpeak) {
                 const labelKo = LABELS_KO[primaryBox.className] || primaryBox.className;
                 const distanceText = Math.round(calculatedDistance);
-                onSpeak(`약 ${distanceText}미터 앞에 ${labelKo}이 있습니다.`);
+                onSpeak(`약 ${distanceText}미터 앞에 ${labelKo}이 있습니다.`, true);
               }
 
               // ---------------------------------------------------------------------

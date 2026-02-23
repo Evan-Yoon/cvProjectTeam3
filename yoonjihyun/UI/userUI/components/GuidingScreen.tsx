@@ -53,14 +53,41 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
   // 4. 유틸리티 함수들 (거리 계산, 각도 계산)
   // ----------------------------------------------------------------
 
-  // 안전하게 말하기 (말하는 중이면 무시)
-  const safeSpeak = async (text: string) => {
-    if (!text || isSpeaking.current) return;
+  interface TtsMessage {
+    text: string;
+    isObstacle: boolean;
+  }
+  const ttsQueue = useRef<TtsMessage[]>([]);
+
+  // TTS 큐 처리: 쌓인 안내를 차례대로 말하되 장애물이면 우선 재생
+  const processTtsQueue = async () => {
+    if (isSpeaking.current || ttsQueue.current.length === 0) return;
     isSpeaking.current = true;
-    await speak(text);
-    // 문장이 길면 더 오래 대기 (짧으면 1.5초, 길면 2.5초)
-    const waitTime = text.length < 10 ? 1500 : 2500;
-    setTimeout(() => { isSpeaking.current = false; }, waitTime);
+
+    // 우선순위에 따라 다음 메시지 찾기 (장애물이 가장 먼저)
+    const obstacleIndex = ttsQueue.current.findIndex(m => m.isObstacle);
+    const indexToPlay = obstacleIndex !== -1 ? obstacleIndex : 0;
+    const msg = ttsQueue.current.splice(indexToPlay, 1)[0];
+
+    await speak(msg.text);
+
+    // 문장 길이에 비례하여 충분한 대기 시간 설정 (기본 최소 1.5초 ~)
+    const waitTime = Math.max(1500, msg.text.length * 150);
+    setTimeout(() => {
+      isSpeaking.current = false;
+      processTtsQueue(); // 다음 대기열 재생
+    }, waitTime);
+  };
+
+  // 모든 멘트를 큐에 넣기 (기존처럼 말하는 중이라고 무시하지 않음)
+  const safeSpeak = (text: string, isObstacle: boolean = false) => {
+    if (!text) return;
+
+    // 똑같은 멘트가 큐에 중복으로 수십 개 쌓이는 것만 방지
+    if (ttsQueue.current.some(m => m.text === text && m.isObstacle === isObstacle)) return;
+
+    ttsQueue.current.push({ text, isObstacle });
+    processTtsQueue();
   };
 
   // 두 좌표 사이의 거리 계산 (Haversine 공식 - 지구 곡면 반영)

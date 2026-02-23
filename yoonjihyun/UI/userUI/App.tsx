@@ -140,7 +140,7 @@ const App: React.FC = () => {
     if (!destination || !myLocation) return;
 
     try {
-      await speak(`${getJosa(destination.name, '으로/로')} 안내합니다.`);
+      await speak(`${destination.name}으로 안내합니다.`);
 
       // (2) 백엔드 경로 요청
       // backend.ts가 { steps, path } 형태로 리턴하도록 수정되어 있어야 함
