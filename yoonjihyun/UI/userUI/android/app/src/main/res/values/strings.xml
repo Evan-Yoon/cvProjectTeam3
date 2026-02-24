@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">walkmate</string>
+    <string name="title_activity_main">walkmate</string>
+    <string name="package_name">com.team3.walkmate</string>
+    <string name="custom_url_scheme">com.team3.walkmate</string>
+</resources>
