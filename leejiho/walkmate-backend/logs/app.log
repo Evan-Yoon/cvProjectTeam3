@@ -1,0 +1,24 @@
+2026-02-23 10:05:41,100 - INFO - ➡️ [요청 시작] GET /mirror | Device: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36
+2026-02-23 10:05:41,104 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 3.36ms
+2026-02-23 10:05:41,209 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36
+2026-02-23 10:05:42,896 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1687.48ms
+2026-02-23 10:06:02,123 - INFO - ➡️ [요청 시작] GET /logs | Device: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36
+2026-02-23 10:06:02,125 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1.88ms
+2026-02-23 10:19:24,404 - INFO - ➡️ [요청 시작] POST /api/v1/navigation/path/ | Device: WalkMate-App
+2026-02-23 10:19:24,584 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 180.38ms
+2026-02-23 10:19:33,539 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-23 10:19:35,199 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1660.52ms
+2026-02-23 10:19:46,885 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-23 10:19:47,295 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 409.15ms
+2026-02-23 10:19:55,346 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-23 10:19:55,779 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 432.89ms
+2026-02-23 10:20:03,745 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-23 10:20:04,219 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 474.02ms
+2026-02-23 10:20:12,064 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-23 10:20:12,459 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 395.14ms
+2026-02-23 10:25:31,680 - INFO - ➡️ [요청 시작] GET /docs | Device: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36
+2026-02-23 10:25:31,683 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 4.07ms
+2026-02-23 10:25:31,848 - INFO - ➡️ [요청 시작] GET /openapi.json | Device: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36
+2026-02-23 10:25:31,879 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 30.93ms
+2026-02-23 10:51:10,216 - INFO - ➡️ [요청 시작] POST /api/v1/navigation/path/ | Device: WalkMate-App
+2026-02-23 10:51:10,381 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 165.95ms

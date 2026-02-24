@@ -1,0 +1,368 @@
+2026-02-21 08:13:44,716 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36
+2026-02-21 08:13:46,388 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1671.79ms
+2026-02-21 08:13:46,567 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36
+2026-02-21 08:13:46,715 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 147.88ms
+2026-02-21 11:33:51,904 - INFO - ➡️ [요청 시작] GET /mirror | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-21 11:33:51,912 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 7.64ms
+2026-02-21 11:33:52,042 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-21 11:33:53,750 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1707.48ms
+2026-02-21 11:41:02,698 - INFO - ➡️ [요청 시작] POST /api/v1/navigation/path/ | Device: WalkMate-App
+2026-02-21 11:41:02,855 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 157.21ms
+2026-02-21 11:41:11,344 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 11:41:12,325 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 980.14ms
+2026-02-21 11:41:19,638 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 11:41:19,944 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 305.90ms
+2026-02-21 11:41:31,986 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-21 11:41:32,399 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 413.33ms
+2026-02-21 11:46:59,542 - INFO - ➡️ [요청 시작] POST /api/v1/navigation/path/ | Device: WalkMate-App
+2026-02-21 11:46:59,689 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 147.90ms
+2026-02-21 11:47:10,320 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-21 11:47:10,362 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 11:47:11,242 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 880.58ms
+2026-02-21 11:47:11,246 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 925.84ms
+2026-02-21 11:47:11,336 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-21 11:47:11,489 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 153.41ms
+2026-02-21 11:47:11,572 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-21 11:47:11,731 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 159.53ms
+2026-02-21 11:47:18,964 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 11:47:19,442 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 478.50ms
+2026-02-21 11:47:36,328 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-21 11:47:36,509 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 180.44ms
+2026-02-21 11:55:58,244 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 11:55:59,266 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1021.92ms
+2026-02-21 11:56:06,511 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 11:56:06,875 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 363.53ms
+2026-02-21 11:56:14,885 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 11:56:15,199 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 313.40ms
+2026-02-21 11:56:16,838 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-21 11:56:17,081 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 243.92ms
+2026-02-21 11:56:23,592 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 11:56:23,975 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 383.24ms
+2026-02-21 11:56:41,355 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 11:56:41,663 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 308.06ms
+2026-02-21 11:57:38,967 - INFO - ➡️ [요청 시작] POST /api/v1/navigation/path/ | Device: WalkMate-App
+2026-02-21 11:57:39,150 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 183.29ms
+2026-02-21 11:57:45,198 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-21 11:57:45,428 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 230.25ms
+2026-02-21 11:57:47,119 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-21 11:57:47,302 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 183.68ms
+2026-02-21 11:57:48,382 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-21 11:57:48,521 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 138.31ms
+2026-02-21 11:57:50,211 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 11:57:50,487 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 275.97ms
+2026-02-21 11:57:50,487 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-21 11:57:50,617 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 129.58ms
+2026-02-21 11:57:51,045 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-21 11:57:51,177 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 132.60ms
+2026-02-21 11:57:58,505 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 11:57:58,788 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 283.81ms
+2026-02-21 11:58:07,004 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 11:58:07,315 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 310.96ms
+2026-02-21 11:58:14,703 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-21 11:58:14,849 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 146.69ms
+2026-02-21 11:58:15,400 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 11:58:15,672 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 272.47ms
+2026-02-21 11:58:20,066 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-21 11:58:20,186 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 120.65ms
+2026-02-21 11:58:20,575 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-21 11:58:20,693 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 118.62ms
+2026-02-21 11:58:22,175 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-21 11:58:22,307 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 132.09ms
+2026-02-21 11:58:23,621 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-21 11:58:23,665 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 11:58:23,736 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 115.01ms
+2026-02-21 11:58:24,045 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 380.54ms
+2026-02-21 11:58:24,268 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-21 11:58:24,385 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 117.23ms
+2026-02-21 11:58:27,909 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-21 11:58:28,074 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 164.83ms
+2026-02-21 11:58:29,078 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-21 11:58:29,201 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 122.23ms
+2026-02-21 11:58:32,109 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-21 11:58:32,192 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 11:58:32,450 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 257.23ms
+2026-02-21 11:58:32,450 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 340.92ms
+2026-02-21 11:58:40,606 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 11:58:40,890 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 283.78ms
+2026-02-21 11:58:42,361 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-21 11:58:42,474 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 113.36ms
+2026-02-21 11:58:49,053 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 11:58:49,339 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 286.27ms
+2026-02-21 11:58:57,427 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 11:58:57,714 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 287.49ms
+2026-02-21 11:59:10,606 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-21 11:59:10,738 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 132.65ms
+2026-02-21 12:19:50,229 - INFO - ➡️ [요청 시작] POST /api/v1/navigation/path/ | Device: WalkMate-App
+2026-02-21 12:19:50,394 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 164.36ms
+2026-02-21 12:20:01,288 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:20:02,680 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1392.16ms
+2026-02-21 12:20:09,685 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:20:10,118 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 432.74ms
+2026-02-21 12:20:18,082 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:20:18,393 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 311.24ms
+2026-02-21 12:20:26,415 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:20:26,713 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 298.93ms
+2026-02-21 12:20:34,821 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:20:35,266 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 445.81ms
+2026-02-21 12:20:43,310 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:20:43,598 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 287.65ms
+2026-02-21 12:20:51,670 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:20:52,019 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 348.58ms
+2026-02-21 12:21:00,124 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:21:00,460 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 336.45ms
+2026-02-21 12:21:18,866 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-21 12:21:19,229 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 362.87ms
+2026-02-21 12:22:12,300 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:22:13,035 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 734.55ms
+2026-02-21 12:22:22,744 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:22:23,065 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 320.91ms
+2026-02-21 12:22:58,913 - INFO - ➡️ [요청 시작] POST /api/v1/navigation/path/ | Device: WalkMate-App
+2026-02-21 12:22:59,060 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 146.26ms
+2026-02-21 12:23:09,529 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:23:10,204 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 674.80ms
+2026-02-21 12:23:18,002 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:23:18,333 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 330.38ms
+2026-02-21 12:23:26,375 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:23:26,838 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 463.66ms
+2026-02-21 12:23:34,797 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:23:35,126 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 329.02ms
+2026-02-21 12:23:43,105 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:23:43,417 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 312.64ms
+2026-02-21 12:23:51,551 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:23:51,855 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 303.52ms
+2026-02-21 12:23:59,939 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:24:00,264 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 324.63ms
+2026-02-21 12:24:22,926 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:24:23,265 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 339.54ms
+2026-02-21 12:24:37,525 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-21 12:24:37,707 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 182.10ms
+2026-02-21 12:25:34,871 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:25:35,322 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 450.63ms
+2026-02-21 12:26:32,318 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:26:33,089 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 770.67ms
+2026-02-21 12:27:10,613 - INFO - ➡️ [요청 시작] POST /api/v1/navigation/path/ | Device: WalkMate-App
+2026-02-21 12:27:10,773 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 160.66ms
+2026-02-21 12:27:21,411 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:27:21,765 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 353.87ms
+2026-02-21 12:27:29,730 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:27:30,127 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 397.62ms
+2026-02-21 12:27:38,177 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:27:38,502 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 324.70ms
+2026-02-21 12:27:46,705 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:27:46,974 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 268.62ms
+2026-02-21 12:27:55,055 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:27:55,413 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 358.10ms
+2026-02-21 12:28:03,704 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:28:03,988 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 283.19ms
+2026-02-21 12:28:12,100 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:28:12,388 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 287.29ms
+2026-02-21 12:28:20,531 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:28:20,811 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 279.66ms
+2026-02-21 12:28:29,098 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:28:29,393 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 295.46ms
+2026-02-21 12:28:37,700 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:28:37,971 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 271.50ms
+2026-02-21 12:29:02,132 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-21 12:29:02,283 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 150.88ms
+2026-02-21 12:34:03,907 - INFO - ➡️ [요청 시작] POST /api/v1/navigation/path/ | Device: WalkMate-App
+2026-02-21 12:34:04,078 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 170.90ms
+2026-02-21 12:34:14,952 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:34:15,993 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1040.97ms
+2026-02-21 12:34:23,436 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:34:23,736 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 299.47ms
+2026-02-21 12:34:31,746 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:34:32,039 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 293.89ms
+2026-02-21 12:34:40,208 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:34:40,469 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 260.97ms
+2026-02-21 12:34:48,703 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:34:49,005 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 301.97ms
+2026-02-21 12:34:57,032 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:34:57,316 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 283.51ms
+2026-02-21 12:35:05,509 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:35:05,815 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 306.24ms
+2026-02-21 12:35:13,915 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:35:14,219 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 303.77ms
+2026-02-21 12:35:22,391 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:35:22,716 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 325.00ms
+2026-02-21 12:35:30,771 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:35:31,084 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 312.57ms
+2026-02-21 12:35:39,287 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:35:39,569 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 282.36ms
+2026-02-21 12:35:54,752 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-21 12:35:54,918 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 165.99ms
+2026-02-21 12:50:41,815 - INFO - ➡️ [요청 시작] POST /api/v1/navigation/path/ | Device: WalkMate-App
+2026-02-21 12:50:42,002 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 186.91ms
+2026-02-21 12:50:52,199 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:50:53,285 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1085.53ms
+2026-02-21 12:51:00,697 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:51:01,019 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 322.05ms
+2026-02-21 12:51:14,005 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:51:14,497 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 491.66ms
+2026-02-21 12:51:22,327 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:51:22,652 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 325.62ms
+2026-02-21 12:51:30,910 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:51:31,479 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 569.17ms
+2026-02-21 12:51:39,202 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:51:39,530 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 328.54ms
+2026-02-21 12:51:47,591 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:51:47,924 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 333.86ms
+2026-02-21 12:51:55,996 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:51:56,690 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 694.05ms
+2026-02-21 12:52:04,460 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:52:04,828 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 367.92ms
+2026-02-21 12:52:12,920 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:52:13,247 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 326.74ms
+2026-02-21 12:52:21,392 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:52:21,724 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 331.94ms
+2026-02-21 12:52:29,951 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:52:30,318 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 366.85ms
+2026-02-21 12:52:38,254 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:52:38,633 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 379.11ms
+2026-02-21 12:52:46,787 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:52:47,115 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 327.59ms
+2026-02-21 12:52:55,138 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:52:55,535 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 397.17ms
+2026-02-21 12:53:03,581 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:53:03,915 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 334.17ms
+2026-02-21 12:53:11,947 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:53:12,257 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 309.38ms
+2026-02-21 12:53:20,421 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:53:20,712 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 291.38ms
+2026-02-21 12:53:28,977 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:53:29,265 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 288.81ms
+2026-02-21 12:53:37,486 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:53:37,808 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 322.07ms
+2026-02-21 12:53:46,016 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:53:46,318 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 302.27ms
+2026-02-21 12:53:54,273 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:53:54,583 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 310.89ms
+2026-02-21 12:58:55,492 - INFO - ➡️ [요청 시작] POST /api/v1/navigation/path/ | Device: WalkMate-App
+2026-02-21 12:58:55,661 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 168.84ms
+2026-02-21 12:59:05,878 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:59:06,658 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 780.39ms
+2026-02-21 12:59:14,185 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:59:14,507 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 322.32ms
+2026-02-21 12:59:22,570 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:59:22,861 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 291.36ms
+2026-02-21 12:59:30,952 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:59:31,271 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 318.98ms
+2026-02-21 12:59:39,468 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:59:39,744 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 276.37ms
+2026-02-21 12:59:47,923 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:59:48,234 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 310.25ms
+2026-02-21 12:59:56,361 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 12:59:56,635 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 273.27ms
+2026-02-21 13:00:04,595 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 13:00:04,926 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 330.53ms
+2026-02-21 13:00:13,261 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 13:00:13,545 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 283.82ms
+2026-02-21 13:00:21,589 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 13:00:21,859 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 269.64ms
+2026-02-21 13:00:30,052 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 13:00:30,336 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 284.37ms
+2026-02-21 13:00:38,552 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 13:00:38,823 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 271.36ms
+2026-02-21 13:00:46,948 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 13:00:47,235 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 287.02ms
+2026-02-21 13:01:00,609 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 13:01:00,869 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 260.11ms
+2026-02-21 13:01:09,005 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 13:01:09,276 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 271.29ms
+2026-02-21 13:01:19,572 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-21 13:01:19,767 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 195.49ms
+2026-02-21 13:10:24,556 - INFO - ➡️ [요청 시작] POST /api/v1/navigation/path/ | Device: WalkMate-App
+2026-02-21 13:10:24,723 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 166.82ms
+2026-02-21 13:10:35,389 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 13:10:36,639 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1250.14ms
+2026-02-21 13:10:43,787 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 13:10:44,094 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 307.16ms
+2026-02-21 13:10:52,030 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 13:10:52,383 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 352.96ms
+2026-02-21 13:11:00,487 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 13:11:00,771 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 283.56ms
+2026-02-21 13:11:05,718 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 13:11:05,927 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 208.25ms
+2026-02-21 13:11:14,302 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 13:11:14,577 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 275.43ms
+2026-02-21 13:11:22,659 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 13:11:22,924 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 264.61ms
+2026-02-21 13:11:31,094 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 13:11:31,464 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 370.15ms
+2026-02-21 13:11:39,502 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 13:11:39,812 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 310.23ms
+2026-02-21 13:11:47,999 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 13:11:48,314 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 314.03ms
+2026-02-21 13:11:56,451 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 13:11:56,755 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 303.89ms
+2026-02-21 13:12:04,847 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 13:12:05,175 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 328.27ms
+2026-02-21 13:12:28,032 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-21 13:12:28,286 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 254.09ms
+2026-02-21 13:22:45,533 - INFO - ➡️ [요청 시작] POST /api/v1/navigation/path/ | Device: WalkMate-App
+2026-02-21 13:22:45,699 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 165.46ms
+2026-02-21 13:22:56,738 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 13:22:57,821 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1082.34ms
+2026-02-21 13:23:05,033 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 13:23:05,345 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 311.42ms
+2026-02-21 13:23:13,449 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 13:23:13,799 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 349.56ms
+2026-02-21 13:23:21,870 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 13:23:22,166 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 296.42ms
+2026-02-21 13:23:30,355 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 13:23:30,684 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 328.86ms
+2026-02-21 13:23:38,816 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 13:23:39,115 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 299.08ms
+2026-02-21 13:23:47,202 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 13:23:47,527 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 324.70ms
+2026-02-21 13:23:55,586 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 13:23:55,920 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 334.59ms
+2026-02-21 13:24:03,936 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 13:24:04,298 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 362.34ms
+2026-02-21 13:24:12,516 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 13:24:12,771 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 254.93ms
+2026-02-21 13:24:20,911 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 13:24:21,236 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 324.77ms
+2026-02-21 13:24:29,277 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 13:24:29,655 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 378.25ms
+2026-02-21 13:24:37,782 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 13:24:38,072 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 290.39ms
+2026-02-21 13:24:50,545 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-21 13:24:50,726 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 181.34ms
+2026-02-21 13:32:26,704 - INFO - ➡️ [요청 시작] POST /api/v1/navigation/path/ | Device: WalkMate-App
+2026-02-21 13:32:27,681 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 977.01ms
+2026-02-21 13:32:37,664 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 13:32:38,852 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1187.36ms
+2026-02-21 13:32:46,114 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 13:32:46,422 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 308.10ms
+2026-02-21 13:32:54,516 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 13:32:54,871 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 354.28ms
+2026-02-21 13:33:02,990 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 13:33:03,322 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 332.21ms
+2026-02-21 13:33:11,460 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 13:33:11,768 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 308.41ms
+2026-02-21 13:33:19,892 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 13:33:20,217 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 325.37ms
+2026-02-21 13:33:28,199 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 13:33:28,574 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 374.97ms
+2026-02-21 13:33:34,964 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 13:33:35,424 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 460.26ms
+2026-02-21 13:33:47,505 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 13:33:47,818 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 312.74ms
+2026-02-21 13:33:55,939 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 13:33:56,219 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 280.29ms
+2026-02-21 13:34:04,370 - INFO - ➡️ [요청 시작] POST /api/v1/reports/ | Device: WalkMate-App
+2026-02-21 13:34:04,692 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 322.32ms
+2026-02-21 13:45:21,946 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-21 13:45:23,076 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1129.46ms
+2026-02-21 13:45:39,209 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-21 13:45:39,359 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 149.76ms
+2026-02-21 14:09:49,418 - INFO - ➡️ [요청 시작] GET /favicon.ico | Device: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36
+2026-02-21 14:09:49,419 - INFO - ⬅️ [요청 완료] 404 | 소요시간: 1.35ms
+2026-02-21 14:10:00,933 - INFO - ➡️ [요청 시작] GET /mirror | Device: Mozilla/5.0 (iPhone; CPU iPhone OS 18_6_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.6 Mobile/15E148 Safari/604.1
+2026-02-21 14:10:00,935 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1.41ms
+2026-02-21 14:10:01,059 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (iPhone; CPU iPhone OS 18_6_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.6 Mobile/15E148 Safari/604.1
+2026-02-21 14:10:01,963 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 903.78ms
+2026-02-21 17:33:58,286 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36
+2026-02-21 17:33:59,995 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 1708.48ms
+2026-02-21 17:34:00,079 - INFO - ➡️ [요청 시작] GET /api/v1/reports/ | Device: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/144.0.0.0 Safari/537.36
+2026-02-21 17:34:00,234 - INFO - ⬅️ [요청 완료] 200 | 소요시간: 155.01ms
