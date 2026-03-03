@@ -32,8 +32,10 @@ public class NpuTflitePlugin extends Plugin {
     private Interpreter tflite;
     private GpuDelegate gpuDelegate;
 
-    // ★ [수정됨] 모델 입력 크기를 640으로 변경 (YOLO 기본값)
-    private static final int MODEL_INPUT_SIZE = 640;
+    // ★ [수정됨] 모델 입력 크기를 동적으로 설정
+    private int inputHeight = 640;
+    private int inputWidth = 640;
+    private boolean isNCHW = false;
 
     private static final String TAG = "NpuTflite";
 
@@ -48,28 +50,55 @@ public class NpuTflitePlugin extends Plugin {
                 }
             }
 
-            // 1. Setup GPU Delegate Options
-            GpuDelegate.Options options = new GpuDelegate.Options();
-            options.setInferencePreference(GpuDelegate.Options.INFERENCE_PREFERENCE_SUSTAINED_SPEED);
-
-            // Allow quantized models (e.g. best_int8.tflite) on GPU
-            options.setQuantizedModelsAllowed(true);
-
-            gpuDelegate = new GpuDelegate(options);
-
-            // 2. Interpreter Options
+            // 1. Setup Interpreter Options
             Interpreter.Options interpreterOptions = new Interpreter.Options();
-            interpreterOptions.addDelegate(gpuDelegate);
+
+            // 2. Try Setup GPU Delegate Options
+            // ★ [수정됨] Float32 모델 Native Crash (GL/DSP 버그) 방지를 위해 GPU Delegate 일시적 강제 비활성화
+            /*
+            try {
+                GpuDelegate.Options options = new GpuDelegate.Options();
+                options.setInferencePreference(GpuDelegate.Options.INFERENCE_PREFERENCE_SUSTAINED_SPEED);
+                options.setQuantizedModelsAllowed(true);
+                gpuDelegate = new GpuDelegate(options);
+                interpreterOptions.addDelegate(gpuDelegate);
+                Log.i(TAG, "GPU Delegate initialized successfully.");
+            } catch (Exception e) {
+                Log.w(TAG, "GPU Delegate initialization failed. Falling back to CPU. Error: " + e.getMessage());
+                if (gpuDelegate != null) {
+                    gpuDelegate.close();
+                    gpuDelegate = null;
+                }
+            }
+            */
+
+            // ALWAYS Fallback to pure CPU with 4 threads for stability
+            interpreterOptions.setNumThreads(4);
+            // Removed setUseNNAPI(true) as it is notoriously unstable and causes SIGSEGV on many devices
 
             // 3. Load Model
             MappedByteBuffer tfliteModel = loadModelFile(modelPath);
             tflite = new Interpreter(tfliteModel, interpreterOptions);
 
-            // 4. Force Input Shape to [1, 640, 640, 3]
-            tflite.resizeInput(0, new int[]{1, MODEL_INPUT_SIZE, MODEL_INPUT_SIZE, 3});
-            tflite.allocateTensors(); // Important after resize
+            // 4. Check Input Shape and determine width, height, and layout Dynamically
+            int[] currentShape = tflite.getInputTensor(0).shape();
+            Log.i(TAG, "Input tensor shape: " + java.util.Arrays.toString(currentShape));
+            
+            if (currentShape.length == 4) {
+                if (currentShape[1] == 3) {
+                    isNCHW = true;
+                    inputHeight = currentShape[2];
+                    inputWidth = currentShape[3];
+                } else if (currentShape[3] == 3) {
+                    isNCHW = false;
+                    inputHeight = currentShape[1];
+                    inputWidth = currentShape[2];
+                }
+            } else {
+                Log.w(TAG, "Unexpected input shape dimension: " + currentShape.length);
+            }
 
-            Log.i(TAG, "Model loaded successfully with GPU Delegate (Quantized Allowed)");
+            Log.i(TAG, "Model loaded properly. Width: " + inputWidth + ", Height: " + inputHeight + ", NCHW: " + isNCHW);
 
             // Log Input Tensor Details for Debugging
             Tensor inputTensor = tflite.getInputTensor(0);
@@ -77,7 +106,7 @@ public class NpuTflitePlugin extends Plugin {
 
             JSObject ret = new JSObject();
             ret.put("status", "loaded");
-            ret.put("delegate", "GPU_Quantized");
+            ret.put("delegate", gpuDelegate != null ? "GPU" : "CPU");
             call.resolve(ret);
 
         } catch (Exception e) {
@@ -103,8 +132,8 @@ public class NpuTflitePlugin extends Plugin {
             byte[] decodedString = Base64.decode(imageBase64, Base64.DEFAULT);
             Bitmap bitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
 
-            // ★ 이미지를 640x640으로 리사이징 (모델 입력 크기에 맞춤)
-            Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, MODEL_INPUT_SIZE, MODEL_INPUT_SIZE, true);
+            // ★ 이미지를 동적으로 추출된 width x height으로 리사이징
+            Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, inputWidth, inputHeight, true);
 
             // Determine Input Type from Model
             Tensor inputTensor = tflite.getInputTensor(0);
@@ -120,17 +149,14 @@ public class NpuTflitePlugin extends Plugin {
                  inputBuffer = convertBitmapToByteBufferFloat(resizedBitmap);
             }
 
-            // Output Config
+            // Output Config dynamically using numBytes
             int outputTensorIndex = 0;
-            int[] outputShape = tflite.getOutputTensor(outputTensorIndex).shape();
-
-            int totalElements = 1;
-            for (int dim : outputShape) {
-                totalElements *= dim;
-            }
-
-            // Allocate Output Buffer
-            ByteBuffer outputBuffer = ByteBuffer.allocateDirect(totalElements * 4);
+            Tensor outputTensor = tflite.getOutputTensor(outputTensorIndex);
+            int[] outputShape = outputTensor.shape();
+            int byteSize = outputTensor.numBytes();
+            
+            // Allocate Output Buffer purely based on exact bytes
+            ByteBuffer outputBuffer = ByteBuffer.allocateDirect(byteSize > 0 ? byteSize : 10000000);
             outputBuffer.order(ByteOrder.nativeOrder());
 
             tflite.run(inputBuffer, outputBuffer);
@@ -138,9 +164,20 @@ public class NpuTflitePlugin extends Plugin {
             outputBuffer.rewind();
             com.getcapacitor.JSArray jsArray = new com.getcapacitor.JSArray();
 
-            // 결과 값을 Flat Array로 변환하여 JS로 전달
-            for (int i = 0; i < totalElements; i++) {
-                jsArray.put(outputBuffer.getFloat());
+            DataType outType = outputTensor.dataType();
+            if (outType == DataType.FLOAT32) {
+                int count = byteSize / 4;
+                for (int i = 0; i < count; i++) {
+                    jsArray.put(outputBuffer.getFloat());
+                }
+            } else if (outType == DataType.UINT8) {
+                for (int i = 0; i < byteSize; i++) {
+                    jsArray.put((float) (outputBuffer.get() & 0xFF));
+                }
+            } else {
+                for (int i = 0; i < byteSize; i++) {
+                    jsArray.put((float) outputBuffer.get());
+                }
             }
 
             JSObject ret = new JSObject();
@@ -177,37 +214,44 @@ public class NpuTflitePlugin extends Plugin {
 
     // Float32 Conversion
     private ByteBuffer convertBitmapToByteBufferFloat(Bitmap bitmap) {
-        ByteBuffer byteBuffer = ByteBuffer.allocateDirect(4 * MODEL_INPUT_SIZE * MODEL_INPUT_SIZE * 3);
+        ByteBuffer byteBuffer = ByteBuffer.allocateDirect(4 * inputWidth * inputHeight * 3);
         byteBuffer.order(ByteOrder.nativeOrder());
-        int[] intValues = new int[MODEL_INPUT_SIZE * MODEL_INPUT_SIZE];
+        int[] intValues = new int[inputWidth * inputHeight];
         bitmap.getPixels(intValues, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
-        int pixel = 0;
-        for (int i = 0; i < MODEL_INPUT_SIZE; ++i) {
-            for (int j = 0; j < MODEL_INPUT_SIZE; ++j) {
-                final int val = intValues[pixel++];
-                // 정규화 (0~255 -> 0.0~1.0)
-                byteBuffer.putFloat(((val >> 16) & 0xFF) / 255.0f);
-                byteBuffer.putFloat(((val >> 8) & 0xFF) / 255.0f);
-                byteBuffer.putFloat((val & 0xFF) / 255.0f);
-            }
+        
+        if (isNCHW) {
+             int area = inputWidth * inputHeight;
+             for (int i = 0; i < area; i++) byteBuffer.putFloat(((intValues[i] >> 16) & 0xFF) / 255.0f);
+             for (int i = 0; i < area; i++) byteBuffer.putFloat(((intValues[i] >> 8) & 0xFF) / 255.0f);
+             for (int i = 0; i < area; i++) byteBuffer.putFloat((intValues[i] & 0xFF) / 255.0f);
+        } else {
+             for (int val : intValues) {
+                 byteBuffer.putFloat(((val >> 16) & 0xFF) / 255.0f);
+                 byteBuffer.putFloat(((val >> 8) & 0xFF) / 255.0f);
+                 byteBuffer.putFloat((val & 0xFF) / 255.0f);
+             }
         }
         return byteBuffer;
     }
 
     // Uint8 Conversion
     private ByteBuffer convertBitmapToByteBufferUint8(Bitmap bitmap) {
-        ByteBuffer byteBuffer = ByteBuffer.allocateDirect(MODEL_INPUT_SIZE * MODEL_INPUT_SIZE * 3);
+        ByteBuffer byteBuffer = ByteBuffer.allocateDirect(inputWidth * inputHeight * 3);
         byteBuffer.order(ByteOrder.nativeOrder());
-        int[] intValues = new int[MODEL_INPUT_SIZE * MODEL_INPUT_SIZE];
+        int[] intValues = new int[inputWidth * inputHeight];
         bitmap.getPixels(intValues, 0, bitmap.getWidth(), 0, 0, bitmap.getWidth(), bitmap.getHeight());
-        int pixel = 0;
-        for (int i = 0; i < MODEL_INPUT_SIZE; ++i) {
-            for (int j = 0; j < MODEL_INPUT_SIZE; ++j) {
-                final int val = intValues[pixel++];
-                byteBuffer.put((byte) ((val >> 16) & 0xFF));
-                byteBuffer.put((byte) ((val >> 8) & 0xFF));
-                byteBuffer.put((byte) (val & 0xFF));
-            }
+        
+        if (isNCHW) {
+             int area = inputWidth * inputHeight;
+             for (int i = 0; i < area; i++) byteBuffer.put((byte) ((intValues[i] >> 16) & 0xFF));
+             for (int i = 0; i < area; i++) byteBuffer.put((byte) ((intValues[i] >> 8) & 0xFF));
+             for (int i = 0; i < area; i++) byteBuffer.put((byte) (intValues[i] & 0xFF));
+        } else {
+             for (int val : intValues) {
+                 byteBuffer.put((byte) ((val >> 16) & 0xFF));
+                 byteBuffer.put((byte) ((val >> 8) & 0xFF));
+                 byteBuffer.put((byte) (val & 0xFF));
+             }
         }
         return byteBuffer;
     }

@@ -5,37 +5,20 @@ import { sendHazardReport } from "../src/api/report";
 import NpuTflite from "../NpuTfliteBridge";
 import { YoloParser, DetectedBox } from "../src/utils/YoloParser";
 
-const MODEL_PATH = "wasm/yolo26n_float32.tflite";
+const MODEL_PATH = "wasm/best_float32.tflite";
 
 const LABELS_KO: Record<string, string> = {
   "person": "사람", "bicycle": "자전거", "car": "자동차", "motorcycle": "오토바이",
-  "airplane": "비행기", "bus": "버스", "train": "기차", "truck": "트럭",
-  "boat": "보트", "traffic light": "신호등", "fire hydrant": "소화전",
-  "stop sign": "정지 표지판", "parking meter": "주차 요금소", "bench": "벤치",
-  "bird": "새", "cat": "고양이", "dog": "개", "horse": "말", "sheep": "양", "cow": "소",
-  "elephant": "코끼리", "bear": "곰", "zebra": "얼룩말", "giraffe": "기린", "backpack": "배낭",
-  "umbrella": "우산", "handbag": "핸드백", "tie": "넥타이", "suitcase": "여행 가방",
-  "frisbee": "프리스비", "skis": "스키", "snowboard": "스노우보드", "sports ball": "스포츠 공",
-  "kite": "연", "baseball bat": "야구 방망이", "baseball glove": "야구 글러브", "skateboard": "스케이트보드",
-  "surfboard": "서핑보드", "tennis racket": "테니스 라켓", "bottle": "병", "wine glass": "와인 잔",
-  "cup": "컵", "fork": "포크", "knife": "나이프", "spoon": "숟가락", "bowl": "그릇",
-  "banana": "바나나", "apple": "사과", "sandwich": "샌드위치", "orange": "오렌지", "broccoli": "브로콜리",
-  "carrot": "당근", "hot dog": "핫도그", "pizza": "피자", "donut": "도넛", "cake": "케이크",
-  "chair": "의자", "couch": "소파", "potted plant": "화분", "bed": "침대", "dining table": "식탁",
-  "toilet": "화장실", "tv": "TV", "laptop": "노트북", "mouse": "마우스", "remote": "리모컨",
-  "keyboard": "키보드", "cell phone": "휴대폰", "microwave": "전자레인지", "oven": "오븐",
-  "toaster": "토스터", "sink": "싱크대", "refrigerator": "냉장고", "book": "책", "clock": "시계",
-  "vase": "꽃병", "scissors": "가위", "teddy bear": "곰인형", "hair drier": "헤어드라이어", "toothbrush": "칫솔"
+  "bus": "버스", "truck": "트럭", "traffic light": "신호등", "stop sign": "정지 표지판",
+  "bench": "벤치", "dog": "개", "bollard": "볼라드", "banner": "현수막", "kickboard": "킥보드"
 };
 
 const RISK_LEVELS: Record<string, number> = {
-  "car": 3, "bus": 3, "truck": 3, "motorcycle": 3, "bicycle": 3, "train": 3, "traffic light": 3,
-  "fire hydrant": 3, "stop sign": 3, "parking meter": 3, "bench": 3, "potted plant": 3, "skateboard": 3,
+  "car": 3, "bus": 3, "truck": 3, "motorcycle": 3, "bicycle": 3, "kickboard": 3,
 
-  "person": 2, "dog": 2, "horse": 2, "boat": 2, "umbrella": 2, "backpack": 2, "suitcase": 2,
-  "chair": 2, "couch": 2, "bed": 2, "dining table": 2, "bird": 2, "cat": 2,
+  "person": 2, "dog": 2, "banner": 2,
 
-  "airplane": 1, "kite": 1, "sports ball": 1, "frisbee": 1, "bottle": 1, "book": 1, "clock": 1
+  "traffic light": 1, "bollard": 1, "stop sign": 1, "bench": 1
 };
 
 interface VisionCameraProps {
@@ -60,7 +43,7 @@ const VisionCamera: React.FC<VisionCameraProps> = ({ onSpeak }) => {
 
     const loadModel = async () => {
       try {
-        console.log("🛠️ YOLO26n TFLite 모델 로드 시도...", MODEL_PATH);
+        console.log("🛠️ Best Float32 TFLite 모델 로드 시도...", MODEL_PATH);
         const result = await NpuTflite.loadModel({ modelPath: MODEL_PATH });
         console.log("✅ 모델 로드 성공:", result);
 
@@ -271,12 +254,11 @@ const VisionCamera: React.FC<VisionCameraProps> = ({ onSpeak }) => {
             if (primaryBox) {
               // ---------------------------------------------------------------------
               // [학습 포인트: 거리 계산 공식 적용]
-              // 화면에서 차지하는 비율이 클수록 거리가 가깝습니다. (가상 핀홀 카메라 원리 적용)
               // 1.0 / Math.max(w, h)를 사용하여, 꽉 차면(1.0) 약 1m, 10%면(0.1) 10m로 추산합니다.
               // ---------------------------------------------------------------------
               const maxSizeRatio = Math.max(primaryBox.w, primaryBox.h);
               // 너무 큰 값(무한대)을 방지하기 위해 최대 20m, 최소 0.5m로 제한합니다.
-              calculatedDistance = parseFloat(Math.max(0.5, (Math.min(20.0, 1.0 / (maxSizeRatio + 0.001))) / 2.0).toFixed(2));
+              calculatedDistance = parseFloat(Math.max(0.5, Math.min(20.0, 1.0 / (maxSizeRatio + 0.001))).toFixed(2));
 
               if (onSpeak) {
                 const labelKo = LABELS_KO[primaryBox.className] || primaryBox.className;
