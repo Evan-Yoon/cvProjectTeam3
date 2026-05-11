@@ -95,16 +95,58 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
   useEffect(() => {
     isMounted.current = true;
 
+    const getAccurateStartPosition = async () => {
+      const MAX_ATTEMPTS = 6;
+      const TARGET_ACCURACY_METERS = 20;
+      const POSITION_TIMEOUT_MS = 10000;
+
+      let bestSample: { position: GeolocationPosition; accuracy: number } | null = null;
+      let lastError: unknown = null;
+
+      for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+        try {
+          const sample = await Geolocation.getCurrentPosition({
+            enableHighAccuracy: true,
+            timeout: POSITION_TIMEOUT_MS,
+            maximumAge: 0,
+          });
+
+          const accuracy = sample.coords.accuracy ?? Number.POSITIVE_INFINITY;
+
+          if (!bestSample || accuracy < bestSample.accuracy) {
+            bestSample = { position: sample, accuracy };
+          }
+
+          if (accuracy <= TARGET_ACCURACY_METERS) {
+            return {
+              position: sample,
+              accuracy,
+              usedBestFallback: false,
+            };
+          }
+        } catch (error) {
+          lastError = error;
+        }
+      }
+
+      if (bestSample) {
+        return {
+          position: bestSample.position,
+          accuracy: bestSample.accuracy,
+          usedBestFallback: true,
+        };
+      }
+
+      throw lastError ?? new Error("Failed to get initial GPS position");
+    };
+
     const startNavigation = async () => {
       try {
         // ★ [수정 2] 안내 멘트 변경
         await safeSpeak("GPS 신호를 찾고 있습니다. 잠시만 기다려주세요.");
 
-        // (1) 초기 위치 잡기 (여기서 멈춰서 기다림)
-        const position = await Geolocation.getCurrentPosition({
-          enableHighAccuracy: true, // 정밀 위치 요청
-          timeout: 10000            // 최대 10초 대기
-        });
+        // (1) 초기 위치 잡기 (정확도 게이트 통과 시점까지 반복 샘플링)
+        const { position, accuracy, usedBestFallback } = await getAccurateStartPosition();
 
         const startLat = position.coords.latitude;
         const startLng = position.coords.longitude;
@@ -113,6 +155,10 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
         prevPosition.current = { lat: startLat, lng: startLng };
         setVisualPos({ lat: startLat, lng: startLng });
         setIsLoading(false); // 이제 지도를 보여줌!
+
+        if (usedBestFallback) {
+          await safeSpeak(`GPS 정확도가 충분히 높지 않습니다. 현재 약 ${Math.round(accuracy)}미터 오차로 안내를 시작합니다.`);
+        }
 
         // (2) TMAP 경로 요청
         await safeSpeak("위치가 확인되었습니다. 경로를 탐색합니다.");
