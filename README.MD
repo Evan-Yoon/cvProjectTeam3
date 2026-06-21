@@ -1,254 +1,342 @@
-# WalkMate - 시각장애인을 위한 AI 보행 안내 시스템
+# WalkMate (SafeStep) 🦯
 
-> 컴퓨터 비전(TensorFlow Lite)과 TMAP 보행자 경로 API를 결합한 시각장애인 보행 안내 모바일 앱 및 관리 대시보드 시스템
+> **시각장애인을 위한 음성 기반 보행 내비게이션 어시스턴트**
+> 카메라로 보행 장애물(볼라드 등)을 실시간 탐지하고, 음성으로 목적지를 입력받아 안전한 보행 경로를 안내합니다.
 
----
+WalkMate는 스마트폰 카메라와 온디바이스 AI(YOLO11 → TFLite)를 활용해 보행 중 위험 요소를 인식하고, TMAP 보행자 경로 API를 통해 음성으로 길을 안내하는 모바일 애플리케이션입니다. 사용자는 화면을 보지 않고도 음성(STT/TTS)만으로 전체 기능을 사용할 수 있으며, 사용자가 신고한 위험 요소는 **관리자 대시보드**에서 실시간으로 수집·확인·처리됩니다.
 
-## 목차
+이 프로젝트는 세 개의 주요 구성요소로 이루어집니다.
 
-1. [프로젝트 개요](#프로젝트-개요)
-2. [전체 아키텍처](#전체-아키텍처)
-3. [주요 기능](#주요-기능)
-4. [기술 스택](#기술-스택)
-5. [프로젝트 구조](#프로젝트-구조)
-6. [각 파트 상세 설명](#각-파트-상세-설명)
-   - [사용자 앱 (UserUI)](#사용자-앱-userui)
-   - [관리자 대시보드 (AdminUI)](#관리자-대시보드-adminui)
-   - [백엔드 서버 (backend)](#백엔드-서버-backend)
-7. [API 연동](#api-연동)
-8. [설치 및 실행 방법](#설치-및-실행-방법)
-9. [화면 흐름](#화면-흐름)
-10. [Android 권한 및 주의 사항](#android-권한-및-주의-사항)
+- **사용자 앱(`UI/userUI`)** — 시각장애인용 모바일 앱 (음성 안내 + 온디바이스 장애물 탐지)
+- **관리자 대시보드(`UI/adminUI`)** — 신고 모니터링·통계·히트맵 웹 대시보드
+- **백엔드(`backend`)** — FastAPI 기반 경로 프록시 및 신고 저장 API
 
 ---
 
-## 프로젝트 개요
+## 📑 목차
 
-**WalkMate**는 시각장애인이 도심 보행 시 필요한 두 가지 핵심 정보를 음성으로 안내해주는 모바일 애플리케이션 및 모니터링 시스템입니다.
-
-1. **경로 안내**: TMAP 보행자 API를 통해 목적지까지의 도보 경로를 시계 방향(12시 = 정면)으로 안내합니다.
-2. **장애물 감지**: 온디바이스 TFLite 기반 AI 모델이 실시간 카메라 영상에서 점자 블록 상태(정상/파손)를 감지하여 음성으로 주의 경고를 전달합니다.
-
-사용자는 음성 명령으로 앱 전체를 제어할 수 있어, 화면을 직접 보지 않아도 안전하게 보행할 수 있습니다.
-
----
-
-## 전체 아키텍처
-
-```
-┌─────────────────────────────────────────────────────┐
-│                  사용자 스마트폰 (Capacitor)        │
-│                                                     │
-│  ┌──────────────────────────────────────────────┐   │
-│  │  ┌─────────────────┐  ┌────────────────────┐ │   │
-│  │  │   React + TS    │  │  Android Native     │ │   │
-│  │  │  (UI 화면들)     │  │  NpuTflitePlugin    │ │   │
-│  │  └────────┬────────┘  └────────┬───────────┘ │   │
-│  │           │                    │              │   │
-│  │  ┌────────▼────────────────────▼───────────┐ │   │
-│  │  │      Capacitor Core / Plugins            │ │   │
-│  │  │  - Geolocation (GPS)                     │ │   │
-│  │  │  - TextToSpeech (TTS)                    │ │   │
-│  │  │  - SpeechRecognition (STT)               │ │   │
-│  │  └─────────────────────────────────────────┘ │   │
-│  └──────────────────────────────────────────────┘   │
-│                         │                           │
-│     카메라 ➔ TFLite 모델 추론 (YOLO)                │
-│     GPS ➔ 백엔드 통신 ➔ 경로 정보 획득              │
-└─────────────────────────┬───────────────────────────┘
-                          │ HTTP Request (CORS 우회)
-                          ▼
-                ┌──────────────────┐      ┌───────────────┐
-                │   FastAPI 서버   ├─────➔│ TMAP REST API │
-                │   (backend)      │      │ (경로 탐색)   │
-                └────┬─────────┬───┘      └───────────────┘
-                     │         │
-          PostgreSQL │         │ S3 Upload
-          (PostGIS)  ▼         ▼
-                ┌────────┐  ┌────────┐
-                │   DB   │  │ AWS S3 │
-                │ (Data) │  │(Images)│
-                └────────┘  └────────┘
-```
-
-**AI 추론 파이프라인:**
-```
-카메라 프레임 ➔ Canvas Letterbox 전처리 ➔ Base64 인코딩 ➔ NpuTflitePlugin(Java) 
-➔ TFLite 모델 추론 (best_float32.tflite) ➔ 감지 결과 (Box/Class/Score) ➔ TTS 경고 및 백엔드 위험 신고
-```
+- [주요 기능](#-주요-기능)
+- [시스템 아키텍처](#-시스템-아키텍처)
+- [기술 스택](#-기술-스택)
+- [디렉토리 구조](#-디렉토리-구조)
+- [시작하기](#-시작하기)
+  - [사전 요구 사항](#사전-요구-사항)
+  - [환경 변수 설정](#환경-변수-설정)
+  - [1. 백엔드 실행](#1-백엔드-실행)
+  - [2. 사용자 앱 실행](#2-사용자-앱-실행)
+  - [3. 관리자 대시보드 실행](#3-관리자-대시보드-실행)
+  - [4. 모델 학습 / 추론](#4-모델-학습--추론)
+- [API 개요](#-api-개요)
+- [데이터 흐름과 Supabase의 역할](#-데이터-흐름과-supabase의-역할)
+- [AI 모델](#-ai-모델)
+- [기여 / 브랜치 전략](#-기여--브랜치-전략)
 
 ---
 
-## 주요 기능
+## ✨ 주요 기능
 
 ### 사용자 앱
-- **음성 제어**: 목적지 입력부터 안내 종료까지 음성 인식 기반(STT/TTS) 제어를 지원합니다.
-- **실시간 보행 경로 안내**: GPS 신호를 모니터링하여 경유지마다 진행각도를 Haversine 공식 및 시계 방향 방위(예: "2시 방향으로 이동")로 직관적으로 알려줍니다.
-- **점자 블록 실시간 감지**: 카메라 프레임 분석을 통해 정상/파손된 점자 블록을 구분하여 즉각 경고음을 제공합니다.
+
+- **음성 기반 목적지 입력**: 음성 인식(STT)으로 목적지를 말하면 TMAP POI 검색으로 좌표를 찾습니다.
+- **실시간 보행 경로 안내**: GPS 위치를 기준으로 TMAP 보행자 경로를 받아 음성(TTS)으로 턴바이턴 안내합니다.
+- **온디바이스 장애물 탐지**: 카메라 영상에서 볼라드 등 보행 장애물을 YOLO11 기반 TFLite 모델로 단말기 내부에서 실시간 추론합니다.
+- **위험 요소 신고**: 발견한 장애물의 사진·위치·위험도를 백엔드로 전송하면 S3에 이미지가 저장되고 DB에 기록됩니다.
+- **고대비 접근성 UI**: 시각장애인을 위한 고대비 화면과 음성 중심 인터랙션으로 설계되었습니다.
 
 ### 관리자 대시보드
-- **위험 리포트 시각화**: 접수된 위험 신고 데이터를 수치 통계 대시보드 및 지도의 Heatmap(Leaflet)으로 시각화합니다.
-- **위험 지점 관리**: 접수된 신고의 처리 상태 변경(`new`, `processing`, `done`), 상세 모달 확인, CSV 데이터 내보내기 등을 지원합니다.
 
-### 백엔드 서버
-- **신고 접수 API**: 사용자 앱에서 전송된 위험 요인 위치 데이터와 현장 캡처 이미지를 접수하여 이미지 파일은 S3에 저장하고 위경도 좌표는 PostGIS Point 객체로 환산하여 DB에 입력합니다.
-- **경로 최적화 중계 API**: TMAP 보행자 API 통신을 대행하여 프론트엔드가 다루기 편리한 구조화된 단계별 경로 좌표 배열과 메시지 셋으로 가공해 반환합니다.
-
----
-
-## 기술 스택
-
-### 프론트엔드
-- **사용자 앱 (`UI/userUI/`)**: React (v19), TypeScript, Capacitor Android, React-Leaflet, Capacitor Geolocation/TTS/STT
-- **관리자 앱 (`UI/adminUI/`)**: React (v19), Recharts, Leaflet, Tailwind CSS
-
-### 백엔드 (`backend/`)
-- **FastAPI**: REST API 처리
-- **SQLAlchemy & psycopg2-binary**: PostgreSQL/PostGIS 데이터베이스 통신
-- **boto3**: AWS S3 사진 아티팩트 업로드 처리
-- **Pydantic & Python-dotenv**: 스키마 유효성 검증 및 환경 설정 로드
-
-### 인프라 및 AI
-- **데이터베이스**: PostgreSQL 15 + PostGIS Extension
-- **온디바이스 AI**: TensorFlow Lite Interpreter (NpuTflitePlugin.java)
+- **실시간 신고 수신**: Supabase Realtime 구독으로 새 신고가 들어오는 즉시 화면에 반영됩니다.
+- **대시보드 / 통계**: 신고 현황을 Recharts 기반 차트로 시각화합니다.
+- **히트맵**: Leaflet 지도 위에 위험 신고 위치를 히트맵으로 표시합니다.
+- **신고 관리**: 처리 상태 변경(new/processing/done), 항목 삭제(숨김 처리)를 제공합니다.
+- **주소 보강**: 좌표를 Nominatim 역지오코딩으로 사람이 읽을 수 있는 주소로 변환해 표시합니다.
 
 ---
 
-## 프로젝트 구조
+## 🏗 시스템 아키텍처
+
+```
+┌──────────────────────────────┐        ┌──────────────────────────────┐
+│   사용자 앱 (Capacitor/Android)  │        │   관리자 대시보드 (Web)          │
+│   React 19 + Vite             │        │   React 19 + Vite + Tailwind  │
+│  ┌────────────────────────┐  │        │  ┌────────────────────────┐  │
+│  │ 음성(STT/TTS)·GPS·카메라  │  │        │  │ 대시보드 · 히트맵 · DB     │  │
+│  │ 온디바이스 추론(TFLite)    │  │        │  │ 실시간 신고 모니터링        │  │
+│  │ 지도(Leaflet)·TMAP       │  │        │  └────────────────────────┘  │
+│  └────────────────────────┘  │        └───────┬───────────────┬──────┘
+└──────┬────────────────┬──────┘                │               │
+       │                │                  실시간 구독/조회   상태변경 등
+   경로/POI 검색      신고/경로 요청              │               │
+       │                │                       ▼               ▼
+       ▼                ▼                  ┌──────────┐   ┌──────────────┐
+┌────────────┐   ┌──────────────────────┐ │ Supabase │   │   백엔드        │
+│  TMAP API  │   │   백엔드 (FastAPI)     │ │ Realtime │   │  (FastAPI)    │
+│ 보행자경로/POI │   │  신고 저장 / 경로 프록시 │ │  + DB    │   │  관리자 API     │
+└────────────┘   └──────┬───────────┬────┘ └────┬─────┘   └──────────────┘
+                        │           │            │
+                   PostgreSQL    AWS S3      (PostgreSQL을
+                   (신고 데이터)  (신고 이미지)  Realtime로 노출)
+```
+
+- **사용자 앱** 은 GPS·카메라·마이크로 사용자와 상호작용하고, 장애물 탐지는 단말기에서 직접 수행하며, 신고는 백엔드로 전송합니다.
+- **백엔드(FastAPI)** 는 TMAP 보행자 경로 프록시, 위험 신고 저장(S3 + PostgreSQL), 관리자용 신고 처리 API를 담당합니다.
+- **관리자 대시보드** 는 신고 데이터의 **조회와 실시간 갱신을 Supabase** 로 처리하고, 일부 상태 변경 액션에서 백엔드(FastAPI)를 함께 사용합니다.
+- **AI 모델** 은 YOLO11n을 볼라드 데이터셋으로 학습한 뒤 TFLite로 변환해 앱에 내장됩니다.
+
+---
+
+## 🛠 기술 스택
+
+| 영역 | 기술 |
+| --- | --- |
+| **사용자 앱** | React 19, TypeScript, Vite 6, Capacitor 8 (Android) |
+| **앱 기능** | Capacitor Geolocation / Motion / Device / Filesystem, Speech Recognition(STT), Text-to-Speech(TTS), react-webcam |
+| **온디바이스 AI** | TensorFlow.js, tfjs-tflite (커스텀 NPU/TFLite 브리지) |
+| **관리자 대시보드** | React 19, TypeScript, Vite 6, Tailwind CSS, Recharts, Supabase JS |
+| **지도** | Leaflet, react-leaflet, TMAP API |
+| **백엔드** | Python, FastAPI, Uvicorn, SQLAlchemy, Pydantic |
+| **데이터/스토리지** | PostgreSQL, Redis, AWS S3, **Supabase (관리자 실시간 — 필수)** |
+| **AI 학습** | Ultralytics YOLO11, PyTorch, OpenCV, Roboflow 데이터셋 |
+| **인프라** | Docker (DevContainer) |
+
+> **Supabase 참고**: 백엔드(FastAPI)와 사용자 앱은 Supabase를 사용하지 않지만, **관리자 대시보드는 신고 데이터의 조회·실시간 갱신을 Supabase에 의존** 합니다. 따라서 관리자 대시보드를 실행하려면 Supabase 프로젝트와 키 설정이 **필수** 입니다.
+
+---
+
+## 📂 디렉토리 구조
 
 ```
 cvProjectTeam3/
-│
-├── .devcontainer/                      # Docker Compose 기반의 개발 컨테이너 설정
-│   ├── Dockerfile
-│   └── docker-compose.yml              # Python, PostGIS, Redis 스택
-│
-├── .env.example                        # 환경변수 통합 설정 템플릿
-│
-├── UI/                                 # 프론트엔드 폴더
-│   ├── userUI/                         # 시각장애인 안내 모바일 앱
-│   │   ├── src/api/tmap.ts             # TMAP 장소 검색 및 역지오코딩
-│   │   ├── components/                 # Idle/Listening/Guiding/VisionCamera 화면
-│   │   ├── android/                    # Capacitor 빌드로 연동된 안드로이드 네이티브
-│   │   └── .env.example
-│   │
-│   └── adminUI/                        # 대시보드 관제 앱
-│       ├── views/                      # Dashboard / Heatmap / Database 뷰
-│       └── .env.example
-│
-├── backend/                            # FastAPI 백엔드 폴더
+├── backend/                  # FastAPI 백엔드 서버
 │   ├── app/
-│   │   ├── api/v1/endpoints/           # reports / admin / navigation 엔드포인트
-│   │   ├── core/                       # config.py (환경변수) / database.py
-│   │   ├── crud/                       # SQLAlchemy 기반의 PostGIS 공간 쿼리 처리
-│   │   └── services/s3_uploader.py     # S3 이미지 업로드 유틸리티
-│   ├── run.py                          # Uvicorn 서버 기동 진입점
-│   ├── requirements.txt                # 파이썬 라이브러리 목록
-│   └── .env.example
+│   │   ├── main.py           # FastAPI 진입점, 라우터/CORS/정적파일 마운트
+│   │   ├── core/             # 설정(config), DB 연결(database)
+│   │   ├── api/v1/endpoints/ # reports, navigation, admin 엔드포인트
+│   │   ├── crud/             # DB 접근 로직 (report)
+│   │   ├── models/           # Pydantic 스키마
+│   │   └── services/         # S3 업로더 등
+│   ├── run.py                # 개발 서버 실행 (uvicorn)
+│   ├── migrate.py            # DB 마이그레이션 스크립트
+│   └── requirements.txt
 │
-└── model/                              # 비전 관련 아티팩트 및 추론 예시 스크립트
-    ├── best_float32.tflite             # 온디바이스 탑재 모델
-    ├── road.jpg                        # 테스트 이미지
-    └── new2.py                         # 간단 이미지 추론 테스트 스크립트
+├── model/                    # AI 모델 학습 / 데이터셋
+│   ├── total.ipynb           # 학습·평가 노트북
+│   └── datasets/
+│       ├── bollard-dataset/  # 볼라드 탐지 데이터셋 (Roboflow)
+│       └── coco-dataset/     # COCO 참조 데이터셋
+│
+├── UI/
+│   ├── userUI/               # 사용자 모바일 앱 (React + Capacitor)
+│   │   ├── App.tsx           # 화면 전환 / 상태 관리
+│   │   ├── components/       # Idle/Listening/Confirmation/Guiding 등 화면
+│   │   ├── NpuTfliteBridge.ts# 온디바이스 TFLite 추론 브리지
+│   │   ├── public/wasm/      # TFLite 런타임 및 변환 모델(best_float32.tflite)
+│   │   ├── android/          # Capacitor Android 프로젝트
+│   │   └── package.json
+│   │
+│   └── adminUI/              # 관리자 대시보드 (React + Vite + Tailwind)
+│       ├── App.tsx           # Supabase 조회/실시간 구독, 페이지 라우팅
+│       ├── views/            # Dashboard / Database / Heatmap / Settings
+│       ├── components/       # Sidebar, HazardModal, HazardTable 등
+│       ├── src/api/          # 백엔드(FastAPI) 연동 (adminApi.ts)
+│       ├── .env.example      # Supabase / 백엔드 URL 환경 변수 템플릿
+│       └── package.json
+│
+├── comparison_plot.png       # 모델 비교 결과 그래프
+└── .env.example              # 루트(백엔드/앱) 환경 변수 템플릿
 ```
 
 ---
 
-## 각 파트 상세 설명
+## 🚀 시작하기
 
-### 사용자 앱 (UserUI)
-- **GuidingScreen.tsx (안내 구현)**: Geolocation 감시를 실행하여 Haversine 거리 계산을 통해 경유지 도달 여부 및 이탈 시 방향 이탈 보정 안내를 처리합니다.
-- **VisionCamera.tsx (온디바이스 비전)**: 카메라 영상 스트림에서 3초마다 base64 이미지를 캡처하여 네이티브 플러그인에 전송합니다.
-- **NpuTflitePlugin.java**: Android 네이티브 백그라운드 스레드 상에서 TFLite 인터프리터를 기동하여 CPU 4 thread 환경으로 탐지 모델을 실행합니다.
+### 사전 요구 사항
 
-### 관리자 대시보드 (AdminUI)
-- Supabase 실시간 구독 및 백엔드 REST API를 사용하여 동적으로 신고 데이터를 반영합니다. Leaflet Map 위에서 필터를 걸어 위험도별 지역 상황을 점검할 수 있습니다.
+- **Node.js** 18+ 및 npm
+- **Python** 3.10+
+- **PostgreSQL** 및 **Redis** (Docker 권장)
+- **Android Studio** (사용자 앱 빌드/배포 시)
+- **Supabase 프로젝트** (관리자 대시보드 실행에 필수)
+- **TMAP API Key**, **AWS S3** 자격 증명
 
-### 백엔드 서버 (backend)
-- `/api/v1/reports/` (POST)를 통해 멀티파트 폼 형태로 접수받아 S3 URL을 획득하고, 위도 경도 데이터를 공간 쿼리 `ST_SetSRID(ST_MakePoint(lon, lat), 4326)` 형식으로 SQL에 바인딩하여 안전하게 PostGIS 인덱싱을 거쳐 저장합니다.
+### 환경 변수 설정
 
----
+이 프로젝트는 두 개의 `.env`를 사용합니다. 루트(`.env`)는 백엔드와 사용자 앱용이고, `UI/adminUI/.env`는 관리자 대시보드용입니다.
 
-## API 연동
-
-### TMAP 보행자 경로 API
-- **엔드포인트**: `https://apis.openapi.sk.com/tmap/routes/pedestrian?version=1&format=json`
-- **호출 우회**: CORS 이슈 및 네트워크 안정성을 위해 프론트엔드의 `CapacitorHttp` 및 백엔드의 중계 REST 요청을 병행 구성합니다.
-
----
-
-## 설치 및 실행 방법
-
-### 0. 개발 컨테이너 환경에서 실행 (Dev Containers)
-
-이 프로젝트는 Docker 기반 개발 환경([.devcontainer](file:///Users/company/Desktop/cvProjectTeam3/.devcontainer))을 제공하므로, 로컬 환경 오염 없이 즉시 전체 스택(파이썬, Node, Java, PostGIS DB, Redis)을 일관되게 실행할 수 있습니다.
-
-#### VS Code Dev Containers 활용법
-1. **Docker Desktop** 실행
-2. VS Code에서 `Dev Containers` 확장을 설치한 후, 본 프로젝트 폴더를 열고 알림 창의 **`Reopen in Container`** 또는 명령 팔레트(`Cmd/Ctrl + Shift + P`)의 **`Dev Containers: Reopen in Container`** 선택
-3. 개발 가상환경과 백엔드 DB/Redis가 자동으로 기동됩니다.
-
-#### 로컬 Docker Compose로 직접 인프라만 띄울 때
-컨테이너 내부가 아닌 로컬에서 개발을 진행하되, 데이터베이스(PostgreSQL/PostGIS) 및 Redis 인프라만 도커로 띄우고 싶을 때 실행합니다.
 ```bash
-cd .devcontainer
-docker compose up -d
+cp .env.example .env                      # 백엔드 / 사용자 앱
+cp UI/adminUI/.env.example UI/adminUI/.env # 관리자 대시보드
 ```
 
-### 1. 사용자 앱 (UI/userUI)
-```bash
-cd UI/userUI
-npm install
-npm run build
-npx cap sync android
-npx cap open android # Android Studio에서 실행 및 기기 빌드
-```
+**루트(`.env`) 주요 변수**
 
-### 2. 관리자 대시보드 (UI/adminUI)
-```bash
-cd UI/adminUI
-npm install
-npm run dev
-```
+| 변수 | 설명 |
+| --- | --- |
+| `DATABASE_URL` | PostgreSQL 연결 문자열 |
+| `REDIS_URL` | Redis 연결 문자열 |
+| `SECRET_KEY` / `ALGORITHM` | JWT 인증 설정 |
+| `CORS_ORIGINS` | 허용할 프론트엔드 오리진 |
+| `AWS_ACCESS_KEY_ID` / `AWS_SECRET_ACCESS_KEY` / `S3_BUCKET_NAME` | 신고 이미지 저장용 S3 |
+| `TMAP_API_KEY` | 백엔드 경로 요청용 TMAP 키 |
+| `VITE_BACKEND_URL` | 프론트엔드가 호출할 백엔드 주소 |
+| `VITE_TMAP_API_KEY` | 사용자 앱 POI 검색/지도용 TMAP 키 |
+| `SUPABASE_URL` / `SUPABASE_SERVICE_ROLE_KEY` | (선택) 백엔드에서 Supabase를 직접 쓸 경우 |
 
-### 3. 백엔드 서버 (backend)
+**관리자 대시보드(`UI/adminUI/.env`) 변수**
+
+| 변수 | 설명 |
+| --- | --- |
+| `VITE_SUPABASE_URL` | **(필수)** Supabase 프로젝트 URL — 신고 조회/실시간 구독 |
+| `VITE_SUPABASE_ANON_KEY` | **(필수)** Supabase anon 키 |
+| `VITE_BACKEND_URL` | 백엔드(FastAPI) 주소 — 이미지 서빙 및 상태 변경 액션 |
+
+> ⚠️ `.env` 파일은 `.gitignore`에 포함되어 있으므로 절대 커밋하지 마세요.
+
+### 1. 백엔드 실행
+
 ```bash
 cd backend
+python -m venv .venv && source .venv/bin/activate   # (선택) 가상환경
 pip install -r requirements.txt
+
+# (필요 시) DB 마이그레이션
+python migrate.py
+
+# 개발 서버 실행 (http://localhost:8000)
 python run.py
 ```
 
----
+서버 상태 확인: `GET http://localhost:8000/health` → `{"ok": true}`
+API 문서: `http://localhost:8000/docs` (Swagger UI)
 
-## 화면 흐름
+### 2. 사용자 앱 실행
 
-```
-앱 실행 ➔ [IdleScreen] (안내 대기 및 음성 안내)
-          │
-          ▼ (사용자 "안내 시작" 발화)
-       [ListeningScreen] (목적지 한국어 STT 입력)
-          │
-          ▼ (장소 검색 성공 시)
-       [ConfirmationScreen] ("○○이 맞으신가요?" 확인)
-          │
-          ▼ (사용자 "응"/"네" 확인 응답)
-       [GuidingScreen] + [VisionCamera] (GPS 경로 탐색 및 카메라 실시간 장애물 위험 탐지 동시 구동)
-          │
-          ▼ (사용자 "종료" 명령 또는 목적지 최종 도착)
-       안내 해제 및 대기 화면 복귀
+```bash
+cd UI/userUI
+npm install
+
+# 웹 개발 서버 (http://localhost:5173)
+npm run dev
+
+# Android 빌드/배포
+npm run build
+npx cap sync android
+npx cap open android   # Android Studio에서 실행
 ```
 
+### 3. 관리자 대시보드 실행
+
+```bash
+cd UI/adminUI
+npm install
+
+# 웹 개발 서버 (http://localhost:5173)
+npm run dev
+
+# 프로덕션 빌드
+npm run build
+npm run preview
+```
+
+> 관리자 대시보드는 `VITE_SUPABASE_URL` / `VITE_SUPABASE_ANON_KEY` 가 설정되어 있어야
+> 신고 데이터 조회와 실시간 갱신이 동작합니다. 또한 Supabase의 `reports` 테이블에 대해
+> **Realtime(postgres_changes)** 이 활성화되어 있어야 합니다.
+
+### 4. 모델 학습 / 추론
+
+```bash
+# 단일 이미지 추론 예제
+pip install ultralytics opencv-python
+python detect.py        # result.jpg 생성
+
+# 전체 학습/평가는 노트북 참고
+#   model/total.ipynb
+```
+
 ---
 
-## Android 권한 및 주의 사항
+## 🔌 API 개요
 
-### 요구 권한
-- `ACCESS_FINE_LOCATION` (GPS 정밀 위치 추적용)
-- `ACCESS_COARSE_LOCATION` (기지국/Wi-Fi 기반 위치용)
-- `RECORD_AUDIO` (STT 목적지 음성 명령 입력용)
-- `CAMERA` (점자 블록 영상 실시간 촬영 및 수집용)
-- `INTERNET` (TMAP 경로 연동 및 위험 요소 백엔드 전송용)
+베이스 URL: `http://localhost:8000`
 
-### 주의 사항
-- 본 시스템의 최적 성능(TFLite 실시간 추론 속도 및 GPS 각도 보정)은 가속 하드웨어가 지원되는 안드로이드 실기기 환경을 권장합니다.
-- TMAP API 키 및 데이터베이스 정보 등의 세부 크리덴셜은 로컬 디바이스의 `.env` 환경 설정에 맞춰 구성해야 합니다.
+### 보행 경로
+
+| 메서드 | 경로 | 설명 |
+| --- | --- | --- |
+| `POST` | `/api/v1/navigation/path` | 출발/도착 좌표로 TMAP 보행자 경로 조회 |
+
+요청 예시:
+
+```json
+{
+  "start_lat": 37.5665,
+  "start_lon": 126.9780,
+  "end_lat": 37.5700,
+  "end_lon": 126.9820
+}
+```
+
+### 위험 신고 (사용자)
+
+| 메서드 | 경로 | 설명 |
+| --- | --- | --- |
+| `POST` | `/api/v1/reports/` | 이미지·위치·위험도 등을 포함한 신고 등록 (multipart) |
+
+### 위험 신고 (관리자)
+
+| 메서드 | 경로 | 설명 |
+| --- | --- | --- |
+| `GET` | `/api/v1/reports/` | 전체 신고 목록 조회 (페이지네이션) |
+| `PATCH` | `/api/v1/reports/{item_id}` | 처리 상태 변경 (`new` / `processing` / `done`) |
+| `DELETE` | `/api/v1/reports/{item_id}` | 항목 삭제 (숨김 처리) |
+
+| 기타 | 경로 | 설명 |
+| --- | --- | --- |
+| `GET` | `/health` | 서버 헬스 체크 |
+| `GET` | `/static/{filename}` | 업로드된 신고 이미지 서빙 |
+
+---
+
+## 🔄 데이터 흐름과 Supabase의 역할
+
+신고 데이터는 다음 흐름으로 이동합니다.
+
+1. **사용자 앱** 이 장애물을 탐지/촬영하고 `POST /api/v1/reports/` 로 백엔드에 전송합니다.
+2. **백엔드(FastAPI)** 가 이미지를 **S3**에 올리고 신고 레코드를 **PostgreSQL**에 저장합니다.
+3. **관리자 대시보드** 는 이 신고 데이터를 **Supabase**를 통해 읽습니다.
+   - 초기 로딩: Supabase 클라이언트로 `reports` 테이블 조회 (`status != 'hidden'`)
+   - 실시간 갱신: Supabase **Realtime**(`postgres_changes`, INSERT) 구독으로 새 신고를 즉시 표시
+4. 관리자가 상태를 변경하면 대시보드에서 처리되고, 이미지 등은 백엔드(`VITE_BACKEND_URL`)에서 서빙됩니다.
+
+> 핵심: Supabase는 PostgreSQL 위에 실시간 구독 기능을 제공하는 BaaS로 사용됩니다.
+> 백엔드가 저장한 동일 데이터베이스를 Supabase가 노출하면, 관리자 대시보드가 별도 폴링 없이
+> 새 신고를 실시간으로 받아볼 수 있습니다. **이 때문에 관리자 대시보드에는 Supabase가 필수입니다.**
+
+---
+
+## 🤖 AI 모델
+
+- **베이스 모델** : Ultralytics **YOLO11n** (`yolo11n.pt`)
+- **타깃 클래스** : 보행 장애물 — **볼라드(bollard) 및 킥보드(kickboard)** 등 (`model/datasets/bollard-dataset`, Roboflow CC BY 4.0)
+- **참조 데이터셋** : COCO 2017 (`model/datasets/coco-dataset`)
+- **배포 형식** : 학습된 모델을 **TFLite(`best_float32.tflite`)** 로 변환하여 앱에 내장, TensorFlow.js + 커스텀 브리지(`NpuTfliteBridge.ts`)로 **온디바이스 추론** 수행
+- **학습/평가 노트북** : `model/total.ipynb`, 모델 비교 결과는 `comparison_plot.png` 참고
+
+---
+
+## 🌿 기여 / 브랜치 전략
+
+- 원격 저장소: `https://github.com/Evan-Yoon/cvProjectTeam3`
+- 메인 브랜치: `main`
+- 작업은 기능/담당자별 브랜치에서 진행 후 `main`으로 병합합니다.
+
+기여 절차:
+
+1. 이슈/작업 단위로 브랜치 생성 (`feat/...`, `fix/...`)
+2. 변경 사항 커밋 (커밋 메시지는 `feat:`, `fix:`, `docs:` 등 prefix 사용)
+3. Pull Request 생성 후 리뷰
+4. `main` 병합
+
+---
+
+> 본 프로젝트는 시각장애인의 안전한 보행을 돕기 위한 팀 프로젝트(Team 3)입니다.
