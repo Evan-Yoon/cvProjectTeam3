@@ -12,39 +12,74 @@ interface ConfirmationScreenProps {
 // 2. 컴포넌트 선언
 const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({ destination, onConfirm, onDeny }) => {
     const isMounted = useRef(true);
+    const latestText = useRef<string>(""); // 실시간 중간 결과 누적
+    const silenceTimer = useRef<NodeJS.Timeout | null>(null);
+
+    // "응/아니오" 판단 및 부모 핸들러 트리거
+    const handleCommandResult = (text: string) => {
+        const command = text.toLowerCase().trim();
+        console.log("Confirmation STT:", command);
+
+        if (["응", "네", "맞아", "그래", "yes", "ok", "어", "맞음"].some(k => command.includes(k))) {
+            if (isMounted.current) onConfirm();
+        } else if (["아니", "틀려", "no", "nope", "아니야", "아님"].some(k => command.includes(k))) {
+            if (isMounted.current) onDeny();
+        } else {
+            // 이해할 수 없는 텍스트의 경우, 일단은 무시하고 대기하거나 재인식
+        }
+    };
+
+    // 침묵 1.3초 감지 시 자동 종료 처리
+    const resetSilenceTimer = (currentText: string) => {
+        if (silenceTimer.current) clearTimeout(silenceTimer.current);
+
+        silenceTimer.current = setTimeout(() => {
+            if (isMounted.current && currentText.trim()) {
+                console.log("🤫 Confirmation 침묵 감지 -> 자동 확정:", currentText);
+                stopListening();
+                handleCommandResult(currentText);
+            }
+        }, 1300); // 1.3초
+    };
 
     const handleSTT = async () => {
         await startListening(
-            (text) => {
-                const command = text.toLowerCase().trim();
-                console.log("Confirmation STT:", command);
-
-                if (["응", "네", "맞아", "그래", "yes", "ok", "어", "맞음"].some(k => command.includes(k))) {
-                    if (isMounted.current) onConfirm();
-                } else if (["아니", "틀려", "no", "nope", "아니야", "아님"].some(k => command.includes(k))) {
-                    // "아니, 강남역이야" 처럼 말해도 "아니"가 포함되므로 Deny로 처리됨 -> RetryScreen으로 이동
-                    if (isMounted.current) onDeny();
-                } else {
-                    // Not understood
-                }
+            (finalResult) => {
+                const resultText = finalResult || latestText.current;
+                console.log("Confirmation STT Final:", resultText);
+                if (isMounted.current) handleCommandResult(resultText);
             },
             () => {
                 console.log("Confirmation STT failed");
+            },
+            (partialText) => {
+                latestText.current = partialText;
+                resetSilenceTimer(partialText);
             }
         );
     };
 
     useEffect(() => {
         isMounted.current = true;
-        speak(`${destination}이 맞으신가요?`);
 
-        const timer = setTimeout(() => {
-            if (isMounted.current) handleSTT();
-        }, 3000); // Wait for TTS
+        const runConfirmationFlow = async () => {
+            if (!isMounted.current) return;
+            // 1. TTS로 안내 멘트 재생이 끝날 때까지 대기
+            await speak(`${destination}이 맞으신가요?`);
+
+            // 2. 오디오 세션 안정을 위해 300ms 짧은 대기
+            await new Promise((resolve) => setTimeout(resolve, 300));
+
+            if (isMounted.current) {
+                handleSTT();
+            }
+        };
+
+        runConfirmationFlow();
 
         return () => {
             isMounted.current = false;
-            clearTimeout(timer);
+            if (silenceTimer.current) clearTimeout(silenceTimer.current);
             stopListening();
         };
     }, [destination]);

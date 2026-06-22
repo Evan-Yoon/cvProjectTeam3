@@ -1,0 +1,63 @@
+PODS:
+  - Capacitor (8.4.1):
+    - CapacitorCordova
+  - CapacitorCommunitySpeechRecognition (7.0.1):
+    - Capacitor
+  - CapacitorCommunityTextToSpeech (8.0.0):
+    - Capacitor
+  - CapacitorCordova (8.4.1)
+  - CapacitorDevice (8.0.1):
+    - Capacitor
+  - CapacitorFilesystem (8.1.2):
+    - Capacitor
+    - IONFilesystemLib (~> 1.1.1)
+  - CapacitorGeolocation (8.1.0):
+    - Capacitor
+    - IONGeolocationLib (= 2.0.0)
+  - IONFilesystemLib (1.1.2)
+  - IONGeolocationLib (2.0.0)
+
+DEPENDENCIES:
+  - "Capacitor (from `../../node_modules/@capacitor/ios`)"
+  - "CapacitorCommunitySpeechRecognition (from `../../node_modules/@capacitor-community/speech-recognition`)"
+  - "CapacitorCommunityTextToSpeech (from `../../node_modules/@capacitor-community/text-to-speech`)"
+  - "CapacitorCordova (from `../../node_modules/@capacitor/ios`)"
+  - "CapacitorDevice (from `../../node_modules/@capacitor/device`)"
+  - "CapacitorFilesystem (from `../../node_modules/@capacitor/filesystem`)"
+  - "CapacitorGeolocation (from `../../node_modules/@capacitor/geolocation`)"
+
+SPEC REPOS:
+  trunk:
+    - IONFilesystemLib
+    - IONGeolocationLib
+
+EXTERNAL SOURCES:
+  Capacitor:
+    :path: "../../node_modules/@capacitor/ios"
+  CapacitorCommunitySpeechRecognition:
+    :path: "../../node_modules/@capacitor-community/speech-recognition"
+  CapacitorCommunityTextToSpeech:
+    :path: "../../node_modules/@capacitor-community/text-to-speech"
+  CapacitorCordova:
+    :path: "../../node_modules/@capacitor/ios"
+  CapacitorDevice:
+    :path: "../../node_modules/@capacitor/device"
+  CapacitorFilesystem:
+    :path: "../../node_modules/@capacitor/filesystem"
+  CapacitorGeolocation:
+    :path: "../../node_modules/@capacitor/geolocation"
+
+SPEC CHECKSUMS:
+  Capacitor: 35242afe195b1e53c58ca1b827d1b444c5e6602b
+  CapacitorCommunitySpeechRecognition: 3e03566c44c2bb3b52391a33d4518b1adbdeb38f
+  CapacitorCommunityTextToSpeech: 43cd3c04174f38b8766f160830ee474cd5596439
+  CapacitorCordova: eebe6bcf807b1b06f3f48237650f96bbcd0eef09
+  CapacitorDevice: ff033fa0c4ec19f5e059a073769a9b2347e69f57
+  CapacitorFilesystem: 2db285a1ac6e475cc27cae2e1bea999000f9e2be
+  CapacitorGeolocation: 7132de914f9d853ec4642dc1d36e4e2018a4e8a8
+  IONFilesystemLib: 21a63377696b2d8fab5632ecfb7d2ac67bddb68a
+  IONGeolocationLib: a5e40b54edc2ee9902036eda5aaa41ddf07bb68d
+
+PODFILE CHECKSUM: 49fa5c7cbaabc0bc33c6fe80f54c16fcba477f4a
+
+COCOAPODS: 1.16.2

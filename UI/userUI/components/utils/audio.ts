@@ -30,10 +30,19 @@ export const speak = async (text: string) => {
     }
 };
 
+let isListeningActive = false;
+
 export const startListening = async (
     onResult: (text: string) => void,
-    onError: () => void
+    onError: () => void,
+    onPartial?: (text: string) => void
 ) => {
+    if (isListeningActive) {
+        console.warn("STT가 이미 작동 중입니다. 중복 호출을 차단합니다.");
+        return;
+    }
+    isListeningActive = true;
+
     if (isNative) {
         try {
             const { available } = await SpeechRecognition.available();
@@ -42,28 +51,29 @@ export const startListening = async (
                 // 권한 요청
                 await SpeechRecognition.requestPermissions();
 
-                // ★ 핵심 수정: 리스너도 등록하고, start의 결과값도 확인하는 이중 안전장치
-
-                // 1. 리스너 등록 (혹시 모를 실시간 인식 대비)
+                // 1. 리스너 등록 (실시간 인식 조각을 받아와 상위 컴포넌트로 전달)
                 await SpeechRecognition.removeAllListeners();
                 await SpeechRecognition.addListener('partialResults', (data: any) => {
                     if (data.matches && data.matches.length > 0) {
                         console.log("Partial result:", data.matches[0]);
-                        // 부분 결과는 필요하면 여기서 처리 (지금은 최종 결과 위주로)
+                        if (onPartial) {
+                            onPartial(data.matches[0]);
+                        }
                     }
                 });
 
-                // 2. 인식 시작 (popup: true 사용 시 구글 UI가 뜹니다)
-                // ★ 중요: await를 걸어서 인식이 끝날 때까지 기다립니다.
+                // 2. 인식 시작 (iOS의 원활한 동작을 위해 partialResults를 true로 활성화합니다)
                 const result = await SpeechRecognition.start({
                     language: "ko-KR",
                     maxResults: 1,
                     prompt: "말씀해주세요...",
-                    partialResults: false,
-                    popup: true, // 구글 UI 띄우기 (테스트에 유리)
+                    partialResults: true,
+                    popup: false,
                 });
 
-                // 3. ★ 결과값 확인 (popup: true일 때는 여기서 결과가 들어옵니다!)
+                isListeningActive = false; // 완료 시 락 해제
+
+                // 3. 최종 결과값 확인
                 if (result && result.matches && result.matches.length > 0) {
                     console.log("Final result:", result.matches[0]);
                     onResult(result.matches[0]); // 인식된 텍스트 전달
@@ -73,22 +83,26 @@ export const startListening = async (
 
             } else {
                 console.error("음성 인식을 사용할 수 없는 기기입니다.");
+                isListeningActive = false;
                 onError();
             }
         } catch (e) {
             console.error("STT 에러:", e);
+            isListeningActive = false; // 에러 시 락 해제
             onError();
         }
     } else {
         // 웹 시뮬레이션
         console.log("웹: 시뮬레이션 실행");
         setTimeout(() => {
+            isListeningActive = false;
             onResult("강남역");
         }, 2000);
     }
 };
 
 export const stopListening = async () => {
+    isListeningActive = false; // 중지 시 락 해제
     if (isNative) {
         try {
             await SpeechRecognition.stop();

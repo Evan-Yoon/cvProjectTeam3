@@ -2,8 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CAPACITOR_DEBUG</key>
-	<string>$(CAPACITOR_DEBUG)</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
@@ -24,6 +22,20 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>실시간 장애물 탐지 및 위험 신고 사진 촬영을 위해 카메라 권한이 필요합니다.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>안전 보행 경로 안내 및 실시간 장애물 신고를 위해 위치 정보 권한이 필요합니다.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>안전 보행 경로 안내 및 현재 위치 파악을 위해 위치 정보 권한이 필요합니다.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>목적지 음성 입력을 위해 마이크 접근 권한이 필요합니다.</string>
+	<key>NSMotionUsageDescription</key>
+	<string>보행자 걸음걸이 방향 분석 및 센서 측정을 위해 모션 센서 접근 권한이 필요합니다.</string>
+	<key>NSLocalNetworkUsageDescription</key>
+	<string>로컬 개발 서버(FastAPI)와 데이터를 연동하고 통신하기 위해 로컬 네트워크 접근 권한이 필요합니다.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>음성 명령 및 목적지 인식을 위해 음성 인식 권한이 필요합니다.</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>

@@ -18,46 +18,81 @@ const RetryScreen: React.FC<RetryScreenProps> = ({
   autoStart = true
 }) => {
   const isMounted = useRef(true);
+  const latestText = useRef<string>(""); // 실시간 중간 결과 저장
+  const silenceTimer = useRef<NodeJS.Timeout | null>(null);
+
+  // 침묵 1.3초 감지 시 자동 완료 처리
+  const resetSilenceTimer = (currentText: string) => {
+    if (silenceTimer.current) clearTimeout(silenceTimer.current);
+
+    silenceTimer.current = setTimeout(() => {
+      if (isMounted.current && currentText.trim()) {
+        console.log("🤫 Retry 침묵 감지 -> 자동 확정:", currentText);
+        stopListening();
+        onSpeechDetected(currentText);
+      }
+    }, 1300); // 1.3초
+  };
 
   useEffect(() => {
     isMounted.current = true;
-    speak(message);
 
-    // 자동 시작이 켜져있을 때만 리스닝 시작
-    if (autoStart) {
-      const timer = setTimeout(async () => {
-        if (!isMounted.current) return;
-        await startListening(
-          (transcript) => {
-            if (isMounted.current) onSpeechDetected(transcript);
-          },
-          () => {
-            console.log("Retry STT failed");
+    const runRetryFlow = async () => {
+      if (!isMounted.current) return;
+      await speak(message);
+
+      // 오디오 세션 전환용 대기
+      await new Promise((resolve) => setTimeout(resolve, 300));
+
+      if (!isMounted.current) return;
+
+      await startListening(
+        (finalResult) => {
+          const resultText = finalResult || latestText.current;
+          console.log("Retry STT Final:", resultText);
+          if (isMounted.current && resultText.trim()) {
+            onSpeechDetected(resultText);
           }
-        );
-      }, 2000); // Wait for TTS
+        },
+        () => {
+          console.log("Retry STT failed");
+        },
+        (partialText) => {
+          latestText.current = partialText;
+          resetSilenceTimer(partialText);
+        }
+      );
+    };
 
-      return () => {
-        isMounted.current = false;
-        clearTimeout(timer);
-        stopListening();
-      };
+    if (autoStart) {
+      runRetryFlow();
     } else {
-      // 자동 시작 안 함 -> 정리만
-      return () => {
-        isMounted.current = false;
-        stopListening();
-      };
+      speak(message);
     }
+
+    return () => {
+      isMounted.current = false;
+      if (silenceTimer.current) clearTimeout(silenceTimer.current);
+      stopListening();
+    };
   }, [onSpeechDetected, message, autoStart]);
 
   const handleManualRetry = async () => {
+    if (silenceTimer.current) clearTimeout(silenceTimer.current);
     stopListening();
+    
     await startListening(
-      (transcript) => {
-        if (isMounted.current) onSpeechDetected(transcript);
+      (finalResult) => {
+        const resultText = finalResult || latestText.current;
+        if (isMounted.current && resultText.trim()) {
+          onSpeechDetected(resultText);
+        }
       },
-      () => { }
+      () => { },
+      (partialText) => {
+        latestText.current = partialText;
+        resetSilenceTimer(partialText);
+      }
     );
   };
 

@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   workspace:
     build:
@@ -7,16 +5,22 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ../:/workspaces/walkmate:cached
+    env_file:
+      - ../backend/.env
     environment:
+      - DATABASE_URL=postgresql+psycopg2://walkmate_user:walkmate_pass@postgres:5432/walkmate_db
       - DB_HOST=postgres
       - DB_PORT=5432
       - DB_USER=walkmate_user
       - DB_PASS=walkmate_pass
       - DB_NAME=walkmate_db
       - REDIS_URL=redis://redis:6379/0
+    ports:
+      - "8000:8000"
+      - "3000:3000"
+      - "5173:5173"
     # Overrides default command so things don't shut down after the process ends.
     command: /bin/sh -c "while sleep 1000; do :; done"
-    network_mode: service:postgres # Allows localhost to map directly to Postgres for ease of dev container mapping
 
   postgres:
     image: postgis/postgis:15-3.3-alpine

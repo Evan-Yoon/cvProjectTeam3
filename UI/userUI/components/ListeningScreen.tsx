@@ -11,43 +11,85 @@ interface ListeningScreenProps {
 const ListeningScreen: React.FC<ListeningScreenProps> = ({ onCancel, onSpeechDetected }) => {
   // 컴포넌트 마운트 여부 확인 (비동기 처리 시 에러 방지)
   const isMounted = useRef(true);
+  const latestText = useRef<string>(""); // 실시간 인식 조각 저장
+  const silenceTimer = useRef<NodeJS.Timeout | null>(null);
+
+  // 디바운스 타이머 설정 (침묵 1.3초 감지 시 자동 종료)
+  const resetSilenceTimer = (currentText: string) => {
+    if (silenceTimer.current) clearTimeout(silenceTimer.current);
+
+    silenceTimer.current = setTimeout(() => {
+      if (isMounted.current && currentText.trim()) {
+        console.log("🤫 침묵 감지 -> 자동 음성인식 확정:", currentText);
+        stopListening();
+        onSpeechDetected(currentText);
+      }
+    }, 1300); // 1.3초 동안 침묵할 경우
+  };
 
   useEffect(() => {
     isMounted.current = true;
 
-    // 1. 화면 진입 시 TTS 안내 멘트 재생
-    speak("어디로 가고 싶으신가요?");
-
-    // 2. TTS가 끝날 즈음(약 1.5초 후) 마이크 켜기
-    // (바로 켜면 TTS 소리를 마이크가 다시 듣는 현상 방지)
-    const timer = setTimeout(async () => {
+    const runSTTFlow = async () => {
       if (!isMounted.current) return;
 
+      // 1. TTS 안내 멘트 재생이 끝날 때까지 대기
+      await speak("어디로 가고 싶으신가요?");
+
+      // 2. 오디오 세션 전환을 위해 300ms 짧은 대기
+      await new Promise((resolve) => setTimeout(resolve, 300));
+
+      if (!isMounted.current) return;
       console.log("🎤 음성 인식 시작 요청...");
 
       await startListening(
-        (transcript) => {
-          // [성공 시] 인식된 텍스트를 부모 컴포넌트로 전달
-          console.log("✅ 인식 성공:", transcript);
+        (finalResult) => {
+          // [최종 결과 수신 시] 
+          const resultText = finalResult || latestText.current;
+          console.log("✅ 최종 결과 완료:", resultText);
           if (isMounted.current) {
-            onSpeechDetected(transcript);
+            onSpeechDetected(resultText);
           }
         },
         () => {
           // [실패/에러 시] 
           console.log("❌ 인식 실패 또는 취소됨");
-          // 필요하면 여기서 재시도 안내를 하거나, 조용히 있을 수 있습니다.
+        },
+        (partialText) => {
+          // [실시간 중간 인식 시] 누적 데이터 갱신 및 침묵 타이머 리셋
+          latestText.current = partialText;
+          resetSilenceTimer(partialText);
         }
       );
-    }, 1500); // 1.5초 대기
+    };
 
-    // 3. 뒷정리 (화면을 나가거나 취소할 때)
+    runSTTFlow();
+
+    // 3. 네이티브 리소스를 닫는 클린업 함수
     return () => {
       isMounted.current = false;
-      clearTimeout(timer);
+      if (silenceTimer.current) clearTimeout(silenceTimer.current);
       stopListening(); // ★ 마이크 끄기
     };
   }, [onSpeechDetected]);
+
+  // 화면 터치 시 수동 확정 처리
+  const handleTouchConfirm = () => {
+    if (silenceTimer.current) clearTimeout(silenceTimer.current);
+    stopListening();
+
+    // 말한 내용이 존재하면 그것으로 확정
+    const confirmedText = latestText.current.trim();
+    console.log("👆 화면 터치 -> 수동 텍스트 확정:", confirmedText);
+
+    if (confirmedText) {
+      onSpeechDetected(confirmedText);
+    } else {
+      // 말한 내용이 없는 상태에서 터치한 경우 -> 다시 말해달라는 화면(RETRY)으로 유도
+      console.log("⚠️ 말한 내용 없음 -> 재시도(RETRY) 화면 유도");
+      onSpeechDetected("ERROR_NOT_FOUND");
+    }
+  };
 
   return (
     <div className="h-full w-full flex flex-col items-center justify-between pt-24 pb-12 px-6 relative z-10">
@@ -56,6 +98,7 @@ const ListeningScreen: React.FC<ListeningScreenProps> = ({ onCancel, onSpeechDet
       <div
         className="absolute inset-0 z-0"
         onClick={() => {
+          if (silenceTimer.current) clearTimeout(silenceTimer.current);
           stopListening(); // 취소 시 명시적으로 마이크 끄기
           onCancel();
         }}
@@ -80,14 +123,14 @@ const ListeningScreen: React.FC<ListeningScreenProps> = ({ onCancel, onSpeechDet
       {/* --- 오디오 파형 비주얼라이저 --- */}
       <section
         className="flex-1 flex items-center justify-center w-full py-12 pointer-events-auto z-20 cursor-pointer"
-        // 클릭 시 강제로 인식 성공 처리 (테스트용 혹은 말하기 힘들 때)
-        onClick={() => onSpeechDetected("강남역")}
-        title="터치하여 강남역으로 테스트"
+        // 클릭 시 수동 확정 핸들러 호출
+        onClick={handleTouchConfirm}
+        title="터치하여 현재 인식된 주소로 확정하기"
       >
         <div className="relative w-full h-48 flex items-center justify-center gap-2 md:gap-4">
           <div className="absolute inset-0 bg-primary/5 blur-3xl rounded-full transform scale-150"></div>
 
-          {/* 파형 애니메이션 (그대로 유지) */}
+          {/* 파형 애니메이션 */}
           <div className="wave-bar w-3 md:w-4 bg-primary rounded-full h-12 animate-[wave_1s_ease-in-out_infinite]"></div>
           <div className="wave-bar w-3 md:w-4 bg-primary rounded-full h-20 animate-[wave_1.2s_ease-in-out_infinite_0.1s]"></div>
           <div className="wave-bar w-3 md:w-4 bg-primary rounded-full h-32 animate-[wave_0.8s_ease-in-out_infinite_0.2s]"></div>

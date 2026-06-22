@@ -26,10 +26,11 @@
     },
     "forwardPorts": [
         8000,
+        3000,
         5173,
         5174,
         5432,
         6379
     ],
-    "postCreateCommand": "npm i -g npm@latest && pip install -U pip && echo 'Environment is ready!'"
+    "postCreateCommand": "npm i -g npm@latest && pip install -U pip && pip install -r backend/requirements.txt && cd UI/adminUI && npm install && cd ../userUI && npm install && echo 'Environment is ready!'"
 }
