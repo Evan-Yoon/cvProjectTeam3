@@ -1,44 +1,117 @@
+# ------------------------------------------------------------
+# Docker Compose 설정 파일 – WalkMate 프로젝트
+# ------------------------------------------------------------
+
 services:
+  # ============================================================
+  # 1️⃣ Workspace 서비스
+  # ------------------------------------------------------------
+  # 개발 컨테이너. devcontainer‑workspace 이미지(파이썬 + Node)를
+  # 기반으로 빌드하며, 소스 코드를 마운트해 실시간 반영됩니다.
+  # ============================================================
   workspace:
+    # ------------------------------
+    # 이미지 빌드 옵션
+    # ------------------------------
+    # Dockerfile 은 .devcontainer/ 안에 위치합니다.
     build:
-      context: .
-      dockerfile: Dockerfile
+      # Dockerfile이 있는 디렉터리
+      context: .   
+      # 실제 빌드할 파일
+      dockerfile: Dockerfile   
+
+    # ------------------------------
+    # 볼륨 마운트
+    # ------------------------------
+    # 프로젝트 루트(.)을 컨테이너 내부 /workspaces/walkmate 로 마운트.
+    # `cached` 옵션은 macOS에서 파일 시스템 성능을 최적화합니다.
     volumes:
-      - ../:/workspaces/walkmate:cached
+      - ..:/workspaces/walkmate:cached
+
+    # ------------------------------
+    # 환경변수 파일
+    # ------------------------------
+    # 백엔드(.env) 파일을 읽어 서비스에 전달.
     env_file:
       - ../backend/.env
+
+    # ------------------------------
+    # 직접 지정한 환경 변수
+    # ------------------------------
     environment:
+      # 백엔드(파이썬)에서 PostgreSQL 과 연결할 때 사용하는 URL
       - DATABASE_URL=postgresql+psycopg2://walkmate_user:walkmate_pass@postgres:5432/walkmate_db
+      # DB 연결 정보를 개별 변수로도 제공 (스크립트가 개별 변수 필요 시)
       - DB_HOST=postgres
       - DB_PORT=5432
       - DB_USER=walkmate_user
       - DB_PASS=walkmate_pass
       - DB_NAME=walkmate_db
+      # Redis 캐시 서비스 접속 URL
       - REDIS_URL=redis://redis:6379/0
-    ports:
-      - "8000:8000"
-      - "3000:3000"
-      - "5173:5173"
-    # Overrides default command so things don't shut down after the process ends.
-    command: /bin/sh -c "while sleep 1000; do :; done"
 
+    # ------------------------------
+    # 포트 매핑
+    # ------------------------------
+    # 호스트와 컨테이너 사이에 포트를 연결해 외부에서 접근 가능하게 함.
+    ports:
+      # FastAPI/백엔드 API
+      - "8000:8000"   
+      # Vite 개발 서버 (React 등)
+      - "3000:3000"   
+      # Vite HMR 포트 (핫 모듈 교체)
+      - "5173:5173"   
+
+    # ------------------------------
+    # 기본 커맨드
+    # ------------------------------
+    # 컨테이너 시작 시 자동으로 backend 및 프론트엔드 개발 서버를 구동합니다.
+    command: bash .devcontainer/start.sh
+
+
+  # ============================================================
+  # 2️⃣ PostgreSQL 서비스 (PostGIS 포함)
+  # ------------------------------------------------------------
+  # 데이터베이스와 공간(geo) 확장을 제공.
+  # ============================================================
   postgres:
+    # 공식 PostGIS 이미지 (PostgreSQL + GIS 확장). Alpine 기반으로 경량화.
     image: postgis/postgis:15-3.3-alpine
+    # 현재 호스트가 Apple Silicon(ARM)이라도 amd64 이미지 강제 사용.
+    # Docker가 qemu 에뮬레이션을 통해 실행하게 됨.
+    platform: linux/amd64
+    # 컨테이너가 비정상 종료될 경우 자동 재시작.
     restart: unless-stopped
+    # 데이터 영구성을 위해 호스트에 볼륨을 마운트.
     volumes:
       - postgres-data:/var/lib/postgresql/data
+    # 초기 DB 계정/비밀번호/데이터베이스 이름 지정.
     environment:
       POSTGRES_USER: walkmate_user
       POSTGRES_PASSWORD: walkmate_pass
       POSTGRES_DB: walkmate_db
+    # 외부에서 접속할 포트 매핑 (호스트 5432 → 컨테이너 5432)
     ports:
       - "5432:5432"
 
+  # ============================================================
+  # 3️⃣ Redis 서비스
+  # ------------------------------------------------------------
+  # 메모리 기반 캐시/키‑값 저장소. 백엔드에서 세션, 캐시 등에 사용.
+  # ============================================================
   redis:
-    image: redis:7-alpine
-    restart: unless-stopped
+    # 경량 Alpine 이미지
+    image: redis:7-alpine          
+    # 자동 재시작 정책
+    restart: unless-stopped        
+    # 기본 Redis 포트
     ports:
-      - "6379:6379"
+      - "6379:6379"                
 
+# ------------------------------------------------------------
+# Named Volumes 정의
+# ------------------------------------------------------------
+# Docker가 처음 사용할 때 자동으로 생성.
 volumes:
   postgres-data:
+    driver: local   # 기본 로컬 드라이버 (호스트 파일 시스템)

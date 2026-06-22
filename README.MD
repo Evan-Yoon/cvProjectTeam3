@@ -57,7 +57,7 @@ WalkMate는 스마트폰 카메라와 온디바이스 AI(YOLO11 → TFLite)를 �
 
 ```
 ┌──────────────────────────────┐        ┌──────────────────────────────┐
-│   사용자 앱 (Capacitor/Android)  │        │   관리자 대시보드 (Web)          │
+│   사용자 앱 (Capacitor/iOS & Android)  │        │   관리자 대시보드 (Web)          │
 │   React 19 + Vite             │        │   React 19 + Vite + Tailwind  │
 │  ┌────────────────────────┐  │        │  ┌────────────────────────┐  │
 │  │ 음성(STT/TTS)·GPS·카메라  │  │        │  │ 대시보드 · 히트맵 · DB     │  │
@@ -89,7 +89,7 @@ WalkMate는 스마트폰 카메라와 온디바이스 AI(YOLO11 → TFLite)를 �
 
 | 영역 | 기술 |
 | --- | --- |
-| **사용자 앱** | React 19, TypeScript, Vite 6, Capacitor 8 (Android) |
+| **사용자 앱** | React 19, TypeScript, Vite 6, Capacitor 8 (iOS & Android) |
 | **앱 기능** | Capacitor Geolocation / Motion / Device / Filesystem, Speech Recognition(STT), Text-to-Speech(TTS), react-webcam |
 | **온디바이스 AI** | TensorFlow.js, tfjs-tflite (커스텀 NPU/TFLite 브리지) |
 | **관리자 대시보드** | React 19, TypeScript, Vite 6, Tailwind CSS, Recharts, Supabase JS |
@@ -132,6 +132,7 @@ cvProjectTeam3/
 │   │   ├── NpuTfliteBridge.ts# 온디바이스 TFLite 추론 브리지
 │   │   ├── public/wasm/      # TFLite 런타임 및 변환 모델(best_float32.tflite)
 │   │   ├── android/          # Capacitor Android 프로젝트
+│   │   ├── ios/              # Capacitor iOS 프로젝트
 │   │   └── package.json
 │   │
 │   └── adminUI/              # 관리자 대시보드 (React + Vite + Tailwind)
@@ -155,6 +156,7 @@ cvProjectTeam3/
 - **Node.js** 18+ 및 npm
 - **Python** 3.10+
 - **PostgreSQL** 및 **Redis** (Docker 권장)
+- **Xcode** (사용자 앱 빌드/배포 시)
 - **Android Studio** (사용자 앱 빌드/배포 시)
 - **Supabase 프로젝트** (관리자 대시보드 실행에 필수)
 - **TMAP API Key**, **AWS S3** 자격 증명
@@ -197,44 +199,66 @@ cp UI/adminUI/.env.example UI/adminUI/.env # 관리자 대시보드
 ```bash
 cd backend
 python -m venv .venv && source .venv/bin/activate   # (선택) 가상환경
-pip install -r requirements.txt
+### 1. 전체 서비스 시작 (Docker)
 
-# (필요 시) DB 마이그레이션
-python migrate.py
+```bash
+# 프로젝트 루트에서 모든 컨테이너를 백그라운드로 실행
+docker compose -f .devcontainer/docker-compose.yml up -d
 
-# 개발 서버 실행 (http://localhost:8000)
+# 상태 확인
+docker compose -f .devcontainer/docker-compose.yml ps
+```
+
+- `workspace` : 백엔드·프론트엔드 개발 환경 (Python, Node, OpenJDK 17)
+- `postgres`  : PostGIS 데이터베이스 (포트 5432)
+- `redis`     : 캐시·세션 저장소 (포트 6379)
+
+### 2. VS Code 로 DevContainer 재오픈 (추천)
+
+1. VS Code 로 프로젝트 폴더(`cvProjectTeam3`)를 엽니다.
+2. 좌측 하단 **“Reopen in Container”** 버튼을 클릭하면 자동으로 `workspace` 컨테이너에 접속됩니다.
+3. 이제 터미널은 컨테이너 내부이며, 모든 명령을 여기서 실행합니다.
+
+### 3. 백엔드 서버 실행
+
+```bash
+# 컨테이너 내부 (VS Code 터미널 또는 `docker compose exec workspace bash`) 에서
 python run.py
 ```
 
-서버 상태 확인: `GET http://localhost:8000/health` → `{"ok": true}`
-API 문서: `http://localhost:8000/docs` (Swagger UI)
+- 개발 서버: http://localhost:8000
+- 상태 확인: `GET http://localhost:8000/health` → `{"ok": true}`
+- Swagger API 문서: http://localhost:8000/docs
 
-### 2. 사용자 앱 실행
+### 4. 사용자 UI 실행 (Vite)
 
 ```bash
 cd UI/userUI
-npm install
-
-# 웹 개발 서버 (http://localhost:5173)
-npm run dev
-
-# Android 빌드/배포
-npm run build
-npx cap sync android
-npx cap open android   # Android Studio에서 실행
+npm install          # 최초 한번만 실행
+npm run dev          # 개발 서버 → http://localhost:5173
 ```
 
-### 3. 관리자 대시보드 실행
+프론트엔드가 실행되면 브라우저에서 `http://localhost:5173` 에 접속해 UI를 확인할 수 있습니다.
+
+#### 모바일 (Capacitor) 빌드 & 배포
+
+```bash
+# iOS
+npm run build
+npx cap sync ios
+npx cap open ios   # Xcode 로 실행
+
+# Android
+npm run build
+npx cap sync android
+npx cap open android   # Android Studio 로 실행
+```
+
+### 5. 관리자 대시보드 실행
 
 ```bash
 cd UI/adminUI
 npm install
-
-# 웹 개발 서버 (http://localhost:5173)
-npm run dev
-
-# 프로덕션 빌드
-npm run build
 npm run preview
 ```
 
