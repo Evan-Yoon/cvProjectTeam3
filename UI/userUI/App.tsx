@@ -10,6 +10,12 @@ import { searchLocation } from './src/api/tmap'; // 장소 이름 -> 좌표 검�
 import { requestNavigation, NavigationStep } from './src/api/backend'; // ★ 백엔드 요청
 import { speak } from './src/utils/audio';
 
+const LOCATION_WATCH_OPTIONS = {
+  enableHighAccuracy: true,
+  timeout: 30000,
+  maximumAge: 10000,
+};
+
 const App: React.FC = () => {
   const [currentScreen, setCurrentScreen] = useState<AppScreen>(AppScreen.IDLE);
 
@@ -40,10 +46,10 @@ const App: React.FC = () => {
         }
 
         watchId = await Geolocation.watchPosition(
-          { enableHighAccuracy: true, timeout: 20000, maximumAge: 0 },
+          LOCATION_WATCH_OPTIONS,
           (pos, err) => {
             if (err) {
-              console.error("GPS Watch Error:", err);
+              console.warn("GPS Watch Retry:", err);
               return;
             }
             if (pos) {
@@ -87,7 +93,7 @@ const App: React.FC = () => {
       await speak("현재 위치를 확인 중입니다. 잠시 후 다시 시도해주세요.");
       // 한번 더 강제 시도
       try {
-        const coordinates = await Geolocation.getCurrentPosition();
+        const coordinates = await Geolocation.getCurrentPosition(LOCATION_WATCH_OPTIONS);
         const newLoc = {
           lat: coordinates.coords.latitude,
           lng: coordinates.coords.longitude

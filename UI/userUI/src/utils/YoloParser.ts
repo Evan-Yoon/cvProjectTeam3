@@ -10,7 +10,7 @@ export interface DetectedBox {
 
 const COCO_CLASSES = [
     "person", "bicycle", "car", "motorcycle", "bus", "truck", "traffic light",
-    "stop sign", "bench", "dog", "bollard", "banner", "kickboard"
+    "stop sign", "bench", "dog", "bollard", "kickboard"
 ];
 
 type Layout = "FxB" | "BxF";
@@ -109,7 +109,10 @@ export class YoloParser {
 
         const { numBoxes, numFeatures, layout } = inferred;
 
-        const hasObjectness = (numFeatures - 5) > 0; // 85인 경우 true일 가능성 높음
+        const knownClassCount = COCO_CLASSES.length;
+        const hasObjectness =
+            numFeatures === knownClassCount + 5 ||
+            (numFeatures !== knownClassCount + 4 && numFeatures === 85);
         const classStart = hasObjectness ? 5 : 4;
         const numClasses = Math.max(0, numFeatures - classStart);
 
@@ -122,12 +125,21 @@ export class YoloParser {
         const boxes: DetectedBox[] = [];
 
         for (let i = 0; i < numBoxes; i++) {
-            const cx = this.read(data, layout, numBoxes, numFeatures, i, 0);
-            const cy = this.read(data, layout, numBoxes, numFeatures, i, 1);
-            const w = this.read(data, layout, numBoxes, numFeatures, i, 2);
-            const h = this.read(data, layout, numBoxes, numFeatures, i, 3);
+            let cx = this.read(data, layout, numBoxes, numFeatures, i, 0);
+            let cy = this.read(data, layout, numBoxes, numFeatures, i, 1);
+            let w = this.read(data, layout, numBoxes, numFeatures, i, 2);
+            let h = this.read(data, layout, numBoxes, numFeatures, i, 3);
 
             if (!isFinite(cx) || !isFinite(cy) || !isFinite(w) || !isFinite(h)) continue;
+
+            // Ultralytics YOLO TFLite raw output is usually xywh in model pixels.
+            const maxAbs = Math.max(Math.abs(cx), Math.abs(cy), Math.abs(w), Math.abs(h));
+            if (maxAbs > 1.5) {
+                cx /= modelInputSize;
+                cy /= modelInputSize;
+                w /= modelInputSize;
+                h /= modelInputSize;
+            }
 
             const obj = hasObjectness ? this.read(data, layout, numBoxes, numFeatures, i, 4) : 1.0;
 

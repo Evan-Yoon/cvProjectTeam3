@@ -12,6 +12,24 @@ import { Destination } from '../types';
 // 만약 북쪽을 보는데 화살표가 동쪽을 가리키면 -90 또는 90으로 조절해보세요.
 const COMPASS_OFFSET = 0;
 
+const GPS_POSITION_OPTIONS = {
+  enableHighAccuracy: true,
+  timeout: 20000,
+  maximumAge: 10000,
+};
+
+const GPS_WATCH_OPTIONS = {
+  enableHighAccuracy: true,
+  timeout: 30000,
+  maximumAge: 10000,
+  minimumUpdateInterval: 1000
+};
+
+const isLocationTimeoutError = (error: unknown) => {
+  const message = String((error as { message?: string })?.message ?? error).toLowerCase();
+  return message.includes("timeout") || message.includes("obtain location") || message.includes("in time");
+};
+
 // ------------------------------------------------------------------
 // 1. Props 인터페이스 정의
 // ------------------------------------------------------------------
@@ -255,11 +273,7 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
 
         // 1. 초기 위치 즉시 확보 (Watch가 느릴 수 있으므로)
         try {
-          const initialPos = await Geolocation.getCurrentPosition({
-            enableHighAccuracy: true,
-            timeout: 5000,
-            maximumAge: 0
-          });
+          const initialPos = await Geolocation.getCurrentPosition(GPS_POSITION_OPTIONS);
           if (initialPos && initialPos.coords) {
             const { latitude, longitude } = initialPos.coords;
             setVisualPos({ lat: latitude, lng: longitude });
@@ -274,16 +288,15 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
 
         // 2. 실시간 위치 추적 (WatchPosition)
         watchId.current = await Geolocation.watchPosition(
-          {
-            enableHighAccuracy: true, // 배터리보다 정확도 우선
-            timeout: 10000,
-            maximumAge: 0,
-            minimumUpdateInterval: 1000 // 1초마다 업데이트 (더 빠르게)
-          },
+          GPS_WATCH_OPTIONS,
           (pos, err) => {
             if (err) {
-              console.error("GPS Watch Error:", err);
-              setDebugMsg(`GPS 에러: ${err.message}`);
+              console.warn("GPS Watch Retry:", err);
+              if (isLocationTimeoutError(err)) {
+                setDebugMsg(prevPosition.current ? "GPS 신호 약함 - 마지막 위치 유지 중" : "GPS 신호 대기 중...");
+              } else {
+                setDebugMsg(`GPS 에러: ${err.message}`);
+              }
               return;
             }
             if (!pos || !isMounted.current) return;
