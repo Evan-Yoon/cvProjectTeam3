@@ -14,6 +14,21 @@ const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({ destination, on
     const isMounted = useRef(true);
     const latestText = useRef<string>(""); // 실시간 중간 결과 누적
     const silenceTimer = useRef<NodeJS.Timeout | null>(null);
+    const hasFinalized = useRef(false);
+
+    const handleConfirm = () => {
+        if (hasFinalized.current) return;
+        hasFinalized.current = true;
+        stopListening();
+        onConfirm();
+    };
+
+    const handleDeny = () => {
+        if (hasFinalized.current) return;
+        hasFinalized.current = true;
+        stopListening();
+        onDeny();
+    };
 
     // "응/아니오" 판단 및 부모 핸들러 트리거
     const handleCommandResult = (text: string) => {
@@ -21,9 +36,9 @@ const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({ destination, on
         console.log("Confirmation STT:", command);
 
         if (["응", "네", "맞아", "그래", "yes", "ok", "어", "맞음"].some(k => command.includes(k))) {
-            if (isMounted.current) onConfirm();
+            if (isMounted.current) handleConfirm();
         } else if (["아니", "틀려", "no", "nope", "아니야", "아님"].some(k => command.includes(k))) {
-            if (isMounted.current) onDeny();
+            if (isMounted.current) handleDeny();
         } else {
             // 이해할 수 없는 텍스트의 경우, 일단은 무시하고 대기하거나 재인식
         }
@@ -67,8 +82,8 @@ const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({ destination, on
             // 1. TTS로 안내 멘트 재생이 끝날 때까지 대기
             await speak(`${destination}이 맞으신가요?`);
 
-            // 2. 오디오 세션 안정을 위해 300ms 짧은 대기
-            await new Promise((resolve) => setTimeout(resolve, 300));
+            // 2. 오디오 세션 안정을 위해 500ms 대기 (playback→recording 세션 전환 시간 확보)
+            await new Promise((resolve) => setTimeout(resolve, 500));
 
             if (isMounted.current) {
                 handleSTT();
@@ -130,13 +145,13 @@ const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({ destination, on
                 {/* 화면 상단 절반: 클릭 시 '확인(onConfirm)' 실행 */}
                 <button
                     className="flex-1 w-full outline-none focus:bg-primary/5 active:bg-primary/10 transition-colors"
-                    onClick={() => { stopListening(); onConfirm(); }}
+                    onClick={handleConfirm}
                     aria-label="Confirm Destination" // 스크린 리더용 라벨
                 ></button>
                 {/* 화면 하단 절반: 클릭 시 '취소(onDeny)' 실행 */}
                 <button
                     className="flex-1 w-full outline-none focus:bg-red-500/5 active:bg-red-500/10 transition-colors"
-                    onClick={() => { stopListening(); onDeny(); }}
+                    onClick={handleDeny}
                     aria-label="Deny Destination"
                 ></button>
             </div>

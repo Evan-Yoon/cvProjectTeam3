@@ -1,90 +1,147 @@
-import { TextToSpeech } from '@capacitor-community/text-to-speech';
 import { SpeechRecognition } from '@capacitor-community/speech-recognition';
+import { TextToSpeech } from '@capacitor-community/text-to-speech';
+import { Capacitor } from '@capacitor/core';
+
+const isNative = Capacitor.isNativePlatform();
+let isListeningActive = false;
 
 // ==========================================
 // 1. 말하기 (TTS: Text To Speech)
 // ==========================================
 export const speak = async (text: string) => {
-    try {
-        // 말하고 있는 중이라면 멈추고 새 말을 합니다.
-        await TextToSpeech.stop();
-
-        await TextToSpeech.speak({
-            text: text,
-            lang: 'ko-KR', // 한국어 설정
-            rate: 1.0,     // 말하기 속도 (1.0 = 보통)
-            pitch: 1.0,    // 목소리 톤
-            volume: 1.0,   // 볼륨 (0.0 ~ 1.0)
-        });
-    } catch (error) {
-        console.error('TTS Error:', error);
+    if (isNative) {
+        try {
+            await TextToSpeech.stop();
+            // 'ambient' 카테고리는 iOS에서 완료 콜백이 안 오는 경우가 있어
+            // 'playback'으로 변경. 타임아웃 fallback도 추가.
+            const ttsPromise = TextToSpeech.speak({
+                text: text,
+                lang: 'ko-KR',
+                rate: 1.0,
+                pitch: 1.0,
+                volume: 1.0,
+                category: 'playback',
+            });
+            // 텍스트 길이 기반 최대 대기 시간 (글자당 ~300ms + 2초 여유)
+            const timeoutMs = Math.max(5000, text.length * 300 + 2000);
+            const timeoutPromise = new Promise<void>((resolve) => setTimeout(resolve, timeoutMs));
+            await Promise.race([ttsPromise, timeoutPromise]);
+        } catch (error) {
+            console.error('TTS Error:', error);
+        }
+    } else {
+        if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = 'ko-KR';
+            window.speechSynthesis.speak(utterance);
+        }
     }
 };
 
 // ==========================================
 // 2. 듣기 (STT: Speech To Text)
 // ==========================================
-// 듣기 시작 함수
 export const startListening = async (
-    onResult: (text: string) => void, // 말을 인식했을 때 실행할 함수
-    onEnd?: () => void                // 인식이 끝났을 때 실행할 함수
+    onResult: (text: string) => void,
+    onError: () => void,
+    onPartial?: (text: string) => void
 ) => {
-    try {
-        // 1. STT 기능 사용 가능 여부 확인
-        // ★ [수정 1] public이 아니라 available 속성을 가져옵니다.
-        const { available } = await SpeechRecognition.available();
+    if (isListeningActive) {
+        console.warn("STT가 이미 작동 중입니다. 중복 호출을 차단합니다.");
+        return;
+    }
+    isListeningActive = true;
 
-        if (!available) {
-            console.error("STT not available");
-            return;
-        }
+    if (isNative) {
+        try {
+            const { available } = await SpeechRecognition.available();
+            console.log("🎙️ STT available:", available);
 
-        // 2. 권한 요청
-        // ★ [수정 2] microphone 속성을 제거하고 speechRecognition 권한만 확인합니다.
-        const permission = await SpeechRecognition.requestPermissions();
+            if (available) {
+                // 권한 요청 (iOS는 speechRecognition + microphone 둘 다 필요)
+                const permission = await SpeechRecognition.requestPermissions();
+                console.log("🎙️ STT permission:", JSON.stringify(permission));
 
-        if (permission.speechRecognition !== 'granted') {
-            console.error("Speech recognition permission denied");
-            return;
-        }
+                // iOS 플러그인 버전에 따라 키 이름이 다를 수 있으므로 양쪽 모두 확인
+                const granted =
+                    permission.speechRecognition === 'granted' ||
+                    (permission as any)['speech-recognition'] === 'granted';
 
-        // 3. 기존 리스너 제거 (중복 방지)
-        await SpeechRecognition.removeAllListeners();
+                if (!granted) {
+                    console.error("Speech recognition permission denied:", JSON.stringify(permission));
+                    isListeningActive = false;
+                    onError();
+                    return;
+                }
 
-        // 4. 부분 결과 리스너 (말하는 도중에 계속 인식)
-        SpeechRecognition.addListener('partialResults', (data: any) => {
-            // 안드로이드에서는 matches 배열에 결과가 담겨옵니다.
-            if (data.matches && data.matches.length > 0) {
-                onResult(data.matches[0]); // 가장 정확한 첫 번째 결과 전달
+                // 1. 리스너 등록
+                await SpeechRecognition.removeAllListeners();
+                await SpeechRecognition.addListener('partialResults', (data: any) => {
+                    if (data.matches && data.matches.length > 0) {
+                        console.log("Partial result:", data.matches[0]);
+                        if (onPartial) {
+                            onPartial(data.matches[0]);
+                        }
+                    } else if (data.value && data.value.length > 0) {
+                        console.log("Partial value:", data.value[0]);
+                        if (onPartial) {
+                            onPartial(data.value[0]);
+                        }
+                    }
+                });
+
+                // 2. 인식 시작
+                const result = await SpeechRecognition.start({
+                    language: "ko-KR",
+                    maxResults: 1,
+                    prompt: "말씀해주세요...",
+                    partialResults: true,
+                    popup: false,
+                });
+
+                // iOS에서 start()는 즉시 undefined로 resolve됨 (비동기 결과는 partialResults 이벤트로만 옴).
+                // 최종 결과가 있으면 onResult 호출, 없으면 무시하고 partialResults + 침묵 타이머에 맡김.
+                if (result && result.matches && result.matches.length > 0) {
+                    console.log("Final result:", result.matches[0]);
+                    isListeningActive = false;
+                    onResult(result.matches[0]);
+                } else {
+                    // 빈 결과는 오류가 아님 - iOS 정상 동작. partialResults 이벤트가 실제 결과를 전달함.
+                    console.log("ℹ️ start() resolved empty - waiting for partialResults events...");
+                    isListeningActive = false;
+                    // onError() 호출하지 않음
+                }
+
+            } else {
+                console.error("음성 인식을 사용할 수 없는 기기입니다.");
+                isListeningActive = false;
+                onError();
             }
-            // iOS 등 다른 플랫폼 호환성을 위해 value도 체크 (옵션)
-            else if (data.value && data.value.length > 0) {
-                onResult(data.value[0]);
-            }
-        });
-
-        // 5. 듣기 시작
-        await SpeechRecognition.start({
-            language: "ko-KR", // 한국어 인식
-            maxResults: 2,
-            prompt: "말씀하세요...", // (안드로이드 구버전용 팝업 텍스트)
-            popup: false,         // 팝업 없이 백그라운드에서 인식
-            partialResults: true, // 말하는 도중에도 결과 받기
-        });
-
-    } catch (error) {
-        console.error('STT Start Error:', error);
-        if (onEnd) onEnd();
+        } catch (e) {
+            console.error("STT 에러:", e);
+            isListeningActive = false; // 에러 시 락 해제
+            onError();
+        }
+    } else {
+        // 웹 시뮬레이션
+        console.log("웹: 시뮬레이션 실행");
+        setTimeout(() => {
+            isListeningActive = false;
+            onResult("수원역");
+        }, 2000);
     }
 };
 
 // 듣기 중단 함수
 export const stopListening = async () => {
-    try {
-        await SpeechRecognition.stop();
-        await SpeechRecognition.removeAllListeners();
-    } catch (error) {
-        // 에러 로그는 남기되, 앱이 멈추지 않도록 처리
-        console.warn('STT Stop Warning:', error);
+    isListeningActive = false; // 중지 시 락 해제
+    if (isNative) {
+        try {
+            await SpeechRecognition.stop();
+            await SpeechRecognition.removeAllListeners();
+        } catch (error) {
+            console.warn('STT Stop Warning:', error);
+        }
     }
 };

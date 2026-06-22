@@ -7,13 +7,13 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './'),
-      // ✅ [핵심] Vite가 빌드 시 네이티브 라이브러리를 만나면 'react-native-web'으로 대체하게 합니다.
-      // 이렇게 해야 Vite가 Flow 문법(import typeof)이 섞인 네이티브 코드를 읽지 않습니다.
-      'react-native': 'react-native-web',
-      'react-native-vision-camera': 'react-native-web',
-      'react-native-fast-tflite': 'react-native-web',
-      'vision-camera-resize-plugin': 'react-native-web',
-      'react-native-worklets-core': 'react-native-web',
+      // tfjs-tflite의 ESM 진입점(dist/index.js)은 dist에 없는 런타임 전용
+      // client(tflite_web_api_client)를 import해서 번들이 깨짐. client가 인라인되고
+      // tfjs-core는 외부참조(앱의 tfjs와 동일 인스턴스 공유)하는 UMD 번들로 우회.
+      '@tensorflow/tfjs-tflite': path.resolve(
+        __dirname,
+        'node_modules/@tensorflow/tfjs-tflite/dist/tf-tflite.min.js'
+      ),
     },
   },
   base: './',
@@ -23,15 +23,5 @@ export default defineConfig({
       'Cross-Origin-Opener-Policy': 'same-origin',
       'Cross-Origin-Embedder-Policy': 'require-corp',
     },
-  },
-  optimizeDeps: {
-    // ✅ 네이티브 전용 라이브러리들을 의존성 최적화 대상에서 제외합니다.
-    exclude: [
-      'react-native-vision-camera',
-      'react-native-fast-tflite',
-      'vision-camera-resize-plugin',
-      'react-native-worklets-core',
-      '@tensorflow/tfjs-tflite' // 기존에 넣으신 설정도 유지합니다.
-    ],
   },
 });

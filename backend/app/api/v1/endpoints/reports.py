@@ -1,17 +1,12 @@
 from fastapi import APIRouter, Depends, HTTPException, UploadFile, File, Form
 from sqlalchemy.orm import Session
 from uuid import uuid4, UUID
-import os
 from datetime import datetime
 
 from app.core.database import get_db
 from app.crud import report as crud_report
 
 router = APIRouter()
-
-# 이미지 저장할 디렉토리 설정 (main.py 설정과 맞춰야 함)
-UPLOAD_DIR = "uploads"
-os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 @router.post("/")
 async def create_report(
@@ -43,7 +38,7 @@ async def create_report(
         from app.services.s3_uploader import upload_image_to_s3
 
         if not S3_BUCKET_NAME:
-             raise HTTPException(status_code=500, detail="Server Configuration Error: S3_BUCKET_NAME is missing. Local storage is disabled.")
+             raise HTTPException(status_code=500, detail="Server Configuration Error: S3_BUCKET_NAME is missing.")
 
         try:
             # 파일 포인터를 처음으로 되돌림 (필요 시)

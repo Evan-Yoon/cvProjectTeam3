@@ -8,8 +8,8 @@ if (!rootElement) {
 }
 
 const root = ReactDOM.createRoot(rootElement);
+// React.StrictMode를 제거: 개발 환경에서 useEffect가 두 번 실행되어
+// TTS speak()가 중복 호출되는 문제 방지
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  <App />
 );

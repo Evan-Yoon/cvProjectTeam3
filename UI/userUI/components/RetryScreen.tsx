@@ -20,6 +20,14 @@ const RetryScreen: React.FC<RetryScreenProps> = ({
   const isMounted = useRef(true);
   const latestText = useRef<string>(""); // 실시간 중간 결과 저장
   const silenceTimer = useRef<NodeJS.Timeout | null>(null);
+  const hasFinalized = useRef(false);
+
+  // 상위 컴포넌트 콜백이 중복 실행되지 않도록 막아주는 헬퍼
+  const handleFinalizedSpeech = (text: string) => {
+    if (hasFinalized.current) return;
+    hasFinalized.current = true;
+    onSpeechDetected(text);
+  };
 
   // 침묵 1.3초 감지 시 자동 완료 처리
   const resetSilenceTimer = (currentText: string) => {
@@ -29,7 +37,7 @@ const RetryScreen: React.FC<RetryScreenProps> = ({
       if (isMounted.current && currentText.trim()) {
         console.log("🤫 Retry 침묵 감지 -> 자동 확정:", currentText);
         stopListening();
-        onSpeechDetected(currentText);
+        handleFinalizedSpeech(currentText);
       }
     }, 1300); // 1.3초
   };
@@ -51,7 +59,7 @@ const RetryScreen: React.FC<RetryScreenProps> = ({
           const resultText = finalResult || latestText.current;
           console.log("Retry STT Final:", resultText);
           if (isMounted.current && resultText.trim()) {
-            onSpeechDetected(resultText);
+            handleFinalizedSpeech(resultText);
           }
         },
         () => {
@@ -85,7 +93,7 @@ const RetryScreen: React.FC<RetryScreenProps> = ({
       (finalResult) => {
         const resultText = finalResult || latestText.current;
         if (isMounted.current && resultText.trim()) {
-          onSpeechDetected(resultText);
+          handleFinalizedSpeech(resultText);
         }
       },
       () => { },

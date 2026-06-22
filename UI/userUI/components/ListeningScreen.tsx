@@ -13,6 +13,14 @@ const ListeningScreen: React.FC<ListeningScreenProps> = ({ onCancel, onSpeechDet
   const isMounted = useRef(true);
   const latestText = useRef<string>(""); // 실시간 인식 조각 저장
   const silenceTimer = useRef<NodeJS.Timeout | null>(null);
+  const hasFinalized = useRef(false);
+
+  // 상위 컴포넌트 콜백이 중복 실행되지 않도록 막아주는 헬퍼
+  const handleFinalizedSpeech = (text: string) => {
+    if (hasFinalized.current) return;
+    hasFinalized.current = true;
+    onSpeechDetected(text);
+  };
 
   // 디바운스 타이머 설정 (침묵 1.3초 감지 시 자동 종료)
   const resetSilenceTimer = (currentText: string) => {
@@ -22,7 +30,7 @@ const ListeningScreen: React.FC<ListeningScreenProps> = ({ onCancel, onSpeechDet
       if (isMounted.current && currentText.trim()) {
         console.log("🤫 침묵 감지 -> 자동 음성인식 확정:", currentText);
         stopListening();
-        onSpeechDetected(currentText);
+        handleFinalizedSpeech(currentText);
       }
     }, 1300); // 1.3초 동안 침묵할 경우
   };
@@ -36,8 +44,8 @@ const ListeningScreen: React.FC<ListeningScreenProps> = ({ onCancel, onSpeechDet
       // 1. TTS 안내 멘트 재생이 끝날 때까지 대기
       await speak("어디로 가고 싶으신가요?");
 
-      // 2. 오디오 세션 전환을 위해 300ms 짧은 대기
-      await new Promise((resolve) => setTimeout(resolve, 300));
+      // 2. 오디오 세션 전환을 위해 500ms 대기 (playback→recording 세션 전환 시간 확보)
+      await new Promise((resolve) => setTimeout(resolve, 500));
 
       if (!isMounted.current) return;
       console.log("🎤 음성 인식 시작 요청...");
@@ -48,7 +56,7 @@ const ListeningScreen: React.FC<ListeningScreenProps> = ({ onCancel, onSpeechDet
           const resultText = finalResult || latestText.current;
           console.log("✅ 최종 결과 완료:", resultText);
           if (isMounted.current) {
-            onSpeechDetected(resultText);
+            handleFinalizedSpeech(resultText);
           }
         },
         () => {
@@ -83,11 +91,11 @@ const ListeningScreen: React.FC<ListeningScreenProps> = ({ onCancel, onSpeechDet
     console.log("👆 화면 터치 -> 수동 텍스트 확정:", confirmedText);
 
     if (confirmedText) {
-      onSpeechDetected(confirmedText);
+      handleFinalizedSpeech(confirmedText);
     } else {
       // 말한 내용이 없는 상태에서 터치한 경우 -> 다시 말해달라는 화면(RETRY)으로 유도
       console.log("⚠️ 말한 내용 없음 -> 재시도(RETRY) 화면 유도");
-      onSpeechDetected("ERROR_NOT_FOUND");
+      handleFinalizedSpeech("ERROR_NOT_FOUND");
     }
   };
 

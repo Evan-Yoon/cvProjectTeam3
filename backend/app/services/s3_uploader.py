@@ -24,7 +24,6 @@ def upload_image_to_s3(file_bytes: bytes, key: str, content_type: str) -> str:
             Key=key,
             Body=file_bytes,
             ContentType=content_type or "image/jpeg",
-            ACL="public-read",  # 버킷 정책이 public을 허용해야 Admin에서 바로 조회 가능
         )
     except ClientError as e:
         raise RuntimeError(f"S3 upload failed: {e}") from e
