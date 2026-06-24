@@ -41,11 +41,12 @@ const ListeningScreen: React.FC<ListeningScreenProps> = ({ onCancel, onSpeechDet
   };
 
   useEffect(() => {
+    let isMountedLocal = true;
     // 컴포넌트가 화면에 들어온 순간부터 비동기 작업이 살아있다고 표시합니다.
     isMounted.current = true;
 
     const runSTTFlow = async () => {
-      if (!isMounted.current) return;
+      if (!isMountedLocal) return;
 
       // 1. TTS 안내 멘트 재생이 끝날 때까지 대기
       await speak("어디로 가고 싶으신가요?");
@@ -53,7 +54,7 @@ const ListeningScreen: React.FC<ListeningScreenProps> = ({ onCancel, onSpeechDet
       // 2. 오디오 세션 전환을 위해 500ms 대기 (playback→recording 세션 전환 시간 확보)
       await new Promise((resolve) => setTimeout(resolve, 500));
 
-      if (!isMounted.current) return;
+      if (!isMountedLocal) return;
       console.log("🎤 음성 인식 시작 요청...");
 
       await startListening(
@@ -62,7 +63,7 @@ const ListeningScreen: React.FC<ListeningScreenProps> = ({ onCancel, onSpeechDet
           // 일부 기기에서는 finalResult가 비어 있고 partialResults만 들어오므로 latestText를 fallback으로 씁니다.
           const resultText = finalResult || latestText.current;
           console.log("✅ 최종 결과 완료:", resultText);
-          if (isMounted.current) {
+          if (isMountedLocal) {
             handleFinalizedSpeech(resultText);
           }
         },
@@ -83,6 +84,7 @@ const ListeningScreen: React.FC<ListeningScreenProps> = ({ onCancel, onSpeechDet
 
     // 3. 네이티브 리소스를 닫는 클린업 함수
     return () => {
+      isMountedLocal = false;
       // 화면을 떠난 뒤 늦게 도착한 STT 결과가 App 상태를 바꾸지 못하게 막습니다.
       isMounted.current = false;
       if (silenceTimer.current) clearTimeout(silenceTimer.current);

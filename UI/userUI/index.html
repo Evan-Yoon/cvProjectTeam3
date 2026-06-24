@@ -1,23 +1,16 @@
 <!DOCTYPE html>
-<!--
-  index.html은 Vite가 가장 먼저 브라우저에 전달하는 HTML 껍데기입니다.
-  실제 React 화면은 아래 body의 <div id="root"></div> 안에 index.tsx가 렌더링합니다.
--->
 <html lang="ko" class="dark">
 
 <head>
-  <!-- UTF-8은 한글, 이모지, 특수문자가 깨지지 않도록 하는 문자 인코딩 설정입니다. -->
   <meta charset="UTF-8" />
-  <!--
-    viewport는 모바일 화면 배율을 제어합니다.
-    maximum-scale=1.0, user-scalable=no는 사용자가 핀치 줌을 하지 못하게 하므로
-    접근성 측면에서는 장단점이 있습니다. 이 앱은 전체 화면 음성/터치 UX를 우선한 설정입니다.
-  -->
+  <!-- maximum-scale=1.0, user-scalable=no는 사용자가 핀치 줌을 하지 못하게 하는 설정입니다. -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>WalkMate</title>
 
   <!-- iOS 모바일 웹앱 최적화 -->
+  <!-- 홈 화면 추가 시 브라우저 주소창과 하단 툴바가 제거되어 네이티브 앱처럼 전체 화면(Standalone)으로 켜지게 만듭니다. -->
   <meta name="apple-mobile-web-app-capable" content="yes" />
+  <!-- 전체 화면 구동 시, 스마트폰 상단 상태바(시간, 배터리) 영역 뒤로 앱의 어두운 배경이 스며들어 예쁘게 겹치도록 반투명 스타일을 줍니다. -->
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 </head>
 

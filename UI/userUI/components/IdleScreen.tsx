@@ -19,24 +19,36 @@ const IdleScreen: React.FC<IdleScreenProps> = ({ onStart, isLocationReady }) => 
   useEffect(() => {
     // isLocationReady가 바뀔 때마다 실행됩니다.
     // 위치가 준비되면 안내 멘트를 말하고 2초 뒤 자동으로 음성 인식 화면으로 넘어갑니다.
+    let isMountedLocal = true;
+
     if (isLocationReady) {
       setCurrentAddress("위치 확인 완료");
-      speak("현재 위치를 확인했습니다. 어디로 안내할까요?");
+      if (isMountedLocal) {
+        speak("현재 위치를 확인했습니다. 어디로 안내할까요?");
+      }
       // 자동으로 넘어가는 기능이 필요하다면 여기서 호출 (유저 요청: "app needs to really find my location -> and then ask")
       // 즉, 위치 찾고 -> 물어보고 -> 리스닝 (현재 흐름 유지)
       // 단, 너무 빨리 넘어가면 "위치 확인 완료"를 못 볼 수 있음. 
       // 기존 코드는 바로 onStart() 호출했음.
       const timer = setTimeout(() => {
-        onStart();
+        if (isMountedLocal) onStart();
       }, 2000); // 2초 뒤 자동 시작
       // 위치 준비 후 2초가 지나기 전에 컴포넌트가 사라지면 타이머를 정리합니다.
-      return () => clearTimeout(timer);
+      return () => {
+        isMountedLocal = false;
+        clearTimeout(timer);
+      };
     } else {
       // GPS가 아직 준비되지 않았으면 사용자에게 대기 상태를 음성으로 알려줍니다.
       setCurrentAddress("위치 확인 중...");
-      speak("위치 정보를 찾고 있습니다.");
+      if (isMountedLocal) {
+        speak("위치 정보를 찾고 있습니다.");
+      }
+      return () => {
+        isMountedLocal = false;
+      };
     }
-  }, [isLocationReady]);
+  }, [isLocationReady, onStart]);
 
   return (
     <div

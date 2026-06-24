@@ -82,10 +82,11 @@ const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({ destination, on
     };
 
     useEffect(() => {
+        let isMountedLocal = true;
         isMounted.current = true;
 
         const runConfirmationFlow = async () => {
-            if (!isMounted.current) return;
+            if (!isMountedLocal) return;
             // 1. TTS로 안내 멘트 재생이 끝날 때까지 대기
             // speak가 Promise를 반환하므로, 질문 음성이 끝난 뒤 마이크를 켜도록 순서를 보장합니다.
             await speak(`${destination}이 맞으신가요?`);
@@ -93,7 +94,7 @@ const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({ destination, on
             // 2. 오디오 세션 안정을 위해 500ms 대기 (playback→recording 세션 전환 시간 확보)
             await new Promise((resolve) => setTimeout(resolve, 500));
 
-            if (isMounted.current) {
+            if (isMountedLocal) {
                 handleSTT();
             }
         };
@@ -101,6 +102,7 @@ const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({ destination, on
         runConfirmationFlow();
 
         return () => {
+            isMountedLocal = false;
             // 화면이 바뀌면 타이머와 STT 리스너를 정리해 다음 화면 음성 입력과 충돌하지 않게 합니다.
             isMounted.current = false;
             if (silenceTimer.current) clearTimeout(silenceTimer.current);
