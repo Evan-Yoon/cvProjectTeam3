@@ -4,18 +4,27 @@ import { MapContainer, TileLayer, Polyline, CircleMarker, Marker, useMap } from 
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
+// DebugMap은 안내 화면 상단에 현재 위치, 경로 선, 체크포인트, 도착지를 시각화하는 개발/검증용 지도입니다.
+// react-leaflet은 Leaflet 지도 엔진을 React 컴포넌트처럼 쓸 수 있게 감싼 라이브러리입니다.
+
 // -----------------------------------------------------------
 // 1. Props 인터페이스 정의
 // -----------------------------------------------------------
 interface DebugMapProps {
+    // 백엔드가 내려준 전체 경로 좌표입니다. Polyline으로 파란 선을 그립니다.
     path?: { latitude: number; longitude: number }[];
+    // 현재 GPS 위치입니다. null이면 서울시청 좌표를 기본 중심으로 사용합니다.
     currentPos: { lat: number; lng: number } | null;
+    // 나침반/GPS 보정으로 계산된 사용자 방향입니다. 내 위치 화살표를 회전시킬 때 씁니다.
     currentHeading?: number | null;
 }
 
+// React props가 바뀌었을 때 Leaflet 지도 인스턴스의 중심을 이동시키는 작은 헬퍼 컴포넌트입니다.
 const ChangeView = ({ center }: { center: [number, number] }) => {
     const map = useMap();
     useEffect(() => {
+        // setView는 imperative API라서 JSX 속성 변경만으로는 호출되지 않습니다.
+        // 그래서 useMap으로 지도 객체를 얻어 직접 중심을 갱신합니다.
         map.setView(center, map.getZoom(), { animate: true });
     }, [center, map]);
     return null;
@@ -24,6 +33,7 @@ const ChangeView = ({ center }: { center: [number, number] }) => {
 const DebugMap: React.FC<DebugMapProps> = ({ path, currentPos, currentHeading }) => {
 
     // 경로 데이터 변환
+    // Leaflet은 [lat, lng] 튜플 배열을 기대하므로 백엔드 객체 배열을 변환합니다.
     const pathPositions = path?.map(p => [p.latitude, p.longitude] as [number, number]) || [];
 
     // 도착지 좌표 (경로의 맨 마지막 지점)
@@ -41,6 +51,8 @@ const DebugMap: React.FC<DebugMapProps> = ({ path, currentPos, currentHeading })
     // (1) 내 위치 마커 (빨간색 회전 화살표)
     const createUserIcon = (heading: number | null) => {
         const rotation = heading ?? 0;
+        // divIcon은 이미지 파일 대신 HTML/SVG 문자열로 마커를 만들 수 있게 해줍니다.
+        // 여기서는 SVG 화살표 자체를 회전시켜 사용자의 진행 방향을 보여줍니다.
         const svgArrow = `
             <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="transform: rotate(${rotation}deg); transition: transform 0.3s ease;">
                 <path d="M12 2L2 22L12 18L22 22L12 2Z" fill="#ff0000" stroke="white" stroke-width="2"/>
@@ -56,6 +68,7 @@ const DebugMap: React.FC<DebugMapProps> = ({ path, currentPos, currentHeading })
 
     // (2) ★ [추가] 도착지 깃발 마커 (빨간 깃발)
     const createFlagIcon = () => {
+        // 도착지는 일반 체크포인트와 구분되도록 깃발 아이콘을 별도로 만듭니다.
         const svgFlag = `
             <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg" style="filter: drop-shadow(2px 4px 4px rgba(0,0,0,0.4));">
                 <path d="M8 2 L8 30" stroke="#333" stroke-width="3" stroke-linecap="round"/>
@@ -76,6 +89,7 @@ const DebugMap: React.FC<DebugMapProps> = ({ path, currentPos, currentHeading })
                 center={center}
                 zoom={19}
                 style={{ height: '100%', width: '100%' }}
+                // 안내 화면에서는 사용자가 지도를 조작하기보다 현재 위치를 보는 용도라 휠 줌/기본 줌 버튼을 끕니다.
                 scrollWheelZoom={false}
                 zoomControl={false}
             >
@@ -88,6 +102,7 @@ const DebugMap: React.FC<DebugMapProps> = ({ path, currentPos, currentHeading })
                 {currentPos && <ChangeView center={[currentPos.lat, currentPos.lng]} />}
 
                 {/* 2. 경로 그리기 (파란선) */}
+                {/* pathPositions가 비어 있으면 Polyline을 렌더링하지 않습니다. */}
                 {pathPositions.length > 0 && (
                     <Polyline
                         positions={pathPositions}
@@ -96,6 +111,7 @@ const DebugMap: React.FC<DebugMapProps> = ({ path, currentPos, currentHeading })
                 )}
 
                 {/* 3. 꺾이는 분기점 표시 (노란색 점) - 마지막 지점(도착지)은 제외! */}
+                {/* 각 중간 지점은 CircleMarker로 표시해 실제 안내 체크포인트를 눈으로 확인할 수 있게 합니다. */}
                 {pathPositions.map((pos, index) => {
                     // 마지막 도착지는 깃발을 꽂아야 하므로 노란 점은 그리지 않습니다.
                     if (index === pathPositions.length - 1) return null;

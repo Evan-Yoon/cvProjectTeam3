@@ -6,18 +6,24 @@ import { NavigationStep } from '../src/api/backend'; // 백엔드 데이터 타�
 import DebugMap from './DebugMap'; // 지도 컴포넌트
 import { Destination } from '../types';
 
+// GuidingScreen은 "길 안내 중" 화면입니다.
+// 상단에는 현재 위치/경로 지도를 그리고, 하단에는 카메라 기반 장애물 감지를 띄웁니다.
+// GPS, 나침반, TTS, STT가 함께 움직이므로 state와 ref의 역할 구분이 특히 중요합니다.
+
 // ------------------------------------------------------------------
 // 0. 설정 상수 (기기마다 나침반 편차가 있을 때 수정)
 // ------------------------------------------------------------------
 // 만약 북쪽을 보는데 화살표가 동쪽을 가리키면 -90 또는 90으로 조절해보세요.
 const COMPASS_OFFSET = 0;
 
+// getCurrentPosition으로 초기 위치를 "한 번" 가져올 때 쓰는 옵션입니다.
 const GPS_POSITION_OPTIONS = {
   enableHighAccuracy: true,
   timeout: 20000,
   maximumAge: 10000,
 };
 
+// watchPosition으로 위치 변화를 계속 추적할 때 쓰는 옵션입니다.
 const GPS_WATCH_OPTIONS = {
   enableHighAccuracy: true,
   timeout: 30000,
@@ -25,6 +31,8 @@ const GPS_WATCH_OPTIONS = {
   minimumUpdateInterval: 1000
 };
 
+// 플랫폼별 위치 에러 메시지가 달라서 문자열을 넓게 검사합니다.
+// timeout 계열은 마지막 위치를 유지하며 기다릴 수 있는 상황으로 분리합니다.
 const isLocationTimeoutError = (error: unknown) => {
   const message = String((error as { message?: string })?.message ?? error).toLowerCase();
   return message.includes("timeout") || message.includes("obtain location") || message.includes("in time");
@@ -79,13 +87,17 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
   // ----------------------------------------------------------------
 
   interface TtsMessage {
+    // 실제로 읽을 문장입니다.
     text: string;
+    // 장애물 경고는 일반 안내보다 먼저 말해야 하므로 우선순위 표시를 둡니다.
     isObstacle: boolean;
   }
+  // TTS는 동시에 여러 문장을 말하면 끊기기 쉬워 큐에 쌓아 순서대로 처리합니다.
   const ttsQueue = useRef<TtsMessage[]>([]);
 
   // TTS 큐 처리: 쌓인 안내를 차례대로 말하되 장애물이면 우선 재생
   const processTtsQueue = async () => {
+    // 이미 말하는 중이거나 큐가 비어 있으면 새 발화를 시작하지 않습니다.
     if (isSpeaking.current || ttsQueue.current.length === 0) return;
     isSpeaking.current = true;
 
@@ -97,6 +109,7 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
     await speak(msg.text);
 
     // 문장 길이에 비례하여 충분한 대기 시간 설정 (기본 최소 1.5초 ~)
+    // 일부 TTS 플러그인은 Promise가 실제 발화 종료보다 빨리 끝날 수 있어 여유 시간을 둡니다.
     const waitTime = Math.max(1500, msg.text.length * 150);
     setTimeout(() => {
       isSpeaking.current = false;
@@ -109,6 +122,7 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
     if (!text) return;
 
     // 똑같은 멘트가 큐에 중복으로 수십 개 쌓이는 것만 방지
+    // GPS/카메라 콜백은 짧은 간격으로 반복되므로 같은 문장이 계속 쌓이지 않게 합니다.
     if (ttsQueue.current.some(m => m.text === text && m.isObstacle === isObstacle)) return;
 
     ttsQueue.current.push({ text, isObstacle });
@@ -117,6 +131,7 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
 
   // 두 좌표 사이의 거리 계산 (Haversine 공식 - 지구 곡면 반영)
   const getDistance = (lat1: number, lon1: number, lat2: number, lon2: number) => {
+    // 위도/경도는 평면 좌표가 아니라 각도라서 라디안으로 변환한 뒤 계산합니다.
     const R = 6371e3; // 지구 반지름 (미터)
     const dLat = (lat2 - lat1) * Math.PI / 180;
     const dLon = (lon2 - lon1) * Math.PI / 180;
@@ -129,6 +144,7 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
 
   // 두 좌표 사이의 방위각 계산 (북쪽 0도 기준)
   const getBearing = (lat1: number, lon1: number, lat2: number, lon2: number) => {
+    // 반환값은 0~360도입니다. 0=북쪽, 90=동쪽, 180=남쪽, 270=서쪽입니다.
     const y = Math.sin((lon2 - lon1) * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180);
     const x = Math.cos(lat1 * Math.PI / 180) * Math.sin(lat2 * Math.PI / 180) -
       Math.sin(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * Math.cos((lon2 - lon1) * Math.PI / 180);
@@ -140,6 +156,7 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
   // ----------------------------------------------------------------
   useEffect(() => {
     if (taps >= 3) {
+      // 화면 전체를 1초 안에 3번 누르면 안내를 종료하는 간단한 접근성 제스처입니다.
       safeSpeak("안내를 종료합니다.");
       onEndNavigation();
     }
@@ -152,6 +169,7 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
   // 6. ★ 핵심: 나침반(Compass) 센서 로직 (화살표 방향 제어)
   // ----------------------------------------------------------------
   useEffect(() => {
+    // 센서 원본값은 많이 흔들리므로, 직전 보정값을 기억해 조금씩 따라가게 만듭니다.
     let lastSmoothedHeading: number | null = null;
     const LPF_ALPHA = 0.15; // 낮을수록 부드럽지만 반응 지연, 높을수록 빠르지만 떨림 (0.1 ~ 0.3 추천)
 
@@ -166,6 +184,7 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
         // 브라우저 네이티브 이벤트 'deviceorientationabsolute'가 가장 정밀함
         // iOS Safari는 'deviceorientation' 이벤트 내 webkitCompassHeading 프로퍼티 지원
         // Capacitor Motion은 브라우저 엔진에 의존.
+        // 두 이벤트를 모두 등록하고 handleOrientation에서 실제로 들어온 유효 데이터를 골라 씁니다.
         window.addEventListener('deviceorientationabsolute', handleOrientation, true);
         window.addEventListener('deviceorientation', handleOrientation, true);
 
@@ -175,6 +194,7 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
     };
 
     const handleOrientation = (event: DeviceOrientationEvent) => {
+      // rawHeading은 기기 센서 원본 방위각, currentHeading은 앱에서 쓸 보정 후 방위각입니다.
       let rawHeading = 0;
       let validData = false;
 
@@ -193,6 +213,7 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
       if (!validData) return;
 
       // 나침반 기본 보정값 적용
+      // COMPASS_OFFSET 적용 뒤 0~360 범위로 정규화합니다.
       let currentHeading = (rawHeading + COMPASS_OFFSET) % 360;
       if (currentHeading < 0) currentHeading += 360;
 
@@ -202,6 +223,7 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
       const now = Date.now();
       if (targetGpsHeading.current !== null && (now - gpsActiveTime.current) < 4000) {
         let diffGps = targetGpsHeading.current - currentHeading;
+        // 각도 차이를 -180~180으로 접어야 359도와 1도 사이를 짧은 방향으로 보간합니다.
         diffGps = ((diffGps + 540) % 360) - 180;
         // GPS 궤적으로 90% 확 끌고 옵니다. (자석 왜곡 무시)
         currentHeading = currentHeading + (diffGps * 0.9);
@@ -226,6 +248,7 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
       }
 
       compassHeading.current = lastSmoothedHeading;
+      // 지도 화살표를 다시 렌더링하기 위해 state에도 반영합니다.
       setVisualHeading(lastSmoothedHeading);
 
       // 처음 방향을 잡았을 때 멘트
@@ -253,6 +276,7 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
     // 안내 시작 멘트 (2초 뒤 실행)
     if (routeData && routeData.length > 0) {
       setTimeout(() => {
+        // routeData[0]은 백엔드가 내려준 첫 안내 지점입니다.
         safeSpeak(`안내를 시작합니다. ${routeData[0].instruction}`);
       }, 2000);
     }
@@ -273,6 +297,7 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
 
         // 1. 초기 위치 즉시 확보 (Watch가 느릴 수 있으므로)
         try {
+          // watchPosition은 첫 콜백이 늦을 수 있어, 지도 빈 화면을 줄이려고 단발 위치 요청을 먼저 합니다.
           const initialPos = await Geolocation.getCurrentPosition(GPS_POSITION_OPTIONS);
           if (initialPos && initialPos.coords) {
             const { latitude, longitude } = initialPos.coords;
@@ -305,6 +330,7 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
             const curLng = pos.coords.longitude;
 
             // 지도에 내 위치(점) 업데이트
+            // GPS 콜백마다 state를 갱신해 DebugMap의 현재 위치 마커가 움직입니다.
             setVisualPos({ lat: curLat, lng: curLng });
 
             // 이동 거리 계산 (1.5m 이상 움직였는지 체크)
@@ -313,6 +339,7 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
 
               if (movedDist >= 1.5) {
                 // 실제 이동 궤적(GPS Course) 방위각 계산
+                // 사용자가 실제로 걷고 있다면 "이전 위치 -> 현재 위치" 방향이 몸의 진행 방향에 가깝습니다.
                 const gpsHeading = getBearing(prevPosition.current.lat, prevPosition.current.lng, curLat, curLng);
 
                 // 센서 퓨전을 위해 GPS 이동 방향과 현재 시간을 저장합니다.
@@ -330,6 +357,7 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
             // 경로 안내 로직 (다음 지점까지 거리 체크 및 스킵 처리)
             // ----------------------------------------------------------
             if (routeData && routeData.length > 0 && !isSpeaking.current) {
+              // lastGuideIndex는 마지막으로 도달 처리한 지점입니다. 처음 값 -1의 다음 목표는 0번 지점입니다.
               const nextIndex = lastGuideIndex.current + 1;
 
               if (nextIndex < routeData.length) {
@@ -360,6 +388,7 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
                   }
 
                   // 현재 단계 완료 처리 (스킵된 단계들 포함하여 업데이트)
+                  // reachedIndex가 nextIndex보다 크면 중간 체크포인트를 건너뛴 것으로 보고 한 번에 따라잡습니다.
                   lastGuideIndex.current = reachedIndex;
 
                   // 다음 체크포인트를 넘어갔으므로 이탈 감지 기록 초기화
@@ -383,9 +412,11 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
                     const userHeading = compassHeading.current !== null ? compassHeading.current : 0;
 
                     // 나와 목표의 각도 차이를 상대 각도로 계산 (-180 ~ 180 혹은 0 ~ 360)
+                    // bearingToTarget은 목표가 북쪽 기준 몇 도에 있는지, userHeading은 사용자가 보는 방향입니다.
                     let diffAngle = bearingToTarget - userHeading;
 
                     // 360도 체계 안에서 몇 시 방향인지 계산 (30도를 1시간 단위로 취급)
+                    // 정면은 12시, 오른쪽은 3시, 뒤쪽은 6시처럼 음성 안내하기 쉬운 표현으로 바꿉니다.
                     let clockFace = Math.round(((diffAngle % 360) + 360) % 360 / 30);
                     if (clockFace === 0) clockFace = 12; // 0시는 12시로 치환
 
@@ -427,10 +458,12 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
     // 음성 인식 (STT) - "종료"라고 말하면 꺼지는 기능
     // ----------------------------------------------------------
     const listenLoop = async () => {
+      // 안내 시작 직후에는 TTS와 STT가 충돌할 수 있으므로 4초 뒤 종료 명령 감지를 시작합니다.
       await new Promise(r => setTimeout(r, 4000));
       if (!isMounted.current) return;
 
       await startListening((text) => {
+        // 안내 중 STT는 목적지 검색이 아니라 종료 키워드만 감지합니다.
         if (["종료", "그만", "정지"].some(k => text.includes(k))) {
           onEndNavigation();
         } else if (isMounted.current) {
@@ -444,6 +477,7 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
 
     // 컴포넌트 사라질 때 정리(Cleanup)
     return () => {
+      // GPS watch와 STT listener는 네이티브 리소스라 화면 전환 시 반드시 정리해야 합니다.
       isMounted.current = false;
       if (watchId.current) Geolocation.clearWatch({ id: watchId.current });
       stopListening();
@@ -451,6 +485,7 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
   }, [routeData]); // routeData가 바뀌면 다시 실행
 
   return (
+    // 화면 전체 클릭은 taps를 증가시켜 3회 터치 종료 제스처를 구현합니다.
     <div className="h-full w-full bg-black flex flex-col relative" onClick={() => setTaps(t => t + 1)}>
 
       {/* 1. 상단: 지도 영역 (50%) */}
@@ -472,6 +507,7 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
       {/* 2. 하단: 카메라 및 안내 텍스트 (50%) */}
       <div className="h-[50%] w-full relative">
         {/* 카메라 화면 (배경) */}
+        {/* VisionCamera가 장애물을 찾으면 onSpeak로 safeSpeak를 호출해 TTS 큐에 장애물 경고를 넣습니다. */}
         <div className="absolute inset-0 z-0"><VisionCamera onSpeak={safeSpeak} /></div>
 
         {/* 반투명 검은 배경 위 텍스트 */}
@@ -481,12 +517,14 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
           </h1>
 
           <p className="text-2xl font-bold leading-relaxed">
+            {/* 아직 첫 지점 도착 전이면 첫 안내 문장을, 이후에는 마지막 도달 지점 안내 문장을 표시합니다. */}
             {lastGuideIndex.current === -1
               ? (routeData[0]?.instruction || "잠시만 기다려주세요")
               : (routeData[lastGuideIndex.current]?.instruction)}
           </p>
 
           <p className="text-xs mt-6 opacity-60 bg-black/30 px-2 py-1 rounded">
+            {/* debugMsg는 실제 서비스 문구라기보다 GPS/경로 상태를 현장에서 확인하기 위한 개발용 표시입니다. */}
             {debugMsg}
           </p>
         </div>

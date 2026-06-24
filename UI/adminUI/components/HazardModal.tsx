@@ -4,6 +4,7 @@ import { X, MapPin, Calendar, Activity, User, FileText, Server } from 'lucide-re
 import ActionReportModal from './ActionReportModal';
 
 interface HazardModalProps {
+  // data가 null이면 모달을 렌더링하지 않습니다.
   data: HazardData | null;
   onClose: () => void;
   onStatusChange: (newStatus: "new" | "processing" | "done") => void;
@@ -11,9 +12,12 @@ interface HazardModalProps {
 }
 
 const HazardModal: React.FC<HazardModalProps> = ({ data, onClose, onStatusChange, onViewMap }) => {
+  // 조치 보고서 모달은 상세 모달 위에 한 단계 더 뜨는 중첩 모달입니다.
   const [isActionModalOpen, setIsActionModalOpen] = useState(false);
+  // 썸네일 이미지를 전체 화면으로 크게 볼지 여부입니다.
   const [isImageEnlarged, setIsImageEnlarged] = useState(false);
 
+  // 선택된 신고가 없으면 아무것도 그리지 않습니다.
   if (!data) return null;
 
   // 1. 위험도(Risk Level) 색상 결정 함수 (다크모드 색상 추가)
@@ -65,6 +69,7 @@ const HazardModal: React.FC<HazardModalProps> = ({ data, onClose, onStatusChange
             className="absolute inset-0 w-full h-full object-cover cursor-pointer hover:opacity-90 transition-opacity"
             onClick={() => setIsImageEnlarged(true)}
             onError={(e) => {
+              // S3 이미지 URL을 읽지 못하면 모달 전체가 깨지지 않도록 placeholder 이미지로 대체합니다.
               (e.target as HTMLImageElement).src = 'https://placehold.co/600x400?text=No+Image+(403+Forbidden)';
             }}
           />
@@ -86,6 +91,7 @@ const HazardModal: React.FC<HazardModalProps> = ({ data, onClose, onStatusChange
             </div>
             <button
               onClick={onClose}
+              // X 버튼은 상세 모달만 닫습니다.
               className="p-2 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full transition-colors"
             >
               <X className="w-6 h-6 text-slate-500 dark:text-slate-400" />
@@ -177,6 +183,7 @@ const HazardModal: React.FC<HazardModalProps> = ({ data, onClose, onStatusChange
       </div>
 
       {isActionModalOpen && (
+        // 조치 보고서 모달은 상태 변경 API를 호출한 뒤 App.tsx 상태도 함께 갱신합니다.
         <ActionReportModal
           data={data}
           onClose={() => setIsActionModalOpen(false)}
@@ -188,6 +195,7 @@ const HazardModal: React.FC<HazardModalProps> = ({ data, onClose, onStatusChange
       {isImageEnlarged && (
         <div
           className="fixed inset-0 z-[60] flex items-center justify-center bg-black/90 p-4 animate-in fade-in duration-200 cursor-zoom-out"
+          // 확대 이미지 배경을 누르면 확대 모드만 닫습니다. 상세 모달까지 닫히지 않도록 전파를 막습니다.
           onClick={(e) => { e.stopPropagation(); setIsImageEnlarged(false); }}
         >
           <img

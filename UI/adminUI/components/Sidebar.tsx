@@ -2,7 +2,9 @@ import React from 'react';
 import { LayoutDashboard, Database, LogOut, Map, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface SidebarProps {
+  // 현재 선택된 페이지 id입니다. menuItems의 id와 비교해 active 스타일을 적용합니다.
   activePage: string;
+  // App.tsx의 setActivePage가 내려옵니다.
   setPage: (page: string) => void;
   isDarkMode?: boolean;
   isOpen?: boolean;
@@ -16,6 +18,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   isOpen = true,
   setIsOpen
 }) => {
+  // Sidebar에 표시할 메뉴 정의입니다. id는 App.tsx renderContent의 switch case와 맞아야 합니다.
   const menuItems = [
     { id: 'dashboard', label: '대시보드', icon: <LayoutDashboard size={20} /> },
     { id: 'heatmap', label: '위험 히트맵', icon: <Map size={20} /> },
@@ -23,6 +26,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   ];
 
   // 로고랑 어울리는 아주 어두운 색상 (다크 모드일 때)
+  // 접힘/펼침 상태에 따라 Tailwind width class를 바꿉니다.
   const sidebarWidth = isOpen ? 'w-64' : 'w-20';
   const bgColor = isDarkMode ? 'bg-[#1A1A1A] border-slate-800' : 'bg-white border-slate-200';
   const textColor = isDarkMode ? 'text-slate-300' : 'text-slate-800';
@@ -57,6 +61,7 @@ const Sidebar: React.FC<SidebarProps> = ({
         {/* 열기/닫기 토글 버튼 */}
         {setIsOpen && (
           <button
+            // 로고 영역 클릭 이벤트가 같이 실행되지 않도록 stopPropagation을 호출합니다.
             onClick={(e) => { e.stopPropagation(); setIsOpen(!isOpen); }}
             className={`absolute ${isOpen ? 'right-2' : '-right-3 top-1/2 -translate-y-1/2'} p-1 rounded-full border ${isDarkMode ? 'bg-slate-800 border-slate-700 text-slate-300 hover:text-white hover:bg-slate-700' : 'bg-white border-slate-200 text-slate-500 hover:bg-slate-100 z-30 shadow-sm'}`}
           >
@@ -67,6 +72,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 
       <nav className="flex-1 py-6 px-3 space-y-2 overflow-y-auto overflow-x-hidden">
         {menuItems.map((item) => {
+          // 현재 페이지와 같은 메뉴는 노란색 active 스타일로 표시합니다.
           const isActive = activePage === item.id;
           const normalClass = isDarkMode
             ? 'text-slate-400 hover:bg-[#2A2A2A] hover:text-white'
@@ -91,6 +97,7 @@ const Sidebar: React.FC<SidebarProps> = ({
 
       <div className={`p-4 border-t ${isDarkMode ? 'border-slate-800' : 'border-slate-200'}`}>
         <button
+          // 현재는 UI만 있는 로그아웃 버튼입니다. 인증이 붙으면 여기에서 signOut을 연결하면 됩니다.
           className={`w-full flex items-center ${isOpen ? 'px-4 pl-3' : 'justify-center px-0'} py-3 rounded-lg ${isDarkMode ? 'text-slate-400 hover:bg-red-900/30 hover:text-red-400' : 'text-slate-500 hover:bg-red-50 hover:text-red-600'} transition-colors font-medium`}
           title={!isOpen ? '로그아웃' : undefined}
         >

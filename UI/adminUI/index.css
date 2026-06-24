@@ -1,5 +1,7 @@
 /* Tailwind CSS 최신 버전을 불러옵니다 */
+/* 이 import가 있어야 컴포넌트의 Tailwind utility class들이 실제 CSS로 생성됩니다. */
 @import "tailwindcss";
 
 /* 다크모드(.dark 클래스)를 수동으로 껐다 켤 수 있게 해주는 핵심 코드입니다 */
+/* App.tsx가 document.documentElement에 dark 클래스를 붙이면 dark:* 스타일이 활성화됩니다. */
 @custom-variant dark (&:is(.dark *));

@@ -1,29 +1,42 @@
 {
+  // tsconfig.json은 TypeScript와 에디터가 adminUI 코드를 어떻게 해석할지 정합니다.
+  // tsconfig는 JSONC라서 주석을 허용합니다.
   "compilerOptions": {
+    // 최신 브라우저/WebView가 이해하는 JS 문법 수준을 목표로 합니다.
     "target": "ES2022",
     "experimentalDecorators": true,
     "useDefineForClassFields": false,
+    // Vite 번들러가 ES module import/export를 분석할 수 있게 유지합니다.
     "module": "ESNext",
+    // DOM 타입을 포함해야 document, window, navigator.geolocation 같은 브라우저 API를 쓸 수 있습니다.
     "lib": [
       "ES2022",
       "DOM",
       "DOM.Iterable"
     ],
+    // 라이브러리 선언 파일의 타입 오류는 앱 코드 학습에 방해가 되므로 건너뜁니다.
     "skipLibCheck": true,
     "types": [
+      // Node 타입은 vite.config.ts의 path/process 계열 타입에 필요합니다.
       "node"
     ],
+    // Vite 같은 현대 번들러 기준으로 import 경로를 해석합니다.
     "moduleResolution": "bundler",
+    // 각 파일을 독립적으로 변환할 수 있어야 한다는 제약입니다.
     "isolatedModules": true,
     "moduleDetection": "force",
+    // JS 파일 import도 허용합니다. 설정 파일이나 레거시 파일과 섞여도 빌드할 수 있습니다.
     "allowJs": true,
+    // JSX를 React 자동 런타임으로 변환합니다.
     "jsx": "react-jsx",
     "paths": {
+      // vite.config.ts의 alias와 맞춰 "@/..."를 프로젝트 루트 기준으로 해석합니다.
       "@/*": [
         "./*"
       ]
     },
     "allowImportingTsExtensions": true,
+    // 실제 JS 출력은 Vite가 담당하므로 TypeScript는 타입 검사만 합니다.
     "noEmit": true
   }
 }

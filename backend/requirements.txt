@@ -1,9 +1,16 @@
+# FastAPI web framework and ASGI server.
 fastapi
 uvicorn[standard]
+# Loads backend/.env values into environment variables.
 python-dotenv
+# AWS S3 upload client.
 boto3
+# Database access layer for PostgreSQL/Supabase.
 sqlalchemy
 psycopg2-binary
+# Request/response validation models.
 pydantic
+# Required for FastAPI Form/File uploads.
 python-multipart
+# Used by navigation.py to call the external TMAP API.
 requests

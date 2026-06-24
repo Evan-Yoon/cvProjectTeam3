@@ -4,23 +4,29 @@ import { X, CheckCircle, AlertTriangle, Clock } from 'lucide-react';
 import { patchReportStatus } from '../src/api/adminApi';
 
 interface ActionReportModalProps {
+    // 상태를 변경할 신고 상세 데이터입니다.
     data: HazardData;
     onClose: () => void;
+    // 서버 PATCH 성공 후 App.tsx의 reports/selectedHazard 상태를 동기화하는 콜백입니다.
     onStatusChange: (newStatus: "new" | "processing" | "done") => void;
 }
 
 const ActionReportModal: React.FC<ActionReportModalProps> = ({ data, onClose, onStatusChange }) => {
     // 현재 상태를 소문자 기준으로 변환하여 초기값 설정
+    // UI는 Done/Processing/New, 백엔드는 done/processing/new를 사용하므로 여기서 백엔드 형식으로 맞춥니다.
     const initialStatus = data.status === 'Done' ? 'done' : data.status === 'Processing' ? 'processing' : 'new';
     const [selectedStatus, setSelectedStatus] = useState<"new" | "processing" | "done">(initialStatus);
+    // 현재 reason은 화면 검증용으로만 쓰이고, 백엔드에는 전송하지 않습니다.
     const [reason, setReason] = useState("");
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleSubmit = async () => {
+        // 조치 사유가 비어 있으면 버튼도 disabled이고, 함수에서도 한 번 더 막습니다.
         if (!reason.trim()) return; // 사유 필수 입력
 
         setIsSubmitting(true);
         try {
+            // 실제 서버 상태 변경은 adminApi.ts의 PATCH 요청이 담당합니다.
             await patchReportStatus(data.id, selectedStatus);
             onStatusChange(selectedStatus); // App.tsx 등 최상단 상태 업데이트용
             onClose(); // 성공 시 모달 닫기
@@ -39,6 +45,7 @@ const ActionReportModal: React.FC<ActionReportModalProps> = ({ data, onClose, on
         >
             <div
                 className="bg-white dark:bg-slate-900 rounded-xl shadow-2xl w-full max-w-md overflow-hidden border dark:border-slate-700 transition-colors duration-300"
+                // 내부 클릭은 바깥 overlay의 onClose로 전파되지 않게 막습니다.
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* 헤더 */}
@@ -59,6 +66,7 @@ const ActionReportModal: React.FC<ActionReportModalProps> = ({ data, onClose, on
                         <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-3">상태 변경</label>
                         <div className="grid grid-cols-3 gap-3">
                             <button
+                                // 세 버튼은 selectedStatus만 바꾸고, 실제 저장은 하단 확인 버튼에서 실행됩니다.
                                 onClick={() => setSelectedStatus('new')}
                                 className={`flex flex-col items-center justify-center p-3 rounded-lg border-2 transition-all ${selectedStatus === 'new'
                                     ? 'border-red-500 bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400'
@@ -117,6 +125,7 @@ const ActionReportModal: React.FC<ActionReportModalProps> = ({ data, onClose, on
                     </button>
                     <button
                         onClick={handleSubmit}
+                        // 사유가 없거나 제출 중이면 중복 제출을 막습니다.
                         disabled={!reason.trim() || isSubmitting}
                         className={`flex-1 px-4 py-2.5 rounded-lg font-bold text-white transition-all shadow-sm ${!reason.trim() || isSubmitting
                             ? 'bg-slate-400 dark:bg-slate-600 cursor-not-allowed opacity-70'

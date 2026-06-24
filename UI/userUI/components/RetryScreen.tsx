@@ -6,6 +6,7 @@ import { speak, startListening, stopListening } from './utils/audio';
 // onSpeechDetected: 다시 말하기를 시작하는 함수 (음성 인식 재시도)
 interface RetryScreenProps {
   onCancel: () => void;
+  // 재시도에서 새로 인식한 문장을 다시 App.tsx로 넘깁니다.
   onSpeechDetected: (text: string) => void;
   message?: string; // 커스텀 안내 메시지 (없으면 기본값)
   autoStart?: boolean; // 자동 재시작 여부 (기본값 true)
@@ -17,6 +18,8 @@ const RetryScreen: React.FC<RetryScreenProps> = ({
   message = "잘 못 들었습니다. 다시 말씀해주세요.",
   autoStart = true
 }) => {
+  // ListeningScreen과 거의 같은 STT 제어 패턴입니다.
+  // 재시도 화면도 비동기 음성 인식 결과가 화면 이탈 후 실행되지 않도록 ref로 생존 여부를 관리합니다.
   const isMounted = useRef(true);
   const latestText = useRef<string>(""); // 실시간 중간 결과 저장
   const silenceTimer = useRef<NodeJS.Timeout | null>(null);
@@ -31,6 +34,7 @@ const RetryScreen: React.FC<RetryScreenProps> = ({
 
   // 침묵 1.3초 감지 시 자동 완료 처리
   const resetSilenceTimer = (currentText: string) => {
+    // 새 partialText가 들어올 때마다 타이머를 초기화해서 "말을 멈춘 뒤 1.3초"를 측정합니다.
     if (silenceTimer.current) clearTimeout(silenceTimer.current);
 
     silenceTimer.current = setTimeout(() => {
@@ -47,6 +51,7 @@ const RetryScreen: React.FC<RetryScreenProps> = ({
 
     const runRetryFlow = async () => {
       if (!isMounted.current) return;
+      // message는 오류 상황에 따라 App.tsx에서 내려올 수 있습니다. 기본값은 "다시 말씀해주세요"입니다.
       await speak(message);
 
       // 오디오 세션 전환용 대기
@@ -73,8 +78,10 @@ const RetryScreen: React.FC<RetryScreenProps> = ({
     };
 
     if (autoStart) {
+      // 일반 재시도는 자동으로 듣기를 시작합니다.
       runRetryFlow();
     } else {
+      // 네트워크 오류처럼 사용자가 메시지를 먼저 읽어야 하는 경우에는 말만 하고 자동 STT를 시작하지 않습니다.
       speak(message);
     }
 
@@ -86,6 +93,7 @@ const RetryScreen: React.FC<RetryScreenProps> = ({
   }, [onSpeechDetected, message, autoStart]);
 
   const handleManualRetry = async () => {
+    // 사용자가 메인 영역을 누르면 수동으로 다시 STT를 시작합니다.
     if (silenceTimer.current) clearTimeout(silenceTimer.current);
     stopListening();
     
@@ -136,12 +144,14 @@ const RetryScreen: React.FC<RetryScreenProps> = ({
         className="flex-1 flex flex-col items-center justify-center w-full space-y-12 z-20 cursor-pointer"
         onClick={(e) => {
           // ★ 중요: 이벤트 전파 방지 (stopPropagation)
+          // 이 영역을 누르면 재시도이고, 바깥 배경을 누르면 취소입니다. 전파를 막아 두 동작이 동시에 실행되지 않게 합니다.
           e.stopPropagation();
           handleManualRetry(); // 재인식 시작
         }}
       >
         {/* 안내 텍스트 */}
         <div className="text-center space-y-4">
+          {/* message가 기본값이 아니면 오류 화면처럼 보이게 하고, 기본값이면 일반 재시도 문구를 보여줍니다. */}
           <h1 className="text-4xl md:text-5xl font-black text-primary tracking-tight leading-tight drop-shadow-lg whitespace-pre-wrap">
             {message !== "잘 못 들었습니다. 다시 말씀해주세요." ? "오류 발생" : "다시\n말씀해주세요"}
           </h1>

@@ -1,21 +1,31 @@
+// YoloParser는 TFLite 모델의 숫자 배열 출력값을 사람이 다루기 쉬운 감지 박스 목록으로 바꿉니다.
+// 모델 export 방식에 따라 출력 shape가 [1,N,6], [1,F,B], [1,B,F]처럼 달라질 수 있어 여러 포맷을 방어적으로 처리합니다.
+
 export interface DetectedBox {
+    // classId는 모델이 예측한 클래스 번호이고, className은 그 번호를 사람이 읽는 문자열로 바꾼 값입니다.
     classId: number;
     className: string;
+    // score는 confidence입니다. 1에 가까울수록 모델이 더 확신한다는 뜻입니다.
     score: number;
+    // x/y/w/h는 모두 0~1 사이 정규화 좌표입니다. x,y는 박스 중심, w,h는 너비/높이입니다.
     x: number; // center x (normalized 0~1)
     y: number; // center y (normalized 0~1)
     w: number; // width (normalized 0~1)
     h: number; // height (normalized 0~1)
 }
 
+// 모델 학습/라벨 순서와 반드시 일치해야 합니다. classId=0이면 "person"으로 해석됩니다.
 const COCO_CLASSES = [
     "person", "bicycle", "car", "motorcycle", "bus", "truck", "traffic light",
     "stop sign", "bench", "dog", "bollard", "kickboard"
 ];
 
+// YOLO raw output이 feature-major인지 box-major인지 구분하기 위한 내부 타입입니다.
+// FxB: feature가 먼저, box가 뒤. BxF: box가 먼저, feature가 뒤.
 type Layout = "FxB" | "BxF";
 
 export class YoloParser {
+    // parse의 최종 목표는 어떤 모델 출력이 와도 DetectedBox[]로 통일하는 것입니다.
     static parse(
         data: number[],
         dims: number[] = [],
@@ -23,12 +33,15 @@ export class YoloParser {
         iouThreshold: number = 0.45,
         modelInputSize: number = 640 // ✅ 픽셀 좌표 자동 정규화에 사용
     ): DetectedBox[] {
+        // 데이터가 없으면 감지 결과도 없습니다.
         if (!data || data.length === 0) return [];
 
+        // dims는 Tensor shape입니다. 숫자가 아닌 값이 섞여 들어와도 안전하게 걸러냅니다.
         const d = (Array.isArray(dims) ? dims : []).map((v) => Number(v)).filter((v) => Number.isFinite(v));
 
         // ✅ 1) 최우선: [1, N, 6] 또는 [N, 6] (후처리 완료된 detection list)
         // 일반적으로 row = [x1, y1, x2, y2, score, classId]
+        // 이 포맷은 모델이 이미 후보 박스와 클래스까지 뽑아준 형태라 가장 해석이 단순합니다.
         const maybeDetList =
             (d.length === 3 && d[0] === 1 && d[2] === 6) ||
             (d.length === 2 && d[1] === 6);
@@ -46,6 +59,7 @@ export class YoloParser {
             const rows = Math.floor(data.length / 6);
 
             for (let i = 0; i < rows; i++) {
+                // 한 행은 6개 숫자입니다: x1, y1, x2, y2, score, classId.
                 const off = i * 6;
 
                 let x1 = data[off + 0];
@@ -62,6 +76,7 @@ export class YoloParser {
 
                 // ✅ 좌표가 픽셀(0~640 등)인지 0~1 정규화인지 자동 판별
                 // 값이 1.5보다 크면 픽셀로 간주 (대부분 0~640 범위)
+                // 정규화 좌표라면 보통 0~1 범위이고, 픽셀 좌표라면 10, 300처럼 1보다 훨씬 큽니다.
                 const maxAbs = Math.max(Math.abs(x1), Math.abs(y1), Math.abs(x2), Math.abs(y2));
                 if (maxAbs > 1.5) {
                     x1 /= modelInputSize;
@@ -71,10 +86,12 @@ export class YoloParser {
                 }
 
                 // 정렬 보정 (혹시 x1>x2로 들어오면 swap)
+                // 모델/후처리 구현에 따라 좌상단/우하단 순서가 뒤집힌 데이터를 방어합니다.
                 if (x2 < x1) [x1, x2] = [x2, x1];
                 if (y2 < y1) [y1, y2] = [y2, y1];
 
                 // clamp
+                // 화면 밖으로 살짝 튀어나온 좌표는 0~1 범위로 잘라 UI 계산을 안정화합니다.
                 x1 = clamp01(x1); y1 = clamp01(y1); x2 = clamp01(x2); y2 = clamp01(y2);
 
                 const w = clamp01(x2 - x1);
@@ -110,6 +127,8 @@ export class YoloParser {
         const { numBoxes, numFeatures, layout } = inferred;
 
         const knownClassCount = COCO_CLASSES.length;
+        // 일부 YOLO 출력은 [x,y,w,h,obj,classes...]이고, 일부는 [x,y,w,h,classes...]입니다.
+        // objectness가 있으면 class probability와 곱해서 최종 score를 만듭니다.
         const hasObjectness =
             numFeatures === knownClassCount + 5 ||
             (numFeatures !== knownClassCount + 4 && numFeatures === 85);
@@ -125,6 +144,7 @@ export class YoloParser {
         const boxes: DetectedBox[] = [];
 
         for (let i = 0; i < numBoxes; i++) {
+            // raw YOLO는 보통 중심 좌표(cx,cy)와 너비/높이(w,h)를 냅니다.
             let cx = this.read(data, layout, numBoxes, numFeatures, i, 0);
             let cy = this.read(data, layout, numBoxes, numFeatures, i, 1);
             let w = this.read(data, layout, numBoxes, numFeatures, i, 2);
@@ -146,6 +166,7 @@ export class YoloParser {
             let bestScore = -Infinity;
             let bestClass = -1;
 
+            // 각 클래스 확률 중 가장 높은 클래스를 이 박스의 예측 클래스로 선택합니다.
             for (let c = 0; c < numClasses; c++) {
                 const clsProb = this.read(data, layout, numBoxes, numFeatures, i, classStart + c);
                 const score = hasObjectness ? (obj * clsProb) : clsProb;
@@ -175,6 +196,7 @@ export class YoloParser {
         dataLen: number,
         dims: number[]
     ): { numBoxes: number; numFeatures: number; layout: Layout } | null {
+        // Tensor shape가 있으면 먼저 shape를 믿고 feature 수와 box 수를 추론합니다.
         // [1, F, B] or [1, B, F]
         if (dims.length >= 3 && dims[0] === 1) {
             const a = dims[1];
@@ -182,6 +204,7 @@ export class YoloParser {
             if (a * b === dataLen) {
                 const aLooksF = a >= 6 && a <= 300;
                 const bLooksF = b >= 6 && b <= 300;
+                // feature 수는 보통 6~300 사이이고, box 수는 2100/8400처럼 훨씬 큽니다.
                 if (aLooksF && !bLooksF) return { numBoxes: b, numFeatures: a, layout: "FxB" };
                 if (bLooksF && !aLooksF) return { numBoxes: a, numFeatures: b, layout: "BxF" };
                 return { numBoxes: b, numFeatures: a, layout: "FxB" };
@@ -202,6 +225,7 @@ export class YoloParser {
         }
 
         // shape 없으면 boxes 후보로 역산
+        // YOLO 계열에서 자주 나오는 후보 박스 개수를 기준으로 dataLen을 나눠 feature 수를 추정합니다.
         const boxCandidates = [8400, 2100, 33600];
         for (const boxes of boxCandidates) {
             if (dataLen % boxes === 0) {
@@ -223,6 +247,7 @@ export class YoloParser {
         boxIndex: number,
         featureIndex: number
     ): number {
+        // 같은 1차원 배열이라도 layout에 따라 "feature 먼저"인지 "box 먼저"인지 인덱스 공식이 달라집니다.
         return layout === "FxB"
             ? data[featureIndex * numBoxes + boxIndex]
             : data[boxIndex * numFeatures + featureIndex];
@@ -231,6 +256,7 @@ export class YoloParser {
     private static nms(boxes: DetectedBox[], iouThreshold: number): DetectedBox[] {
         if (boxes.length === 0) return [];
 
+        // NMS(Non-Maximum Suppression): 같은 물체를 여러 박스가 잡았을 때 가장 확신 높은 박스만 남기는 후처리입니다.
         boxes.sort((a, b) => b.score - a.score);
 
         const result: DetectedBox[] = [];
@@ -243,6 +269,7 @@ export class YoloParser {
             for (let j = i + 1; j < boxes.length; j++) {
                 if (!active[j]) continue;
                 const iou = this.calculateIoU(boxes[i], boxes[j]);
+                // IoU가 임계값보다 크면 두 박스가 같은 물체를 가리킨다고 보고 낮은 점수 박스를 제거합니다.
                 if (iou > iouThreshold) active[j] = false;
             }
         }
@@ -250,6 +277,7 @@ export class YoloParser {
     }
 
     private static calculateIoU(a: DetectedBox, b: DetectedBox): number {
+        // IoU는 두 박스의 교집합 면적 / 합집합 면적입니다. 1이면 완전히 겹치고, 0이면 겹치지 않습니다.
         const A = this.getCoords(a);
         const B = this.getCoords(b);
 
@@ -270,6 +298,7 @@ export class YoloParser {
     }
 
     private static getCoords(box: DetectedBox) {
+        // 중심 좌표(cx,cy,w,h)를 좌상단/우하단(x1,y1,x2,y2) 형태로 변환합니다.
         return {
             x1: box.x - box.w / 2,
             y1: box.y - box.h / 2,
@@ -280,6 +309,7 @@ export class YoloParser {
 }
 
 function clamp01(v: number) {
+    // 좌표를 0~1 범위에 가둡니다. UI 계산과 이미지 그리기에서 범위 밖 값으로 인한 오류를 줄입니다.
     if (v < 0) return 0;
     if (v > 1) return 1;
     return v;

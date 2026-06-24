@@ -5,13 +5,16 @@ import { Download, Upload, Database as DbIcon, Trash2 } from 'lucide-react';
 import { deleteReport } from '../src/api/adminApi';
 
 interface DatabaseProps {
+  // 전체 신고 데이터입니다. 이 컴포넌트 안에서 필터/정렬/페이지네이션을 적용합니다.
   data: HazardData[];
   onRowClick: (data: HazardData) => void;
+  // 삭제 후 서버 데이터를 다시 불러오기 위한 선택 콜백입니다.
   onRefreshData?: () => void;
   isDarkMode?: boolean;
 }
 
 const Database: React.FC<DatabaseProps> = ({ data, onRowClick, onRefreshData, isDarkMode = false }) => {
+  // 필터와 정렬 상태입니다. 값이 바뀌면 useMemo가 filteredAndSortedData를 다시 계산합니다.
   const [statusFilter, setStatusFilter] = useState('All');
   const [riskFilter, setRiskFilter] = useState('All');
   const [dateFilter, setDateFilter] = useState(''); // YYYY-MM-DD format from input
@@ -19,10 +22,12 @@ const Database: React.FC<DatabaseProps> = ({ data, onRowClick, onRefreshData, is
   const [itemsPerPage, setItemsPerPage] = useState<number>(10);
   const [currentPage, setCurrentPage] = useState<number>(1);
 
+  // 선택 삭제/선택 내보내기를 위해 선택된 row id를 Set으로 관리합니다.
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [isDeleting, setIsDeleting] = useState(false);
 
   const downloadCSV = (items: HazardData[], filename: string) => {
+    // CSV 내보내기는 현재 브라우저에서 파일 Blob을 만들고, 임시 a 태그를 클릭해 다운로드합니다.
     if (items.length === 0) {
       alert("내보낼 데이터가 없습니다.");
       return;
@@ -33,12 +38,14 @@ const Database: React.FC<DatabaseProps> = ({ data, onRowClick, onRefreshData, is
       item.riskLevel,
       item.timestamp.split(' ')[0], // Date
       item.timestamp.split(' ').slice(1).join(' '), // Time
+      // CSV에서 쉼표/쌍따옴표가 있는 필드는 큰따옴표로 감싸고 내부 따옴표를 2개로 escape합니다.
       `"${item.location.replace(/"/g, '""')}"`, // Handle commas in location
       item.status,
       `"${item.description?.replace(/"/g, '""') || ''}"` // Handle commas in description
     ]);
 
     // Create CSV string with BOM for Excel UTF-8 compatibility
+    // \uFEFF BOM을 앞에 붙이면 Excel에서 한글 UTF-8 CSV를 더 잘 인식합니다.
     const csvContent = "\uFEFF" + [headers.join(","), ...rows.map(e => e.join(","))].join("\n");
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
@@ -49,14 +56,17 @@ const Database: React.FC<DatabaseProps> = ({ data, onRowClick, onRefreshData, is
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+    // URL.revokeObjectURL을 호출하면 메모리 회수가 더 명확하지만, 현재 파일 크기가 작아 큰 문제는 없습니다.
   };
 
   // Filters change -> Reset to page 1
   useEffect(() => {
+    // 필터/정렬/페이지 크기가 바뀌면 현재 페이지가 범위를 벗어날 수 있으므로 1페이지로 돌립니다.
     setCurrentPage(1);
   }, [statusFilter, riskFilter, dateFilter, sortOrder, itemsPerPage]);
 
   const filteredAndSortedData = useMemo(() => {
+    // props.data를 직접 mutate하지 않기 위해 복사본을 만듭니다.
     let result = [...data];
 
     if (statusFilter !== 'All') {
@@ -67,10 +77,12 @@ const Database: React.FC<DatabaseProps> = ({ data, onRowClick, onRefreshData, is
     }
     if (dateFilter) {
       const formattedDateFilter = dateFilter.replace(/-/g, '.'); // 2026-02-20 -> 2026.02.20
+      // App.tsx에서 timestamp를 2026.02.20 오전... 형식으로 만들었기 때문에 input date 형식을 맞춰 비교합니다.
       result = result.filter(h => h.timestamp.split(' ')[0] === formattedDateFilter);
     }
 
     result.sort((a, b) => {
+      // rawTimestamp가 있으면 원본 DB 시간으로 정렬합니다.
       const timeA = new Date(a.rawTimestamp || '').getTime();
       const timeB = new Date(b.rawTimestamp || '').getTime();
       return sortOrder === 'desc' ? timeB - timeA : timeA - timeB;
@@ -79,6 +91,7 @@ const Database: React.FC<DatabaseProps> = ({ data, onRowClick, onRefreshData, is
     return result;
   }, [data, statusFilter, riskFilter, dateFilter, sortOrder]);
 
+  // 현재 필터 결과에서 현재 페이지에 보여줄 데이터만 잘라냅니다.
   const totalPages = Math.ceil(filteredAndSortedData.length / itemsPerPage) || 1;
   const paginatedData = filteredAndSortedData.slice(
     (currentPage - 1) * itemsPerPage,
@@ -86,6 +99,7 @@ const Database: React.FC<DatabaseProps> = ({ data, onRowClick, onRefreshData, is
   );
 
   const handleSelect = (id: string, selected: boolean) => {
+    // Set은 직접 수정하면 React가 변경을 감지하기 어려우므로 새 Set을 만들어 반환합니다.
     setSelectedIds(prev => {
       const next = new Set(prev);
       if (selected) next.add(id);
@@ -96,6 +110,7 @@ const Database: React.FC<DatabaseProps> = ({ data, onRowClick, onRefreshData, is
 
   const handleSelectAll = (selected: boolean) => {
     if (selected) {
+      // 전체 선택은 "현재 페이지"에 보이는 항목만 선택합니다.
       setSelectedIds(new Set(paginatedData.map((d: HazardData) => String(d.id))));
     } else {
       setSelectedIds(new Set());
@@ -108,6 +123,7 @@ const Database: React.FC<DatabaseProps> = ({ data, onRowClick, onRefreshData, is
 
     setIsDeleting(true);
     try {
+      // 선택된 모든 id에 대해 DELETE 요청을 병렬 실행합니다.
       const deletePromises = Array.from(selectedIds).map((id: string) => deleteReport(id));
       await Promise.all(deletePromises);
       setSelectedIds(new Set());
@@ -172,6 +188,7 @@ const Database: React.FC<DatabaseProps> = ({ data, onRowClick, onRefreshData, is
           {selectedIds.size > 0 ? (
             <button
               onClick={() => {
+                // 선택 내보내기는 전체 필터 결과 중 선택된 id만 다시 골라 CSV로 만듭니다.
                 const selectedData = filteredAndSortedData.filter(d => selectedIds.has(String(d.id)));
                 downloadCSV(selectedData, `walkmate_selected_reports_${new Date().toISOString().slice(0, 10)}`);
               }}
@@ -255,6 +272,7 @@ const Database: React.FC<DatabaseProps> = ({ data, onRowClick, onRefreshData, is
       </div>
 
       <HazardTable
+        // 테이블에는 이미 페이지네이션이 적용된 데이터만 전달합니다.
         data={paginatedData}
         onRowClick={onRowClick}
         selectedIds={selectedIds}

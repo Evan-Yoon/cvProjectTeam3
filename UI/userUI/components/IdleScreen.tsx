@@ -5,14 +5,20 @@ import { speak } from '../src/utils/audio';
 // Props 인터페이스 정의
 // onStart: 화면을 터치했을 때 실행할 함수 (앱 시작 기능)
 interface IdleScreenProps {
+  // 부모(App.tsx)가 넘겨주는 화면 전환 함수입니다. 여기서는 직접 AppScreen을 알 필요가 없습니다.
   onStart: () => void;
+  // GPS 위치가 준비되었는지 여부입니다. App.tsx의 myLocation이 있으면 true로 내려옵니다.
   isLocationReady: boolean;
 }
 
 const IdleScreen: React.FC<IdleScreenProps> = ({ onStart, isLocationReady }) => {
+  // 화면 중앙의 상태 뱃지에 보여줄 문구입니다.
+  // useState 값이 바뀌면 React가 이 컴포넌트를 다시 렌더링합니다.
   const [currentAddress, setCurrentAddress] = useState<string>("위치 확인 중...");
 
   useEffect(() => {
+    // isLocationReady가 바뀔 때마다 실행됩니다.
+    // 위치가 준비되면 안내 멘트를 말하고 2초 뒤 자동으로 음성 인식 화면으로 넘어갑니다.
     if (isLocationReady) {
       setCurrentAddress("위치 확인 완료");
       speak("현재 위치를 확인했습니다. 어디로 안내할까요?");
@@ -23,8 +29,10 @@ const IdleScreen: React.FC<IdleScreenProps> = ({ onStart, isLocationReady }) => 
       const timer = setTimeout(() => {
         onStart();
       }, 2000); // 2초 뒤 자동 시작
+      // 위치 준비 후 2초가 지나기 전에 컴포넌트가 사라지면 타이머를 정리합니다.
       return () => clearTimeout(timer);
     } else {
+      // GPS가 아직 준비되지 않았으면 사용자에게 대기 상태를 음성으로 알려줍니다.
       setCurrentAddress("위치 확인 중...");
       speak("위치 정보를 찾고 있습니다.");
     }
@@ -45,6 +53,7 @@ const IdleScreen: React.FC<IdleScreenProps> = ({ onStart, isLocationReady }) => 
         {/* 설정 버튼 */}
         {/* onClick 이벤트가 상위 div로 전파되지 않도록 하려면 e.stopPropagation()이 필요할 수 있음 */}
         <button className="p-4 rounded-xl hover:bg-zinc-800 transition-colors" aria-label="Settings">
+          {/* Material Icons는 텍스트 "settings"를 아이콘 글리프로 바꿔 보여줍니다. */}
           <span className="material-icons-round text-4xl text-zinc-500">settings</span>
         </button>
         {/* 히스토리(기록) 버튼 */}
@@ -75,6 +84,7 @@ const IdleScreen: React.FC<IdleScreenProps> = ({ onStart, isLocationReady }) => 
           {/* 하단에 '대기 중'이라고 떠있는 작은 뱃지 */}
           <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 bg-zinc-900 border border-zinc-700 px-6 py-2 rounded-full flex items-center gap-2 shadow-xl whitespace-nowrap">
             {/* 초록색 점 깜빡임 (작동 중임을 표시) */}
+            {/* currentAddress에 "실패"가 들어가면 빨간 점, 그 외에는 초록 점으로 상태를 표현합니다. */}
             <div className={`w-3 h-3 rounded-full animate-pulse ${currentAddress.includes("실패") ? 'bg-red-500' : 'bg-green-500'}`}></div>
             <span className="text-sm font-bold tracking-wider text-zinc-300 uppercase max-w-[200px] truncate">
               {currentAddress}
@@ -84,6 +94,7 @@ const IdleScreen: React.FC<IdleScreenProps> = ({ onStart, isLocationReady }) => 
 
         {/* 텍스트 (앱 이름) */}
         <div className="text-center space-y-4">
+          {/* WalkMate 브랜드명에서 Mate만 primary 색상으로 강조합니다. */}
           <h1 className="text-5xl font-black text-white leading-tight tracking-tight">
             Walk<span className="text-primary">Mate</span>
           </h1>

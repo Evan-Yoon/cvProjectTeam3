@@ -1,2 +1,6 @@
 /* index.css */
-/* Tailwind utilities are injected via CDN in index.html, this file exists to satisfy build requirements */
+/*
+  Tailwind utilities are injected via CDN in index.html.
+  이 파일은 Vite/React 프로젝트가 /index.css import를 정상적으로 해석하도록 남겨둔 전역 CSS 진입점입니다.
+  실제 화면 스타일 대부분은 각 컴포넌트의 className(Tailwind utility class) 안에 있습니다.
+*/

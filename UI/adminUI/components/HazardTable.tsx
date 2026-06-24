@@ -3,10 +3,13 @@ import { HazardData } from '../types';
 import { Eye, AlertTriangle } from 'lucide-react';
 
 interface HazardTableProps {
+  // 표시할 신고 목록입니다. Dashboard에서는 최근 5개, Database에서는 페이지네이션 결과가 들어옵니다.
   data: HazardData[];
   onRowClick: (hazard: HazardData) => void;
+  // compact=true면 체크박스/일부 컬럼을 숨겨 대시보드용 미니 테이블로 사용합니다.
   compact?: boolean;
   isDarkMode?: boolean; // ★ 테마 상태를 명시적으로 받음
+  // Database 화면에서 선택 삭제/선택 CSV 내보내기에 쓰는 선택 상태입니다.
   selectedIds?: Set<string>;
   onSelect?: (id: string, selected: boolean) => void;
   onSelectAll?: (selected: boolean) => void;
@@ -22,6 +25,7 @@ const HazardTable: React.FC<HazardTableProps> = ({
   onSelectAll
 }) => {
   const getRiskBadge = (level: string) => {
+    // 위험도 문자열에 따라 배지 색상을 결정합니다.
     const base = "px-2.5 py-0.5 rounded-full text-xs font-medium border transition-colors duration-300";
     if (level === 'High') return `${base} ${isDarkMode ? 'bg-red-900/30 text-red-400 border-red-800/50' : 'bg-red-100 text-red-800 border-red-200'}`;
     if (level === 'Medium') return `${base} ${isDarkMode ? 'bg-orange-900/30 text-orange-400 border-orange-800/50' : 'bg-orange-100 text-orange-800 border-orange-200'}`;
@@ -38,6 +42,7 @@ const HazardTable: React.FC<HazardTableProps> = ({
                 <input
                   type="checkbox"
                   className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer"
+                  // 현재 페이지의 모든 행이 선택된 경우 전체 선택 체크박스를 켭니다.
                   checked={data.length > 0 && selectedIds.size === data.length}
                   onChange={(e) => onSelectAll?.(e.target.checked)}
                 />
@@ -57,6 +62,7 @@ const HazardTable: React.FC<HazardTableProps> = ({
           {data.map((item) => (
             <tr
               key={item.id}
+              // 행 전체 클릭은 상세 모달 열기입니다.
               onClick={() => onRowClick(item)}
               className={`cursor-pointer transition-colors group ${isDarkMode ? 'hover:bg-slate-700/30' : 'hover:bg-slate-50'} ${selectedIds.has(item.id) ? (isDarkMode ? 'bg-blue-900/20' : 'bg-blue-50') : ''}`}
             >
@@ -66,6 +72,7 @@ const HazardTable: React.FC<HazardTableProps> = ({
                     type="checkbox"
                     className="w-4 h-4 rounded border-slate-300 text-blue-600 focus:ring-blue-500 cursor-pointer"
                     checked={selectedIds.has(item.id)}
+                    // 체크박스 클릭은 행 클릭과 별도 동작이므로 td에서 이벤트 전파를 막습니다.
                     onChange={(e) => onSelect?.(item.id, e.target.checked)}
                   />
                 </td>
@@ -78,6 +85,7 @@ const HazardTable: React.FC<HazardTableProps> = ({
                     className="w-full h-full object-cover"
                     onError={(e) => {
                       // 403 에러 등으로 이미지가 깨질 때 플레이스홀더로 대체
+                      // S3 객체 공개 정책이 없거나 URL이 만료되면 여기로 들어올 수 있습니다.
                       (e.target as HTMLImageElement).src = 'https://placehold.co/100x100?text=No+Image';
                     }}
                   />
@@ -117,6 +125,7 @@ const HazardTable: React.FC<HazardTableProps> = ({
               <td className="px-6 py-3 text-right">
                 <button
                   onClick={(e) => {
+                    // 버튼 클릭이 tr onClick까지 전파되면 모달 열기 로직이 중복 실행될 수 있어 막습니다.
                     e.stopPropagation();
                     onRowClick(item);
                   }}

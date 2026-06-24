@@ -11,29 +11,42 @@ import HazardModal from './components/HazardModal';
 import { HazardData } from './types';
 import { Bell, Search, UserCircle, Sun, Moon } from 'lucide-react';
 
+// App.tsx는 관리자 UI의 최상위 컴포넌트입니다.
+// Supabase에서 신고 데이터를 읽고, Realtime으로 새 신고를 구독한 뒤 Dashboard/Heatmap/Database에 내려줍니다.
+
+// Vite 환경변수는 import.meta.env.VITE_* 형태로만 프론트 코드에 노출됩니다.
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+// Supabase 클라이언트는 reports 테이블 조회와 Realtime 구독에 사용됩니다.
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
+// 이미지 상대 경로 fallback이나 백엔드 API 호출 기준 URL입니다.
 const API_BASE_URL = import.meta.env.VITE_BACKEND_URL || "http://172.30.1.80:8000";
 
 const App: React.FC = () => {
+  // activePage가 현재 표시할 화면을 결정합니다. Sidebar에서 이 값을 바꿉니다.
   const [activePage, setActivePage] = useState('dashboard');
+  // selectedHazard가 null이 아니면 HazardModal이 열립니다.
   const [selectedHazard, setSelectedHazard] = useState<HazardData | null>(null);
+  // 관리자 화면 전체가 공유하는 신고 목록 state입니다.
   const [reports, setReports] = useState<HazardData[]>([]);
   const [isDarkMode, setIsDarkMode] = useState(false);
+  // 상세 모달에서 "위치 지도 보기"를 누르면 Heatmap이 이 좌표를 중심으로 이동합니다.
   const [heatmapFocus, setHeatmapFocus] = useState<[number, number] | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   useEffect(() => {
+    // Tailwind dark variant는 html.dark 클래스가 있어야 동작합니다.
     if (isDarkMode) document.documentElement.classList.add('dark');
     else document.documentElement.classList.remove('dark');
   }, [isDarkMode]);
 
   const mapToHazardData = (dbReport: any): HazardData => {
+    // DB risk_level 숫자를 UI에서 쓰는 High/Medium/Low 문자열로 변환합니다.
     let riskLabel: 'High' | 'Medium' | 'Low' = 'Low';
     if (dbReport.risk_level >= 4) riskLabel = 'High';
     else if (dbReport.risk_level === 3) riskLabel = 'Medium';
 
+    // 백엔드는 소문자 상태값을 쓰고, UI는 표시용 대문자 상태값을 씁니다.
     let currentStatus = dbReport.status || 'New';
     if (currentStatus === 'new') currentStatus = 'New';
     if (currentStatus === 'processing') currentStatus = 'Processing';
@@ -43,6 +56,8 @@ const App: React.FC = () => {
     const dirMap: Record<string, string> = { 'L': '좌측', 'R': '우측', 'C': '정면' };
     const directionStr = dirMap[dbReport.direction] || '정면';
 
+    // Supabase/PostGIS 조회 방식에 따라 location.coordinates에 좌표가 있거나,
+    // backend SQL에서 latitude/longitude 컬럼으로 풀려 있을 수 있어 둘 다 대응합니다.
     let lat = dbReport.latitude;
     let lng = dbReport.longitude;
     if (dbReport.location && dbReport.location.coordinates) {
@@ -55,6 +70,7 @@ const App: React.FC = () => {
 
     // ★ 404 방지: S3 풀 경로인 경우와 로컬 경로인 경우를 구분합니다.
     const rawImageUrl = dbReport.image_url || '';
+    // image_url이 이미 https://...면 그대로 쓰고, 상대 경로면 백엔드 URL을 붙입니다.
     const finalThumbnail = rawImageUrl.startsWith('http')
       ? rawImageUrl
       : `${API_BASE_URL}/${rawImageUrl}`;
@@ -66,6 +82,7 @@ const App: React.FC = () => {
 
       // 날짜(YYYY.MM.DD) 형식과 시간(오전/오후 H:MM:SS) 형식을 명확하게 분리
       timestamp: (() => {
+        // created_at은 DB 원본 timestamp이고, timestamp는 화면 표시용 한국어 포맷입니다.
         const dateObj = new Date(dbReport.created_at);
         const datePart = dateObj.toLocaleDateString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit' })
           .replace(/\. /g, '.')
@@ -89,6 +106,7 @@ const App: React.FC = () => {
 
   const fetchInitialData = useCallback(async () => {
     try {
+      // Supabase에서 reports 전체를 직접 읽습니다. hidden 상태는 관리자 기본 목록에서 제외합니다.
       const { data, error } = await supabase
         .from('reports')
         .select('*')
@@ -111,6 +129,7 @@ const App: React.FC = () => {
               if (latMatch && lngMatch) {
                 const lat = latMatch[1];
                 const lng = lngMatch[1];
+                // OpenStreetMap Nominatim 역지오코딩 API로 좌표를 주소 문자열로 바꿉니다.
                 const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}&zoom=18&addressdetails=1`);
                 const json = await res.json();
 
@@ -132,7 +151,9 @@ const App: React.FC = () => {
   }, []);
 
   useEffect(() => {
+    // 최초 진입 시 기존 데이터를 한 번 불러옵니다.
     fetchInitialData();
+    // Supabase Realtime 채널로 reports 테이블 INSERT 이벤트를 구독합니다.
     const channel = supabase.channel('app_realtime_reports').on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'reports' }, (payload) => {
       const newHazard = mapToHazardData(payload.new);
 
@@ -161,12 +182,14 @@ const App: React.FC = () => {
       }, 500);
 
     }).subscribe();
+    // 컴포넌트가 사라질 때 Realtime 구독을 해제해 중복 이벤트를 막습니다.
     return () => { supabase.removeChannel(channel); };
   }, [fetchInitialData]);
 
   const handleRowClick = (data: HazardData) => setSelectedHazard(data);
 
   const renderContent = () => {
+    // activePage에 따라 실제 본문 화면을 선택합니다.
     switch (activePage) {
       case 'dashboard': return <Dashboard data={reports} onRowClick={handleRowClick} isDarkMode={isDarkMode} />;
       case 'heatmap': return <Heatmap data={reports} isDarkMode={isDarkMode} initialCenter={heatmapFocus} />;
@@ -176,6 +199,7 @@ const App: React.FC = () => {
   };
 
   const getPageTitle = () => {
+    // 상단 breadcrumb에 표시할 현재 페이지 제목입니다.
     switch (activePage) {
       case 'dashboard': return 'Dashboard Overview';
       case 'heatmap': return 'Real-time Hazard Heatmap';
@@ -190,6 +214,7 @@ const App: React.FC = () => {
     // Capitalize for internal tracking ('new' -> 'New', 'processing' -> 'Processing', 'done' -> 'Done')
     const capStatus = newStatus === 'done' ? 'Done' : newStatus === 'processing' ? 'Processing' : 'New';
 
+    // 서버 패치가 성공한 뒤 화면 목록과 현재 모달 데이터를 즉시 갱신합니다.
     setReports(prev =>
       prev.map(r => r.id === selectedHazard.id ? { ...r, status: capStatus } : r)
     );
@@ -198,6 +223,7 @@ const App: React.FC = () => {
 
   const handleViewMap = (hazard: HazardData) => {
     try {
+      // HazardData.location은 "위도: ..., 경도: ..." 문자열이라 지도 이동 전에 숫자로 파싱합니다.
       const latStr = hazard.location.split('위도: ')[1]?.split(',')[0];
       const lngStr = hazard.location.split('경도: ')[1];
       const lat = parseFloat(latStr);
@@ -210,12 +236,14 @@ const App: React.FC = () => {
 
   // Navigating normally from Sidebar should clear the heatmap focus
   useEffect(() => {
+    // 히트맵이 아닌 화면으로 이동하면 특정 신고 좌표 포커스를 초기화합니다.
     if (activePage !== 'heatmap') {
       setHeatmapFocus(null);
     }
   }, [activePage]);
 
   return (
+    // isDarkMode에 따라 전체 배경과 텍스트 색상을 바꾸고, Sidebar 폭에 맞춰 main 영역 margin을 조정합니다.
     <div className={`flex min-h-screen font-sans transition-colors duration-300 ${isDarkMode ? 'dark bg-slate-900 text-slate-100' : 'bg-slate-50 text-slate-900'}`}>
       <Sidebar
         activePage={activePage}

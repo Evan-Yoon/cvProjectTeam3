@@ -1,4 +1,8 @@
+# YOLO 데이터셋/검증용 클래스 정의 파일입니다.
+# nc는 number of classes, 즉 모델이 구분해야 하는 클래스 개수입니다.
 nc: 12
+# names는 class id -> class name 매핑입니다.
+# VisionCamera.tsx/YoloParser.ts의 라벨 순서와 맞아야 추론 결과가 올바른 이름으로 표시됩니다.
 names: 
   0: person
   1: bicycle

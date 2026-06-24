@@ -3,6 +3,7 @@ import { speak, startListening, stopListening } from './utils/audio'; // ★ uti
 
 // Props 인터페이스 정의
 interface ListeningScreenProps {
+  // 취소 시 부모(App.tsx)가 IDLE 화면으로 되돌립니다.
   onCancel: () => void;
   // ★ 중요: 인식된 텍스트(string)를 부모(App.tsx)에게 전달해야 하므로 타입을 변경했습니다.
   onSpeechDetected: (text: string) => void;
@@ -10,9 +11,12 @@ interface ListeningScreenProps {
 
 const ListeningScreen: React.FC<ListeningScreenProps> = ({ onCancel, onSpeechDetected }) => {
   // 컴포넌트 마운트 여부 확인 (비동기 처리 시 에러 방지)
+  // useRef는 값이 바뀌어도 렌더링을 다시 일으키지 않기 때문에 타이머/비동기 흐름 제어에 적합합니다.
   const isMounted = useRef(true);
   const latestText = useRef<string>(""); // 실시간 인식 조각 저장
+  // 침묵 타이머 ID입니다. 새 partialText가 들어오면 이전 타이머를 지우고 다시 시작합니다.
   const silenceTimer = useRef<NodeJS.Timeout | null>(null);
+  // STT 최종 결과, 침묵 감지, 화면 터치가 동시에 들어와도 부모 콜백을 한 번만 부르기 위한 잠금입니다.
   const hasFinalized = useRef(false);
 
   // 상위 컴포넌트 콜백이 중복 실행되지 않도록 막아주는 헬퍼
@@ -24,6 +28,7 @@ const ListeningScreen: React.FC<ListeningScreenProps> = ({ onCancel, onSpeechDet
 
   // 디바운스 타이머 설정 (침묵 1.3초 감지 시 자동 종료)
   const resetSilenceTimer = (currentText: string) => {
+    // 디바운스(debounce): 사용자가 계속 말하는 동안에는 확정하지 않고, 마지막 말 이후 1.3초를 기다립니다.
     if (silenceTimer.current) clearTimeout(silenceTimer.current);
 
     silenceTimer.current = setTimeout(() => {
@@ -36,6 +41,7 @@ const ListeningScreen: React.FC<ListeningScreenProps> = ({ onCancel, onSpeechDet
   };
 
   useEffect(() => {
+    // 컴포넌트가 화면에 들어온 순간부터 비동기 작업이 살아있다고 표시합니다.
     isMounted.current = true;
 
     const runSTTFlow = async () => {
@@ -53,6 +59,7 @@ const ListeningScreen: React.FC<ListeningScreenProps> = ({ onCancel, onSpeechDet
       await startListening(
         (finalResult) => {
           // [최종 결과 수신 시] 
+          // 일부 기기에서는 finalResult가 비어 있고 partialResults만 들어오므로 latestText를 fallback으로 씁니다.
           const resultText = finalResult || latestText.current;
           console.log("✅ 최종 결과 완료:", resultText);
           if (isMounted.current) {
@@ -65,6 +72,7 @@ const ListeningScreen: React.FC<ListeningScreenProps> = ({ onCancel, onSpeechDet
         },
         (partialText) => {
           // [실시간 중간 인식 시] 누적 데이터 갱신 및 침묵 타이머 리셋
+          // partialText는 사용자가 말하는 중간중간 들어오는 임시 인식 결과입니다.
           latestText.current = partialText;
           resetSilenceTimer(partialText);
         }
@@ -75,6 +83,7 @@ const ListeningScreen: React.FC<ListeningScreenProps> = ({ onCancel, onSpeechDet
 
     // 3. 네이티브 리소스를 닫는 클린업 함수
     return () => {
+      // 화면을 떠난 뒤 늦게 도착한 STT 결과가 App 상태를 바꾸지 못하게 막습니다.
       isMounted.current = false;
       if (silenceTimer.current) clearTimeout(silenceTimer.current);
       stopListening(); // ★ 마이크 끄기
@@ -83,6 +92,7 @@ const ListeningScreen: React.FC<ListeningScreenProps> = ({ onCancel, onSpeechDet
 
   // 화면 터치 시 수동 확정 처리
   const handleTouchConfirm = () => {
+    // 사용자가 기다리지 않고 화면을 누르면 현재까지 인식된 문장을 목적지로 확정합니다.
     if (silenceTimer.current) clearTimeout(silenceTimer.current);
     stopListening();
 
@@ -94,6 +104,7 @@ const ListeningScreen: React.FC<ListeningScreenProps> = ({ onCancel, onSpeechDet
       handleFinalizedSpeech(confirmedText);
     } else {
       // 말한 내용이 없는 상태에서 터치한 경우 -> 다시 말해달라는 화면(RETRY)으로 유도
+      // App.tsx는 ERROR_NOT_FOUND를 검색 실패처럼 처리해 RetryScreen으로 보냅니다.
       console.log("⚠️ 말한 내용 없음 -> 재시도(RETRY) 화면 유도");
       handleFinalizedSpeech("ERROR_NOT_FOUND");
     }
@@ -106,6 +117,7 @@ const ListeningScreen: React.FC<ListeningScreenProps> = ({ onCancel, onSpeechDet
       <div
         className="absolute inset-0 z-0"
         onClick={() => {
+          // 배경 클릭은 "확정"이 아니라 "취소"입니다. 파형 영역 클릭과 역할이 다릅니다.
           if (silenceTimer.current) clearTimeout(silenceTimer.current);
           stopListening(); // 취소 시 명시적으로 마이크 끄기
           onCancel();

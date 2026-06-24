@@ -5,11 +5,14 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import { AlertCircle, CheckCircle, Clock, TrendingUp } from 'lucide-react';
 
 interface DashboardProps {
+  // App.tsx에서 정규화한 전체 신고 데이터입니다.
   data: HazardData[];
   onRowClick: (data: HazardData) => void;
   isDarkMode: boolean;
 }
 
+// 반복되는 통계 카드 UI를 작은 컴포넌트로 분리했습니다.
+// any 타입은 빠른 구현이지만, 장기적으로는 title/value/icon 등을 명시한 props 타입으로 바꾸는 편이 좋습니다.
 const StatCard = ({ title, value, subtext, icon, colorClass, isDarkMode }: any) => (
   <div className={`p-6 rounded-xl shadow-sm border flex items-start justify-between transition-colors duration-300 ${isDarkMode ? 'bg-slate-800 border-slate-700' : 'bg-white border-slate-100'
     }`}>
@@ -27,14 +30,17 @@ const StatCard = ({ title, value, subtext, icon, colorClass, isDarkMode }: any) 
 );
 
 const Dashboard: React.FC<DashboardProps> = ({ data, onRowClick, isDarkMode }) => {
+  // 위험도별 개수를 recharts BarChart가 기대하는 배열 형태로 만듭니다.
   const riskData = [
     { name: 'High', count: data.filter(h => h.riskLevel === 'High').length },
     { name: 'Medium', count: data.filter(h => h.riskLevel === 'Medium').length },
     { name: 'Low', count: data.filter(h => h.riskLevel === 'Low').length },
   ];
 
+  // 시간대별 접수 횟수를 5개 구간으로 집계합니다.
   const timeGroups = [0, 0, 0, 0, 0];
   data.forEach(h => {
+    // rawTimestamp는 DB 원본 created_at이라 차트 계산에는 표시용 timestamp보다 안정적입니다.
     const dateObj = new Date(h.rawTimestamp || h.timestamp);
     if (isNaN(dateObj.getTime())) return;
     const hour = dateObj.getHours();
@@ -45,6 +51,7 @@ const Dashboard: React.FC<DashboardProps> = ({ data, onRowClick, isDarkMode }) =
     else if (hour >= 17) timeGroups[4]++;
   });
 
+  // LineChart가 기대하는 {time, reports} 배열로 변환합니다.
   const timeData = [
     { time: '09:00', reports: timeGroups[0] },
     { time: '11:00', reports: timeGroups[1] },
@@ -53,6 +60,7 @@ const Dashboard: React.FC<DashboardProps> = ({ data, onRowClick, isDarkMode }) =
     { time: '17:00', reports: timeGroups[4] },
   ];
 
+  // 상단 통계 카드에 들어갈 핵심 숫자입니다.
   const pendingCount = data.filter(h => h.status === 'New').length;
   const resolvedCount = data.filter(h => h.status === 'Done').length;
   const todayCount = data.filter(h => {
@@ -88,6 +96,7 @@ const Dashboard: React.FC<DashboardProps> = ({ data, onRowClick, isDarkMode }) =
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={riskData}>
+                {/* Recharts 컴포넌트는 data 배열의 key 이름을 dataKey로 연결합니다. */}
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={isDarkMode ? '#334155' : '#e2e8f0'} />
                 <XAxis dataKey="name" tick={{ fontSize: 12, fill: '#94a3b8' }} stroke={isDarkMode ? '#475569' : '#cbd5e1'} />
                 <YAxis tick={{ fontSize: 12, fill: '#94a3b8' }} allowDecimals={false} stroke={isDarkMode ? '#475569' : '#cbd5e1'} />
@@ -103,6 +112,7 @@ const Dashboard: React.FC<DashboardProps> = ({ data, onRowClick, isDarkMode }) =
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={timeData}>
+                {/* 시간대별 reports 값을 선 그래프로 표시합니다. */}
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke={isDarkMode ? '#334155' : '#e2e8f0'} />
                 <XAxis dataKey="time" tick={{ fontSize: 12, fill: '#94a3b8' }} stroke={isDarkMode ? '#475569' : '#cbd5e1'} />
                 <YAxis tick={{ fontSize: 12, fill: '#94a3b8' }} allowDecimals={false} stroke={isDarkMode ? '#475569' : '#cbd5e1'} />
@@ -117,6 +127,7 @@ const Dashboard: React.FC<DashboardProps> = ({ data, onRowClick, isDarkMode }) =
       <div>
         <h3 className={`font-bold text-lg mb-4 transition-colors duration-300 ${isDarkMode ? 'text-slate-200' : 'text-slate-800'}`}>최근 접수 내역 (Live Feed)</h3>
         {/* ★ 여기에 isDarkMode를 넘겨줍니다 */}
+        {/* compact 모드는 대시보드용으로 테이블 컬럼을 줄여 최근 5개만 보여줍니다. */}
         <HazardTable data={data.slice(0, 5)} onRowClick={onRowClick} compact isDarkMode={isDarkMode} />
       </div>
     </div>

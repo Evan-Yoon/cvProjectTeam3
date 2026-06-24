@@ -6,8 +6,10 @@ import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 
 interface HeatmapProps {
+    // App.tsx에서 정규화한 신고 데이터입니다. location 문자열에서 좌표를 파싱해 지도에 표시합니다.
     data: HazardData[];
     isDarkMode: boolean;
+    // 상세 모달에서 "위치 지도 보기"를 누르면 이 좌표가 들어옵니다.
     initialCenter?: [number, number] | null;
 }
 
@@ -16,11 +18,13 @@ const MapUpdater: React.FC<{ center: [number, number] }> = ({ center }) => {
     const map = useMap();
 
     useEffect(() => {
+        // centerPosition이 바뀌면 지도 중심을 부드럽게 이동합니다.
         map.flyTo(center, 14, { duration: 1.5 });
     }, [center, map]);
 
     useEffect(() => {
         // 0.1초, 0.5초, 1초 뒤에 지도를 강제로 재계산합니다. (로딩 지연 대비 완벽 방어)
+        // Leaflet은 컨테이너 크기가 늦게 확정되면 회색 타일이 보일 수 있어 invalidateSize가 필요합니다.
         const timers = [100, 500, 1000].map(t => setTimeout(() => {
             map.invalidateSize();
             window.dispatchEvent(new Event('resize'));
@@ -32,6 +36,7 @@ const MapUpdater: React.FC<{ center: [number, number] }> = ({ center }) => {
     return null;
 };
 
+// Leaflet Marker에 이미지 파일 대신 HTML/SVG를 넣기 위한 커스텀 아이콘입니다.
 const redArrowHtml = `
   <div style="filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4)); transform: rotate(45deg);">
     <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="#ef4444" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
@@ -48,11 +53,14 @@ const redArrowIcon = new L.DivIcon({
 });
 
 const Heatmap: React.FC<HeatmapProps> = ({ data, isDarkMode, initialCenter }) => {
+    // activeRisk는 지도 왼쪽 필터에서 선택한 위험도입니다.
     const [activeRisk, setActiveRisk] = useState<string>('All');
+    // 지도 중심 좌표입니다. 초기값은 서울시청 근처 좌표입니다.
     const [centerPosition, setCenterPosition] = useState<[number, number]>(initialCenter || [37.5665, 126.9780]);
     const [myLocation, setMyLocation] = useState<[number, number] | null>(null);
 
     const moveToMyLocation = () => {
+        // 브라우저 Geolocation API로 관리자 PC/브라우저의 현재 위치를 가져옵니다.
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 (position) => {
@@ -69,6 +77,7 @@ const Heatmap: React.FC<HeatmapProps> = ({ data, isDarkMode, initialCenter }) =>
     };
 
     useEffect(() => {
+        // 외부에서 포커스 좌표가 들어오면 그 좌표로 이동하고, 없으면 내 위치를 시도합니다.
         if (initialCenter) {
             setCenterPosition(initialCenter);
         } else {
@@ -78,6 +87,7 @@ const Heatmap: React.FC<HeatmapProps> = ({ data, isDarkMode, initialCenter }) =>
 
     const mapData = data.map(d => {
         try {
+            // App.tsx에서 만든 "위도: xx, 경도: yy" 문자열을 Leaflet 좌표 숫자로 되돌립니다.
             const latStr = d.location.split('위도: ')[1]?.split(',')[0];
             const lngStr = d.location.split('경도: ')[1];
             return { ...d, lat: parseFloat(latStr), lng: parseFloat(lngStr) };
@@ -86,14 +96,17 @@ const Heatmap: React.FC<HeatmapProps> = ({ data, isDarkMode, initialCenter }) =>
         }
     }).filter(d => !isNaN(d.lat) && !isNaN(d.lng));
 
+    // All이면 전체 표시, 아니면 선택한 위험도만 표시합니다.
     const filteredData = activeRisk === 'All' ? mapData : mapData.filter(d => d.riskLevel === activeRisk);
 
     const getBlobColor = (level: string) => {
+        // CircleMarker 색상은 위험도와 같은 색상 체계를 사용합니다.
         if (level === 'High') return '#ef4444';
         if (level === 'Medium') return '#f59e0b';
         return '#3b82f6';
     };
 
+    // 다크모드에 따라 Carto 지도 타일 스타일을 바꿉니다.
     const tileUrl = isDarkMode
         ? 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
         : 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png';
@@ -159,6 +172,7 @@ const Heatmap: React.FC<HeatmapProps> = ({ data, isDarkMode, initialCenter }) =>
 
                     <MapContainer center={centerPosition} zoom={13} style={{ position: 'absolute', top: 0, left: 0, height: '100%', width: '100%', zIndex: 0 }}>
                         <TileLayer
+                            // 배경 지도 타일입니다. 실제 데이터 마커는 아래 CircleMarker들이 담당합니다.
                             url={tileUrl}
                             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
                         />
@@ -176,6 +190,7 @@ const Heatmap: React.FC<HeatmapProps> = ({ data, isDarkMode, initialCenter }) =>
                         {filteredData.map((d) => (
                             <CircleMarker
                                 key={d.id}
+                                // Leaflet 좌표 순서는 [lat, lng]입니다.
                                 center={[d.lat, d.lng]}
                                 radius={12}
                                 pathOptions={{

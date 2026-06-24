@@ -11,12 +11,15 @@ interface ConfirmationScreenProps {
 
 // 2. 컴포넌트 선언
 const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({ destination, onConfirm, onDeny }) => {
+    // 확인 화면은 "응/아니" 음성 입력과 화면 상하단 터치를 모두 지원합니다.
+    // 두 입력이 거의 동시에 들어올 수 있어서 hasFinalized로 한 번만 처리되게 합니다.
     const isMounted = useRef(true);
     const latestText = useRef<string>(""); // 실시간 중간 결과 누적
     const silenceTimer = useRef<NodeJS.Timeout | null>(null);
     const hasFinalized = useRef(false);
 
     const handleConfirm = () => {
+        // 확인이 확정되면 STT를 멈추고 부모의 경로 탐색 함수(App.tsx)를 호출합니다.
         if (hasFinalized.current) return;
         hasFinalized.current = true;
         stopListening();
@@ -24,6 +27,7 @@ const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({ destination, on
     };
 
     const handleDeny = () => {
+        // 거절이 확정되면 STT를 멈추고 부모의 재시도 화면 전환 함수(App.tsx)를 호출합니다.
         if (hasFinalized.current) return;
         hasFinalized.current = true;
         stopListening();
@@ -35,6 +39,7 @@ const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({ destination, on
         const command = text.toLowerCase().trim();
         console.log("Confirmation STT:", command);
 
+        // includes를 쓰기 때문에 "네 맞아요", "아니요"처럼 긴 문장 안에 키워드가 있어도 인식됩니다.
         if (["응", "네", "맞아", "그래", "yes", "ok", "어", "맞음"].some(k => command.includes(k))) {
             if (isMounted.current) handleConfirm();
         } else if (["아니", "틀려", "no", "nope", "아니야", "아님"].some(k => command.includes(k))) {
@@ -46,6 +51,7 @@ const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({ destination, on
 
     // 침묵 1.3초 감지 시 자동 종료 처리
     const resetSilenceTimer = (currentText: string) => {
+        // 사용자가 "네..."라고 말하고 멈추면 partialText만으로도 확정되도록 하는 안전장치입니다.
         if (silenceTimer.current) clearTimeout(silenceTimer.current);
 
         silenceTimer.current = setTimeout(() => {
@@ -58,6 +64,7 @@ const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({ destination, on
     };
 
     const handleSTT = async () => {
+        // Confirmation 화면 전용 STT 시작 함수입니다. TTS 질문이 끝난 뒤 호출됩니다.
         await startListening(
             (finalResult) => {
                 const resultText = finalResult || latestText.current;
@@ -80,6 +87,7 @@ const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({ destination, on
         const runConfirmationFlow = async () => {
             if (!isMounted.current) return;
             // 1. TTS로 안내 멘트 재생이 끝날 때까지 대기
+            // speak가 Promise를 반환하므로, 질문 음성이 끝난 뒤 마이크를 켜도록 순서를 보장합니다.
             await speak(`${destination}이 맞으신가요?`);
 
             // 2. 오디오 세션 안정을 위해 500ms 대기 (playback→recording 세션 전환 시간 확보)
@@ -93,6 +101,7 @@ const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({ destination, on
         runConfirmationFlow();
 
         return () => {
+            // 화면이 바뀌면 타이머와 STT 리스너를 정리해 다음 화면 음성 입력과 충돌하지 않게 합니다.
             isMounted.current = false;
             if (silenceTimer.current) clearTimeout(silenceTimer.current);
             stopListening();
@@ -129,6 +138,7 @@ const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({ destination, on
                 <div className="text-center space-y-6">
                     {/* 인식된 목적지 텍스트 (가장 크게 강조) */}
                     <h1 className="text-6xl font-black text-primary tracking-tight leading-tight drop-shadow-2xl whitespace-pre-wrap">
+                        {/* 괄호/대괄호 앞에서 줄바꿈해 긴 POI 이름이 한 줄에 터지지 않게 합니다. */}
                         {destination.replace(/([\[\(])/g, '\n$1')}
                     </h1>
                     {/* 확인 질문 */}

@@ -1,5 +1,8 @@
 import { v4 as uuidv4 } from 'uuid';
 
+// report.ts는 VisionCamera가 감지한 위험 요소를 FastAPI 백엔드의 신고 API로 업로드하는 파일입니다.
+// 텍스트 필드와 이미지 파일을 함께 보내야 하므로 JSON이 아니라 FormData를 사용합니다.
+
 // ---------------------------------------------------------------------------
 // 1. 서버 주소 설정
 // .env의 VITE_BACKEND_URL을 우선 사용하고, 끝에 슬래시('/')를 붙여 307 에러를 예방합니다.
@@ -19,6 +22,7 @@ const base64ToBlob = (base64Data: string, contentType: string = 'image/jpeg') =>
   const byteNumbers = new Array(byteCharacters.length);
 
   // 각 문자를 유니코드 숫자로 변환하여 배열에 담습니다.
+  // 브라우저 Blob은 문자열이 아니라 바이트 배열을 받아야 실제 이미지 파일처럼 전송됩니다.
   for (let i = 0; i < byteCharacters.length; i++) {
     byteNumbers[i] = byteCharacters.charCodeAt(i);
   }
@@ -48,9 +52,11 @@ export const sendHazardReport = async (payload: ReportPayload) => {
     const formData = new FormData();
 
     // 1. 필수 데이터 채우기 (백엔드에서 정해준 이름을 똑같이 써야 합니다)
+    // 현재는 매 신고마다 임시 UUID를 만들고 있습니다. 실제 로그인/사용자 관리가 붙으면 user_id는 인증 사용자 ID로 바뀔 수 있습니다.
     formData.append('item_id', uuidv4());      // 매 신고마다 고유한 아이디 자동 생성
     formData.append('user_id', uuidv4());      // 사용자 아이디 (기존 UUID 유지, 백엔드 호환성)
 
+    // append의 첫 번째 인자는 백엔드가 기대하는 필드명과 정확히 일치해야 합니다.
     formData.append('label', payload.label);
     formData.append('latitude', payload.latitude.toString());
     formData.append('longitude', payload.longitude.toString());
@@ -61,6 +67,7 @@ export const sendHazardReport = async (payload: ReportPayload) => {
     // 2. 이미지 변환 및 추가
     // 백엔드 파이썬 코드에서 'file'이라는 이름으로 사진을 받기 때문에 키값을 'file'로 맞춥니다.
     const imageBlob = base64ToBlob(payload.imageBase64);
+    // 세 번째 인자 'report_image.jpg'는 서버가 받는 파일명입니다.
     formData.append('file', imageBlob, 'report_image.jpg');
 
     // 3. 실제 전송 실행
@@ -70,6 +77,8 @@ export const sendHazardReport = async (payload: ReportPayload) => {
     const response = await fetch(API_BASE_URL, {
       method: 'POST',
       body: formData,
+      // FormData를 보낼 때 Content-Type은 직접 지정하지 않습니다.
+      // 브라우저가 multipart boundary를 포함한 Content-Type을 자동으로 만들어야 하기 때문입니다.
       // ngrok을 사용할 경우 브라우저 경고 페이지를 통과하기 위한 헤더입니다.
       headers: {
         'ngrok-skip-browser-warning': 'true',
