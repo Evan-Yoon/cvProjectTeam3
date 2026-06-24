@@ -148,6 +148,12 @@ const ListeningScreen: React.FC<ListeningScreenProps> = ({ onCancel, onSpeechDet
         title="터치하여 현재 인식된 주소로 확정하기"
       >
         <div className="relative w-full h-48 flex items-center justify-center gap-2 md:gap-4">
+          <style>{`
+            @keyframes wave {
+              0%, 100% { height: 20%; }
+              50% { height: 100%; }
+            }
+          `}</style>
           <div className="absolute inset-0 bg-primary/5 blur-3xl rounded-full transform scale-150"></div>
 
           {/* 파형 애니메이션 */}

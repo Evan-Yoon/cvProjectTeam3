@@ -70,7 +70,16 @@ const IdleScreen: React.FC<IdleScreenProps> = ({ onStart, isLocationReady }) => 
         {/* 배경 빛 효과 (Glowing Background) */}
         {/* 은은하게 퍼지는 노란색 빛 (WalkMate 브랜드 컬러) */}
         <div className="absolute inset-0 flex items-center justify-center opacity-20">
-          <div className="w-64 h-64 rounded-full bg-primary/20 blur-3xl animate-pulse-slow"></div>
+          <style>{`
+            @keyframes pulse-slow {
+              0%, 100% { opacity: 1; }
+              50% { opacity: 0.5; }
+            }
+          `}</style>
+          <div
+            className="w-64 h-64 rounded-full bg-primary/20 blur-3xl"
+            style={{ animation: 'pulse-slow 3s cubic-bezier(0.4, 0, 0.6, 1) infinite' }}
+          ></div>
         </div>
 
         {/* 메인 마이크 아이콘 */}

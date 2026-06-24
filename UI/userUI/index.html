@@ -43,18 +43,6 @@
           fontFamily: {
             // font-display라는 Tailwind 클래스가 Inter 폰트 패밀리로 연결됩니다.
             display: ['Inter', 'sans-serif'],
-          },
-          animation: {
-            // animate-pulse-slow, animate-wave 같은 커스텀 애니메이션 이름을 추가합니다.
-            'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
-            'wave': 'wave 1.2s ease-in-out infinite',
-          },
-          keyframes: {
-            // 음성 인식 파형 막대가 위아래로 움직이는 높이 애니메이션입니다.
-            wave: {
-              '0%, 100%': { height: '20%' },
-              '50%': { height: '100%' },
-            }
           }
         },
       },
@@ -73,26 +61,7 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    /* wave-bar의 nth-child별 delay는 같은 애니메이션을 살짝 어긋나게 실행해 파형처럼 보이게 합니다. */
-    .wave-bar:nth-child(1) {
-      animation-delay: 0.1s;
-    }
 
-    .wave-bar:nth-child(2) {
-      animation-delay: 0.2s;
-    }
-
-    .wave-bar:nth-child(3) {
-      animation-delay: 0.3s;
-    }
-
-    .wave-bar:nth-child(4) {
-      animation-delay: 0.15s;
-    }
-
-    .wave-bar:nth-child(5) {
-      animation-delay: 0.4s;
-    }
   </style>
 
 
