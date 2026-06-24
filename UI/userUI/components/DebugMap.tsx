@@ -150,7 +150,7 @@ const DebugMap: React.FC<DebugMapProps> = ({ path, currentPos, currentHeading })
             </MapContainer>
 
             {/* 방향 디버깅 배지 */}
-            <div className="absolute top-4 right-4 bg-white/90 px-3 py-1 rounded-full shadow-lg z-[1000] border border-gray-200">
+            <div className="absolute top-4 right-4 bg-white/90 px-3 py-1 rounded-full shadow-lg z-map-overlay border border-gray-200">
                 <p className="text-xs font-bold text-gray-700">
                     🧭 {currentHeading ? `${currentHeading.toFixed(0)}°` : '방향 찾는 중...'}
                 </p>

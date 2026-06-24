@@ -353,7 +353,7 @@ const VisionCamera: React.FC<VisionCameraProps> = ({ onSpeak }) => {
       />
       <div className="absolute top-4 right-4 flex flex-col items-end gap-2 z-50">
         <div className="bg-black/60 px-3 py-1 rounded-full">
-          <p className="text-yellow-400 font-mono text-xs font-bold animate-pulse">{status}</p>
+          <p className="text-primary font-mono text-xs font-bold animate-pulse">{status}</p>
         </div>
         {inferenceInfo && (
           <div className="bg-blue-900/80 px-3 py-1 rounded-lg border border-blue-400">

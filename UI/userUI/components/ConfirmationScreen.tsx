@@ -118,7 +118,7 @@ const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({ destination, on
             {/* aria-hidden="true": 스크린 리더가 읽지 않도록 설정 (장식용) */}
             {/* 은은하게 빛나는 배경 효과를 위해 animate-pulse(깜빡임)와 spin(회전) 애니메이션 적용 */}
             <div aria-hidden="true" className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 rounded-full bg-primary/5 blur-3xl animate-pulse"></div>
-            <div aria-hidden="true" className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-60 h-60 rounded-full border border-primary/20 animate-[spin_12s_linear_infinite]"></div>
+            <div aria-hidden="true" className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-60 h-60 rounded-full border border-primary/20 animate-spin-slow"></div>
 
             {/* --- 메인 콘텐츠 영역 --- */}
             <main className="flex-1 w-full flex flex-col items-center justify-center relative z-20 px-6">
@@ -130,8 +130,11 @@ const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({ destination, on
                         <span className="material-icons-round text-6xl text-primary">mic</span>
                     </div>
                     {/* 물결(Ripple) 애니메이션 효과: 음성 인식 중임을 시각적으로 표현 */}
-                    <div className="absolute inset-0 rounded-full border border-primary/30 scale-110 animate-[pulse_2s_infinite]"></div>
-                    <div className="absolute inset-0 rounded-full border border-primary/10 scale-150 animate-[pulse_2s_infinite_0.5s]"></div>
+                    <div className="absolute inset-0 rounded-full border border-primary/30 scale-110 animate-pulse"></div>
+                    <div
+                        className="absolute inset-0 rounded-full border border-primary/10 scale-150 animate-pulse"
+                        style={{ animationDelay: '0.5s' }}
+                    ></div>
                 </div>
 
                 {/* 텍스트 내용 */}

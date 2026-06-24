@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import './index.css';
 import App from './App';
 
 // index.html의 <div id="root"></div>를 찾아 React 앱을 붙일 실제 DOM 위치를 확보합니다.

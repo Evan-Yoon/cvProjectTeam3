@@ -489,7 +489,7 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
     <div className="h-full w-full bg-black flex flex-col relative" onClick={() => setTaps(t => t + 1)}>
 
       {/* 1. 상단: 지도 영역 (50%) */}
-      <div className="h-[50%] w-full relative z-20 border-b-2 border-white bg-gray-900">
+      <div className="h-1/2 w-full relative z-20 border-b-2 border-white bg-gray-900">
         {isLoading ? (
           <div className="w-full h-full flex items-center justify-center text-white">
             <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-white mr-2"></div>
@@ -505,14 +505,14 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
       </div>
 
       {/* 2. 하단: 카메라 및 안내 텍스트 (50%) */}
-      <div className="h-[50%] w-full relative">
+      <div className="h-1/2 w-full relative">
         {/* 카메라 화면 (배경) */}
         {/* VisionCamera가 장애물을 찾으면 onSpeak로 safeSpeak를 호출해 TTS 큐에 장애물 경고를 넣습니다. */}
         <div className="absolute inset-0 z-0"><VisionCamera onSpeak={safeSpeak} /></div>
 
         {/* 반투명 검은 배경 위 텍스트 */}
         <div className="absolute inset-0 z-10 bg-black/50 flex flex-col items-center justify-center text-white text-center p-4">
-          <h1 className="text-4xl font-black text-yellow-400 mb-4">
+          <h1 className="text-4xl font-black text-primary mb-4">
             {isOriented ? "안내 중" : "방향 탐색 중"}
           </h1>
 

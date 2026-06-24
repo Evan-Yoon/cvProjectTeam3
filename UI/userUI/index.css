@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #000000;
+  overscroll-behavior: none;
+  -webkit-tap-highlight-color: transparent;
+}

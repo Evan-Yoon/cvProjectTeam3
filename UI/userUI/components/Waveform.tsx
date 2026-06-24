@@ -24,7 +24,7 @@ export const Waveform: React.FC<WaveformProps> = ({ active, volume }) => {
         return (
           <div
             key={i}
-            className="w-4 bg-mate-yellow rounded-full transition-all duration-100 ease-linear"
+            className="w-4 bg-primary rounded-full transition-all duration-100 ease-linear"
             style={{
               height: `${heightPercent}%`,
               opacity: active ? 1 : 0.3

@@ -15,56 +15,10 @@
   -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>WalkMate</title>
-
-  <!-- tflite_web_api_client.js는 VisionCamera 마운트 시 동적 로드 (STT 블로킹 방지) -->
-
-  <!-- Tailwind CDN: 빌드된 CSS 파일 없이 className 문자열만으로 유틸리티 CSS를 사용할 수 있게 합니다. -->
-  <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Fonts: fontFamily.display에서 Inter를 사용할 수 있게 불러옵니다. -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet" />
   <!-- Material Icons: <span class="material-icons-round">mic</span> 같은 아이콘 텍스트를 실제 아이콘으로 보여줍니다. -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet" />
-
-  <script>
-    // tailwind.config는 CDN 방식 Tailwind가 읽는 런타임 설정입니다.
-    // darkMode: 'class'라서 html 태그의 class="dark"가 붙어 있을 때 dark: 계열 스타일이 활성화됩니다.
-    // 현재 파일의 <html lang="ko" class="dark">가 바로 그 스위치 역할을 합니다.
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            // primary는 앱 전체에서 쓰는 노란색 브랜드 컬러입니다. 예: className="text-primary"
-            primary: '#FDBD10',
-            'primary-dim': '#CFA00D',
-            'surface-dark': '#1a1a1a',
-            background: '#000000',
-          },
-          fontFamily: {
-            // font-display라는 Tailwind 클래스가 Inter 폰트 패밀리로 연결됩니다.
-            display: ['Inter', 'sans-serif'],
-          }
-        },
-      },
-    }
-  </script>
-  <style>
-    /*
-      이 style 블록은 전역 CSS입니다.
-      React 컴포넌트의 className보다 먼저 브라우저 기본 동작을 제어하는 용도로 쓰입니다.
-    */
-    body {
-      background-color: #000000;
-      /* 모바일에서 화면 끝을 당겼을 때 페이지 바깥으로 튕기는 스크롤 효과를 막습니다. */
-      overscroll-behavior: none;
-      /* iOS/모바일 브라우저에서 터치 시 생기는 회색 하이라이트를 제거합니다. */
-      -webkit-tap-highlight-color: transparent;
-    }
-
-
-  </style>
-
-
 </head>
 
 <body>
