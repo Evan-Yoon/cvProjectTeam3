@@ -4,7 +4,8 @@ import { Geolocation } from "@capacitor/geolocation";
 import * as tf from "@tensorflow/tfjs";
 import * as tflite from "@tensorflow/tfjs-tflite";
 import { sendHazardReport } from "../src/api/report";
-import { YoloParser, DetectedBox } from "../src/utils/YoloParser";
+import { YoloParser } from "../src/utils/YoloParser";
+import { DetectedBox } from "../types";
 
 // VisionCamera는 안내 중 하단 카메라 화면과 AI 장애물 감지를 담당합니다.
 // 흐름은 "카메라 프레임 캡처 -> 640x640 전처리 -> TFLite 추론 -> YOLO 박스 파싱 -> 위험물 신고/음성 경고"입니다.

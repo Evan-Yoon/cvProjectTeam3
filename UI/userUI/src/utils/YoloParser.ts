@@ -1,4 +1,4 @@
-import { DetectedBox } from '../types';
+import { DetectedBox } from '../../types';
 
 // YoloParser는 TFLite 모델의 숫자 배열 출력값을 사람이 다루기 쉬운 감지 박스 목록으로 바꿉니다.
 // 모델 export 방식에 따라 출력 shape가 [1,N,6], [1,F,B], [1,B,F]처럼 달라질 수 있어 여러 포맷을 방어적으로 처리합니다.

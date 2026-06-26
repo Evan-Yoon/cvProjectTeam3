@@ -1,9 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import VisionCamera from './VisionCamera'; // 카메라 화면
 import { speak, startListening, stopListening } from '../src/utils/audio'; // 음성(TTS/STT)
-import { NavigationStep } from '../src/api/backend'; // 백엔드 데이터 타입
 import DebugMap from './DebugMap'; // 지도 컴포넌트
-import { Destination, LatLng } from '../types';
+import { Destination, LatLng, NavigationStep } from '../types';
 import { useCompass } from '../src/hooks/useCompass';
 import { useTtsQueue } from '../src/hooks/useTtsQueue';
 

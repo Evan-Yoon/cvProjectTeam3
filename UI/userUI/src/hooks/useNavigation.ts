@@ -1,8 +1,8 @@
 import { useState, useCallback, useRef } from 'react';
 import { Geolocation } from '@capacitor/geolocation';
-import { AppScreen, LatLng, Destination } from '@/types';
+import { AppScreen, LatLng, Destination, NavigationStep } from '@/types';
 import { searchLocation } from '@/src/api/tmap';
-import { requestNavigation, NavigationStep } from '@/src/api/backend';
+import { requestNavigation } from '@/src/api/backend';
 import { speak } from '@/src/utils/audio';
 
 export const useNavigation = (myLocationRef: React.MutableRefObject<LatLng | null>) => {
