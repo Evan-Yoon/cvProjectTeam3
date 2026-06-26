@@ -1,12 +1,22 @@
 import { useEffect, useRef } from 'react';
 import { speak, startListening, stopListening } from '@/src/utils/audio';
 
+/**
+ * 음성 대화 상호작용을 위한 초기설정 매개변수 명세
+ */
 interface UseVoiceDialogParams {
+  /** 대화를 시작할 때 TTS로 안내할 멘트 */
   promptMessage: string;
+  /** 사용자가 음성 입력을 완료(침묵 감지 또는 최종 확정)했을 때 수행할 최종 콜백 */
   onFinalResult: (text: string) => void;
+  /** 컴포넌트 마운트 시 즉시 발화와 STT를 작동시킬지 여부 (기본값: true) */
   autoStart?: boolean;
 }
 
+/**
+ * 컴포넌트 내부에서 발생하는 음성 피드백(TTS) 재생 후 마이크 자동 수신(STT) 대기,
+ * 1.3초 침묵 자동 감지 및 확정 제어 흐름을 은닉하여 캡슐화하는 커스텀 훅입니다.
+ */
 export const useVoiceDialog = ({
   promptMessage,
   onFinalResult,

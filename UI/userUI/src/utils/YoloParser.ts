@@ -14,13 +14,24 @@ const COCO_CLASSES = [
 type Layout = "FxB" | "BxF";
 
 export class YoloParser {
-    // parse의 최종 목표는 어떤 모델 출력이 와도 DetectedBox[]로 통일하는 것입니다.
+    /**
+     * TFLite 모델의 원본 raw 1차원 숫자 배열 출력을 파싱하여 
+     * 사람이 처리하기 쉬운 DetectedBox[] 객체 리스트로 통합 변환합니다.
+     * NMS(Non-Maximum Suppression)를 내장하고 있어 중복 박스를 정리합니다.
+     * 
+     * @param data - 모델이 출력한 raw 1차원 float32 데이터 배열
+     * @param dims - 출력 Tensor의 shape 차원 정보 (예: [1, 84, 8400] 등)
+     * @param confThreshold - 탐지 신뢰도 임계값 (기본값: 0.25)
+     * @param iouThreshold - NMS 중복 박스 제거 시 기준이 될 IoU 임계값 (기본값: 0.45)
+     * @param modelInputSize - 모델 학습 시의 정방형 입력 해상도 크기 (기본값: 640)
+     * @returns 필터링이 완료된 최종 객체 탐지 박스 배열
+     */
     static parse(
         data: number[],
         dims: number[] = [],
         confThreshold: number = 0.25,
         iouThreshold: number = 0.45,
-        modelInputSize: number = 640 // ✅ 픽셀 좌표 자동 정규화에 사용
+        modelInputSize: number = 640
     ): DetectedBox[] {
         // 데이터가 없으면 감지 결과도 없습니다.
         if (!data || data.length === 0) return [];
@@ -297,6 +308,12 @@ export class YoloParser {
     }
 }
 
+/**
+ * 주어진 임의의 숫자를 0.0 ~ 1.0 사잇값으로 보정(Clamping)합니다.
+ * 
+ * @param v - 보정 대상 숫자
+ * @returns 0과 1 사이로 강제 조정된 값
+ */
 function clamp01(v: number) {
     // 좌표를 0~1 범위에 가둡니다. UI 계산과 이미지 그리기에서 범위 밖 값으로 인한 오류를 줄입니다.
     if (v < 0) return 0;

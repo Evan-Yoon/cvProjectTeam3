@@ -13,9 +13,11 @@ const BASE_URL = import.meta.env.VITE_BACKEND_URL || "http://172.30.1.80:8000";
 const API_BASE_URL = `${BASE_URL}/api/v1/reports/`;
 
 /**
- * [헬퍼 함수] Base64 문자열을 이미지 파일(Blob)로 변환
- * 카메라 앱은 사진 데이터를 텍스트(Base64)로 주지만, 
- * 서버에 "파일"로 올리기 위해서는 이 변환 과정이 필요합니다.
+ * Base64 인코딩된 이미지 텍스트 데이터를 멀티파트 전송을 위한 바이너리 Blob 객체로 변환합니다.
+ * 
+ * @param base64Data - 변환할 Base64 형식의 이미지 데이터 문자열
+ * @param contentType - 생성할 Blob의 MIME 타입 (기본값: 'image/jpeg')
+ * @returns 바이너리 데이터 덩어리인 Blob 객체
  */
 const base64ToBlob = (base64Data: string, contentType: string = 'image/jpeg') => {
   // atob: Base64로 인코딩된 데이터를 디코딩(해석)합니다.
@@ -34,7 +36,9 @@ const base64ToBlob = (base64Data: string, contentType: string = 'image/jpeg') =>
 };
 
 /**
- * [메인 함수] 서버로 신고 데이터를 전송합니다.
+ * 실시간 객체 탐지 중 감지된 위험 요소를 위치 및 증빙 이미지와 함께 서버의 신고 API로 전송합니다.
+ * 
+ * @param payload - 신고 위경도, 위험 종류, 등급, Base64 이미지 텍스트를 담은 정보 객체
  */
 export const sendHazardReport = async (payload: ReportPayload) => {
   try {

@@ -7,7 +7,12 @@ import { TextToSpeech } from '@capacitor-community/text-to-speech';
 // STT 중복 시작을 막는 전역 잠금입니다. 여러 화면이 동시에 startListening을 부르면 마이크 리스너가 꼬일 수 있습니다.
 let isListeningActive = false;
 
-// 1. 말하기 (TTS: Text To Speech)
+/**
+ * 입력된 텍스트를 디바이스의 TTS 엔진을 활용하여 한국어 음성으로 출력합니다.
+ * 이전 발화가 진행 중일 경우 이를 즉시 중단하고 새 안내를 시작합니다.
+ * 
+ * @param text - 음성으로 출력할 텍스트 안내 문장
+ */
 export const speak = async (text: string) => {
     try {
         // 새 문장을 말하기 전에 기존 발화를 멈춥니다. 안내 문장이 겹쳐 들리는 것을 줄이기 위한 처리입니다.
@@ -32,7 +37,14 @@ export const speak = async (text: string) => {
     }
 };
 
-// 2. 듣기 (STT: Speech To Text)
+/**
+ * 디바이스 마이크를 활성화하여 실시간 한국어 음성 인식을 시작합니다.
+ * 중복 시작 방지를 위해 내부적으로 실행 상태 잠금을 사용합니다.
+ * 
+ * @param onResult - 음성 인식이 완료되었을 때 최종 텍스트 결과를 전달받는 콜백
+ * @param onError - 음성 인식 준비 실패 또는 에러 발생 시 호출되는 콜백
+ * @param onPartial - 음성 인식 진행 중 실시간으로 도출된 부분 중간 인식 결과를 전달받는 선택적 콜백
+ */
 export const startListening = async (
     onResult: (text: string) => void,
     onError: () => void,
@@ -118,7 +130,9 @@ export const startListening = async (
     }
 };
 
-// 듣기 중단 함수
+/**
+ * 현재 진행 중인 음성 인식(STT) 세션을 중단하고 기기 마이크 리스너를 해제합니다.
+ */
 export const stopListening = async () => {
     // 어떤 이유로든 중단하면 다음 startListening이 가능하도록 잠금을 먼저 풉니다.
     isListeningActive = false; // 중지 시 락 해제

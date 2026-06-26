@@ -1,11 +1,22 @@
 import { useState, useEffect, useRef } from 'react';
 
+/**
+ * 나침반 센서 가공 및 융합을 위한 매개변수 명세
+ */
 interface UseCompassParams {
+  /** 사용자가 실제 걷고 있을 때 GPS 궤적 정보로부터 계산한 절대 이동각 Ref */
   targetGpsHeading: React.MutableRefObject<number | null>;
+  /** GPS 궤적이 갱신된 최근 타임스탬프 (밀리초) Ref */
   gpsActiveTime: React.MutableRefObject<number>;
+  /** 기기 센서 편차를 상쇄 보정하기 위한 나침반 옵셋값 (도 단위) */
   compassOffset?: number;
 }
 
+/**
+ * 모바일 기기 나침반 센서(방위각)를 구독 및 가공하는 훅입니다.
+ * 서 있거나 멈췄을 땐 저역 통과 필터(LPF)로 노이즈를 흔들림 없이 정돈하고, 
+ * 이동 중에는 GPS 진행 궤적 각도를 반영하는 센서 퓨전(Sensor Fusion) 보정을 지원합니다.
+ */
 export const useCompass = ({
   targetGpsHeading,
   gpsActiveTime,

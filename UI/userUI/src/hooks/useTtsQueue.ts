@@ -2,6 +2,10 @@ import { useEffect, useRef } from 'react';
 import { speak } from '@/src/utils/audio';
 import { TtsMessage } from '../../types';
 
+/**
+ * 중복되는 안내 멘트와 돌발 장애물 음성 출력의 겹침/씹힘 현상을 막기 위한
+ * FIFO(First-In-First-Out) 및 장애물 최우선 가중치가 부여된 음성 발화 순차 큐 시스템 훅입니다.
+ */
 export const useTtsQueue = () => {
   const ttsQueue = useRef<TtsMessage[]>([]);
   const isSpeaking = useRef<boolean>(false);

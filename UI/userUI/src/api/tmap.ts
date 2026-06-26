@@ -11,10 +11,14 @@ const TMAP_APP_KEY = import.meta.env.VITE_TMAP_API_KEY;
 const TMAP_ROUTE_URL = 'https://apis.openapi.sk.com/tmap/routes/pedestrian?version=1&format=json';
 const TMAP_POI_URL = 'https://apis.openapi.sk.com/tmap/pois';
 
-// ------------------------------------------------------------------
-// 1. 장소 검색(POI) API 함수 (이름 -> 좌표)
-// App.tsx에서 searchLocation(keyword, lat, lng) 형태로 호출함
-// ------------------------------------------------------------------
+/**
+ * 장소 키워드명을 입력받아 TMAP POI 검색을 수행하고 최적 결과 1개의 정보(이름, 위경도)를 반환합니다.
+ * 
+ * @param keyword - 사용자가 입력하거나 음성으로 말한 목적지 키워드
+ * @param lat - 반경 우선 검색 기준점이 되는 내 현재 위치 위도
+ * @param lng - 반경 우선 검색 기준점이 되는 내 현재 위치 경도
+ * @returns 장소 이름과 위경도 객체 (결과가 없거나 에러 시 null)
+ */
 export const searchLocation = async (keyword: string, lat?: number, lng?: number) => {
     // 빈 문자열로 API를 호출하면 불필요한 요청이므로 바로 실패 처리합니다.
     if (!keyword) return null;
@@ -62,9 +66,13 @@ export const searchLocation = async (keyword: string, lat?: number, lng?: number
     }
 };
 
-// ------------------------------------------------------------------
-// 2. TMAP 보행자 경로 안내 API 요청 (기존 유지)
-// ------------------------------------------------------------------
+/**
+ * TMAP 보행자 경로 안내 API를 직접 호출하여 경로 탐색 원본 JSON 응답 데이터를 반환합니다.
+ * 
+ * @param start - 출발지 위경도 좌표 객체
+ * @param end - 목적지 위경도 좌표 객체
+ * @returns TMAP 보행자 경로 탐색 API 응답 JSON 데이터
+ */
 export const requestTmapWalkingPath = async (start: { latitude: number, longitude: number }, end: { latitude: number, longitude: number }) => {
     // 최소한 위도 값이 있어야 요청할 수 있습니다. 경도까지 더 엄격히 확인하면 더 안전합니다.
     if (!start?.latitude || !end?.latitude) throw new Error("Invalid Location");
@@ -96,9 +104,13 @@ export const requestTmapWalkingPath = async (start: { latitude: number, longitud
     }
 };
 
-// ------------------------------------------------------------------
-// 3. 역지오코딩 (좌표 -> 주소 변환)
-// ------------------------------------------------------------------
+/**
+ * 위도와 경도 좌표를 주소 문자열로 바꾸는 역지오코딩(Reverse Geocoding)을 수행합니다.
+ * 
+ * @param lat - 변환 대상 위도
+ * @param lng - 변환 대상 경도
+ * @returns 상세 주소 문자열 (성공 시 전체 주소 또는 시/구/동 조합, 실패 시 null)
+ */
 export const reverseGeoCoding = async (lat: number, lng: number) => {
     try {
         // 역지오코딩은 좌표를 사람이 읽을 수 있는 주소 문자열로 바꾸는 API입니다.
@@ -121,3 +133,4 @@ export const reverseGeoCoding = async (lat: number, lng: number) => {
         return null;
     }
 };
+

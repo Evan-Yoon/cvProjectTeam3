@@ -13,8 +13,13 @@ const BASE_URL = import.meta.env.VITE_BACKEND_URL || "http://172.30.1.80:8000";
 // FastAPI 라우트가 trailing slash를 기대하면 /가 없을 때 307 Redirect가 날 수 있어 명시적으로 붙입니다.
 const BACKEND_URL = `${BASE_URL}/api/v1/navigation/path/`;
 
-// [메인 함수] 서버로 길찾기 경로를 요청합니다.
-// @param req 출발지 및 목적지 좌표 데이터
+/**
+ * 서버로 출발지와 목적지를 전송하여 도보 안전 경로를 탐색하고 
+ * 도보 안내 체크포인트와 지도 시각화용 경로 리스트를 반환받습니다.
+ * 
+ * @param req - 출발지와 목적지 위경도 정보를 담은 객체
+ * @returns 도보 단계별 음성 안내(steps) 및 시각화 좌표(path) 객체
+ */
 export const requestNavigation = async (req: NavigationRequest): Promise<NavigationResult> => {
   // CapacitorHttp.post에 넘길 요청 옵션입니다.
   // 브라우저 fetch와 달리 모바일 네이티브 HTTP 계층을 통해 요청할 수 있습니다.
