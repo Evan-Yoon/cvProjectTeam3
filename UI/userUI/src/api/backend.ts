@@ -1,4 +1,5 @@
 import { CapacitorHttp } from '@capacitor/core';
+import { NavigationRequest, NavigationStep, NavigationResult } from '../../types';
 
 // backend.ts는 WalkMate 자체 FastAPI 백엔드에 "보행 경로"를 요청하는 파일입니다.
 // TMAP 장소 검색은 tmap.ts가 맡고, 실제 안내용 steps/path 생성은 백엔드가 맡는 구조입니다.
@@ -11,32 +12,6 @@ const BASE_URL = import.meta.env.VITE_BACKEND_URL || "http://172.30.1.80:8000";
 
 // FastAPI 라우트가 trailing slash를 기대하면 /가 없을 때 307 Redirect가 날 수 있어 명시적으로 붙입니다.
 const BACKEND_URL = `${BASE_URL}/api/v1/navigation/path/`;
-
-// [인터페이스] 백엔드에 보낼 데이터 형식
-export interface NavigationRequest {
-  // 백엔드 계약에 맞춰 lat/lon 이름을 씁니다. 앱 내부의 lng와 같은 의미가 lon입니다.
-  start_lat: number;
-  start_lon: number; // ★ 백엔드 명세에 맞춘 경도(longitude) 변수명
-  end_lat: number;
-  end_lon: number;
-}
-
-// [인터페이스] 백엔드에서 받을 안내 단계 형식
-export interface NavigationStep {
-  // instruction은 GuidingScreen에서 TTS로 읽는 문장입니다.
-  instruction: string; // "횡단보도 건너기" 등 음성 안내 텍스트
-  // latitude/longitude는 사용자가 해당 안내 지점에 도달했는지 거리 계산할 때 씁니다.
-  latitude: number;
-  longitude: number;
-}
-
-// [인터페이스] 최종 반환될 경로 결과물 형식
-interface NavigationResult {
-  // steps: 음성 안내와 체크포인트 판정용 데이터입니다.
-  steps: NavigationStep[];
-  // path: 지도에 선으로 그릴 전체 경로 좌표입니다.
-  path: { latitude: number; longitude: number }[];
-}
 
 // [메인 함수] 서버로 길찾기 경로를 요청합니다.
 // @param req 출발지 및 목적지 좌표 데이터

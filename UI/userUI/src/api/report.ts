@@ -1,4 +1,5 @@
 import { v4 as uuidv4 } from 'uuid';
+import { ReportPayload } from '../../types';
 
 // report.ts는 VisionCamera가 감지한 위험 요소를 FastAPI 백엔드의 신고 API로 업로드하는 파일입니다.
 // 텍스트 필드와 이미지 파일을 함께 보내야 하므로 JSON이 아니라 FormData를 사용합니다.
@@ -31,17 +32,6 @@ const base64ToBlob = (base64Data: string, contentType: string = 'image/jpeg') =>
   const byteArray = new Uint8Array(byteNumbers);
   return new Blob([byteArray], { type: contentType });
 };
-
-// [인터페이스] 신고 데이터의 "설계도"입니다. 어떤 데이터가 오고 가는지 정의합니다.
-export interface ReportPayload {
-  latitude: number;     // 위도
-  longitude: number;    // 경도
-  hazard_type: string;  // 위험 요소 종류
-  risk_level: number;   // 위험도 등급
-  description?: string; // 추가 설명 (선택 사항)
-  imageBase64: string;  // 텍스트 형태의 이미지 데이터
-  label?: string;       // 감지된 객체 라벨 (예: "person")
-}
 
 /**
  * [메인 함수] 서버로 신고 데이터를 전송합니다.

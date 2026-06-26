@@ -1,10 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { speak } from '@/src/utils/audio';
-
-export interface TtsMessage {
-  text: string;
-  isObstacle: boolean;
-}
+import { TtsMessage } from '../../types';
 
 export const useTtsQueue = () => {
   const ttsQueue = useRef<TtsMessage[]>([]);

@@ -1,18 +1,7 @@
+import { DetectedBox } from '../types';
+
 // YoloParser는 TFLite 모델의 숫자 배열 출력값을 사람이 다루기 쉬운 감지 박스 목록으로 바꿉니다.
 // 모델 export 방식에 따라 출력 shape가 [1,N,6], [1,F,B], [1,B,F]처럼 달라질 수 있어 여러 포맷을 방어적으로 처리합니다.
-
-export interface DetectedBox {
-    // classId는 모델이 예측한 클래스 번호이고, className은 그 번호를 사람이 읽는 문자열로 바꾼 값입니다.
-    classId: number;
-    className: string;
-    // score는 confidence입니다. 1에 가까울수록 모델이 더 확신한다는 뜻입니다.
-    score: number;
-    // x/y/w/h는 모두 0~1 사이 정규화 좌표입니다. x,y는 박스 중심, w,h는 너비/높이입니다.
-    x: number; // center x (normalized 0~1)
-    y: number; // center y (normalized 0~1)
-    w: number; // width (normalized 0~1)
-    h: number; // height (normalized 0~1)
-}
 
 // 모델 학습/라벨 순서와 반드시 일치해야 합니다. classId=0이면 "person"으로 해석됩니다.
 const COCO_CLASSES = [
