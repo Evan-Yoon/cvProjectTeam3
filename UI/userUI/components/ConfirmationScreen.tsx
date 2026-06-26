@@ -1,5 +1,6 @@
-import React, { useEffect, useRef } from 'react';
-import { speak, startListening, stopListening } from './utils/audio';
+import React, { useRef } from 'react';
+import { useVoiceDialog } from '@/src/hooks/useVoiceDialog';
+import { stopListening } from '@/src/utils/audio';
 
 // 1. Props 인터페이스 정의
 // 이 컴포넌트가 부모로부터 받아야 할 데이터와 함수의 타입을 지정합니다.
@@ -13,9 +14,6 @@ interface ConfirmationScreenProps {
 const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({ destination, onConfirm, onDeny }) => {
     // 확인 화면은 "응/아니" 음성 입력과 화면 상하단 터치를 모두 지원합니다.
     // 두 입력이 거의 동시에 들어올 수 있어서 hasFinalized로 한 번만 처리되게 합니다.
-    const isMounted = useRef(true);
-    const latestText = useRef<string>(""); // 실시간 중간 결과 누적
-    const silenceTimer = useRef<NodeJS.Timeout | null>(null);
     const hasFinalized = useRef(false);
 
     const handleConfirm = () => {
@@ -41,74 +39,16 @@ const ConfirmationScreen: React.FC<ConfirmationScreenProps> = ({ destination, on
 
         // includes를 쓰기 때문에 "네 맞아요", "아니요"처럼 긴 문장 안에 키워드가 있어도 인식됩니다.
         if (["응", "네", "맞아", "그래", "yes", "ok", "어", "맞음"].some(k => command.includes(k))) {
-            if (isMounted.current) handleConfirm();
+            handleConfirm();
         } else if (["아니", "틀려", "no", "nope", "아니야", "아님"].some(k => command.includes(k))) {
-            if (isMounted.current) handleDeny();
-        } else {
-            // 이해할 수 없는 텍스트의 경우, 일단은 무시하고 대기하거나 재인식
+            handleDeny();
         }
     };
 
-    // 침묵 1.3초 감지 시 자동 종료 처리
-    const resetSilenceTimer = (currentText: string) => {
-        // 사용자가 "네..."라고 말하고 멈추면 partialText만으로도 확정되도록 하는 안전장치입니다.
-        if (silenceTimer.current) clearTimeout(silenceTimer.current);
-
-        silenceTimer.current = setTimeout(() => {
-            if (isMounted.current && currentText.trim()) {
-                console.log("🤫 Confirmation 침묵 감지 -> 자동 확정:", currentText);
-                stopListening();
-                handleCommandResult(currentText);
-            }
-        }, 1300); // 1.3초
-    };
-
-    const handleSTT = async () => {
-        // Confirmation 화면 전용 STT 시작 함수입니다. TTS 질문이 끝난 뒤 호출됩니다.
-        await startListening(
-            (finalResult) => {
-                const resultText = finalResult || latestText.current;
-                console.log("Confirmation STT Final:", resultText);
-                if (isMounted.current) handleCommandResult(resultText);
-            },
-            () => {
-                console.log("Confirmation STT failed");
-            },
-            (partialText) => {
-                latestText.current = partialText;
-                resetSilenceTimer(partialText);
-            }
-        );
-    };
-
-    useEffect(() => {
-        let isMountedLocal = true;
-        isMounted.current = true;
-
-        const runConfirmationFlow = async () => {
-            if (!isMountedLocal) return;
-            // 1. TTS로 안내 멘트 재생이 끝날 때까지 대기
-            // speak가 Promise를 반환하므로, 질문 음성이 끝난 뒤 마이크를 켜도록 순서를 보장합니다.
-            await speak(`${destination}이 맞으신가요?`);
-
-            // 2. 오디오 세션 안정을 위해 500ms 대기 (playback→recording 세션 전환 시간 확보)
-            await new Promise((resolve) => setTimeout(resolve, 500));
-
-            if (isMountedLocal) {
-                handleSTT();
-            }
-        };
-
-        runConfirmationFlow();
-
-        return () => {
-            isMountedLocal = false;
-            // 화면이 바뀌면 타이머와 STT 리스너를 정리해 다음 화면 음성 입력과 충돌하지 않게 합니다.
-            isMounted.current = false;
-            if (silenceTimer.current) clearTimeout(silenceTimer.current);
-            stopListening();
-        };
-    }, [destination]);
+    useVoiceDialog({
+        promptMessage: `${destination}이 맞으신가요?`,
+        onFinalResult: handleCommandResult,
+    });
 
     return (
         // 전체 화면 컨테이너

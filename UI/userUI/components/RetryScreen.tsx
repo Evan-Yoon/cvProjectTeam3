@@ -1,5 +1,6 @@
-import React, { useEffect, useRef } from 'react';
-import { speak, startListening, stopListening } from './utils/audio';
+import React, { useRef } from 'react';
+import { useVoiceDialog } from '@/src/hooks/useVoiceDialog';
+import { stopListening } from '@/src/utils/audio';
 
 // Props 인터페이스 정의
 // onCancel: 취소하고 대기 화면으로 돌아가는 함수
@@ -18,11 +19,7 @@ const RetryScreen: React.FC<RetryScreenProps> = ({
   message = "잘 못 들었습니다. 다시 말씀해주세요.",
   autoStart = true
 }) => {
-  // ListeningScreen과 거의 같은 STT 제어 패턴입니다.
-  // 재시도 화면도 비동기 음성 인식 결과가 화면 이탈 후 실행되지 않도록 ref로 생존 여부를 관리합니다.
-  const isMounted = useRef(true);
-  const latestText = useRef<string>(""); // 실시간 중간 결과 저장
-  const silenceTimer = useRef<NodeJS.Timeout | null>(null);
+  // STT 최종 결과, 침묵 감지, 화면 터치가 동시에 들어와도 부모 콜백을 한 번만 부르기 위한 잠금입니다.
   const hasFinalized = useRef(false);
 
   // 상위 컴포넌트 콜백이 중복 실행되지 않도록 막아주는 헬퍼
@@ -32,85 +29,11 @@ const RetryScreen: React.FC<RetryScreenProps> = ({
     onSpeechDetected(text);
   };
 
-  // 침묵 1.3초 감지 시 자동 완료 처리
-  const resetSilenceTimer = (currentText: string) => {
-    // 새 partialText가 들어올 때마다 타이머를 초기화해서 "말을 멈춘 뒤 1.3초"를 측정합니다.
-    if (silenceTimer.current) clearTimeout(silenceTimer.current);
-
-    silenceTimer.current = setTimeout(() => {
-      if (isMounted.current && currentText.trim()) {
-        console.log("🤫 Retry 침묵 감지 -> 자동 확정:", currentText);
-        stopListening();
-        handleFinalizedSpeech(currentText);
-      }
-    }, 1300); // 1.3초
-  };
-
-  useEffect(() => {
-    isMounted.current = true;
-
-    const runRetryFlow = async () => {
-      if (!isMounted.current) return;
-      // message는 오류 상황에 따라 App.tsx에서 내려올 수 있습니다. 기본값은 "다시 말씀해주세요"입니다.
-      await speak(message);
-
-      // 오디오 세션 전환용 대기
-      await new Promise((resolve) => setTimeout(resolve, 300));
-
-      if (!isMounted.current) return;
-
-      await startListening(
-        (finalResult) => {
-          const resultText = finalResult || latestText.current;
-          console.log("Retry STT Final:", resultText);
-          if (isMounted.current && resultText.trim()) {
-            handleFinalizedSpeech(resultText);
-          }
-        },
-        () => {
-          console.log("Retry STT failed");
-        },
-        (partialText) => {
-          latestText.current = partialText;
-          resetSilenceTimer(partialText);
-        }
-      );
-    };
-
-    if (autoStart) {
-      // 일반 재시도는 자동으로 듣기를 시작합니다.
-      runRetryFlow();
-    } else {
-      // 네트워크 오류처럼 사용자가 메시지를 먼저 읽어야 하는 경우에는 말만 하고 자동 STT를 시작하지 않습니다.
-      speak(message);
-    }
-
-    return () => {
-      isMounted.current = false;
-      if (silenceTimer.current) clearTimeout(silenceTimer.current);
-      stopListening();
-    };
-  }, [onSpeechDetected, message, autoStart]);
-
-  const handleManualRetry = async () => {
-    // 사용자가 메인 영역을 누르면 수동으로 다시 STT를 시작합니다.
-    if (silenceTimer.current) clearTimeout(silenceTimer.current);
-    stopListening();
-    
-    await startListening(
-      (finalResult) => {
-        const resultText = finalResult || latestText.current;
-        if (isMounted.current && resultText.trim()) {
-          handleFinalizedSpeech(resultText);
-        }
-      },
-      () => { },
-      (partialText) => {
-        latestText.current = partialText;
-        resetSilenceTimer(partialText);
-      }
-    );
-  };
+  const { triggerManualStart } = useVoiceDialog({
+    promptMessage: message,
+    onFinalResult: handleFinalizedSpeech,
+    autoStart,
+  });
 
   return (
     // 전체 화면 컨테이너
@@ -146,7 +69,7 @@ const RetryScreen: React.FC<RetryScreenProps> = ({
           // ★ 중요: 이벤트 전파 방지 (stopPropagation)
           // 이 영역을 누르면 재시도이고, 바깥 배경을 누르면 취소입니다. 전파를 막아 두 동작이 동시에 실행되지 않게 합니다.
           e.stopPropagation();
-          handleManualRetry(); // 재인식 시작
+          triggerManualStart(); // 재인식 시작
         }}
       >
         {/* 안내 텍스트 */}

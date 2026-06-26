@@ -4,6 +4,8 @@ import { speak, startListening, stopListening } from '../src/utils/audio'; // �
 import { NavigationStep } from '../src/api/backend'; // 백엔드 데이터 타입
 import DebugMap from './DebugMap'; // 지도 컴포넌트
 import { Destination, GeoLocation } from '../types';
+import { useCompass } from '../src/hooks/useCompass';
+import { useTtsQueue } from '../src/hooks/useTtsQueue';
 
 // GuidingScreen은 "길 안내 중" 화면입니다.
 // 상단에는 현재 위치/경로 지도를 그리고, 하단에는 카메라 기반 장애물 감지를 띄웁니다.
@@ -32,24 +34,19 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
   // 2. 상태(State) 관리 - 화면 렌더링에 영향을 줌
   // ----------------------------------------------------------------
   const [taps, setTaps] = useState(0); // 화면 터치 횟수 (3번 터치 종료용)
-  const [isOriented, setIsOriented] = useState(false); // 방향을 잡았는지 여부
   const [debugMsg, setDebugMsg] = useState(""); // 개발용 디버그 텍스트
   const [isLoading, setIsLoading] = useState(false); // 로딩 상태
 
   // 지도에 표시할 내 위치와 방향
   const [visualPos, setVisualPos] = useState<{ lat: number, lng: number } | null>(null);
-  const [visualHeading, setVisualHeading] = useState<number | null>(null); // ★ 화살표 방향 (나침반 기준)
 
   // ----------------------------------------------------------------
   // 3. 내부 변수 (Ref) - 값이 바뀌어도 화면이 깜빡이지 않음 (고성능 처리용)
   // ----------------------------------------------------------------
   const isMounted = useRef(true); // 컴포넌트가 살아있는지 체크
   const lastGuideIndex = useRef<number>(-1); // 마지막으로 안내한 경로 번호
-  const isSpeaking = useRef<boolean>(false); // 지금 말하고 있는지 (중복 방지)
 
   const prevPosition = useRef<{ lat: number; lng: number } | null>(null); // 직전 위치 (이동거리 계산용)
-  const compassHeading = useRef<number | null>(null); // 나침반 센서값 저장용
-  const isOrientedRef = useRef(false); // useState의 비동기 문제 해결용 Ref
 
   // 센서 퓨전(Sensor Fusion) 보정용
   const targetGpsHeading = useRef<number | null>(null); // 명확한 GPS 이동 궤적 방향
@@ -60,51 +57,19 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
   const lastWarningTime = useRef<number>(0); // 마지막으로 경로 이탈 경고를 준 시간 (쿨타임 방지용)
 
   // ----------------------------------------------------------------
+  // 3-1. 커스텀 훅 연동
+  // ----------------------------------------------------------------
+  const { safeSpeak, isSpeaking } = useTtsQueue();
+  const { visualHeading, isOriented, compassHeading } = useCompass({
+    targetGpsHeading,
+    gpsActiveTime,
+    compassOffset: COMPASS_OFFSET,
+  });
+
+  // ----------------------------------------------------------------
   // 4. 유틸리티 함수들 (거리 계산, 각도 계산)
   // ----------------------------------------------------------------
 
-  interface TtsMessage {
-    // 실제로 읽을 문장입니다.
-    text: string;
-    // 장애물 경고는 일반 안내보다 먼저 말해야 하므로 우선순위 표시를 둡니다.
-    isObstacle: boolean;
-  }
-  // TTS는 동시에 여러 문장을 말하면 끊기기 쉬워 큐에 쌓아 순서대로 처리합니다.
-  const ttsQueue = useRef<TtsMessage[]>([]);
-
-  // TTS 큐 처리: 쌓인 안내를 차례대로 말하되 장애물이면 우선 재생
-  const processTtsQueue = async () => {
-    // 이미 말하는 중이거나 큐가 비어 있으면 새 발화를 시작하지 않습니다.
-    if (isSpeaking.current || ttsQueue.current.length === 0) return;
-    isSpeaking.current = true;
-
-    // 우선순위에 따라 다음 메시지 찾기 (장애물이 가장 먼저)
-    const obstacleIndex = ttsQueue.current.findIndex(m => m.isObstacle);
-    const indexToPlay = obstacleIndex !== -1 ? obstacleIndex : 0;
-    const msg = ttsQueue.current.splice(indexToPlay, 1)[0];
-
-    await speak(msg.text);
-
-    // 문장 길이에 비례하여 충분한 대기 시간 설정 (기본 최소 1.5초 ~)
-    // 일부 TTS 플러그인은 Promise가 실제 발화 종료보다 빨리 끝날 수 있어 여유 시간을 둡니다.
-    const waitTime = Math.max(1500, msg.text.length * 150);
-    setTimeout(() => {
-      isSpeaking.current = false;
-      processTtsQueue(); // 다음 대기열 재생
-    }, waitTime);
-  };
-
-  // 모든 멘트를 큐에 넣기 (기존처럼 말하는 중이라고 무시하지 않음)
-  const safeSpeak = (text: string, isObstacle: boolean = false) => {
-    if (!text) return;
-
-    // 똑같은 멘트가 큐에 중복으로 수십 개 쌓이는 것만 방지
-    // GPS/카메라 콜백은 짧은 간격으로 반복되므로 같은 문장이 계속 쌓이지 않게 합니다.
-    if (ttsQueue.current.some(m => m.text === text && m.isObstacle === isObstacle)) return;
-
-    ttsQueue.current.push({ text, isObstacle });
-    processTtsQueue();
-  };
 
   // 두 좌표 사이의 거리 계산 (Haversine 공식 - 지구 곡면 반영)
   const getDistance = (lat1: number, lon1: number, lat2: number, lon2: number) => {
@@ -142,107 +107,6 @@ const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destinat
     return () => clearTimeout(timer);
   }, [taps]);
 
-  // ----------------------------------------------------------------
-  // 6. ★ 핵심: 나침반(Compass) 센서 로직 (화살표 방향 제어)
-  // ----------------------------------------------------------------
-  useEffect(() => {
-    // 센서 원본값은 많이 흔들리므로, 직전 보정값을 기억해 조금씩 따라가게 만듭니다.
-    let lastSmoothedHeading: number | null = null;
-    const LPF_ALPHA = 0.15; // 낮을수록 부드럽지만 반응 지연, 높을수록 빠르지만 떨림 (0.1 ~ 0.3 추천)
-
-    const setupCompass = async () => {
-      try {
-        // iOS 13 이상을 위한 권한 요청 (안드로이드는 자동 통과됨)
-        if ((DeviceMotionEvent as any).requestPermission) {
-          const response = await (DeviceMotionEvent as any).requestPermission();
-          if (response !== 'granted') return;
-        }
-
-        // 브라우저 네이티브 이벤트 'deviceorientationabsolute'가 가장 정밀함
-        // iOS Safari는 'deviceorientation' 이벤트 내 webkitCompassHeading 프로퍼티 지원
-        // Capacitor Motion은 브라우저 엔진에 의존.
-        // 두 이벤트를 모두 등록하고 handleOrientation에서 실제로 들어온 유효 데이터를 골라 씁니다.
-        window.addEventListener('deviceorientationabsolute', handleOrientation, true);
-        window.addEventListener('deviceorientation', handleOrientation, true);
-
-      } catch (e) {
-        console.error("Compass Error", e);
-      }
-    };
-
-    const handleOrientation = (event: DeviceOrientationEvent) => {
-      // rawHeading은 기기 센서 원본 방위각, currentHeading은 앱에서 쓸 보정 후 방위각입니다.
-      let rawHeading = 0;
-      let validData = false;
-
-      // 1. iOS 전용: 기울기를 3차원으로 보정해주는 하드웨어 나침반 (가장 정확함)
-      if (typeof (event as any).webkitCompassHeading !== "undefined") {
-        rawHeading = (event as any).webkitCompassHeading;
-        validData = true;
-      }
-      // 2. Android (Chromium): 절대 방위각 (지구 북극 기준 Z 회전)
-      else if (event.absolute && event.alpha !== null) {
-        // 안드로이드의 alpha 값은 시계 반대방향(CCW)일 때가 많아 360에서 빼줌
-        rawHeading = 360 - event.alpha;
-        validData = true;
-      }
-
-      if (!validData) return;
-
-      // 나침반 기본 보정값 적용
-      // COMPASS_OFFSET 적용 뒤 0~360 범위로 정규화합니다.
-      let currentHeading = (rawHeading + COMPASS_OFFSET) % 360;
-      if (currentHeading < 0) currentHeading += 360;
-
-      // ★ [핵심] 3. 센서 퓨전 (Sensor Fusion) - GPS 기반 가속도 보정
-      // 체스트 하네스는 들썩거림이 심해 자이로만으로 방향이 심하게 틀어집니다.
-      // 따라서 사용자가 걷고 있을 때(최근 4초 이내 1.5m 이상 이동)는, 이동하는 방향(GPS 궤적)을 시선 방향으로 크게 신뢰합니다.
-      const now = Date.now();
-      if (targetGpsHeading.current !== null && (now - gpsActiveTime.current) < 4000) {
-        let diffGps = targetGpsHeading.current - currentHeading;
-        // 각도 차이를 -180~180으로 접어야 359도와 1도 사이를 짧은 방향으로 보간합니다.
-        diffGps = ((diffGps + 540) % 360) - 180;
-        // GPS 궤적으로 90% 확 끌고 옵니다. (자석 왜곡 무시)
-        currentHeading = currentHeading + (diffGps * 0.9);
-        currentHeading = (currentHeading + 360) % 360;
-      }
-
-      // 4. 저역 통과 필터(LPF) 적용 및 360도 경계선 최단거리 보간 로직
-      if (lastSmoothedHeading === null) {
-        lastSmoothedHeading = currentHeading; // 첫 값은 그대로 적용
-      } else {
-        // 현재 각도와 이전 각도의 차이 구하기 (-180 ~ +180 범위로 정규화)
-        let diff = currentHeading - lastSmoothedHeading;
-        diff = ((diff + 540) % 360) - 180;
-
-        // 부드럽게 새 각도 반영 (기존 각도에 차이값의 일정 비율만 더함)
-        // 걷고 있을 땐 더 빠르게(0.35) 반응하고, 서 있을 땐 더 부드럽게(0.15) 처리
-        const dynamicAlpha = (now - gpsActiveTime.current) < 4000 ? 0.35 : 0.15;
-        lastSmoothedHeading = lastSmoothedHeading + dynamicAlpha * diff;
-
-        // 다시 0~360 사이로 보정
-        lastSmoothedHeading = (lastSmoothedHeading + 360) % 360;
-      }
-
-      compassHeading.current = lastSmoothedHeading;
-      // 지도 화살표를 다시 렌더링하기 위해 state에도 반영합니다.
-      setVisualHeading(lastSmoothedHeading);
-
-      // 처음 방향을 잡았을 때 멘트
-      if (!isOrientedRef.current && lastSmoothedHeading !== null) {
-        isOrientedRef.current = true;
-        setIsOriented(true);
-      }
-    };
-
-    setupCompass();
-
-    // 컴포넌트 꺼질 때 센서 끄기
-    return () => {
-      window.removeEventListener('deviceorientationabsolute', handleOrientation, true);
-      window.removeEventListener('deviceorientation', handleOrientation, true);
-    };
-  }, []);
 
   // ----------------------------------------------------------------
   // 7. ★ 핵심: 네비게이션 로직 (GPS + 경로 안내)
