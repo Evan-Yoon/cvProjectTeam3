@@ -3,7 +3,7 @@ import VisionCamera from './VisionCamera'; // 카메라 화면
 import { speak, startListening, stopListening } from '../src/utils/audio'; // 음성(TTS/STT)
 import { NavigationStep } from '../src/api/backend'; // 백엔드 데이터 타입
 import DebugMap from './DebugMap'; // 지도 컴포넌트
-import { Destination, GeoLocation } from '../types';
+import { Destination, LatLng } from '../types';
 import { useCompass } from '../src/hooks/useCompass';
 import { useTtsQueue } from '../src/hooks/useTtsQueue';
 
@@ -25,7 +25,7 @@ interface GuidingScreenProps {
   destination: Destination; // 목적지 정보
   routeData: NavigationStep[]; // 백엔드에서 받은 경로 데이터 (안내 멘트용)
   routePath: { latitude: number; longitude: number }[]; // 지도에 그릴 경로 좌표 (선 그리기용)
-  myLocation: GeoLocation; // 부모로부터 전달받는 실시간 내 위치
+  myLocation: LatLng; // 부모로부터 전달받는 실시간 내 위치
 }
 
 const GuidingScreen: React.FC<GuidingScreenProps> = ({ onEndNavigation, destination, routeData, routePath, myLocation }) => {

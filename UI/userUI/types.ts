@@ -79,7 +79,7 @@ export interface ReportPayload {
 /**
  * 기기 GPS 및 지도 표현 시 활용하는 위경도 좌표 규격
  */
-export interface GeoLocation {
+export interface LatLng {
   lat: number;
   lng: number;
 }

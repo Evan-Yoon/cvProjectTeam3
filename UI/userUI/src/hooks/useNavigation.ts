@@ -1,11 +1,11 @@
 import { useState, useCallback, useRef } from 'react';
 import { Geolocation } from '@capacitor/geolocation';
-import { AppScreen, GeoLocation, Destination } from '@/types';
+import { AppScreen, LatLng, Destination } from '@/types';
 import { searchLocation } from '@/src/api/tmap';
 import { requestNavigation, NavigationStep } from '@/src/api/backend';
 import { speak } from '@/src/utils/audio';
 
-export const useNavigation = (myLocationRef: React.MutableRefObject<GeoLocation | null>) => {
+export const useNavigation = (myLocationRef: React.MutableRefObject<LatLng | null>) => {
   const [currentScreen, setCurrentScreen] = useState<AppScreen>(AppScreen.IDLE);
   const [destination, setDestination] = useState<Destination | null>(null);
   const [routeData, setRouteData] = useState<NavigationStep[]>([]);

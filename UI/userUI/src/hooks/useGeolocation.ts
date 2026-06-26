@@ -1,11 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
 import { Geolocation } from '@capacitor/geolocation';
-import { GeoLocation } from '@/types';
+import { LatLng } from '@/types';
 import { speak } from '@/src/utils/audio';
 
 export const useGeolocation = () => {
-  const [myLocation, setMyLocation] = useState<GeoLocation | null>(null);
-  const myLocationRef = useRef<GeoLocation | null>(null);
+  const [myLocation, setMyLocation] = useState<LatLng | null>(null);
+  const myLocationRef = useRef<LatLng | null>(null);
 
   useEffect(() => {
     let watchId: string | null = null;
