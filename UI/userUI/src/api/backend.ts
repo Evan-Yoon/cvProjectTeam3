@@ -9,13 +9,10 @@ import { CapacitorHttp } from '@capacitor/core';
 // ---------------------------------------------------------------------------
 const BASE_URL = import.meta.env.VITE_BACKEND_URL || "http://172.30.1.80:8000";
 
-// ★ [수정됨] 백엔드 요청대로 주소 끝에 /를 추가했습니다.
 // FastAPI 라우트가 trailing slash를 기대하면 /가 없을 때 307 Redirect가 날 수 있어 명시적으로 붙입니다.
 const BACKEND_URL = `${BASE_URL}/api/v1/navigation/path/`;
 
-/**
- * [인터페이스] 백엔드에 보낼 데이터 형식
- */
+// [인터페이스] 백엔드에 보낼 데이터 형식
 export interface NavigationRequest {
   // 백엔드 계약에 맞춰 lat/lon 이름을 씁니다. 앱 내부의 lng와 같은 의미가 lon입니다.
   start_lat: number;
@@ -24,9 +21,7 @@ export interface NavigationRequest {
   end_lon: number;
 }
 
-/**
- * [인터페이스] 백엔드에서 받을 안내 단계 형식
- */
+// [인터페이스] 백엔드에서 받을 안내 단계 형식
 export interface NavigationStep {
   // instruction은 GuidingScreen에서 TTS로 읽는 문장입니다.
   instruction: string; // "횡단보도 건너기" 등 음성 안내 텍스트
@@ -35,9 +30,7 @@ export interface NavigationStep {
   longitude: number;
 }
 
-/**
- * [인터페이스] 최종 반환될 경로 결과물 형식
- */
+// [인터페이스] 최종 반환될 경로 결과물 형식
 interface NavigationResult {
   // steps: 음성 안내와 체크포인트 판정용 데이터입니다.
   steps: NavigationStep[];
@@ -45,10 +38,8 @@ interface NavigationResult {
   path: { latitude: number; longitude: number }[];
 }
 
-/**
- * [메인 함수] 서버로 길찾기 경로를 요청합니다.
- * @param req 출발지 및 목적지 좌표 데이터
- */
+// [메인 함수] 서버로 길찾기 경로를 요청합니다.
+// @param req 출발지 및 목적지 좌표 데이터
 export const requestNavigation = async (req: NavigationRequest): Promise<NavigationResult> => {
   // CapacitorHttp.post에 넘길 요청 옵션입니다.
   // 브라우저 fetch와 달리 모바일 네이티브 HTTP 계층을 통해 요청할 수 있습니다.
