@@ -65,6 +65,7 @@ const App = () => {
             routeData={routeData} // 안내 멘트용
             routePath={routePath} // 지도 그리기용
             onEndNavigation={handleEndNavigation}
+            myLocation={myLocation}
           />
         ) : null;
       default:
